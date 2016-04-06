@@ -38,8 +38,6 @@ app.use(bodyParser.json());
 
 app.use(sessionCheck);
 
-app.use(express.static('public/assets'));
-
 route.setRoutes(app);
 
 app.all('*', errRequestHandler);
