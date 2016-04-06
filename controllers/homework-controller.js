@@ -37,8 +37,7 @@ HomeworkController.prototype.getList = (req, res, next) => {
 };
 
 HomeworkController.prototype.updateStatus = (req, res, next) => {
-
-  var homewrok;
+  var homewrok, homewrokIdx;
 
   async.waterfall([
     (done) => {
@@ -67,6 +66,7 @@ HomeworkController.prototype.updateStatus = (req, res, next) => {
       var quiz = data.quizzes.find((item, idx, doc) => {
         var match = item._id.toString() === homewrok.quizzes._id.toString();
         if (match) {
+          homewrokIdx = idx;
           nextIdx = idx + 1;
         }
         return match;
@@ -77,6 +77,26 @@ HomeworkController.prototype.updateStatus = (req, res, next) => {
         data.quizzes[nextIdx].status = constant.homeworkQuizzesStatus.ACTIVE;
       }
       data.save(done);
+    },
+
+    (data, numAffected, done) => {
+      var homeworkQuiz = data.quizzes[homewrokIdx];
+      var submited = req.body;
+      submited.commitTime = parseInt(Date.parse(submited.createdAt) / constant.time.MILLISECOND_PER_SECONDS);
+
+      done(null, {
+        examerId: data.userId,
+        paperId: data.paperId,
+        homeworkSubmits: [{
+          homeworkQuizId: homeworkQuiz.id,
+          startTime: homeworkQuiz.startTime,
+          homeworkSubmitPostHistory: [submited]
+        }]
+      });
+    },
+
+    (data, done) => {
+      apiRequest.post('scoresheets', data, done);
     }
 
   ], (err, data) => {
@@ -92,6 +112,7 @@ HomeworkController.prototype.getQuiz = (req, res, next) => {
   var userId = req.session.user.id;
   var orderId = parseInt(req.query.orderId, 10) || 1;
   var result = {};
+  var histories;
 
   async.waterfall([
     (done) => {
@@ -101,14 +122,25 @@ HomeworkController.prototype.getQuiz = (req, res, next) => {
     (data, done) => {
       orderId = Math.max(orderId, 1);
       orderId = Math.min(orderId, data.quizzes.length);
-      var index = orderId - 1;
-      done(null, data.quizzes[index]);
+      done(null, data);
     },
 
-    (data, done) => {
+    (doc, done) => {
+      var index = orderId - 1;
+      var data = doc.quizzes[index];
       result.uri = data.uri;
       result.status = data.status;
-      var histories = data.homeworkSubmitPostHistory;
+      histories = data.homeworkSubmitPostHistory;
+
+      if (!data.startTime) {
+        data.startTime = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
+        doc.save(done);
+      } else {
+        done(null, true, true);
+      }
+    },
+
+    (product, numAffect, done)=> {
       var lastHomeworkSubmitId = histories[histories.length - 1];
       request
           .get(config.taskServer + 'tasks/' + lastHomeworkSubmitId)
@@ -169,6 +201,7 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
         branch: req.body.branch,
         userAnswerRepo: req.body.userAnswerRepo,
         evaluateScript: data.body.evaluateScript,
+        version: req.body.commitSHA,
         callbackUrl: config.appServer + 'homework/status'
       });
     },

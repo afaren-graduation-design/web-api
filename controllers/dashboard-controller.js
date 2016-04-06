@@ -39,9 +39,9 @@ DashboardController.prototype.isCommited = (req, res) => {
       }else {
         isOverTime = false;
       }
-      isFinished = data.quizzes.filter(function(quiz){
-        return quiz.status !== constant.homeworkQuizzesStatus.SUCCESS;
-      }).length === 0;
+      isFinished = data.quizzes.filter((quiz) => {
+            return quiz.status !== constant.homeworkQuizzesStatus.SUCCESS;
+          }).length === 0;
       done(null, null);
     }
   ],function(err){
