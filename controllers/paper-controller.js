@@ -2,51 +2,93 @@
 'use strict';
 
 var apiRequest = require('../services/api-request');
+var superAgent = require('superagent');
 var constant = require('../mixin/constant');
 var async = require('async');
 var userHomeworkQuizzes = require('../models/user-homework-quizzes');
-var json2csv = require('json2csv');
 var yamlConfig = require('node-yaml-config');
 var config = yamlConfig.load('./config/config.yml');
 var moment = require('moment');
-
-var hour = constant.time.HOURS_PER_DAY;
-var mintues = constant.time.MINUTE_PER_HOUR;
-var second = constant.time.SECONDS_PER_MINUTE;
-
-var dayToSecond = second * mintues * hour;
-var hourToSecond = second * mintues;
-var mintuesToSecond = mintues;
+var ejs = require('ejs');
+var fs = require('fs');
 
 var BREAK_LINE_CODE = 10;
-var LOGIC_PUZZLE_CUT_OFF_RATE = 0.6;
-var HOMEWORK_CUT_OFF_RATE = 0.6;
 
 function PaperController() {
+}
+
+function setCommitHistoryfilter(userhomeworks) {
+  var CommitHistoryfilter = [];
+
+  userhomeworks.forEach((userhomework)=> {
+
+    var objectIds = [];
+    userhomework.quizzes.forEach((quiz)=> {
+      if (quiz.homeworkSubmitPostHistory.length !== 0) {
+        objectIds.push(quiz.homeworkSubmitPostHistory[quiz.homeworkSubmitPostHistory.length - 1]);
+      }
+    });
+
+    CommitHistoryfilter = CommitHistoryfilter.concat(objectIds);
+  });
+
+  return CommitHistoryfilter;
+}
+
+function getUsersCommitHistory(commitHistoryFilter, callback) {
+
+  var filter = {
+    'id': commitHistoryFilter
+  };
+
+  var url = config.taskServer + 'tasks';
+
+  superAgent.get(url)
+      .set('Content-Type', 'application/json')
+      .query({
+        filter: JSON.stringify(filter)
+      })
+      .end(callback);
 }
 
 function getUserDataByPaperId(paperId, callback) {
 
   var logicPuzzleURL = 'papers/' + paperId + '/logicPuzzle';
   var usersDetailURL = 'papers/' + paperId + '/usersDetail';
+  var userData = {};
 
-  async.parallel({
-    usersDetail: function (done) {
-      apiRequest.get(usersDetailURL, function (err, data) {
-        done(err, data.body);
+  async.waterfall([
+    (done)=> {
+      apiRequest.get(usersDetailURL, (err, usersDetail) => {
+        userData.usersDetail = usersDetail.body;
+        done(err, null);
+      })
+    },
+
+    (data, done)=> {
+      apiRequest.get(logicPuzzleURL, (err, logicPuzzle) => {
+        userData.logicPuzzle = logicPuzzle.body;
+        done(err, null);
       });
     },
-    logicPuzzles: function (done) {
-      apiRequest.get(logicPuzzleURL, function (err, data) {
-        done(err, data.body);
+
+    (data, done)=> {
+      userHomeworkQuizzes.find({paperId: paperId}, (err, userhomeworks) => {
+        userData.homeworks = userhomeworks;
+        done(err, userhomeworks);
       });
     },
-    homeworks: function (done) {
-      userHomeworkQuizzes.find({paperId: paperId}, function (err, data) {
-        done(err, data);
+
+    (userhomeworks, done)=> {
+      var commitHistoryFilter = setCommitHistoryfilter(userhomeworks);
+      getUsersCommitHistory(commitHistoryFilter, (err, usersCommitHistory)=> {
+        userData.usersCommitHistory = usersCommitHistory.body;
+        done(err, null);
       });
-    }
-  }, callback);
+
+    }], (err, result)=> {
+    callback(err, userData);
+  });
 }
 
 function buildUserSummary(data) {
@@ -57,7 +99,7 @@ function buildUserSummary(data) {
   };
 }
 
-function buildHomework(homeworks, userId) {
+function buildHomework(homeworks, usersCommitHistory, userId) {
 
   var sumTime = 0;
   var correctNumber = 0;
@@ -72,29 +114,38 @@ function buildHomework(homeworks, userId) {
     return {};
   }
 
-  data.quizzes.forEach(function (result, index) {
+  data.quizzes.forEach(function (quiz, index) {
     var elapsedTime = 0;
 
-    if (result.homeworkSubmitPostHistory.length !== 0) {
-      var homeworkSubmitPostHistoryLength = result.homeworkSubmitPostHistory.length - 1;
-      elapsedTime = result.homeworkSubmitPostHistory[homeworkSubmitPostHistoryLength].commitTime - result.startTime;
+    if (quiz.homeworkSubmitPostHistory.length !== 0) {
+
+      var lasthSubmitHistoryId = quiz.homeworkSubmitPostHistory[quiz.homeworkSubmitPostHistory.length - 1];
+
+      var lastSubmitHistory = usersCommitHistory.find((log)=> {
+        return log.id === lasthSubmitHistoryId.toString();
+      });
+
+      if (lastSubmitHistory) {
+        var lastSubmitHistoryCommitTime = Date.parse(lastSubmitHistory.createdAt) / constant.time.MILLISECOND_PER_SECONDS;
+        elapsedTime = lastSubmitHistoryCommitTime - quiz.startTime;
+      }
+
     }
 
-    if ((result.homeworkSubmitPostHistory.length !== 0) && result.homeworkSubmitPostHistory[homeworkSubmitPostHistoryLength].status === constant.homeworkQuizzesStatus.SUCCESS) {
+    if ((quiz.homeworkSubmitPostHistory.length !== 0) && quiz.status === constant.homeworkQuizzesStatus.SUCCESS) {
       correctNumber++;
     }
 
     if (index === 0) {
-      startTime = (result.startTime === undefined) ? '--' : moment.unix(result.startTime).format('YYYY-MM-DD HH:mm:ss');
+      startTime = quiz.startTime;
     }
 
     sumTime += elapsedTime;
   });
 
-  var accuracy = correctNumber / data.quizzes.length;
 
-  homework.homeworkDetailsAccuracy = accuracy.toFixed(2);
-  homework.isHomeworkPassed = (accuracy > HOMEWORK_CUT_OFF_RATE) ? '是' : '否';
+  homework.correctNumber = correctNumber;
+  homework.itemNumber = data.quizzes.length;
   homework.homeWorkStartTime = startTime;
   homework.elapsedTime = sumTime;
 
@@ -110,90 +161,20 @@ function buildScoresheetInfo(paperId, callback) {
     }
 
     var result = usersData.usersDetail.map((detail) => {
-
       var userSummary = buildUserSummary(detail);
 
-      var logicPuzzleSummary = usersData.logicPuzzles.find((item) => {
+      var logicPuzzleSummary = usersData.logicPuzzle.find((item) => {
         return item.userId === detail.userId;
       });
 
-      var homeworkSummary = buildHomework(usersData.homeworks, detail.userId);
-
+      var homeworkSummary = buildHomework(usersData.homeworks, usersData.usersCommitHistory, detail.userId);
+      homeworkSummary.paperId = paperId;
       return Object.assign({}, userSummary, logicPuzzleSummary, homeworkSummary);
     });
 
-    callback(null, {
-      usersInfo: result
-    });
+    callback(null, result);
   });
 
-}
-
-function calcLogicPuzzleElapsedTime(logicPuzzle) {
-
-  var startTime = logicPuzzle.startTime;
-  var endTime = logicPuzzle.endTime;
-  var time = endTime - startTime;
-
-  var elapsedHour = 0;
-  var elapsedMintues = 0;
-  var elapsedSeconds = 0;
-
-  elapsedHour = Math.floor(time / hourToSecond);
-  time -= hourToSecond * elapsedHour;
-  elapsedMintues = Math.floor(time / mintuesToSecond);
-  time -= mintuesToSecond * elapsedMintues;
-
-  return elapsedHour + '小时' + elapsedMintues + '分' + time + '秒';
-}
-
-function calcHomeworkElapsedTime(elapsedTime) {
-
-  var elapsedDay = 0;
-  var elapsedHour = 0;
-  var elapsedMintues = 0;
-  var time = elapsedTime;
-
-  elapsedDay = Math.floor(time / dayToSecond);
-  time -= elapsedDay * dayToSecond;
-  elapsedHour = Math.floor(time / hourToSecond);
-  time -= hourToSecond * elapsedHour;
-  elapsedMintues = Math.floor(time / mintuesToSecond);
-
-  return elapsedDay + '天' + elapsedHour + '小时' + elapsedMintues + '分';
-}
-
-function buildScoresheetCsvForPaper(paperId, usersInfo, callback) {
-
-  var logicPuzzleElapsedTime = 0;
-  var fieldNames = ['姓名', '电话', '邮箱', '逻辑题准确率', '逻辑题是否通过', '逻辑题开始时间', '逻辑题花费时间', '编程题正确率', '编程题是否通过', '编程题开始时间', '编程题花费时间', '编程题详情'];
-
-  var usersCsvInfo = usersInfo.map((userInfo)=> {
-    var logicPuzzleAccury = (userInfo.correctNumber / userInfo.itemNumber).toFixed(2);
-    var isLogicPuzzlePassed = logicPuzzleAccury > LOGIC_PUZZLE_CUT_OFF_RATE ? '是' : '否';
-
-    return {
-      name: userInfo.name,
-      mobilePhone: userInfo.mobilePhone,
-      email: userInfo.email,
-      logicPuzzleAccuracy: logicPuzzleAccury,
-      isLogicPuzzlePassed: isLogicPuzzlePassed,
-      logicPuzzleStartTime: moment.unix(userInfo.startTime).format('YYYY-MM-DD HH:mm:ss'),
-      logicPuzzleElapsedTime: calcLogicPuzzleElapsedTime(userInfo),
-      homeworkDetailsAccuracy: userInfo.homeworkDetailsAccuracy,
-      isHomeworkPassed: userInfo.isHomeworkPassed,
-      homeworkStartTime: userInfo.homeWorkStartTime,
-      homeworkElapsedTime: calcHomeworkElapsedTime(userInfo.elapsedTime),
-      homeworkDetails: config.appServer + 'paper/' + paperId + '/user/' + userInfo.userId + '/homework-details'
-    };
-  });
-
-
-  var fields = ['name', 'mobilePhone', 'email', 'logicPuzzleAccuracy', 'isLogicPuzzlePassed', 'logicPuzzleStartTime', 'logicPuzzleElapsedTime', 'homeworkDetailsAccuracy', 'isHomeworkPassed', 'homeworkStartTime', 'homeworkElapsedTime', 'homeworkDetails'];
-
-  json2csv({data: usersCsvInfo, fields: fields, fieldNames: fieldNames}, function (err, csv) {
-    callback(csv);
-  });
 }
 
 PaperController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
@@ -205,13 +186,24 @@ PaperController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
       return;
     }
 
-    buildScoresheetCsvForPaper(paperId, scoresheetInfo.usersInfo, function (csv) {
+    fs.readFile(__dirname + '/../views/paperscoresheetcsv.ejs', function (err, data) {
+
       var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
       var fileName = time + '/paper-' + paperId + '.csv';
 
-      csv = csv.split('\\n').join(String.fromCharCode(BREAK_LINE_CODE));
       res.setHeader('Content-disposition', 'attachment; filename=' + fileName + '');
       res.setHeader('Content-Type', 'text/csv');
+
+      var csv = ejs.render(data.toString(), {
+        scoresheetInfo: scoresheetInfo,
+        moment: moment,
+        constant: constant,
+        config: config
+      });
+
+      csv = csv.split(String.fromCharCode(BREAK_LINE_CODE)).join('');
+      csv = csv.split('##').join(String.fromCharCode(BREAK_LINE_CODE));
+
       res.send(csv);
     });
 
