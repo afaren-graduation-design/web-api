@@ -23,7 +23,7 @@ var mintuesToSecond = mintues;
 <%= accuracy > 0.6 ? '是' : '否' %>,
 <%= user.homeWorkStartTime === undefined ? '--' : moment.unix(user.homeWorkStartTime).format('YYYY-MM-DD HH:mm:ss') %>,
 <%= calcHomeworkElapsedTime(user.elapsedTime) %>,
-<%= 'http://localhost:3000' + '/paper/' + user.paperId + '/user/' + user.userId + '/homework-details' %>,
+<%= 'http://localhost:3000' + '/paper/' + user.paperId + '/user/' + user.userId + '/homework-details' %>
 ##
 <% }); %>
 <% } %>
