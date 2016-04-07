@@ -23,7 +23,6 @@ function HomeworkController() {
 HomeworkController.prototype.getList = (req, res, next) => {
 
   var userId = req.session.user.id;
-
   userHomeworkQuizzes.findOne({userId: userId}, function (err, data) {
     if (err) {
       return next(req, res, err);
@@ -179,7 +178,10 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
   async.waterfall([
     (done) => {
       var userId = req.session.user.id;
+      console.log(req.body);
+      console.log('id:'+ userId);
       userHomeworkQuizzes.findOne({userId: userId}).exec(done);
+
     },
 
     (data, done) => {
@@ -224,6 +226,7 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
     }
   ], (err, data) => {
     if (err) {
+      console.log(err);
       return next(req, res, err);
     }
     res.send(data);
