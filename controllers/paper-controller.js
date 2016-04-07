@@ -126,7 +126,7 @@ function buildHomework(homeworks, usersCommitHistory, userId) {
       });
 
       if (lastSubmitHistory) {
-        var lastSubmitHistoryCommitTime = Date.parse(lastSubmitHistory.createdAt) / constant.time.MILLISECOND_PER_SECONDS;
+        var lastSubmitHistoryCommitTime = Date.parse(lastSubmitHistory.updatedAt) / constant.time.MILLISECOND_PER_SECONDS;
         elapsedTime = lastSubmitHistoryCommitTime - quiz.startTime;
       }
 
@@ -213,50 +213,74 @@ PaperController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
 function getHomeworkDetailsByUserId(userId, callback) {
   var userDetailURL = 'users/' + userId + '/detail';
 
-  async.parallel({
-    userDetail: function (done) {
-      apiRequest.get(userDetailURL, done);
+  var user = {};
+  async.waterfall([
+    (done)=> {
+      apiRequest.get(userDetailURL, (err, userDetail)=> {
+        user.userDetail = userDetail.body;
+        done(err, null);
+      })
     },
-    homework: function (done) {
-      userHomeworkQuizzes.findOne({userId: userId}, done);
-    }
-  }, callback);
+
+    (data, done)=> {
+      userHomeworkQuizzes.findOne({userId: userId}, (err, homework)=> {
+        user.homework = homework;
+        done(err, homework);
+      });
+    },
+
+    (homework, done)=> {
+      var filter = [];
+      homework.quizzes.forEach((quiz)=> {
+        if (quiz.homeworkSubmitPostHistory.length !== 0) {
+          filter.push(quiz.homeworkSubmitPostHistory[quiz.homeworkSubmitPostHistory.length - 1]);
+        }
+      });
+
+      getUsersCommitHistory(filter, (err, userCommitHistory)=> {
+        user.userCommitHistory = userCommitHistory.body;
+        done(err, null);
+      });
+    }], (err, result)=> {
+    callback(err, user);
+  });
 }
 
-function createHomeworkDetail(quiz) {
+function createHomeworkDetail(quiz, userCommitHistory) {
+
   var homeworkDetails = {};
-  var sumTime = 0;
   var elapsedTime = 0;
 
   if (quiz.homeworkSubmitPostHistory.length !== 0) {
-    var homeworkSubmitPostHistoryLength = quiz.homeworkSubmitPostHistory.length - 1;
-    elapsedTime = quiz.homeworkSubmitPostHistory[homeworkSubmitPostHistoryLength].commitTime - quiz.startTime;
 
-    if (quiz.homeworkSubmitPostHistory[quiz.homeworkSubmitPostHistory.length - 1].homeworkDetail !== undefined) {
-      homeworkDetails.lastCommitedDetail = new Buffer(quiz.homeworkSubmitPostHistory[quiz.homeworkSubmitPostHistory.length - 1].homeworkDetail, 'base64').toString('utf8');
-    } else {
-      homeworkDetails.lastCommitedDetail = '--';
+    var lasthSubmitHistoryId = quiz.homeworkSubmitPostHistory[quiz.homeworkSubmitPostHistory.length - 1];
+
+    var lastSubmitHistory = userCommitHistory.find((log)=> {
+      return log.id === lasthSubmitHistoryId.toString();
+    });
+
+    if (lastSubmitHistory) {
+      var lastSubmitHistoryCommitTime = Date.parse(lastSubmitHistory.updatedAt) / constant.time.MILLISECOND_PER_SECONDS;
+      elapsedTime = lastSubmitHistoryCommitTime - quiz.startTime;
+      homeworkDetails.lastCommitedDetail = lastSubmitHistory.result;
     }
   } else {
     homeworkDetails.lastCommitedDetail = '--';
   }
 
-  sumTime += elapsedTime;
-
   homeworkDetails.id = quiz.id;
   homeworkDetails.address = quiz.uri;
   homeworkDetails.startTime = quiz.startTime;
   homeworkDetails.commitNumbers = quiz.homeworkSubmitPostHistory.length;
-  homeworkDetails.elapsedTime = sumTime;
-  homeworkDetails.isPassed = (quiz.status === constant.homeworkQuizzesStatus.SUCCESS) ? '是' : '否';
+  homeworkDetails.elapsedTime = elapsedTime;
+  homeworkDetails.isPassed = quiz.status;
   return homeworkDetails;
 }
 
-function createUserHomeworkDetails(paperId, userId, callback) {
+function buildUserHomeworkDetails(paperId, userId, callback) {
 
   getHomeworkDetailsByUserId(userId, (err, data)=> {
 
-    var userHomeworkDetails = {};
     if (err) {
       callback(err);
       return;
@@ -268,8 +292,9 @@ function createUserHomeworkDetails(paperId, userId, callback) {
 
     var usersInfo = data.homework.quizzes.map((quiz, index)=> {
       var userDetail;
+
       if (index === 0) {
-        userDetail = buildUserSummary(data.userDetail.body);
+        userDetail = buildUserSummary(data.userDetail);
       } else {
         userDetail = buildUserSummary({
           name: '',
@@ -278,44 +303,13 @@ function createUserHomeworkDetails(paperId, userId, callback) {
         });
       }
 
-      return {
-        userDetail: userDetail,
-        userId: userId,
-        homeworkDetails: createHomeworkDetail(quiz)
-      };
+      var homeworkSummary = createHomeworkDetail(quiz, data.userCommitHistory);
+      homeworkSummary.paperId = paperId;
+
+      return Object.assign({}, userDetail, {userId: userId}, homeworkSummary);
     });
-    userHomeworkDetails.usersInfo = usersInfo;
-    callback(null, userHomeworkDetails);
-  });
-}
 
-function createUserHomeworkDetailsCsv(paperId, userHomeworkDetails, callback) {
-
-  var fieldNames = ['姓名', '电话', '邮箱', '编程题编号', '编程题地址', '开始时间', '提交次数', '编程题花费时间', '编程题是否通过', '最后一次提交详情', '提交历史详情'];
-
-  var usersCsvInfo = userHomeworkDetails.usersInfo.map((userInfo)=> {
-    var startTime = userInfo.homeworkDetails.startTime;
-    startTime = startTime === undefined ? '--' : moment.unix(userInfo.homeworkDetails.startTime).format('YYYY-MM-DD HH:mm:ss');
-
-    return {
-      name: userInfo.userDetail.name,
-      mobilePhone: userInfo.userDetail.mobilePhone,
-      email: userInfo.userDetail.email,
-      id: userInfo.homeworkDetails.id,
-      address: userInfo.homeworkDetails.address,
-      startTime: startTime,
-      commitNumbers: userInfo.homeworkDetails.commitNumbers,
-      elapsedTime: calcHomeworkElapsedTime(userInfo.homeworkDetails.elapsedTime),
-      isPassed: userInfo.homeworkDetails.isPassed,
-      lastCommitedDetail: userInfo.homeworkDetails.lastCommitedDetail,
-      homeworkDetailsUrl: config.appServer + 'paper/' + paperId + '/user/' + userInfo.userId + '/homeworkQuiz/' + userInfo.homeworkDetails.id
-    };
-  });
-
-  var fields = ['name', 'mobilePhone', 'email', 'id', 'address', 'startTime', 'commitNumbers', 'elapsedTime', 'isPassed', 'lastCommitedDetail', 'homeworkDetailsUrl'];
-
-  json2csv({data: usersCsvInfo, fields: fields, fieldNames: fieldNames}, function (err, csv) {
-    callback(csv);
+    callback(null, usersInfo);
   });
 }
 
@@ -323,22 +317,34 @@ PaperController.prototype.exportUserHomeworkDetailsCsv = (req, res, next)=> {
   var paperId = req.params.paperId;
   var userId = req.params.userId;
 
-  createUserHomeworkDetails(paperId, userId, function (err, userHomeworkDetails) {
+  buildUserHomeworkDetails(paperId, userId, function (err, userHomeworkDetails) {
     if (err) {
       next(err);
       return;
     }
-    createUserHomeworkDetailsCsv(paperId, userHomeworkDetails, function (csv) {
+
+    fs.readFile(__dirname + '/../views/userhomeworkdetailscsv.ejs', function (err, data) {
 
       var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
       var fileName = time + '-paper-' + paperId + '-user-' + userId + '.csv';
 
-      csv = csv.split('\\n').join(String.fromCharCode(BREAK_LINE_CODE));
       res.setHeader('Content-disposition', 'attachment; filename=' + fileName + '');
       res.setHeader('Content-Type', 'text/csv');
 
+      var csv = ejs.render(data.toString(), {
+        userHomeworkDetails: userHomeworkDetails,
+        moment: moment,
+        constant: constant,
+        config: config
+      });
+
+      csv = csv.split('\\n').join(String.fromCharCode(BREAK_LINE_CODE));
+      csv = csv.split(String.fromCharCode(BREAK_LINE_CODE)).join('');
+      csv = csv.split('##').join(String.fromCharCode(BREAK_LINE_CODE));
+
       res.send(csv);
     });
+
   });
 };
 
