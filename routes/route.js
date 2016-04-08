@@ -20,4 +20,5 @@ exports.setRoutes = function (app) {
   app.use('/style-guide', require('./routers/style-guide'));
   //app.use('/group', require('./routers/group'));
   //app.use('/group/*', require('./routers/group'));
+  app.use('/paper-assignment', require('./routers/paper-assignment'));
 };
