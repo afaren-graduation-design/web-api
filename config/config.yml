@@ -12,3 +12,5 @@ default:
   gitHubToken: 'Basic dHdhcnM6c3cxMjM0NTY3OA=='
 development:
   database: 'mongodb://192.168.99.100/twars'
+production:
+  staticFileServer: '/fs/'
