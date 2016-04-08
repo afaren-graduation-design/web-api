@@ -11,7 +11,6 @@ var config = yamlConfig.load('./config/config.yml');
 var moment = require('moment');
 var ejs = require('ejs');
 var fs = require('fs');
-
 var BREAK_LINE_CODE = 10;
 
 function PaperController() {
@@ -144,8 +143,8 @@ function buildHomework(homeworks, usersCommitHistory, userId) {
   });
 
 
-  homework.correctNumber = correctNumber;
-  homework.itemNumber = data.quizzes.length;
+  homework.homeworkCorrectNumber = correctNumber;
+  homework.homeworkItemNumber = data.quizzes.length;
   homework.homeWorkStartTime = startTime;
   homework.elapsedTime = sumTime;
 
@@ -228,25 +227,30 @@ function getHomeworkDetailsByUserId(userId, callback) {
         done(err, homework);
       });
     },
-
     (homework, done)=> {
-      var filter = [];
-      homework.quizzes.forEach((quiz)=> {
-        if (quiz.homeworkSubmitPostHistory.length !== 0) {
-          filter.push(quiz.homeworkSubmitPostHistory[quiz.homeworkSubmitPostHistory.length - 1]);
-        }
-      });
 
-      getUsersCommitHistory(filter, (err, userCommitHistory)=> {
-        user.userCommitHistory = userCommitHistory.body;
-        done(err, null);
-      });
+      if (homework !== null) {
+        var filter = [];
+        homework.quizzes.forEach((quiz)=> {
+          if (quiz.homeworkSubmitPostHistory.length !== 0) {
+            filter.push(quiz.homeworkSubmitPostHistory[quiz.homeworkSubmitPostHistory.length - 1]);
+          }
+        });
+
+        getUsersCommitHistory(filter, (err, userCommitHistory)=> {
+          user.userCommitHistory = userCommitHistory.body;
+          done(err, null);
+        });
+      } else {
+        done(null, null);
+      }
+
     }], (err, result)=> {
     callback(err, user);
   });
 }
 
-function createHomeworkDetail(quiz, userCommitHistory) {
+function buildHomeworkDetail(quiz, userCommitHistory) {
 
   var homeworkDetails = {};
   var elapsedTime = 0;
@@ -286,10 +290,10 @@ function buildUserHomeworkDetails(paperId, userId, callback) {
       return;
     }
 
-    if (!data || !data.homework.quizzes) {
-      callback(null, {});
+    if (!data || data.homework === null || !data.homework.quizzes) {
+      callback(null, null);
+      return;
     }
-
     var usersInfo = data.homework.quizzes.map((quiz, index)=> {
       var userDetail;
 
@@ -303,7 +307,7 @@ function buildUserHomeworkDetails(paperId, userId, callback) {
         });
       }
 
-      var homeworkSummary = createHomeworkDetail(quiz, data.userCommitHistory);
+      var homeworkSummary = buildHomeworkDetail(quiz, data.userCommitHistory);
       homeworkSummary.paperId = paperId;
 
       return Object.assign({}, userDetail, {userId: userId}, homeworkSummary);
@@ -338,7 +342,7 @@ PaperController.prototype.exportUserHomeworkDetailsCsv = (req, res, next)=> {
         config: config
       });
 
-      csv = csv.split('\\n').join(String.fromCharCode(BREAK_LINE_CODE));
+      csv = unescapeHTML(csv);
       csv = csv.split(String.fromCharCode(BREAK_LINE_CODE)).join('');
       csv = csv.split('##').join(String.fromCharCode(BREAK_LINE_CODE));
 
@@ -348,27 +352,71 @@ PaperController.prototype.exportUserHomeworkDetailsCsv = (req, res, next)=> {
   });
 };
 
-function buildUserHomeworkQuizDetail(commitItem) {
-  var homeworkQuizDetail = {};
-  homeworkQuizDetail.commitAddress = commitItem.homeworkURL;
-  homeworkQuizDetail.homeworkDetail = (commitItem.homeworkDetail === undefined) ? '--' : new Buffer(commitItem.homeworkDetail, 'base64').toString('utf8');
-  return homeworkQuizDetail;
+function unescapeHTML(str) {
+  str += '';
+  var unescapeEntity = {};
+  var runescapeEntity = /&([^;]+);/g;
+  var rentityCodeHex = /^#x([\da-fA-F]+)$/;
+  var rentityCode = /^#(\d+)$/;
+  str = str.replace(runescapeEntity, function (entity, entityCode) {
+    var match;
+
+    if (unescapeEntity.hasOwnProperty(entity)) {
+      return unescapeEntity[entity];
+    }
+
+    if (match = entityCode.match(rentityCodeHex)) {
+      return String.fromCharCode(parseInt(match[1], 16));
+    }
+
+    if (match = entityCode.match(rentityCode)) {
+      return String.fromCharCode(match[1]);
+    }
+
+    return entity;
+  });
+  return str;
 }
 
-function calculateElapsedTime(index, homeworkquiz) {
-  var time;
-  if (index === 0) {
-    time = homeworkquiz.homeworkSubmitPostHistory[index].commitTime - homeworkquiz.startTime;
-  } else {
-    time = homeworkquiz.homeworkSubmitPostHistory[index].commitTime - homeworkquiz.homeworkSubmitPostHistory[index - 1].commitTime;
-  }
-  return time;
+function getHomeworkCommitHIstoryByUserId(userId, callback) {
+  var userDetailURL = 'users/' + userId + '/detail';
+
+  var user = {};
+  async.waterfall([
+    (done)=> {
+      apiRequest.get(userDetailURL, (err, userDetail)=> {
+        user.userDetail = userDetail.body;
+        done(err, null);
+      })
+    },
+
+    (data, done)=> {
+      userHomeworkQuizzes.findOne({userId: userId}, (err, homework)=> {
+        user.homework = homework;
+        done(err, homework);
+      });
+    },
+
+    (homework, done)=> {
+      var filter = [];
+      homework.quizzes.forEach((quiz)=> {
+        if (quiz.homeworkSubmitPostHistory.length !== 0) {
+          filter = filter.concat(quiz.homeworkSubmitPostHistory);
+        }
+      });
+
+      getUsersCommitHistory(filter, (err, userCommitHistory)=> {
+        user.userCommitHistory = userCommitHistory.body;
+        done(err, null);
+      });
+    }], (err, result)=> {
+    callback(err, user);
+  });
 }
 
 function buildUserHomeworkQuizDetails(paperId, userId, homeworkquizId, callback) {
 
-  getHomeworkDetailsByUserId(userId, (err, data)=> {
-    var userHomeworkDetails = {};
+  getHomeworkCommitHIstoryByUserId(userId, (err, data)=> {
     var usersInfo = [];
     if (err) {
       callback(err);
@@ -379,59 +427,65 @@ function buildUserHomeworkQuizDetails(paperId, userId, homeworkquizId, callback)
       return quiz.id.toString() === homeworkquizId;
     });
 
+
     if (homeworkquiz !== undefined && homeworkquiz.homeworkSubmitPostHistory.length !== 0) {
 
       homeworkquiz.homeworkSubmitPostHistory.forEach((commitItem, index)=> {
         var userInfo = {};
+        var userSummary;
+        var homeworkSummary = {};
+
         if (index === 0) {
-          userInfo.userDetail = buildUserSummary(data.userDetail.body);
+          userSummary = buildUserSummary(data.userDetail);
           userInfo.startTime = homeworkquiz.startTime;
-          userInfo.uri = homeworkquiz.uri;
+          userInfo.homeworkQuizUri = homeworkquiz.uri;
         } else {
-          userInfo.userDetail = buildUserSummary({
+          userSummary = buildUserSummary({
             name: '',
             mobilePhone: '',
             email: ''
           });
           userInfo.startTime = '';
-          userInfo.uri = '';
+          userInfo.homeworkQuizUri = '';
         }
         userInfo.userId = userId;
-        userInfo.homeworkDetails = buildUserHomeworkQuizDetail(commitItem);
-        userInfo.homeworkDetails.elapsedTime = calculateElapsedTime(index, homeworkquiz);
-        usersInfo.push(userInfo);
+
+        var commithistory = data.userCommitHistory.find((log)=> {
+          return commitItem.toString() === log.id;
+        });
+
+        homeworkSummary.userAnswerRepo = commithistory.userAnswerRepo;
+        homeworkSummary.result = commithistory.result;
+        homeworkSummary.elapsedTime = calculateElapsedTime(index, homeworkquiz, data.userCommitHistory);
+
+        usersInfo.push(Object.assign({}, userSummary, userInfo, homeworkSummary));
       });
     }
 
-    userHomeworkDetails.usersInfo = usersInfo;
-    callback(null, userHomeworkDetails);
+    callback(null, usersInfo);
   });
 }
 
-function buildUserHomeworkQuizDetailsCsv(paperId, userHomeworkDetails, callback) {
+function getupdatedAtTimeById(id, userCommitHistory) {
 
-  var fieldNames = ['姓名', '电话', '邮箱', '编程题题目地址', '开始时间', '提交作业记录', '分析记录', '花费时间'];
-
-  var usersCsvInfo = userHomeworkDetails.usersInfo.map((userInfo)=> {
-    var startTime = userInfo.startTime;
-    startTime = startTime === '' ? '' : moment.unix(startTime).format('YYYY-MM-DD HH:mm:ss');
-    return {
-      name: userInfo.userDetail.name,
-      mobilePhone: userInfo.userDetail.mobilePhone,
-      email: userInfo.userDetail.email,
-      homeworkAddress: userInfo.uri,
-      startTime: startTime,
-      commitUrlLog: userInfo.homeworkDetails.commitAddress,
-      commitResultLog: userInfo.homeworkDetails.homeworkDetail,
-      elapsedTime: calcHomeworkElapsedTime(userInfo.homeworkDetails.elapsedTime)
-    };
+  var time = userCommitHistory.find((commitHistory)=> {
+    return id.toString() === commitHistory.id;
   });
 
-  var fields = ['name', 'mobilePhone', 'email', 'homeworkAddress', 'startTime', 'commitUrlLog', 'commitResultLog', 'elapsedTime'];
+  return time.updatedAt;
+}
 
-  json2csv({data: usersCsvInfo, fields: fields, fieldNames: fieldNames}, function (err, csv) {
-    callback(csv);
-  });
+function calculateElapsedTime(index, homeworkquiz, userCommitHistory) {
+
+  var time;
+  if (index === 0) {
+    time = Date.parse(getupdatedAtTimeById(homeworkquiz.homeworkSubmitPostHistory[index], userCommitHistory)) / constant.time.MILLISECOND_PER_SECONDS - homeworkquiz.startTime;
+
+  } else {
+    time = Date.parse(getupdatedAtTimeById(homeworkquiz.homeworkSubmitPostHistory[index], userCommitHistory)) / constant.time.MILLISECOND_PER_SECONDS - Date.parse(getupdatedAtTimeById(homeworkquiz.homeworkSubmitPostHistory[index - 1], userCommitHistory)) / constant.time.MILLISECOND_PER_SECONDS;
+  }
+
+  return time;
 }
 
 PaperController.prototype.exportUserHomeworkQuizDetailsCsv = (req, res, next)=> {
@@ -439,21 +493,34 @@ PaperController.prototype.exportUserHomeworkQuizDetailsCsv = (req, res, next)=> 
   var userId = req.params.userId;
   var homeworkquizId = req.params.homeworkquizId;
 
-  buildUserHomeworkQuizDetails(paperId, userId, homeworkquizId, (err, userHomeworkDetails)=> {
+  buildUserHomeworkQuizDetails(paperId, userId, homeworkquizId, (err, userHomeworkQuizDetails)=> {
     if (err) {
       next(err);
       return;
     }
 
-    buildUserHomeworkQuizDetailsCsv(paperId, userHomeworkDetails, (csv) => {
+    fs.readFile(__dirname + '/../views/userhomeworkquizdetailscsv.ejs', function (err, data) {
+
       var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
       var fileName = time + '-paper-' + paperId + '-user-' + userId + '-homeworkquiz-' + homeworkquizId + '.csv';
 
-      csv = csv.split('\\n').join(String.fromCharCode(BREAK_LINE_CODE));
       res.setHeader('Content-disposition', 'attachment; filename=' + fileName + '');
       res.setHeader('Content-Type', 'text/csv');
+
+      var csv = ejs.render(data.toString(), {
+        userHomeworkQuizDetails: userHomeworkQuizDetails,
+        moment: moment,
+        constant: constant,
+        config: config
+      });
+
+      csv = unescapeHTML(csv);
+      csv = csv.split(String.fromCharCode(BREAK_LINE_CODE)).join('');
+      csv = csv.split('##').join(String.fromCharCode(BREAK_LINE_CODE));
+
       res.send(csv);
     });
+
   });
 };
 

@@ -8,6 +8,8 @@ var second = constant.time.SECONDS_PER_MINUTE;
 var dayToSecond = second * mintues * hour;
 var hourToSecond = second * mintues;
 var mintuesToSecond = mintues;
+var BREAK_LINE_CODE = 10;
+
 %>
 <% if (userHomeworkDetails) { %>
 <% userHomeworkDetails.forEach(function(userhomework) { %>
@@ -15,13 +17,13 @@ var mintuesToSecond = mintues;
 <%= userhomework.mobilePhone %>,
 <%= userhomework.email %>,
 <%= userhomework.id %>,
-<%= userhomework.address %>,
+<%= config.apiServer + userhomework.address %>,
 <%= userhomework.startTime === undefined ? '--' : moment.unix(userhomework.startTime).format('YYYY-MM-DD HH:mm:ss') %>,
 <%= userhomework.commitNumbers %>,
 <%= calcHomeworkElapsedTime(userhomework.elapsedTime) %>,
 <%= userhomework.isPassed === constant.homeworkQuizzesStatus.SUCCESS ? '是' : '否' %>,
-<%= userhomework.lastCommitedDetail %>,
-<%= 'http://localhost:3000' + '/paper/' + userhomework.paperId + '/user/' + userhomework.userId + '/homeworkQuiz/' + userhomework.id %>
+"<%= userhomework.lastCommitedDetail.split(String.fromCharCode(BREAK_LINE_CODE)).join('##') %>",
+<%= config.appServer + 'paper/' + userhomework.paperId + '/user/' + userhomework.userId + '/homeworkQuiz/' + userhomework.id %>
 ##
 <% }); %>
 <% } %>

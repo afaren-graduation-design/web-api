@@ -8,22 +8,27 @@ var second = constant.time.SECONDS_PER_MINUTE;
 var dayToSecond = second * mintues * hour;
 var hourToSecond = second * mintues;
 var mintuesToSecond = mintues;
+
+var LOGICPUZZLE_PASS_RETE = 0.6;
+var HOMEWORK_PASS_RETE = 0.6;
 %>
-<% if (scoresheetInfo) { %>
+<% if (scoresheetInfo !== null) { %>
 <% scoresheetInfo.forEach(function(user) { %>
 <%= user.name %>,
 <%= user.mobilePhone %>,
 <%= user.email %>,
 <%= (user.correctNumber / user.itemNumber).toFixed(2) %>,
-<%= (user.correctNumber / user.itemNumber) > 0.6 ? '是' : '否' %>,
+<%= (user.correctNumber / user.itemNumber) > LOGICPUZZLE_PASS_RETE ? '是' : '否' %>,
 <%= moment.unix(user.startTime).format('YYYY-MM-DD HH:mm:ss') %>,
 <%= calcLogicPuzzleElapsedTime(user.startTime, user.endTime) %>,
-<% var accuracy = (user.correctNumber / user.itemNumber).toFixed(2) %>
+<% var accuracy = 0; if (user.homeworkItemNumber && user.homeworkItemNumber) {
+  accuracy = (user.homeworkCorrectNumber / user.homeworkItemNumber).toFixed(2);
+} %>
 <%= accuracy %>,
-<%= accuracy > 0.6 ? '是' : '否' %>,
+<%= accuracy > HOMEWORK_PASS_RETE ? '是' : '否' %>,
 <%= user.homeWorkStartTime === undefined ? '--' : moment.unix(user.homeWorkStartTime).format('YYYY-MM-DD HH:mm:ss') %>,
 <%= calcHomeworkElapsedTime(user.elapsedTime) %>,
-<%= 'http://localhost:3000' + '/paper/' + user.paperId + '/user/' + user.userId + '/homework-details' %>
+<%= config.appServer + 'paper/' + user.paperId + '/user/' + user.userId + '/homework-details' %>
 ##
 <% }); %>
 <% } %>
