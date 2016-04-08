@@ -1,9 +1,9 @@
 default:
   port: 3000
-  database: 'mongodb://mongodb/twars'
-  apiServer: 'http://jetty-api:8080/paper-api/'
-  appServer: 'http://node-app:3000/'
-  taskServer: 'http://node-task-queue:4000/'
+  database: 'mongodb://192.168.99.100/twars'
+  apiServer: 'http://192.168.99.100:8080/paper-api/'
+  appServer: 'http://192.168.99.100:3000/'
+  taskServer: 'http://192.168.99.100:4000/'
   sessionTtl: 3600 # 60(MINUTE_PER_HOUR) * 60(SECONDS_PER_MINUTE)
   staticFileServer: 'http://nginx/fs/'
   emailServer: 'localhost:3000'
@@ -14,3 +14,9 @@ development:
   database: 'mongodb://192.168.99.100/twars'
 production:
   staticFileServer: '/fs/'
+test:
+  database: 'mongodb://mongodb/twars'
+  apiServer: 'http://jetty-api:8080/paper-api/'
+  appServer: 'http://node-app:3000/'
+  taskServer: 'http://node-task-queue:4000/'
+
