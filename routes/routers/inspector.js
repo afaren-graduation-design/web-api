@@ -40,7 +40,7 @@ function getTaskQueueInfo(done) {
       });
 }
 
-router.get('/', function (req, res) {
+router.get('/', function (req, res, next) {
   var data = {app: 'connected'};
 
   async.parallel([
@@ -48,6 +48,7 @@ router.get('/', function (req, res) {
     getMongoInfo,
     getTaskQueueInfo
   ], function (err, result) {
+    if(err) {return next(err);}
     result.forEach(function (v, k) {
       data = Object.assign(data, v);
     });
