@@ -1,9 +1,10 @@
 default:
   port: 3000
-  database: 'mongodb://192.168.99.100/twars'
-  apiServer: 'http://192.168.99.100:8080/paper-api/'
-  appServer: 'http://192.168.99.100:3000/'
-  taskServer: 'http://192.168.99.100:4000/'
+  database: 'mongodb://mongodb/twars'
+  paperApiServer: 'http://jetty-api:8080/paper-api/'
+  userApiServer: 'http://jetty-api:8080/user-api'
+  appServer: 'http://node-app:3000/'
+  taskServer: 'http://node-task-queue:4000/'
   sessionTtl: 3600 # 60(MINUTE_PER_HOUR) * 60(SECONDS_PER_MINUTE)
   staticFileServer: 'http://nginx/fs/'
   emailServer: 'localhost:3000'
@@ -12,6 +13,9 @@ default:
   gitHubToken: 'Basic dHdhcnM6c3cxMjM0NTY3OA=='
 development:
   database: 'mongodb://192.168.99.100/twars'
+  apiServer: 'http://192.168.99.100:8080/paper-api/'
+  appServer: 'http://192.168.99.100:3000/'
+  taskServer: 'http://192.168.99.100:4000/'
 production:
   staticFileServer: '/fs/'
 test:
