@@ -1,5 +1,5 @@
 "姓名","电话","邮箱","逻辑题准确率","逻辑题是否通过","逻辑题开始时间","逻辑题花费时间","编程题正确率","编程题是否通过","编程题开始时间","编程题花费时间","编程题详情"
-##
+#!!--
 <%
 var hour = constant.time.HOURS_PER_DAY;
 var mintues = constant.time.MINUTE_PER_HOUR;
@@ -29,7 +29,7 @@ var HOMEWORK_PASS_RETE = 0.6;
 <%= user.homeWorkStartTime === undefined ? '--' : moment.unix(user.homeWorkStartTime).format('YYYY-MM-DD HH:mm:ss') %>,
 <%= calcHomeworkElapsedTime(user.elapsedTime) %>,
 <%= config.appServer + 'paper/' + user.paperId + '/user/' + user.userId + '/homework-details' %>
-##
+#!!--
 <% }); %>
 <% } %>
 <%

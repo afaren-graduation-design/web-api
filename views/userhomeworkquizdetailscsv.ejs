@@ -1,5 +1,5 @@
 "姓名","电话","邮箱","编程题题目地址","编程题开始时间","提交作业记录","分析记录","花费时间"
-##
+#!!--
 <%
 var hour = constant.time.HOURS_PER_DAY;
 var mintues = constant.time.MINUTE_PER_HOUR;
@@ -20,7 +20,7 @@ var BREAK_LINE_CODE = 10;
 <%= quiz.userAnswerRepo %>,
 "<%= quiz.result.split(String.fromCharCode(BREAK_LINE_CODE)).join('##') %>",
 <%= calcHomeworkElapsedTime(quiz.elapsedTime) %>
-##
+#!!--
 <% }); %>
 <% } %>
 <%

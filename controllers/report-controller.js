@@ -13,7 +13,7 @@ var ejs = require('ejs');
 var fs = require('fs');
 var BREAK_LINE_CODE = 10;
 
-function PaperController() {
+function ReportController() {
 }
 
 function setCommitHistoryfilter(userhomeworks) {
@@ -176,7 +176,7 @@ function buildScoresheetInfo(paperId, callback) {
 
 }
 
-PaperController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
+ReportController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
   var paperId = req.params.paperId;
 
   buildScoresheetInfo(paperId, function (err, scoresheetInfo) {
@@ -201,7 +201,7 @@ PaperController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
       });
 
       csv = csv.split(String.fromCharCode(BREAK_LINE_CODE)).join('');
-      csv = csv.split('##').join(String.fromCharCode(BREAK_LINE_CODE));
+      csv = csv.split('#!!--').join(String.fromCharCode(BREAK_LINE_CODE));
 
       res.send(csv);
     });
@@ -317,7 +317,7 @@ function buildUserHomeworkDetails(paperId, userId, callback) {
   });
 }
 
-PaperController.prototype.exportUserHomeworkDetailsCsv = (req, res, next)=> {
+ReportController.prototype.exportUserHomeworkDetailsCsv = (req, res, next)=> {
   var paperId = req.params.paperId;
   var userId = req.params.userId;
 
@@ -344,7 +344,7 @@ PaperController.prototype.exportUserHomeworkDetailsCsv = (req, res, next)=> {
 
       csv = unescapeHTML(csv);
       csv = csv.split(String.fromCharCode(BREAK_LINE_CODE)).join('');
-      csv = csv.split('##').join(String.fromCharCode(BREAK_LINE_CODE));
+      csv = csv.split('#!!--').join(String.fromCharCode(BREAK_LINE_CODE));
 
       res.send(csv);
     });
@@ -488,7 +488,7 @@ function calculateElapsedTime(index, homeworkquiz, userCommitHistory) {
   return time;
 }
 
-PaperController.prototype.exportUserHomeworkQuizDetailsCsv = (req, res, next)=> {
+ReportController.prototype.exportUserHomeworkQuizDetailsCsv = (req, res, next)=> {
   var paperId = req.params.paperId;
   var userId = req.params.userId;
   var homeworkquizId = req.params.homeworkquizId;
@@ -516,7 +516,7 @@ PaperController.prototype.exportUserHomeworkQuizDetailsCsv = (req, res, next)=> 
 
       csv = unescapeHTML(csv);
       csv = csv.split(String.fromCharCode(BREAK_LINE_CODE)).join('');
-      csv = csv.split('##').join(String.fromCharCode(BREAK_LINE_CODE));
+      csv = csv.split('#!!--').join(String.fromCharCode(BREAK_LINE_CODE));
 
       res.send(csv);
     });
@@ -524,4 +524,4 @@ PaperController.prototype.exportUserHomeworkQuizDetailsCsv = (req, res, next)=> 
   });
 };
 
-module.exports = PaperController;
+module.exports = ReportController;

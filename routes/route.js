@@ -13,7 +13,7 @@ exports.setRoutes = function (app) {
   app.use('/homework',require('./routers/homework'));
   app.use('/password',require('./routers/password'));
   app.use('/user', require('./routers/user'));
-  app.use('/paper', require('./routers/paper'));
+  app.use('/report', require('./routers/report'));
   app.use('/reuse', require('./routers/reuse'));
   app.use('/deadline', require('./routers/deadline'));
   app.use('/inspector', require('./routers/inspector'));

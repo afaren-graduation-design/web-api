@@ -1,5 +1,5 @@
 "姓名","电话","邮箱","编程题编号","编程题地址","编程题开始时间","提交次数","编程题花费时间","编程题是否通过","最后一次提交详情","提交历史详情"
-##
+#!!--
 <%
 var hour = constant.time.HOURS_PER_DAY;
 var mintues = constant.time.MINUTE_PER_HOUR;
@@ -9,7 +9,6 @@ var dayToSecond = second * mintues * hour;
 var hourToSecond = second * mintues;
 var mintuesToSecond = mintues;
 var BREAK_LINE_CODE = 10;
-
 %>
 <% if (userHomeworkDetails) { %>
 <% userHomeworkDetails.forEach(function(userhomework) { %>
@@ -24,7 +23,7 @@ var BREAK_LINE_CODE = 10;
 <%= userhomework.isPassed === constant.homeworkQuizzesStatus.SUCCESS ? '是' : '否' %>,
 "<%= userhomework.lastCommitedDetail.split(String.fromCharCode(BREAK_LINE_CODE)).join('##') %>",
 <%= config.appServer + 'paper/' + userhomework.paperId + '/user/' + userhomework.userId + '/homeworkQuiz/' + userhomework.id %>
-##
+#!!--
 <% }); %>
 <% } %>
 <%
