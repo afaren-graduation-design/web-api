@@ -8,14 +8,11 @@ function ReuseController() {
 }
 
 ReuseController.prototype.loadAccount = (req, res) => {
-  console.log('werasfafsadfs');
   if (req.session.user) {
     var userId = req.session.user.id;
     var url = 'users/' + userId;
 
     apiRequest.get(url, function (err, resp) {
-      console.log('111');
-      console.log(resp);
       if (resp === undefined) {
         res.send({
           status: constant.httpCode.INTERNAL_SERVER_ERROR
