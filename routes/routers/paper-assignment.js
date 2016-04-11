@@ -9,6 +9,6 @@ var usersPapersController = new UsersPapersController();
 router.post('/', usersPapersController.addLink);
 router.get('/', usersPapersController.getLinks);
 router.delete('/', usersPapersController.removeLink);
-
+router.get('/papers',usersPapersController.getPaperName);
 
 module.exports = router;
