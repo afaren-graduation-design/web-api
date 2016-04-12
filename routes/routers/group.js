@@ -10,6 +10,6 @@ router.get('/',function(req,res){
   res.sendFile(path.join(__dirname, '../../public/assets', 'group.html'));
 });
 
-router.get('/index',groupController.getGroupInfo);
+router.get('/info',groupController.getGroupInfo);
 
 module.exports = router;

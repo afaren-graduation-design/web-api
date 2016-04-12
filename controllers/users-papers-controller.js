@@ -53,7 +53,6 @@ UsersPapersController.prototype.removeLink = (req, res) => {
 
 UsersPapersController.prototype.getPaperName = (req, res) => {
   apiRequest.get('papers', (err,data)=>{
-    console.log(data.body);
     if (err) {
       res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
       res.send({status: constant.httpCode.INTERNAL_SERVER_ERROR, message: err.message});
