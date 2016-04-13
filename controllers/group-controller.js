@@ -21,12 +21,12 @@ GroupController.prototype.getGroupInfo = (req, res) => {
 
 GroupController.prototype.loadGroup = (req, res)=> {
   if (req.session.user) {
-    //var userId = req.session.user.id;
-    var userId = 1;
+    var userId = req.session.user.id;
     var groupUrl = 'users/' + userId +'/groups';
+    console.log(groupUrl);
 
     userApiRequest.get(groupUrl, function(err, resp) {
-      console.log(resp);
+      console.log(resp.body);
       if(resp === undefined) {
         res.send({
           status: constant.httpCode.INTERNAL_SERVER_ERROR
