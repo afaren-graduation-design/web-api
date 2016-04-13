@@ -10,13 +10,44 @@ function GroupController (){
 GroupController.prototype.getGroupInfo = (req, res) => {
   var groupId = req.query.groupId;
   userApiRequest.get('groups/' + groupId, (err, data) => {
-    if(err){
+    if (err) {
       res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
       res.send({status: constant.httpCode.INTERNAL_SERVER_ERROR, message: err.message});
-    }else {
+    } else {
       res.send(data.body);
     }
   });
+};
+
+GroupController.prototype.loadGroup = (req, res)=> {
+  if (req.session.user) {
+    //var userId = req.session.user.id;
+    var userId = 1;
+    var groupUrl = 'users/' + userId +'/groups';
+
+    userApiRequest.get(groupUrl, function(err, resp) {
+      console.log(resp);
+      if(resp === undefined) {
+        res.send({
+          status: constant.httpCode.INTERNAL_SERVER_ERROR
+        })
+      } else if(resp.status === constant.httpCode.OK) {
+        res.send({
+          status: constant.httpCode.OK,
+          groups: resp.body
+        });
+      } else if(resp.status === constant.httpCode.NOT_FOUND) {
+        res.send({
+          status: constant.httpCode.NOT_FOUND
+        });
+      } else {
+        res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
+        res.send({
+          status: constant.httpCode.INTERNAL_SERVER_ERROR
+        });
+      }
+    });
+  }
 };
 
 module.exports = GroupController;

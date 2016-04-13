@@ -6,9 +6,7 @@ var path = require('path');
 var GroupController = require('../../controllers/group-controller');
 var groupController = new GroupController();
 
-router.get('/',function(req,res){
-  res.sendFile(path.join(__dirname, '../../public/assets', 'group.html'));
-});
+router.get('/', groupController.loadGroup);
 
 router.get('/info',groupController.getGroupInfo);
 
