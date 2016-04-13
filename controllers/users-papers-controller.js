@@ -39,8 +39,6 @@ UsersPapersController.prototype.removeLink = (req, res) => {
   var phoneNumber = req.query.phoneNumber;
   var paperName = req.query.paperName;
 
-  console.log(req.query);
-
   UsersPapers.findOneAndRemove({phoneNumber:phoneNumber,paperName:paperName},(err)=>{
     if(!err){
       res.sendStatus(constant.httpCode.OK);
