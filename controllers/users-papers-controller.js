@@ -20,8 +20,9 @@ UsersPapersController.prototype.addLink = (req, res) => {
   var link = new UsersPapers;
   link.phoneNumber = req.body.phoneNumber;
   link.paperName = req.body.paperName;
+  link.paperId = req.body.paperId;
 
-  UsersPapers.find({phoneNumber:link.phoneNumber,paperName:link.paperName},(err,links)=>{
+  UsersPapers.find({phoneNumber:link.phoneNumber,paperName:link.paperName,paperId:link.paperId},(err,links)=>{
     if(!links.length){
       link.save((err)=>{
         if(!err){
