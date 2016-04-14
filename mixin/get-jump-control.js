@@ -15,7 +15,7 @@ function jumpControl(data) {
       'start.html',
       'dashboard.html'
     ],
-    targetPath: '/register.html',
+    targetPath: '/join',
     condition: !isLoged
   }, {
     originPath: [
@@ -50,11 +50,11 @@ function jumpControl(data) {
     originPath: [
       'user-center.html'
     ],
-    targetPath: 'register.html',
+    targetPath: 'join',
     condition: !(isLoged || isThirdParty)
   }, {
     originPath: [
-      'register.html'
+      'join'
     ],
     targetPath: 'dashboard.html',
     condition: isLoged
