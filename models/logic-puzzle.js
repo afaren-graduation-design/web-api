@@ -10,7 +10,6 @@ var Schema = mongoose.Schema;
 
 var logicPuzzleSchema = new Schema({
   userId: Number,
-  startTime: Number,
   quizItems: [{
     id: Number,
     question: String,
@@ -27,10 +26,14 @@ var logicPuzzleSchema = new Schema({
     chartPath: String,
     initializedBox: String
   }],
+  sections:[{
+    sectionId: Number,
+    startTime: Number,
+    endTime: Number
+  }],
   blankQuizId: Number,
   paperId: Number,
-  isCommited: Boolean,
-  endTime: Number
+  isCommited: Boolean
 });
 
 logicPuzzleSchema.statics.isPaperCommited = function (userId, callback) {
