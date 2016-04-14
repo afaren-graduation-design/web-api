@@ -10,7 +10,7 @@ var async = require('async');
 router.get('/remain-time', function (req, res) {
   var TOTAL_TIME = _timeBase * constant.time.SECONDS_PER_MINUTE;
   var userId = req.session.user ? req.session.user.id : 'invalid';
-  var sectionId = req.query.sectionId;
+  var sectionId = req.query.sectionId || 1;
   var startTime;
   var thisSection;
 
