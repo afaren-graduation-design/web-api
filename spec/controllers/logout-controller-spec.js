@@ -32,7 +32,7 @@ describe('LogoutController', function () {
         }
       }, {
         redirect: function (data) {
-          expect(data).toEqual('/register.html');
+          expect(data).toEqual('/join');
           done();
         }
       });
