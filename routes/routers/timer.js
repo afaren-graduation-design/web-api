@@ -10,7 +10,7 @@ var async = require('async');
 router.get('/remain-time', function (req, res) {
   var TOTAL_TIME = _timeBase * constant.time.SECONDS_PER_MINUTE;
   var userId = req.session.user ? req.session.user.id : 'invalid';
-  var sectionId = req.query.sectionId || '1';
+  var sectionId = req.query.sectionId ? parseInt(req.query.sectionId) : 1;
   var startTime;
   var thisSection;
 
@@ -36,7 +36,7 @@ router.get('/remain-time', function (req, res) {
       } else if(logicPuzzle && logicPuzzle.sections.length !== 0){
 
         thisSection = logicPuzzle.sections.find((section)=>{
-          return section.sectionId === parseInt(sectionId);
+          return section.sectionId === sectionId;
         });
 
         if(thisSection){
