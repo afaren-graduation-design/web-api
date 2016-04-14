@@ -1,6 +1,6 @@
 default:
   port: 3000
-  database: 'mongodb://mongodb/twars'
+  database: 'mongodb://mongo/twars'
   paperApiServer: 'http://jetty-api:8080/paper-api/'
   userApiServer: 'http://user-api:8080/user-api/'
   appServer: 'http://node-app:3000/'
@@ -19,7 +19,7 @@ development:
 production:
   staticFileServer: '/fs/'
 test:
-  database: 'mongodb://mongodb/twars'
+  database: 'mongodb://mongo/twars'
   apiServer: 'http://jetty-api:8080/paper-api/'
   appServer: 'http://node-app:3000/'
   taskServer: 'http://node-task-queue:4000/'
