@@ -76,10 +76,10 @@ LogicPuzzleController.prototype.submitPaper = (req, res) => {
       LogicPuzzleController.setScoreSheet(data,startTime,endTime,done);
     }
   ], (err) => {
-    if (!err) {
-      res.sendStatus(constant.httpCode.OK);
+    if (err) {
+      res.status(constant.httpCode.INTERNAL_SERVER_ERROR).send(err.stack);
     } else {
-      res.sendStatus(constant.httpCode.INTERNAL_SERVER_ERROR);
+      res.sendStatus(constant.httpCode.OK);
     }
   });
 
