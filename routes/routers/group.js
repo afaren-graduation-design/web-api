@@ -10,4 +10,6 @@ router.get('/', groupController.loadGroup);
 
 router.get('/info',groupController.getGroupInfo);
 
+router.post('/create', groupController.createGroup);
+
 module.exports = router;

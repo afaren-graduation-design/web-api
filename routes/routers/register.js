@@ -74,6 +74,7 @@ router.post('/', function (req, res) {
         if (data.body.id && data.headers) {
           req.session.user = {
             id: data.body.id,
+            role: data.body.role,
             userInfo: data.body.userInfo,
             token: data.headers.token
           };

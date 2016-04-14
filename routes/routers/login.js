@@ -45,13 +45,16 @@ router.post('/', function (req, res) {
     password = md5(password);
 
     apiRequest.post('login', {email: account, password: password}, function (err, result) {
+
       if (!result) {
         res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
         return;
       }
       if (result.body.id && result.headers) {
+
         req.session.user = {
           id: result.body.id,
+          role: result.body.role,
           userInfo: result.body.userInfo,
           token: result.headers.token
         };
