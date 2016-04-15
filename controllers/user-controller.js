@@ -317,6 +317,9 @@ UserController.prototype.gitHubCallback = (req, res) => {
       });
     },
     (data, done) => {
+      apiRequest.post('register/auth/github', data, done);
+    },
+    (data, done) => {
       console.log(data);
     }
   ])
