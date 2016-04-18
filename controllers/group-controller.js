@@ -8,35 +8,76 @@ function GroupController() {
 
 }
 
-GroupController.prototype.getGroupInfo = (req, res) => {
-  var groupId = req.query.groupId;
-  userApiRequest.get('groups/' + groupId, (err, data) => {
+GroupController.prototype.getGroupInfo = (req, res, next) => {
+
+  var groupHash = req.query.groupId;
+  var groupId;
+
+  async.waterfall([
+    (done)=> {
+      group.findOne({_id: groupHash}, done);
+
+    }, (data, done)=> {
+      groupId = data.groupId;
+      userApiRequest.get('groups/' + groupId, done);
+
+    }], (err, data)=> {
+
     if (err) {
-      res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
-      res.send({status: constant.httpCode.INTERNAL_SERVER_ERROR, message: err.message});
+      return next(err);
     } else {
       res.send(data.body);
     }
   });
 };
 
-GroupController.prototype.loadGroup = (req, res)=> {
+
+function findGroupHashByGroupId(groupList, groupId) {
+  return groupList.find((item)=> {
+    return item.groupId === groupId;
+  })._id;
+}
+
+GroupController.prototype.loadGroup = (req, res, next)=> {
   var userId = req.session.user.id;
   var role = req.session.user.role;
   var groupUrl = 'users/' + userId + '/groups';
+  var newGroupList;
 
-  userApiRequest.get(groupUrl, function (err, resp) {
-    if (resp === undefined) {
+  async.waterfall([
+    (done)=> {
+      userApiRequest.get(groupUrl, done);
+    }, (resp, done)=> {
+      if (resp.status === constant.httpCode.OK) {
+        var groupList;
+
+        group.find({}, (err, data)=> {
+          groupList = data;
+          newGroupList = resp.body.map((item)=> {
+            var groupId = item.id;
+            var groupHash = findGroupHashByGroupId(groupList, groupId);
+            return Object.assign({}, item, {groupHash: groupHash});
+          });
+          done(null, resp);
+        });
+      } else {
+        done(null, resp);
+      }
+    }
+  ], (err, data)=> {
+    if (err) return next(err);
+
+    if (data === undefined) {
       res.send({
         status: constant.httpCode.INTERNAL_SERVER_ERROR
       })
-    } else if (resp.status === constant.httpCode.OK) {
+    } else if (data.status === constant.httpCode.OK) {
       res.send({
         status: constant.httpCode.OK,
-        groups: resp.body,
+        groups: newGroupList,
         role: role
       });
-    } else if (resp.status === constant.httpCode.NOT_FOUND) {
+    } else if (data.status === constant.httpCode.NOT_FOUND) {
       res.send({
         status: constant.httpCode.NOT_FOUND,
         role: role
@@ -47,7 +88,9 @@ GroupController.prototype.loadGroup = (req, res)=> {
         status: constant.httpCode.INTERNAL_SERVER_ERROR
       });
     }
+
   });
+
 };
 
 GroupController.prototype.createGroup = (req, res, next) => {
@@ -55,7 +98,7 @@ GroupController.prototype.createGroup = (req, res, next) => {
   var demo = new group({groupId: null});
 
   demo.save((err) => {
-    if(err) return next(err);
+    if (err) return next(err);
     res.send({groupHash: demo._id});
   });
 };
@@ -74,16 +117,16 @@ GroupController.prototype.updateGroupInfo = function (req, res, next) {
     (done) => {
       userApiRequest.post('groups', groupInfo, done);
     },
-    (res,done) => {
+    (res, done) => {
       groupId = res.body.uri.split('/')[2];
-      group.findOne({_id: req.body.groupHash},done)
+      group.findOne({_id: req.body.groupHash}, done)
     },
     (data, done) => {
       data.groupId = groupId;
       data.save(done)
     }
-  ], (err) =>{
-    if(err) return next(err);
+  ], (err) => {
+    if (err) return next(err);
     res.send({status: constant.httpCode.OK});
   });
 
