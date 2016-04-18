@@ -9,5 +9,4 @@ var userController = new UserController();
 router.get('/:userId/homework-details', userController.exportHomeworkDetails);
 router.get('/feedback-result', userController.getFeedback);
 
-
 module.exports = router;
