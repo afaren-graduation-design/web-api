@@ -15,7 +15,6 @@ function AuthController() {
 }
 
 AuthController.prototype.loginWithGitHub = (req, res)=> {
-  console.log('111');
   var authUrl = 'https://github.com/login/oauth/authorize?' +
       'client_id=' + clientId +
       '&redirect_uri=' + redirectUri +
