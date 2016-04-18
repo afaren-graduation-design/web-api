@@ -17,8 +17,7 @@ function getDesc(status, realDesc) {
   }
 }
 
-function HomeworkController() {
-}
+function HomeworkController() {}
 
 HomeworkController.prototype.getList = (req, res, next) => {
 

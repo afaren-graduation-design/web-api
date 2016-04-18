@@ -1,0 +1,10 @@
+[
+  {
+    "userId": 1,
+    "paperId": 2,
+    "quizzes": [{
+      "id": 3,
+      "uri": "homework/quizzes"
+    }]
+  }
+]

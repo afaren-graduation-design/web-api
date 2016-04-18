@@ -3,10 +3,7 @@ var UsersPapers = require('../models/users-papers');
 var constant = require('../mixin/constant');
 var apiRequest = require('../services/api-request');
 
-
-function UsersPapersController () {
-
-}
+function UsersPapersController () {}
 
 UsersPapersController.prototype.getLinks = (req, res) => {
   UsersPapers.find({},(err,links)=>{
