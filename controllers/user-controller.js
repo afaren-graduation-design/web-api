@@ -273,57 +273,6 @@ UserController.prototype.getFeedback = (req, res)=> {
   });
 };
 
-UserController.prototype.loginWithGitHub = (req, res)=> {
-  var authUrl = 'https://github.com/login/oauth/authorize?' +
-    'client_id=' + clientId +
-    '&redirect_uri=' + redirectUri +
-    '&scope=' + scope +
-    '&state' + state;
-  res.redirect(authUrl);
-};
-
-UserController.prototype.gitHubCallback = (req, res) => {
-  async.waterfall([
-    (done) => {
-      request.post('https://github.com/login/oauth/access_token')
-        .set('Content-Type', 'application/json')
-        .send({
-          "client_id": clientId,
-          "client_secret": clientSecret,
-          "code": req.query.code,
-          "redirect_uri": redirectUri
-        })
-        .end(function(err, response) {
-          done(err, response.body.access_token);
-        });
-    },
-    (data, done) => {
-      request
-        .get('https://api.github.com/user?access_token=' + data)
-        .set('Content-Type', 'application/json')
-        .end(function(error, resp) {
-          done(error, resp);
-        });
-    },
-    (data, done) => {
-      var userData = {
-        email: '',
-        mobilePhone: '',
-        password: ''
-      };
-      apiRequest.post('register', userData, function(err, res) {
-        var result = {userId: res.body.id, thirdPartyId: data.body.id};
-        done(err, result);
-      });
-    },
-    (data, done) => {
-      apiRequest.post('register/auth/github', data, done);
-    },
-    (data, done) => {
-      console.log(data);
-    }
-  ])
-};
 
 module.exports = UserController;
 
