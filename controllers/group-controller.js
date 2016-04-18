@@ -38,7 +38,8 @@ GroupController.prototype.loadGroup = (req, res)=> {
       });
     } else if (resp.status === constant.httpCode.NOT_FOUND) {
       res.send({
-        status: constant.httpCode.NOT_FOUND
+        status: constant.httpCode.NOT_FOUND,
+        role: role
       });
     } else {
       res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
