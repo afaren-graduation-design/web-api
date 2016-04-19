@@ -2,7 +2,6 @@
 
 var express = require('express');
 var router = express.Router();
-var request = require('superagent');
 var constant = require('../../mixin/constant').backConstant;
 var lang = require('../../mixin/lang-message/chinese');
 var md5 = require('js-md5');
@@ -55,8 +54,7 @@ router.post('/', function (req, res) {
         req.session.user = {
           id: result.body.id,
           role: result.body.role,
-          userInfo: result.body.userInfo,
-          token: result.headers.token
+          userInfo: result.body.userInfo
         };
       }
       res.send({

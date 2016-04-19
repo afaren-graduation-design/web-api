@@ -75,8 +75,7 @@ router.post('/', function (req, res) {
           req.session.user = {
             id: data.body.id,
             role: data.body.role,
-            userInfo: data.body.userInfo,
-            token: data.headers.token
+            userInfo: data.body.userInfo
           };
         }
         done(null, data);
