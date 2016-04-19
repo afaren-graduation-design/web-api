@@ -3,7 +3,7 @@ var apiRequest = require('../services/api-request');
 var async = require('async');
 var request = require('superagent');
 var constant = require('../mixin/constant');
-var page = require('page');
+var md5 = require('js-md5');
 
 var clientId = 'ce0a67bb236aaabe4cd6';
 var clientSecret = '0e294a6b832bd6365f5186502a794116730bc092';
@@ -26,6 +26,13 @@ AuthController.prototype.loginWithGitHub = (req, res)=> {
 
 AuthController.prototype.gitHubCallback = (req, res, next) => {
   var githubUserId;
+  var userData = {
+    email: '',
+    mobilePhone: '',
+    password: ''
+  };
+  userData.password = md5(userData.password);
+
   async.waterfall([
     (done) => {
       request.post('https://github.com/login/oauth/access_token')
@@ -56,11 +63,6 @@ AuthController.prototype.gitHubCallback = (req, res, next) => {
     },
     (err, done) => {
       if(err.status === constant.httpCode.NOT_FOUND) {
-        var userData = {
-          email: '',
-          mobilePhone: '',
-          password: ''
-        };
         apiRequest.post('register', userData, function(err, res) {
           var result = {userId: res.body.id, thirdPartyUserId: githubUserId};
           done(err, result);
@@ -74,9 +76,16 @@ AuthController.prototype.gitHubCallback = (req, res, next) => {
     }
   ], function (err) {
     if(err && err !== true) {
-      next(err.stack);
+      next(err);
     }else {
-      res.redirect('/user-center');
+      apiRequest.post('login', {email: userData.email, password: userData.password}, function(err, data) {
+        req.session.user = {
+          id:data.body.id,
+          role: data.body.role,
+          userInfo: data.body.userInfo
+        };
+        res.redirect('/user-center');
+      });
     }
   })
 };
