@@ -88,9 +88,7 @@ GroupController.prototype.loadGroup = (req, res, next)=> {
         status: constant.httpCode.INTERNAL_SERVER_ERROR
       });
     }
-
   });
-
 };
 
 GroupController.prototype.createGroup = (req, res, next) => {
@@ -104,33 +102,23 @@ GroupController.prototype.createGroup = (req, res, next) => {
 };
 
 GroupController.prototype.updateGroupInfo = function (req, res, next) {
-  var userId = req.session.user.id;
-  var groupId;
-  var groupInfo = {
-    name: req.body.name,
-    avatar: req.body.avatar,
-    adminId: userId,
-    announcement: req.body.announcement,
-    isAnnouncePublished: req.body.isAnnouncePublished
-  };
+  var groupHash = req.params.groupHash;
+
   async.waterfall([
     (done) => {
-      userApiRequest.post('groups', groupInfo, done);
-    },
-    (res, done) => {
-      groupId = res.body.uri.split('/')[2];
-      group.findOne({_id: req.body.groupHash}, done)
+      group.findOne({_id: groupHash}, done)
     },
     (data, done) => {
-      data.groupId = groupId;
-      data.save(done)
+
+      var groupId = data.groupId;
+      var url = 'groups/' + groupId;
+
+      userApiRequest.put(url, req.body, done);
     }
-  ], (err) => {
+  ], (err, data) => {
     if (err) return next(err);
-    res.send({status: constant.httpCode.OK});
+    res.send({status: data.body.status});
   });
-
-
 };
 
 module.exports = GroupController;

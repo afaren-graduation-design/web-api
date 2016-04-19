@@ -15,7 +15,7 @@ router.get('/info', groupController.getGroupInfo);
 
 router.post('/', groupController.createGroup);
 
-router.put('/', groupController.updateGroupInfo);
+router.put('/:groupHash', groupController.updateGroupInfo);
 
 router.post('/:groupHash/paper', paperController.operatePaper);
 
