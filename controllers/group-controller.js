@@ -9,8 +9,7 @@ function GroupController() {
 }
 
 GroupController.prototype.getGroupInfo = (req, res, next) => {
-
-  var groupHash = req.query.groupId;
+  var groupHash = req.params.groupHash;
   var groupId;
 
   async.waterfall([
@@ -32,7 +31,7 @@ GroupController.prototype.getGroupInfo = (req, res, next) => {
 };
 
 
-function findGroupHashByGroupId(groupList, groupId) {
+function getGroupHashByGroupId(groupList, groupId) {
   return groupList.find((item)=> {
     return item.groupId === groupId;
   })._id;
@@ -55,7 +54,7 @@ GroupController.prototype.loadGroup = (req, res, next)=> {
           groupList = data;
           newGroupList = resp.body.map((item)=> {
             var groupId = item.id;
-            var groupHash = findGroupHashByGroupId(groupList, groupId);
+            var groupHash = getGroupHashByGroupId(groupList, groupId);
             return Object.assign({}, item, {groupHash: groupHash});
           });
           done(null, resp);
@@ -67,27 +66,21 @@ GroupController.prototype.loadGroup = (req, res, next)=> {
   ], (err, data)=> {
     if (err) return next(err);
 
-    if (data === undefined) {
-      res.send({
-        status: constant.httpCode.INTERNAL_SERVER_ERROR
-      })
-    } else if (data.status === constant.httpCode.OK) {
+    if (data.status === constant.httpCode.OK) {
       res.send({
         status: constant.httpCode.OK,
         groups: newGroupList,
         role: role
       });
-    } else if (data.status === constant.httpCode.NOT_FOUND) {
+    }
+
+    if (data.status === constant.httpCode.NOT_FOUND) {
       res.send({
         status: constant.httpCode.NOT_FOUND,
         role: role
       });
-    } else {
-      res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
-      res.send({
-        status: constant.httpCode.INTERNAL_SERVER_ERROR
-      });
     }
+
   });
 };
 

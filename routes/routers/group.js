@@ -11,7 +11,7 @@ var paperController = new PaperController();
 
 router.get('/', groupController.loadGroup);
 
-router.get('/info', groupController.getGroupInfo);
+router.get('/info/:groupHash', groupController.getGroupInfo);
 
 router.post('/', groupController.createGroup);
 
