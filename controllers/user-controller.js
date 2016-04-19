@@ -18,12 +18,6 @@ var dayToSecond = second * mintues * hour;
 var hourToSecond = second * mintues;
 var mintuesToSecond = mintues;
 
-var clientId = 'ce0a67bb236aaabe4cd6';
-var clientSecret = '0e294a6b832bd6365f5186502a794116730bc092';
-var redirectUri = 'http://192.168.99.100:8888/api/user/auth/github/callback';
-var scope = '';
-var state = Math.random();
-
 function UserController() {
 
 }
