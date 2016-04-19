@@ -3,12 +3,12 @@
 var express = require('express');
 var router = express.Router();
 
-var UsersPapersController = require('../../controllers/users-papers-controller');
-var usersPapersController = new UsersPapersController();
+var PaperAssignmentController = require('../../controllers/paper-assignment-controller');
+var paperAssignmentController = new PaperAssignmentController();
 
-router.post('/', usersPapersController.addLink);
-router.get('/', usersPapersController.getLinks);
-router.delete('/', usersPapersController.removeLink);
-router.get('/papers',usersPapersController.getPaperName);
+router.post('/', paperAssignmentController.addLink);
+router.get('/', paperAssignmentController.getLinks);
+router.delete('/', paperAssignmentController.removeLink);
+router.get('/papers',paperAssignmentController.getPaperName);
 
 module.exports = router;

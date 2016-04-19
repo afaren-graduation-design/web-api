@@ -3,10 +3,10 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var usersPapersSchema = new Schema({
+var paperAssignmentSchema = new Schema({
   phoneNumber: String,
   paperName: String,
   paperId: Number
 });
 
-module.exports = mongoose.model('UsersPapers', usersPapersSchema);
+module.exports = mongoose.model('PaperAssignment', paperAssignmentSchema);
