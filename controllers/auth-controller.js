@@ -3,6 +3,7 @@ var apiRequest = require('../services/api-request');
 var async = require('async');
 var request = require('superagent');
 var constant = require('../mixin/constant');
+var page = require('page');
 
 var clientId = 'ce0a67bb236aaabe4cd6';
 var clientSecret = '0e294a6b832bd6365f5186502a794116730bc092';
@@ -75,7 +76,7 @@ AuthController.prototype.gitHubCallback = (req, res, next) => {
     if(err && err !== true) {
       next(err.stack);
     }else {
-     res.send({statusCode:constant.httpCode.OK});
+      res.redirect('/user-center');
     }
   })
 };
