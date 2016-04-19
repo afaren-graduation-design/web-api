@@ -21,4 +21,5 @@ exports.setRoutes = function (app) {
   app.use('/group', require('./routers/group'));
   app.use('/paper-assignment', require('./routers/paper-assignment'));
   app.use('/auth', require('./routers/auth'));
+  app.use('/qa', require('./routers/qa'));
 };

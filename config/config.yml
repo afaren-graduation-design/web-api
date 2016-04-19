@@ -11,6 +11,7 @@ default:
   emailAccount: 'twarss@163.com'
   emailPassword: 'ssww123456'
   gitHubToken: 'Basic dHdhcnM6c3cxMjM0NTY3OA=='
+  QAInfoAddress: 'https://raw.githubusercontent.com/dreamhead/moco/master/moco-doc/apis.md'
 development:
   database: 'mongodb://192.168.99.100/twars'
   apiServer: 'http://192.168.99.100:8080/paper-api/'
