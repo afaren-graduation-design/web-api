@@ -16,9 +16,9 @@ router.get('/remain-time', function (req, res) {
 
   async.waterfall([
     (done) => {
-      if(userId === 'invalid'){
+      if (userId === 'invalid') {
         done(true);
-      }else {
+      } else {
         logicPuzzle.findOne({userId: userId}, done);
       }
     },
@@ -32,15 +32,17 @@ router.get('/remain-time', function (req, res) {
           sectionId: sectionId
         });
 
-        logicPuzzle.save(done);
-      } else if(logicPuzzle && logicPuzzle.sections.length !== 0){
+        logicPuzzle.save((err, doc) => {
+          done(err, doc);
+        });
+      } else if (logicPuzzle && logicPuzzle.sections.length !== 0) {
 
-        thisSection = logicPuzzle.sections.find((section)=>{
+        thisSection = logicPuzzle.sections.find((section)=> {
           return section.sectionId === sectionId;
         });
 
-        if(thisSection){
-          done(null, logicPuzzle, true);
+        if (thisSection) {
+          done(null, logicPuzzle);
         } else {
           startTime = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
 
@@ -49,13 +51,15 @@ router.get('/remain-time', function (req, res) {
             sectionId: sectionId
           });
 
-          logicPuzzle.save(done);
+          logicPuzzle.save((err, doc) => {
+            done(err, doc);
+          });
         }
       } else {
-        done(null, logicPuzzle, true);
+        done(null, logicPuzzle);
       }
     },
-    (logicPuzzle, affectNum, done) => {
+    (logicPuzzle, done) => {
       var now = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
       var usedTime = now - (startTime || thisSection.startTime);
 
@@ -64,7 +68,7 @@ router.get('/remain-time', function (req, res) {
   ], (err, remainTime) => {
     if (err) {
       res.sendStatus(constant.httpCode.INTERNAL_SERVER_ERROR);
-    }else {
+    } else {
       res.send({
         remainTime: remainTime
       });
