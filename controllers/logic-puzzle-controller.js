@@ -73,7 +73,13 @@ LogicPuzzleController.prototype.submitPaper = (req, res) => {
       });
     },
     (data, done) => {
-      LogicPuzzleController.setScoreSheet(data,startTime,endTime,done);
+      var scoreSheetData = {
+        data: data,
+        startTime: startTime,
+        endTime: endTime
+      };
+
+      LogicPuzzleController.setScoreSheet(scoreSheetData,done);
     }
   ], (err) => {
     if (err) {
@@ -85,9 +91,10 @@ LogicPuzzleController.prototype.submitPaper = (req, res) => {
 
 };
 
-LogicPuzzleController.setScoreSheet = (data,startTime,endTime, done) => {
+LogicPuzzleController.setScoreSheet = (scoreSheetData, done) => {
   var scoreSheetUri = 'scoresheets';
   var itemPosts = [];
+  var data = scoreSheetData.data;
 
   data.quizItems.forEach((quizItem) => {
     itemPosts.push({answer: quizItem.userAnswer, quizItemId: quizItem.id});
@@ -97,8 +104,8 @@ LogicPuzzleController.setScoreSheet = (data,startTime,endTime, done) => {
     examerId: data.userId,
     paperId: data.paperId,
     blankQuizSubmits: [{
-      startTime: startTime,
-      endTime: endTime,
+      startTime: scoreSheetData.startTime,
+      endTime: scoreSheetData.endTime,
       blankQuizId: data.blankQuizId,
       itemPosts: itemPosts
     }]
