@@ -42,6 +42,7 @@
   "dependencies": {
     "async": "^1.5.1",
     "body-parser": "^1.14.1",
+    "captcha": "0.0.4",
     "connect-mongo": "^1.1.0",
     "cookie-parser": "^1.4.0",
     "ejs": "^2.4.1",
