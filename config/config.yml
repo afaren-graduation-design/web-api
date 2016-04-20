@@ -2,11 +2,8 @@ default:
   port: 3000
   database: 'mongodb://mongo/twars'
   paperApiServer: 'http://paper-api:8080/paper-api/'
-<<<<<<< Updated upstream
   userApiServer: 'http://user-api:8080/user-api/'
-=======
   userApiServer: 'http://user-api:8888/user-api'
->>>>>>> Stashed changes
   appServer: 'http://web-api:3000/'
   taskServer: 'http://task-queue:4000/'
   sessionTtl: 3600 # 60(MINUTE_PER_HOUR) * 60(SECONDS_PER_MINUTE)
@@ -21,13 +18,10 @@ development:
   paperApiServer: 'http://192.168.99.100:8080/paper-api/'
   appServer: 'http://192.168.99.100:3000/'
   taskServer: 'http://192.168.99.100:4000/'
-<<<<<<< Updated upstream
 integration:
   paperApiServer: 'http://localhost:12306/'
   database: 'mongodb://192.168.99.100/twars'
-=======
 test:
   staticFileServer: 'http://192.168.99.100:8888/fs/'
->>>>>>> Stashed changes
 production:
   staticFileServer: '/fs/'
