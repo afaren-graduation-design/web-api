@@ -7,7 +7,7 @@ function startServer(config, done) {
   var script = "java -jar spec/support/moco-runner-0.10.2-standalone.jar http -p 12306 -c spec/support/mock-api/api.json -s 9527";
   var child = shelljs.exec(script, {
     async: true,
-    silent:false
+    silent:true
   });
 
   stdout = child.stdout
@@ -23,7 +23,7 @@ function startServer(config, done) {
 }
 
 function stopServer(done) {
-  shelljs.exec("java -jar moco-runner-0.10.2-standalone.jar shutdown -s 9527");
+  shelljs.exec("java -jar spec/support/moco-runner-0.10.2-standalone.jar shutdown -s 9527");
   stdout.on('data', function(data) {
     if(data.indexOf("Server stopped") > -1) {
       'function' === typeof done && done()
