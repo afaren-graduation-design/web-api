@@ -11,7 +11,7 @@ var md5 = require('js-md5');
 var constraint = require('../../mixin/register-constraint');
 var httpStatus = require('../../mixin/constant').httpCode;
 var apiRequest = require('../../services/api-request');
-var openRegister = require('../../models/openRegister');
+var openRegister = require('../../models/closeRegister');
 
 function checkRegisterInfo(registerInfo) {
   var pass = true;
@@ -145,7 +145,7 @@ router.get('/validate-email', function (req, res) {
   });
 });
 
-router.get('/open-register', function (req, res, next) {
+router.get('/close-register', function (req, res, next) {
 
   async.waterfall([
     (done)=> {
@@ -153,8 +153,8 @@ router.get('/open-register', function (req, res, next) {
     }], (err, data)=> {
     if (err) return next(err);
     res.send({
-      isOpenRegister: data.isOpenRegister,
-      status: constant.httpCode.OK
+      isCloseRegister: data.isCloseRegister,
+      status: constant.OK
     })
   })
 });
