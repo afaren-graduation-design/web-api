@@ -39,12 +39,23 @@ router.post('/', function (req, res) {
   var result = {};
   result.data = {};
 
+
   if (checkRegisterInfo(registerInfo)) {
-    var isMobilePhoneExist;
-    var isEmailExist;
+    var isMobilePhoneExist = false;
+    var isEmailExist = false;
+    var isCaptchaError = false;
+
 
     async.waterfall([
       (done)=> {
+        if (registerInfo.captcha !== req.session.captcha) {
+          isCaptchaError = true;
+          done(true, null);
+        } else {
+          done(null, null);
+        }
+      },
+      (data, done)=> {
         apiRequest.get('users', {field: 'mobilePhone', value: registerInfo.mobilePhone}, function (err, resp) {
           if (resp.body.uri) {
             isMobilePhoneExist = true;
@@ -65,6 +76,7 @@ router.post('/', function (req, res) {
         });
       },
       (data, done)=> {
+        delete registerInfo.captcha;
         registerInfo.password = md5(registerInfo.password);
         apiRequest.post('register', registerInfo, done);
       },
@@ -88,7 +100,8 @@ router.post('/', function (req, res) {
           message: lang.EXIST,
           data: {
             isEmailExist: isEmailExist,
-            isMobilePhoneExist: isMobilePhoneExist
+            isMobilePhoneExist: isMobilePhoneExist,
+            isCaptchaError: isCaptchaError
           }
         });
       } else if (!err) {
