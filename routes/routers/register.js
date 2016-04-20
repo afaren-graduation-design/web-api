@@ -11,6 +11,7 @@ var md5 = require('js-md5');
 var constraint = require('../../mixin/register-constraint');
 var httpStatus = require('../../mixin/constant').httpCode;
 var apiRequest = require('../../services/api-request');
+var openRegister = require('../../models/openRegister');
 
 function checkRegisterInfo(registerInfo) {
   var pass = true;
@@ -27,7 +28,7 @@ function checkRegisterInfo(registerInfo) {
   }
 
   if (registerInfo.password.length < constant.PASSWORD_MIN_LENGTH ||
-      registerInfo.password.length > constant.PASSWORD_MAX_LENGTH) {
+    registerInfo.password.length > constant.PASSWORD_MAX_LENGTH) {
     pass = false;
   }
   return pass;
@@ -68,7 +69,7 @@ router.post('/', function (req, res) {
         apiRequest.post('register', registerInfo, done);
       },
       (data, done)=> {
-        apiRequest.post('login',{email:registerInfo.email,password:registerInfo.password},done);
+        apiRequest.post('login', {email: registerInfo.email, password: registerInfo.password}, done);
       },
       (data, done)=> {
         if (data.body.id && data.headers) {
@@ -80,7 +81,7 @@ router.post('/', function (req, res) {
         }
         done(null, data);
       }
-    ], (err,data) => {
+    ], (err, data) => {
       if (err === true) {
         res.send({
           status: constant.FAILING_STATUS,
@@ -108,7 +109,7 @@ router.post('/', function (req, res) {
 
 router.get('/validate-mobile-phone', function (req, res) {
   apiRequest.get('users', {field: 'mobilePhone', value: req.query.mobilePhone}, function (err, result) {
-    if(!result){
+    if (!result) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR);
       res.send();
       return;
@@ -127,7 +128,7 @@ router.get('/validate-mobile-phone', function (req, res) {
 
 router.get('/validate-email', function (req, res) {
   apiRequest.get('users', {field: 'email', value: req.query.email}, function (err, result) {
-    if(!result){
+    if (!result) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR);
       res.send();
       return;
@@ -142,5 +143,19 @@ router.get('/validate-email', function (req, res) {
       });
     }
   });
+});
+
+router.get('/open-register', function (req, res, next) {
+
+  async.waterfall([
+    (done)=> {
+      openRegister.findOne({}, done);
+    }], (err, data)=> {
+    if (err) return next(err);
+    res.send({
+      isOpenRegister: data.isOpenRegister,
+      status: constant.httpCode.OK
+    })
+  })
 });
 module.exports = router;
