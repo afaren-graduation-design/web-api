@@ -161,7 +161,7 @@ HomeworkController.prototype.getQuiz = (req, res, next) => {
     }
   ], (err, data) => {
     if (err) {
-      return next(req, res, err);
+      return next(err);
     }
     res.send({
       status: constant.httpCode.OK,

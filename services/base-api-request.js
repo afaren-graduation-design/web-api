@@ -3,6 +3,7 @@
 var superAgent = require('superagent');
 
 function baseApiRequest(apiServer) {
+  console.log(apiServer);
   var method = {
     get: function (url, query, callback) {
 
