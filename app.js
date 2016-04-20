@@ -38,7 +38,15 @@ app.use(sessionCheck);
 
 route.setRoutes(app);
 
-app.all('*', errRequestHandler);
+app.use(function(req, res, next) {
+  res.status(404).send("Not Found!");
+})
+
+app.use(function(err, req, res, next) {
+  if(err) {
+    res.status(500).send(err.stack);
+  }
+})
 
 app.listen(config.port, function () {
   console.log('Current environment is: ' + env);
