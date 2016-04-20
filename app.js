@@ -17,9 +17,7 @@ var yamlConfig = require('node-yaml-config');
 
 var config = yamlConfig.load(__dirname + '/config/config.yml');
 
-var env = ['production', 'test', 'staging'].indexOf(process.env.NODE_ENV) < 0 ? 'development' : process.env.NODE_ENV;
-
-
+var env = ['production', 'test', 'staging', 'integration'].indexOf(process.env.NODE_ENV) < 0 ? 'development' : process.env.NODE_ENV;
 
 app.use(cookieParser());
 app.use(session({

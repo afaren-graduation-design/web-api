@@ -4,7 +4,8 @@
   "description": "ThoughtWorks Academy Recruiting System",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/jasmine",
+    "test": "export NODE_ENV=integration && ./node_modules/.bin/jasmine",
+    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/jasmine",
     "it": "export NODE_ENV=test  && cd integration-test && jasmine",
     "eslint": "eslint .",
     "start": "nodemon app.js"

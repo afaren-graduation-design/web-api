@@ -18,7 +18,7 @@ function baseApiRequest(apiServer) {
     },
 
     post: function (url, body, callback) {
-
+console.log(apiServer + url);
       superAgent.post(apiServer + url)
           .set('Content-Type', 'application/json')
           .send(body)

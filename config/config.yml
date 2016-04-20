@@ -17,5 +17,8 @@ development:
   apiServer: 'http://192.168.99.100:8080/paper-api/'
   appServer: 'http://192.168.99.100:3000/'
   taskServer: 'http://192.168.99.100:4000/'
+integration:
+  paperApiServer: 'http://localhost:12306/'
+  database: 'mongodb://192.168.99.100/twars'
 production:
   staticFileServer: '/fs/'
