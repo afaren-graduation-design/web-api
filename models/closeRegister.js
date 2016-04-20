@@ -9,8 +9,6 @@ var closeRegisterSchema = new Schema({
 
 var closeRegister = mongoose.model('closeRegister', closeRegisterSchema);
 closeRegister.findOneAndUpdate({isCloseRegister: false},{isCloseRegister: false},
-  {upsert: true},function(err,numberAffected, raw){
-  console.log(err, numberAffected, raw);
-});
+  {upsert: true},function(err,numberAffected, raw){});
 
 module.exports = closeRegister;
