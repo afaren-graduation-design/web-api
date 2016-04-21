@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 var userChannelSchema = new Schema({
   userId: Number,
-  channelId: String
+  channelId: {type: Schema.Types.ObjectId, ref: 'channel' }
 });
 
 module.exports = mongoose.model('userChannel',userChannelSchema);
