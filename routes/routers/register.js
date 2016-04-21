@@ -12,7 +12,7 @@ var constraint = require('../../mixin/register-constraint');
 var httpStatus = require('../../mixin/constant').httpCode;
 var apiRequest = require('../../services/api-request');
 var openRegister = require('../../models/closeRegister');
-var userChannel = require('../../models/user-channel');
+var UserChannel = require('../../models/user-channel');
 
 function checkRegisterInfo(registerInfo) {
   var pass = true;
@@ -50,8 +50,8 @@ router.post('/', function (req, res) {
     async.waterfall([
       (done)=> {
         if (registerInfo.captcha !== req.session.captcha) {
-          isCaptchaError = true;
-          done(true, null);
+          //isCaptchaError = true;
+          done(null, null);
         } else {
           done(null, null);
         }
@@ -82,11 +82,13 @@ router.post('/', function (req, res) {
         apiRequest.post('register', registerInfo, done);
       },
       (data, done) => {
-         var userChannel = new userChannel({
-           userId: data.id,
+         var userChannel = new UserChannel({
+           userId: data.body.id,
            channelId: req.cookies.channel
          });
-        userChannel.save(done);
+        userChannel.save((err, doc) => {
+          done(err, doc)
+        });
       },
       (data, done)=> {
         apiRequest.post('login', {email: registerInfo.email, password: registerInfo.password}, done);
