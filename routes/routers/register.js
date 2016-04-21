@@ -12,6 +12,8 @@ var constraint = require('../../mixin/register-constraint');
 var httpStatus = require('../../mixin/constant').httpCode;
 var apiRequest = require('../../services/api-request');
 var configuration = require('../../models/configuration');
+var UserChannel = require('../../models/user-channel');
+var mongoose = require('mongoose');
 
 function checkRegisterInfo(registerInfo) {
   var pass = true;
@@ -87,6 +89,15 @@ router.post('/', function (req, res) {
           registerInfo.password = md5(registerInfo.password);
           apiRequest.post('register', registerInfo, done);
         },
+          (data, done) => {
+          var userChannel = new UserChannel({
+          userId: data.body.id,
+          channelId: new mongoose.Types.ObjectId(req.cookies.channel)
+        });
+          userChannel.save((err, doc) => {
+          done(err, doc)
+        });
+        },
         (data, done)=> {
           apiRequest.post('login', {email: registerInfo.email, password: registerInfo.password}, done);
         },
@@ -109,6 +120,7 @@ router.post('/', function (req, res) {
             registerable: data.registerable
           });
         }
+
       },
       (err, data) => {
         if (err === true) {
