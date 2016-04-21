@@ -10,8 +10,8 @@ exports.setRoutes = function (app) {
   app.use('/logout', require('./routers/logout'));
   app.use('/timer', require('./routers/timer'));
   app.use('/user-initialization', require('./routers/user-initialization'));
-  app.use('/homework',require('./routers/homework'));
-  app.use('/password',require('./routers/password'));
+  app.use('/homework', require('./routers/homework'));
+  app.use('/password', require('./routers/password'));
   app.use('/user', require('./routers/user'));
   app.use('/report', require('./routers/report'));
   app.use('/reuse', require('./routers/reuse'));
