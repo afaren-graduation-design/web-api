@@ -7,7 +7,7 @@ describe("/paper", ()=> {
       .get("/papers/1")
       .expect(200)
       .end(done);
-  })
+  });
 
   it('should be return sections: GET paper/1', function(done) {
     testSession
@@ -24,4 +24,4 @@ describe("/paper", ()=> {
         }
       });
   })
-})
+});
