@@ -2,6 +2,7 @@
 
 var UserChannel = require('../models/user-channel.js');
 var Channel = require('../models/channel.js');
+var Configuration = require('../models/configuration');
 var async = require('async');
 var constant = require('../mixin/constant');
 
@@ -43,8 +44,6 @@ AdminController.prototype.removeChannel = (req, res, next) => {
   var name = req.query.name;
   var _id = req.query._id;
 
-  console.log(name);
-  console.log(_id);
   Channel.findOneAndRemove({name:name,_id:_id},(err)=>{
     if(err){
       return next(err);
@@ -53,6 +52,31 @@ AdminController.prototype.removeChannel = (req, res, next) => {
   });
 };
 
+AdminController.prototype.getRegisterableStatus = (req,res,next) => {
+  Configuration.findOne({},(err,configuration)=>{
+    if(err){
+      return next(err);
+    }
+    res.send({configuration: configuration});
+  });
+};
+
+AdminController.prototype.changeRegisterableStatus = (req,res,next) => {
+  var value = req.body.value;
+
+  Configuration.findOne({},(err,configuration)=>{
+    if(err){
+      return next(err);
+    }
+    configuration.registerable = value;
+    configuration.save(function (err, configuration, numAffected) {
+      if(err){
+        return next(err);
+      }
+      res.send({configuration: configuration});
+    });
+  });
+};
 
 
 module.exports = AdminController;

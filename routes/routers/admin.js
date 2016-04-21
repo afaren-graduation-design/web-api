@@ -9,5 +9,7 @@ var adminController = new AdminController();
 router.post('/channel',adminController.addChannel);
 router.get('/channel',adminController.getChannel);
 router.delete('/channel',adminController.removeChannel);
+router.get('/registerable',adminController.getRegisterableStatus);
+router.post('/registerable',adminController.changeRegisterableStatus);
 
 module.exports = router;

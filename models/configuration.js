@@ -9,7 +9,7 @@ var ConfigurationSchema = new Schema({
 });
 
 var Configuration = mongoose.model('Configuration', ConfigurationSchema);
-Configuration.findOneAndUpdate({registerable: false, qaContent:''},{registerable: false, qaContent:''},
+Configuration.findOneAndUpdate({},{registerable: false, qaContent:''},
   {upsert: true},function(err,numberAffected, raw){});
 
 module.exports = Configuration;
