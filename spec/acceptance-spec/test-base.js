@@ -7,7 +7,6 @@ var path = require("path");
 var async = require("async");
 
 var serverAddr = "http://192.168.99.100:8080";
-var cachedSpcData = [];
 
 app.use(proxy(serverAddr, {
   forwardPath: function(req, res) {
@@ -30,7 +29,7 @@ function buildspec(data, done) {
       if (err) {
         console.log(data);
         return done.fail(err)
-      };
+      }
       done();
     });
 }
@@ -43,7 +42,7 @@ var data = files.map((file)=> {
 
 data = data.reduce((a, b)=> {
   return a.concat(b);
-})
+});
 
 describe("paper-api:", function() {
 
