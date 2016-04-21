@@ -12,6 +12,7 @@ var constraint = require('../../mixin/register-constraint');
 var httpStatus = require('../../mixin/constant').httpCode;
 var apiRequest = require('../../services/api-request');
 var openRegister = require('../../models/closeRegister');
+var userChannel = require('../../models/user-channel');
 
 function checkRegisterInfo(registerInfo) {
   var pass = true;
@@ -79,6 +80,13 @@ router.post('/', function (req, res) {
         delete registerInfo.captcha;
         registerInfo.password = md5(registerInfo.password);
         apiRequest.post('register', registerInfo, done);
+      },
+      (data, done) => {
+         var userChannel = new userChannel({
+           userId: data.id,
+           channelId: req.cookies.channel
+         });
+        userChannel.save(done);
       },
       (data, done)=> {
         apiRequest.post('login', {email: registerInfo.email, password: registerInfo.password}, done);
