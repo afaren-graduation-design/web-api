@@ -1,6 +1,11 @@
 [
   {
-    "file_root": "spec/support/mock-api/paper-api/",
-    "include": "papers/1.json"
+    "include": "spec/support/mock-api/paper-api/papers/1.json"
+  },
+  {
+    "include": "spec/support/mock-api/paper-api/users/1.json"
+  },
+  {
+    "include": "spec/support/mock-api/paper-api/login.json"
   }
 ]
