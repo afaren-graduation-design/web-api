@@ -1,3 +1,10 @@
-/**
- * Created by Jessica on 4/21/16.
- */
+'use strict';
+
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+var channelSchema = new Schema({
+  name: String
+});
+
+module.exports = mongoose.model('channel', channelSchema);
