@@ -1,3 +1,9 @@
-/**
- * Created by Jessica on 4/21/16.
- */
+'use strict';
+
+var UserChannel = require('../models/channel.js');
+function AdminController() {
+
+}
+
+
+module.exports = AdminController;
