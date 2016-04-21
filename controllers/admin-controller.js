@@ -1,6 +1,8 @@
 'use strict';
 
-var UserChannel = require('../models/channel.js');
+var UserChannel = require('../models/user-channel.js');
+var async = require('async');
+
 function AdminController() {
 
 }
