@@ -2,7 +2,8 @@
 
 var express = require('express');
 var router = express.Router();
-var adminController = require('../../controllers/admin-controller');
+var AdminController = require('../../controllers/admin-controller');
+var adminController = new AdminController();
 
 router.get('/users-channel', adminController.getUsersChannel);
 
