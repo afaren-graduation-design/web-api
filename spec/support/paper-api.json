@@ -1,0 +1,6 @@
+[
+  {
+    "file_root": "spec/support/mock-api/paper-api/",
+    "include": "papers/1.json"
+  }
+]

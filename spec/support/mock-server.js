@@ -3,8 +3,7 @@ var shelljs = require('shelljs');
 var stdout;
 
 function startServer(config, done) {
-  console.log(__dirname);
-  var script = "java -jar spec/support/moco-runner-0.10.2-standalone.jar http -p 12306 -c spec/support/mock-api/api.json -s 9527";
+  var script = "java -jar spec/support/moco-runner-0.10.2-standalone.jar http -p 12306 -g spec/support/paper-api.json -s 9527";
   var child = shelljs.exec(script, {
     async: true,
     silent:true

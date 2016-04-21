@@ -30,27 +30,27 @@ function readFileData(file, callBack) {
 }
 
 function refreshMongo(data, callBack) {
-  console.log("Refreshing mongo");
+  // console.log("Refreshing mongo");
   var funList = [function(done) {
     done(null, null);
   }];
-console.log(data);
   data.forEach((item, key) => {
     funList.push(function(data, done) {
       var model = fixtureModelMap[this.name];
-      console.log("Remove data:" + this.name + "......");
+      // console.log("Remove data:" + this.name + "......");
       model.remove(done);
     }.bind(item));
 
     funList.push(function(data, done) {
       var records = this.content;
       var model = fixtureModelMap[this.name];
-      console.log("Rewrite data:" + this.name + "......");
+      // console.log("Rewrite data:" + this.name + "......");
       model.create(records, done);
     }.bind(item));
   });
 
   async.waterfall(funList, function(err, data) {
+    
     if(err) {
       console.log(err.stack);
     }
@@ -59,22 +59,18 @@ console.log(data);
 }
 
 function startServer(done) {
-  console.log("Starting mock server");
+  // console.log("Starting mock server");
   mockServer.start({}, (err) => {
     if(err) {
-      console.log(err);
       done(err)
     } else {
       console.log("Mock server started");
       done(null, null)
-
     }
   })
 }
 
 function login(data, done) {
-
-  console.log("Login as normal user");
   testSession.post('/login')
       .set('Content-Type', 'application/json')
       .send({
@@ -83,15 +79,12 @@ function login(data, done) {
       })
       .expect(200)
       .end(function(err, data) {
-        // console.log(err);
-        console.log("User logged");
+        console.log("User logged: test@163.com");
         done(null, null)
       });
 }
 
 function cacheMongoData(data, done) {
-  console.log(__dirname);
-  console.log("Loading fixtrue data");
   glob(__dirname + "/support/fixture/*.json", {}, (err, files) => {
     async.map(files, readFileData, function(err, datas) {
       cachedTestData = datas;
@@ -114,8 +107,8 @@ beforeAll(function(done) {
   })
 });
 
-afterAll(function(done) {
-  mockServer.stop(done);
+afterAll(function() {
+  mockServer.stop();
 })
 
 beforeEach(function(done) {
