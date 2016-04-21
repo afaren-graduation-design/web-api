@@ -2,13 +2,12 @@
 
 var express = require('express');
 var router = express.Router();
-var constant = require('../../mixin/constant').backConstant;
-var lang = require('../../mixin/lang-message/chinese');
+var constant = require('../../mixin/constant');
 var md5 = require('js-md5');
 var validate = require('validate.js');
 var constraint = require('../../mixin/login-constraint');
 var apiRequest = require('../../services/api-request');
-var httpStatus = require('../../mixin/constant').httpCode;
+var async = require('async');
 
 
 function checkLoginInfo(account, password) {
@@ -31,37 +30,58 @@ function checkLoginInfo(account, password) {
   return pass;
 }
 
-router.post('/', function (req, res) {
+router.post('/', function (req, res, next) {
   var account = req.body.account;
   var password = req.body.password;
+  var captcha = req.body.captcha;
+  var error = {};
 
-  if (!checkLoginInfo(account, password)) {
-    res.send({
-      message: lang.LOGIN_FAILED,
-      status: 403
-    });
-  } else {
-    password = md5(password);
 
-    apiRequest.post('login', {email: account, password: password}, function (err, result) {
-
-      if (!result) {
-        res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
-        return;
+  async.waterfall([
+    (done)=> {
+      if (captcha !== req.session.captcha) {
+        error.status = constant.httpCode.FORBIDDEN;
+        done(error, null);
+      } else {
+        done(null, null);
       }
+    }, (data, done)=> {
+      if (checkLoginInfo(account, password)) {
+        password = md5(password);
+        apiRequest.post('login', {email: account, password: password}, done);
+      } else {
+        error.status = constant.httpCode.UNAUTHORIZED;
+        done(error, null);
+      }
+    }, (result, done)=> {
       if (result.body.id && result.headers) {
-
         req.session.user = {
           id: result.body.id,
           role: result.body.role,
           userInfo: result.body.userInfo
         };
+        done(null, result);
+      } else {
+        error.status = constant.httpCode.UNAUTHORIZED;
+        done(error, null);
       }
-      res.send({
-        status: result.status
-      });
-    });
-  }
+    }], (error, result)=> {
+    console.log(error);
+    if (error !== null && error.status === constant.httpCode.FORBIDDEN) {
+      console.log('403');
+      res.send({status: constant.httpCode.FORBIDDEN});
+      return;
+    } else if (error !== null && error.status === constant.httpCode.UNAUTHORIZED) {
+      console.log('401');
+      res.send({status: constant.httpCode.UNAUTHORIZED});
+      return;
+    } else if (result.status === constant.httpCode.OK) {
+      res.send({status: constant.httpCode.OK});
+      return;
+    }
+    return next(error);
+  });
+
 });
 
 module.exports = router;
