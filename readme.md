@@ -5,7 +5,7 @@
 
 于是 执行
 ```
-npm install captcha --save
+npm install canvas --save
 
 ```
 但是会报错：
@@ -30,7 +30,7 @@ gyp ERR! stack Error: `gyp` failed with exit code: 1
 结果很顺利，成功安装
 再次执行
 ```
- npm install captcha --save 
+ npm install canvas --save 
 ```
 这次会报一个不相同的错
 ```
@@ -65,7 +65,7 @@ github ：[problem with cairo when npm install canvas #225](https://github.com/A
 
 ok，执行完上述命令后，再次执行
 ```
- npm install captcha --save 
+ npm install canvas --save 
 ```
 会有新的错误
 > canvas@1.3.12 install /Users/Thoughtworks/WorkSpace/recruiting-system/web-api/node_modules/canvas
@@ -90,9 +90,35 @@ key：   `xcode7`   有没有！！瞬间感觉 一切都解决了
 在她的电脑上 执行
 ```
    brew install cairo     //ok
-   npm install captcha --save   //ok
+   npm install canvas --save   //ok
 ```
 
 没有一点问题，
 结论：我的xcode 的版本太低了(版本6.4)，  升级到7.3就好了。
+
+
+问题 2
+场景:
+在mac上pull完代码后,执行npm instal 可以安装 canvas,但是重启docker镜像后,依旧会报错. 
+
+尝试进入docker web-api 的linux镜像中安装 canvas
+
+注意此时node__module中已经存在 canvas, 并不会重新安装.
+
+所以需要
+
+```
+npm uninstall canvas --save 
+```
+
+之后
+
+
+```
+npm install canvas --save 
+```
+
+即可.
+
+原因分析: mac 和linux 的系统环境不同,虽然 npm的包 不依赖于特定系统,但安装后应该略有不同.
 
