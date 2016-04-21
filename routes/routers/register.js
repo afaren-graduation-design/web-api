@@ -11,7 +11,7 @@ var md5 = require('js-md5');
 var constraint = require('../../mixin/register-constraint');
 var httpStatus = require('../../mixin/constant').httpCode;
 var apiRequest = require('../../services/api-request');
-var openRegister = require('../../models/closeRegister');
+var configuration = require('../../models/configuration');
 
 function checkRegisterInfo(registerInfo) {
   var pass = true;
@@ -45,78 +45,95 @@ router.post('/', function (req, res) {
     var isEmailExist = false;
     var isCaptchaError = false;
 
-
-    async.waterfall([
-      (done)=> {
-        if (registerInfo.captcha !== req.session.captcha) {
-          isCaptchaError = true;
-          done(true, null);
-        } else {
-          done(null, null);
-        }
-      },
-      (data, done)=> {
-        apiRequest.get('users', {field: 'mobilePhone', value: registerInfo.mobilePhone}, function (err, resp) {
-          if (resp.body.uri) {
-            isMobilePhoneExist = true;
-          }
-          done(err, resp);
-        });
-      },
-      (data, done) => {
-        apiRequest.get('users', {field: 'email', value: registerInfo.email}, function (err, resp) {
-          if (resp.body.uri) {
-            isEmailExist = true;
-          }
-          if (isMobilePhoneExist || isEmailExist) {
-            done(true, resp);
+    async.waterfall([(done)=> {
+        configuration.findOne({}, (err, data) => {
+          if (!data.registerable) {
+            done("注册已关闭", data);
           } else {
+            done(null, null);
+          }
+        });
+      },
+        (data, done)=> {
+          if (registerInfo.captcha !== req.session.captcha) {
+            isCaptchaError = true;
+            done(true, null);
+          } else {
+            done(null, null);
+          }
+        },
+        (data, done)=> {
+          apiRequest.get('users', {field: 'mobilePhone', value: registerInfo.mobilePhone}, function (err, resp) {
+            if (resp.body.uri) {
+              isMobilePhoneExist = true;
+            }
             done(err, resp);
+          });
+        },
+        (data, done) => {
+          apiRequest.get('users', {field: 'email', value: registerInfo.email}, function (err, resp) {
+            if (resp.body.uri) {
+              isEmailExist = true;
+            }
+            if (isMobilePhoneExist || isEmailExist) {
+              done(true, resp);
+            } else {
+              done(err, resp);
+            }
+          });
+        },
+        (data, done)=> {
+          delete registerInfo.captcha;
+          registerInfo.password = md5(registerInfo.password);
+          apiRequest.post('register', registerInfo, done);
+        },
+        (data, done)=> {
+          apiRequest.post('login', {email: registerInfo.email, password: registerInfo.password}, done);
+        },
+        (data, done)=> {
+          if (data.body.id && data.headers) {
+            req.session.user = {
+              id: data.body.id,
+              role: data.body.role,
+              userInfo: data.body.userInfo
+            };
           }
-        });
-      },
-      (data, done)=> {
-        delete registerInfo.captcha;
-        registerInfo.password = md5(registerInfo.password);
-        apiRequest.post('register', registerInfo, done);
-      },
-      (data, done)=> {
-        apiRequest.post('login', {email: registerInfo.email, password: registerInfo.password}, done);
-      },
-      (data, done)=> {
-        if (data.body.id && data.headers) {
-          req.session.user = {
-            id: data.body.id,
-            role: data.body.role,
-            userInfo: data.body.userInfo
-          };
+          done(null, data);
         }
-        done(null, data);
-      }
-    ], (err, data) => {
-      if (err === true) {
-        res.send({
-          status: constant.FAILING_STATUS,
-          message: lang.EXIST,
-          data: {
-            isEmailExist: isEmailExist,
-            isMobilePhoneExist: isMobilePhoneExist,
-            isCaptchaError: isCaptchaError
-          }
-        });
-      } else if (!err) {
-        res.send({
-          status: data.status,
-          message: lang.REGISTER_SUCCESS
-        });
-      } else {
-        res.status(httpStatus.INTERNAL_SERVER_ERROR);
-        res.send({
-          message: lang.REGISTER_FAILED,
-          status: constant.SERVER_ERROR
-        });
-      }
-    });
+      ],
+      (err, data) => {
+        if (!data.registerable && (data.registerable !== undefined)) {
+          res.status(constant.FORBIDDEN);
+          res.send({
+            status: constant.FORBIDDEN,
+            registerable: data.registerable
+          });
+        }
+      },
+      (err, data) => {
+        if (err === true) {
+          res.send({
+            status: constant.FAILING_STATUS,
+            message: lang.EXIST,
+            data: {
+              isEmailExist: isEmailExist,
+              isMobilePhoneExist: isMobilePhoneExist,
+              isCaptchaError: isCaptchaError
+            }
+          });
+        } else if (!err) {
+          res.send({
+            status: data.status,
+            message: lang.REGISTER_SUCCESS
+          });
+        } else {
+          res.status(httpStatus.INTERNAL_SERVER_ERROR);
+          res.send({
+            message: lang.REGISTER_FAILED,
+            status: constant.SERVER_ERROR
+          });
+        }
+      });
   }
 });
 
@@ -158,15 +175,15 @@ router.get('/validate-email', function (req, res) {
   });
 });
 
-router.get('/close-register', function (req, res, next) {
+router.get('/registerable', function (req, res, next) {
 
   async.waterfall([
     (done)=> {
-      openRegister.findOne({}, done);
+      configuration.findOne({}, done);
     }], (err, data)=> {
     if (err) return next(err);
     res.send({
-      isCloseRegister: data.isCloseRegister,
+      registerable: data.registerable,
       status: constant.OK
     })
   })
