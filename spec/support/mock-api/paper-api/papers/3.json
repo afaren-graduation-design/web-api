@@ -1,31 +1,80 @@
 [
   {
-    "description": "should_return_user_detail_when_give_paper_id",
+    "description": "should_return_one_paper_when_request_enrollment",
     "request" :{
-      "uri" : "/papers/1/usersDetail",
+      "uri" : "/papers/enrollment",
       "method" : "get"
     },
     "response" : {
-      "json" : [
-        {
-          "mobilePhone": "18798037893",
-          "major": "计算机",
-          "gender": "F",
-          "degree": "本科",
-          "name": "测试一",
-          "userId": 1,
-          "email": "test@163.com"
-        },
-        {
-          "mobilePhone": "18087839393",
-          "major": "电工",
-          "gender": "M",
-          "degree": "本科",
-          "name": "测试二",
-          "userId": 2,
-          "email": "test2@qq.com"
-        }
-      ]
+      "json" : {
+        "id": 1,
+        "sections": [
+          {
+            "description": "这是描述",
+            "id": 1,
+            "quizzes": [
+              {
+                "definition_uri": "blankQuizzes/1",
+                "id": 1,
+                "items_uri": "blankQuizzes/1/items"
+              },
+              {
+                "definition_uri": "blankQuizzes/2",
+                "id": 2,
+                "items_uri": "blankQuizzes/2/items"
+              }
+            ],
+            "type": "blankQuizzes"
+          },
+          {
+            "description": "这是描述",
+            "id": 2,
+            "quizzes": [
+              {
+                "definition_uri": "homeworkQuizzes/1",
+                "id": 1,
+                "items_uri": null
+              },
+              {
+                "definition_uri": "homeworkQuizzes/2",
+                "id": 2,
+                "items_uri": null
+              },
+              {
+                "definition_uri": "homeworkQuizzes/3",
+                "id": 3,
+                "items_uri": null
+              },
+              {
+                "definition_uri": "homeworkQuizzes/4",
+                "id": 4,
+                "items_uri": null
+              },
+              {
+                "definition_uri": "homeworkQuizzes/5",
+                "id": 5,
+                "items_uri": null
+              },
+              {
+                "definition_uri": "homeworkQuizzes/6",
+                "id": 6,
+                "items_uri": null
+              },
+              {
+                "definition_uri": "homeworkQuizzes/7",
+                "id": 7,
+                "items_uri": null
+              },
+              {
+                "definition_uri": "homeworkQuizzes/8",
+                "id": 8,
+                "items_uri": null
+              }
+            ],
+            "type": "homeworkQuizzes"
+          }
+        ]
+      }
     }
   }
 ]
