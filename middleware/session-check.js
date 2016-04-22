@@ -3,6 +3,7 @@
 var getJumpControl = require('../mixin/get-jump-control');
 var logicPuzzle = require('../models/logic-puzzle');
 var superagent = require('superagent');
+var apiRequest = require('../services/api-request');
 var yamlConfig = require('node-yaml-config');
 var apiServer = yamlConfig.load('./config/config.yml').apiServer;
 var async = require('async');
@@ -77,17 +78,15 @@ module.exports = function (req, res, next) {
       if (!userId) {
         done(null, true);
       } else {
-        superagent.get(apiServer + 'users/' + userId)
-            .set('Content-Type', 'application/json')
-            .end(function (err,res) {
-              if (err) {
-                done(null, true);
-              } else if(res.body.role !== '9'){
-                done(null, true);
-              } else {
-                done(null, false);
-              }
-            });
+        apiRequest.get('users/' + userId, (err,res) =>{
+          if (err) {
+            done(null, true);
+          } else if(res.body.role !== '9'){
+            done(null, true);
+          } else {
+            done(null, false);
+          }
+        });
       }
     }
 
