@@ -48,104 +48,99 @@ router.post('/', function (req, res) {
     var isCaptchaError = false;
 
     async.waterfall([(done)=> {
-        configuration.findOne({}, (err, data) => {
-          if (!data.registerable) {
-            done("注册已关闭", data);
+      configuration.findOne({}, (err, data) => {
+        if (!data.registerable) {
+          done("注册已关闭", data);
+        } else {
+          done(null, null);
+        }
+      });
+    },
+      (data, done)=> {
+        if (registerInfo.captcha !== req.session.captcha) {
+          isCaptchaError = true;
+          done(true, null);
+        } else {
+          done(null, null);
+        }
+      },
+      (data, done)=> {
+        apiRequest.get('users', {field: 'mobilePhone', value: registerInfo.mobilePhone}, function (err, resp) {
+          if (resp.body.uri) {
+            isMobilePhoneExist = true;
+          }
+          done(err, resp);
+        });
+      },
+      (data, done) => {
+        apiRequest.get('users', {field: 'email', value: registerInfo.email}, function (err, resp) {
+          if (resp.body.uri) {
+            isEmailExist = true;
+          }
+          if (isMobilePhoneExist || isEmailExist) {
+            done(true, resp);
           } else {
-            done(null, null);
+            done(err, resp);
           }
         });
       },
-        (data, done)=> {
-          if (registerInfo.captcha !== req.session.captcha) {
-            isCaptchaError = true;
-            done(true, null);
-          } else {
-            done(null, null);
-          }
-        },
-        (data, done)=> {
-          apiRequest.get('users', {field: 'mobilePhone', value: registerInfo.mobilePhone}, function (err, resp) {
-            if (resp.body.uri) {
-              isMobilePhoneExist = true;
-            }
-            done(err, resp);
-          });
-        },
-        (data, done) => {
-          apiRequest.get('users', {field: 'email', value: registerInfo.email}, function (err, resp) {
-            if (resp.body.uri) {
-              isEmailExist = true;
-            }
-            if (isMobilePhoneExist || isEmailExist) {
-              done(true, resp);
-            } else {
-              done(err, resp);
-            }
-          });
-        },
-        (data, done)=> {
-          delete registerInfo.captcha;
-          registerInfo.password = md5(registerInfo.password);
-          apiRequest.post('register', registerInfo, done);
-        },
-          (data, done) => {
-          var userChannel = new UserChannel({
+      (data, done)=> {
+        delete registerInfo.captcha;
+        registerInfo.password = md5(registerInfo.password);
+        apiRequest.post('register', registerInfo, done);
+      },
+      (data, done) => {
+        var userChannel = new UserChannel({
           userId: data.body.id,
           channelId: new mongoose.Types.ObjectId(req.cookies.channel)
         });
-          userChannel.save((err, doc) => {
+        userChannel.save((err, doc) => {
           done(err, doc)
         });
-        },
-        (data, done)=> {
-          apiRequest.post('login', {email: registerInfo.email, password: registerInfo.password}, done);
-        },
-        (data, done)=> {
-          if (data.body.id && data.headers) {
-            req.session.user = {
-              id: data.body.id,
-              role: data.body.role,
-              userInfo: data.body.userInfo
-            };
-          }
-          done(null, data);
-        }
-      ],
-      (err, data) => {
-        if (!data.registerable && (data.registerable !== undefined)) {
-          res.status(constant.FORBIDDEN);
-          res.send({
-            status: constant.FORBIDDEN,
-            registerable: data.registerable
-          });
-        }
-
       },
-      (err, data) => {
-        if (err === true) {
-          res.send({
-            status: constant.FAILING_STATUS,
-            message: lang.EXIST,
-            data: {
-              isEmailExist: isEmailExist,
-              isMobilePhoneExist: isMobilePhoneExist,
-              isCaptchaError: isCaptchaError
-            }
-          });
-        } else if (!err) {
-          res.send({
-            status: data.status,
-            message: lang.REGISTER_SUCCESS
-          });
-        } else {
-          res.status(httpStatus.INTERNAL_SERVER_ERROR);
-          res.send({
-            message: lang.REGISTER_FAILED,
-            status: constant.SERVER_ERROR
-          });
+      (data, done)=> {
+        apiRequest.post('login', {email: registerInfo.email, password: registerInfo.password}, done);
+      },
+      (data, done)=> {
+        if (data.body.id && data.headers) {
+          req.session.user = {
+            id: data.body.id,
+            role: data.body.role,
+            userInfo: data.body.userInfo
+          };
         }
-      });
+        done(null, data);
+      }
+    ], (err, data) => {
+
+      if (err === '注册已关闭') {
+        res.send({
+          status: constant.FORBIDDEN,
+          registerable: data.registerable
+        });
+      } else if (err === true) {
+        res.send({
+          status: constant.FAILING_STATUS,
+          message: lang.EXIST,
+          data: {
+            isEmailExist: isEmailExist,
+            isMobilePhoneExist: isMobilePhoneExist,
+            isCaptchaError: isCaptchaError
+          }
+        });
+      } else if (!err) {
+        res.send({
+          status: data.status,
+          message: lang.REGISTER_SUCCESS
+        });
+      } else {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR);
+        res.send({
+          message: lang.REGISTER_FAILED,
+          status: constant.SERVER_ERROR
+        });
+      }
+    });
   }
 });
 
