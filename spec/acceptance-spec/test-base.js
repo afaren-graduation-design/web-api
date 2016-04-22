@@ -5,6 +5,7 @@ var fs = require("fs");
 var glob = require("glob");
 var path = require("path");
 var async = require("async");
+var shelljs = require("shelljs");
 
 var serverAddr = "http://192.168.99.100:8080";
 
@@ -19,7 +20,9 @@ app.listen(5000);
 function buildspec(data, done) {
   var method = data.request.method || 'get';
   var postData = data.request.json;
+  var queryData = data.request.query;
   request(app)[method](data.request.uri)
+    .query(queryData)
     .send(postData)
     .expect(200)
     .expect(function(res) {
@@ -43,6 +46,11 @@ var data = files.map((file)=> {
 data = data.reduce((a, b)=> {
   return a.concat(b);
 });
+
+beforeEach(function() {
+  shelljs.exec("cd ../paper-api && ./gradlew flywayclean && cd -", {silent: true});
+  shelljs.exec("cd ../paper-api && ./gradlew flywaymigrate && cd -", {silent: true});
+})
 
 describe("paper-api:", function() {
 
