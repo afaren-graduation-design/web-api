@@ -15,8 +15,30 @@
         "gender": "F",
         "email": "test@163.com",
         "mobilePhone": "18798037893",
-        "schoolProvince": "陕西",
-        "schoolCity": "西安"
+        "schoolProvince": "陕西省",
+        "schoolCity": "西安市"
+      }
+    }
+  },
+  {
+    "description": "should_modify_user_detail",
+    "request": {
+      "uri": "/users/1/detail",
+      "method": "put",
+      "json": {
+        "userId": 1,
+        "name": "测试一",
+        "school":"思沃学院",
+        "gender": "F",
+        "major":"计算机",
+        "degree": "本科",
+        "schoolProvince":"陕西省",
+        "schoolCity": "西安市"
+      }
+    },
+    "response": {
+      "json": {
+        "uri":"userDetail/1"
       }
     }
   }
