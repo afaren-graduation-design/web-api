@@ -17,7 +17,8 @@ function getDesc(status, realDesc) {
   }
 }
 
-function HomeworkController() {}
+function HomeworkController() {
+}
 
 HomeworkController.prototype.getList = (req, res, next) => {
 
@@ -177,8 +178,6 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
   async.waterfall([
     (done) => {
       var userId = req.session.user.id;
-      console.log(req.body);
-      console.log('id:'+ userId);
       userHomeworkQuizzes.findOne({userId: userId}).exec(done);
 
     },
@@ -229,6 +228,67 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
       return next(req, res, err);
     }
     res.send(data);
+  });
+};
+
+HomeworkController.prototype.getEstimatedTime = (req, res, next) => {
+  var quizId = req.query.quizId;
+
+  async.waterfall([
+    (done) => {
+      userHomeworkQuizzes.aggregate([
+          {'$unwind': '$quizzes'}
+        ])
+        .match({'quizzes.id': Number(quizId)})
+        .exec(done);
+    },
+    (doc, done) => {
+      var recordIds = [];
+
+      doc.forEach((item, i) => {
+        recordIds = recordIds.concat(item.quizzes.homeworkSubmitPostHistory)
+      });
+      if (!recordIds.length) {
+        return res.send({
+          estimatedTime: null
+        });
+      }
+
+      request
+        .get(config.taskServer + 'tasks')
+        .set('Content-Type', 'application/json')
+        .query({
+          filter: JSON.stringify({
+            id: recordIds
+          })
+        })
+        .end(done)
+    },
+    (result, done) => {
+      if (!result.body.length) {
+        return res.send({
+          estimatedTime: null
+        });
+      }
+
+      var sumTime = result.body.map((item, i) => {
+        var createdAt = Date.parse(new Date(item.createdAt)) / constant.time.MILLISECOND_PER_SECONDS;
+        var updateAt = Date.parse(new Date(item.updatedAt)) / constant.time.MILLISECOND_PER_SECONDS;
+
+        return updateAt - createdAt;
+      }).reduce((item1, item2) => {
+        return item1 + item2;
+      });
+
+      done(null, parseInt(sumTime / result.body.length));
+    }
+  ], (err, estimatedTime) => {
+    if (err) {
+      return next(err);
+    }
+    res.send({
+      estimatedTime: estimatedTime
+    })
   });
 };
 
