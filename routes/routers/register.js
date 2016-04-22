@@ -57,6 +57,7 @@ router.post('/', function (req, res) {
       });
     },
       (data, done)=> {
+
         if (registerInfo.captcha !== req.session.captcha) {
           isCaptchaError = true;
           done(true, null);

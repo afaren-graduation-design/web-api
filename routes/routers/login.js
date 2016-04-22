@@ -66,13 +66,10 @@ router.post('/', function (req, res, next) {
         done(error, null);
       }
     }], (error, result)=> {
-    console.log(error);
     if (error !== null && error.status === constant.httpCode.FORBIDDEN) {
-      console.log('403');
       res.send({status: constant.httpCode.FORBIDDEN});
       return;
     } else if (error !== null && error.status === constant.httpCode.UNAUTHORIZED) {
-      console.log('401');
       res.send({status: constant.httpCode.UNAUTHORIZED});
       return;
     } else if (result.status === constant.httpCode.OK) {
