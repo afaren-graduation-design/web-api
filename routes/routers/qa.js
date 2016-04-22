@@ -8,6 +8,6 @@ var qaController = new QAController();
 
 router.get('/', qaController.loadQAInfo);
 
-router.post('/update', qaController.updateQAInfo);
+router.put('/update', qaController.updateQAInfo);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 'use strict';
 var constant = require('../mixin/constant');
-var fs = require('fs');
+var Configuration = require('../models/configuration');
 
 var yamlConfig = require('node-yaml-config');
 var config = yamlConfig.load('./config/config.yml');
@@ -8,22 +8,28 @@ var config = yamlConfig.load('./config/config.yml');
 var async = require('async');
 var request = require('superagent');
 
-function QAController () {}
+function QAController() {
+}
 
 QAController.prototype.loadQAInfo = (req, res, next) => {
-  fs.readFile( __dirname + '/../doc/qa.md', function (err, data) {
-    if (err && err.errno === -2) {
-      fs.writeFileSync(__dirname + '/../doc/qa.md', '');
+  Configuration.findOne({}, (err, configuration)=> {
+    if (err) {
+      return next(err);
     }
-
-    res.send({
-      QAContent: data ? data.toString() : ''
-    });
+    if(configuration){
+      res.send({
+        QAContent: configuration.qaContent ? configuration.qaContent : ''
+      });
+    } else {
+      res.send({
+        QAContent: ''
+      });
+    }
   });
 };
 
 QAController.prototype.updateQAInfo = (req, res, next) => {
-  if(!config.QAInfoAddress) {
+  if (!config.QAInfoAddress) {
     return res.send({status: constant.httpCode.NOT_FOUND});
   }
 
@@ -36,9 +42,15 @@ QAController.prototype.updateQAInfo = (req, res, next) => {
     },
 
     (result, done) => {
-      fs.writeFile( __dirname + '/../doc/qa.md', result.text, done);
+      Configuration.findOne({}, (err, configuration)=> {
+        if (err) {
+          return next(err);
+        }
+        configuration.qaContent = result.text;
+        configuration.save(done);
+      });
     }
-  ], (err, doc) => {
+  ], (err) => {
     if (err) {
       return next(err);
     }
