@@ -1,0 +1,23 @@
+[
+  {
+    "description":"should_return_detail_by_user_id",
+    "request": {
+      "uri":"/users/1/detail",
+      "method": "get"
+    },
+    "response": {
+      "json":{
+        "userId": 1,
+        "school": "思沃学院",
+        "major": "计算机",
+        "degree": "本科",
+        "name": "测试一",
+        "gender": "F",
+        "email": "test@163.com",
+        "mobilePhone": "18798037893",
+        "schoolProvince": "陕西",
+        "schoolCity": "西安"
+      }
+    }
+  }
+]
