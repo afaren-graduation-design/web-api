@@ -1,0 +1,29 @@
+[
+  {
+    "description": "should_return_all_papers_when_request_papers",
+    "request" :{
+      "uri" : "/papers",
+      "method" : "get"
+    },
+    "response" : {
+      "json" : [
+        {
+          "paperName": "简单的试卷",
+          "uri": "papers/1"
+        },
+        {
+          "paperName": "一般的试卷",
+          "uri": "papers/2"
+        },
+        {
+          "paperName": "很难的试卷",
+          "uri": "papers/3"
+        },
+        {
+          "paperName": null,
+          "uri": "papers/4"
+        }
+      ]
+    }
+  }
+]

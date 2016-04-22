@@ -1,0 +1,31 @@
+[
+  {
+    "description": "should_return_all_blank_quizzes_when_blank_quizzes",
+    "request" :{
+      "uri" : "/blankQuizzes",
+      "method" : "get"
+    },
+    "response" : {
+      "json" : [
+        {
+          "uri": "blankQuizzes/1"
+        },
+        {
+          "uri": "blankQuizzes/2"
+        },
+        {
+          "uri": "blankQuizzes/3"
+        },
+        {
+          "uri": "blankQuizzes/4"
+        },
+        {
+          "uri": "blankQuizzes/5"
+        },
+        {
+          "uri": "blankQuizzes/6"
+        }
+      ]
+    }
+  }
+]

@@ -27,7 +27,7 @@ function buildspec(data, done) {
     })
     .end(function(err, res) {
       if (err) {
-        console.log(data);
+        console.log(err.stack);
         return done.fail(err)
       }
       done();

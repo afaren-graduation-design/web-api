@@ -1,0 +1,31 @@
+[
+  {
+    "description": "should_return_user_detail_when_give_paper_id",
+    "request" :{
+      "uri" : "/papers/1/usersDetail",
+      "method" : "get"
+    },
+    "response" : {
+      "json" : [
+        {
+          "mobilePhone": "18798037893",
+          "major": "计算机",
+          "gender": "F",
+          "degree": "本科",
+          "name": "测试一",
+          "userId": 1,
+          "email": "test@163.com"
+        },
+        {
+          "mobilePhone": "18087839393",
+          "major": "电工",
+          "gender": "M",
+          "degree": "本科",
+          "name": "测试二",
+          "userId": 2,
+          "email": "test2@qq.com"
+        }
+      ]
+    }
+  }
+]
