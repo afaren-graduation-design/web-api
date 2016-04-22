@@ -1,0 +1,163 @@
+[
+  {
+    "description": "should_return_quiz_items",
+    "request": {
+      "uri": "/quizItems",
+      "method": "get"
+    },
+    "response": {
+      "json": [
+        {
+          "uri": "quizItems/1"
+        },
+        {
+          "uri": "quizItems/2"
+        },
+        {
+          "uri": "quizItems/3"
+        },
+        {
+          "uri": "quizItems/4"
+        },
+        {
+          "uri": "quizItems/5"
+        },
+        {
+          "uri": "quizItems/6"
+        },
+        {
+          "uri": "quizItems/7"
+        },
+        {
+          "uri": "quizItems/8"
+        },
+        {
+          "uri": "quizItems/9"
+        },
+        {
+          "uri": "quizItems/10"
+        },
+        {
+          "uri": "quizItems/11"
+        },
+        {
+          "uri": "quizItems/12"
+        },
+        {
+          "uri": "quizItems/13"
+        },
+        {
+          "uri": "quizItems/14"
+        },
+        {
+          "uri": "quizItems/15"
+        },
+        {
+          "uri": "quizItems/16"
+        },
+        {
+          "uri": "quizItems/17"
+        },
+        {
+          "uri": "quizItems/18"
+        },
+        {
+          "uri": "quizItems/19"
+        },
+        {
+          "uri": "quizItems/20"
+        },
+        {
+          "uri": "quizItems/21"
+        },
+        {
+          "uri": "quizItems/22"
+        },
+        {
+          "uri": "quizItems/23"
+        },
+        {
+          "uri": "quizItems/24"
+        },
+        {
+          "uri": "quizItems/25"
+        },
+        {
+          "uri": "quizItems/26"
+        },
+        {
+          "uri": "quizItems/27"
+        },
+        {
+          "uri": "quizItems/28"
+        },
+        {
+          "uri": "quizItems/29"
+        },
+        {
+          "uri": "quizItems/30"
+        },
+        {
+          "uri": "quizItems/31"
+        },
+        {
+          "uri": "quizItems/32"
+        },
+        {
+          "uri": "quizItems/33"
+        },
+        {
+          "uri": "quizItems/34"
+        },
+        {
+          "uri": "quizItems/35"
+        },
+        {
+          "uri": "quizItems/36"
+        },
+        {
+          "uri": "quizItems/37"
+        },
+        {
+          "uri": "quizItems/38"
+        },
+        {
+          "uri": "quizItems/39"
+        },
+        {
+          "uri": "quizItems/40"
+        },
+        {
+          "uri": "quizItems/41"
+        },
+        {
+          "uri": "quizItems/42"
+        },
+        {
+          "uri": "quizItems/43"
+        },
+        {
+          "uri": "quizItems/44"
+        },
+        {
+          "uri": "quizItems/45"
+        },
+        {
+          "uri": "quizItems/46"
+        },
+        {
+          "uri": "quizItems/47"
+        },
+        {
+          "uri": "quizItems/48"
+        },
+        {
+          "uri": "quizItems/49"
+        },
+        {
+          "uri": "quizItems/50"
+        }
+      ]
+    }
+  }
+]
