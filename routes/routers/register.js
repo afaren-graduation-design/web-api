@@ -91,15 +91,19 @@ router.post('/', function (req, res) {
         apiRequest.post('register', registerInfo, done);
       },
       (data, done) => {
-        var userChannel = new UserChannel({
-          userId: data.body.id,
-          channelId: new mongoose.Types.ObjectId(req.cookies.channel)
-        });
-        userChannel.save((err, doc) => {
-          done(err, doc)
-        });
+        if(req.cookies.channel !== '') {
+          var userChannel = new UserChannel({
+            userId: data.body.id,
+            channelId: new mongoose.Types.ObjectId(req.cookies.channel)
+          });
+          userChannel.save((err) => {
+            done(err)
+          });
+        }else {
+          done();
+        }
       },
-      (data, done)=> {
+      (done)=> {
         apiRequest.post('login', {email: registerInfo.email, password: registerInfo.password}, done);
       },
       (data, done)=> {

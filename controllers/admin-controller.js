@@ -86,9 +86,12 @@ AdminController.prototype.getUsersChannel = (req, res, next) => {
         if (err){
           return next(err)
         }else {
-          var info = data[0];
-          var usersChannel = {userId:info.userId, channelName:info.channelId.name};
-          res.send(usersChannel);
+          var usersChannel = data.map((item) => {
+            return {userId:item.userId, channelName:item.channelId.name};
+          });
+          res.send({
+            usersChannel: usersChannel
+          });
         }
       });
 };
