@@ -15,13 +15,13 @@ app.use(proxy(serverAddr, {
   }
 }));
 
-app.listen(5000);
+app.listen(3333);
 
 function buildspec(data, done) {
   var method = data.request.method || 'get';
   var postData = data.request.json;
   var queryData = data.request.query;
-
+  
   request(app)[method](data.request.uri)
     .query(queryData)
     .send(postData)
@@ -30,6 +30,10 @@ function buildspec(data, done) {
       expect(res.body).toEqual(data.response.json);
     })
     .end(function(err, res) {
+      if(data.needRollBack) {
+        shelljs.exec("cd ../paper-api && ./gradlew flywayclean && cd -", {silent: true});
+        shelljs.exec("cd ../paper-api && ./gradlew flywaymigrate && cd -", {silent: true});
+      }
       if (err) {
         console.log(data.description);
         console.log(err);
@@ -49,12 +53,11 @@ data = data.reduce((a, b)=> {
   return a.concat(b);
 });
 
-//beforeEach(function() {
-//  shelljs.exec("cd ../paper-api && ./gradlew flywayclean && cd -", {silent: true});
-//  shelljs.exec("cd ../paper-api && ./gradlew flywaymigrate && cd -", {silent: true});
-//})
-
 describe("paper-api:", function() {
+
+  beforeEach(()=> {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  });
 
   data.forEach((specData)=> {
     it(specData.description, function(done) {
