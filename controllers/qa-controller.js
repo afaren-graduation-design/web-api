@@ -29,14 +29,16 @@ QAController.prototype.loadQAInfo = (req, res, next) => {
 };
 
 QAController.prototype.updateQAInfo = (req, res, next) => {
-  if (!config.QAInfoAddress) {
+  if (!(config.QAInfoAddress || req.body.QAInfoAddress)) {
     return res.send({status: constant.httpCode.NOT_FOUND});
   }
+
+  var QAInfoAddress = req.body.QAInfoAddress || config.QAInfoAddress;
 
   async.waterfall([
     (done) => {
       request
-          .get(config.QAInfoAddress)
+          .get(QAInfoAddress)
           .set('Content-Type', 'application/json')
           .end(done);
     },
