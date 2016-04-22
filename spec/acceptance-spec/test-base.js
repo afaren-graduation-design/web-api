@@ -21,6 +21,7 @@ function buildspec(data, done) {
   var method = data.request.method || 'get';
   var postData = data.request.json;
   var queryData = data.request.query;
+
   request(app)[method](data.request.uri)
     .query(queryData)
     .send(postData)
@@ -30,7 +31,8 @@ function buildspec(data, done) {
     })
     .end(function(err, res) {
       if (err) {
-        console.log(err.stack);
+        console.log(data.description);
+        console.log(err);
         return done.fail(err)
       }
       done();
@@ -47,10 +49,10 @@ data = data.reduce((a, b)=> {
   return a.concat(b);
 });
 
-beforeEach(function() {
-  shelljs.exec("cd ../paper-api && ./gradlew flywayclean && cd -", {silent: true});
-  shelljs.exec("cd ../paper-api && ./gradlew flywaymigrate && cd -", {silent: true});
-})
+//beforeEach(function() {
+//  shelljs.exec("cd ../paper-api && ./gradlew flywayclean && cd -", {silent: true});
+//  shelljs.exec("cd ../paper-api && ./gradlew flywaymigrate && cd -", {silent: true});
+//})
 
 describe("paper-api:", function() {
 

@@ -1,0 +1,18 @@
+[
+  {
+    "description": "should_return_user_id_by_email",
+    "request": {
+      "uri": "/users",
+      "method": "get",
+      "query": {
+        "field": "email",
+        "value": "test@163.com"
+      }
+    },
+    "response": {
+      "json": {
+        "uri":"users/1"
+      }
+    }
+  }
+]
