@@ -1,0 +1,98 @@
+[
+  {
+    "description": "should_return_all_scoresheets_when_request_scoresheets",
+    "request" :{
+      "uri" : "/scoresheets/1",
+      "method" : "get"
+    },
+    "response" : {
+      "json" : {
+        "blankQuizSubmits": [
+          {
+            "blankQuiz": {
+              "uri": "/blankQuiz/1"
+            },
+            "startTime": 1451581261,
+            "endTime": 1451581262,
+            "itemPosts": [
+              {
+                "answer": "23",
+                "quizItem": {
+                  "uri": "quizItem/1"
+                }
+              },
+              {
+                "answer": "16",
+                "quizItem": {
+                  "uri": "quizItem/2"
+                }
+              },
+              {
+                "answer": "20",
+                "quizItem": {
+                  "uri": "quizItem/3"
+                }
+              }
+            ]
+          }
+        ],
+        "paper": {
+          "uri": "paper/1"
+        },
+        "homeworkSubmits": [
+          {
+            "homeworkQuiz": {
+              "uri": "homeworkQuiz/1"
+            },
+            "startTime": 1453287449,
+            "homeworkSubmitPostHistory": [
+              {
+                "result": "jasmine not found",
+                "commitTime": 1453287441,
+                "userAnswerRepo": "github.com/purple/1",
+                "branch": "master",
+                "version": "d8160f56ebbb5d40368048f271328eefa87cb97d",
+                "status": 3
+              }
+            ]
+          },
+          {
+            "homeworkQuiz": {
+              "uri": "homeworkQuiz/2"
+            },
+            "startTime": 1453287449,
+            "homeworkSubmitPostHistory": [
+              {
+                "result": "jasmine not found",
+                "commitTime": 1453287441,
+                "userAnswerRepo": "github.com/purple/2",
+                "branch": "master",
+                "version": "d8160f56ebbb5d40368048f271328eefa87cb97d",
+                "status": 3
+              }
+            ]
+          },
+          {
+            "homeworkQuiz": {
+              "uri": "homeworkQuiz/3"
+            },
+            "startTime": 1453287449,
+            "homeworkSubmitPostHistory": [
+              {
+                "result": "jasmine not found",
+                "commitTime": 1453287441,
+                "userAnswerRepo": "github.com/purple/3",
+                "branch": "master",
+                "version": "d8160f56ebbb5d40368048f271328eefa87cb97d",
+                "status": 3
+              }
+            ]
+          }
+        ],
+        "examer": {
+          "uri": "examer/1"
+        }
+      }
+    }
+  }
+]

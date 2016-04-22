@@ -1,0 +1,25 @@
+[
+  {
+    "description": "should_return_all_scoresheets_when_request_scoresheets",
+    "request" :{
+      "uri" : "/scoresheets",
+      "method" : "get"
+    },
+    "response" : {
+      "json" : [
+        {
+          "uri": "scoresheets/1"
+        },
+        {
+          "uri": "scoresheets/2"
+        },
+        {
+          "uri": "scoresheets/3"
+        },
+        {
+          "uri": "scoresheets/4"
+        }
+      ]
+    }
+  }
+]
