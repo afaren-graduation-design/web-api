@@ -6,6 +6,7 @@ function jumpControl(data) {
   var isDetailed = data.isDetailed;
   var isAgreed = data.isAgreed;
   var isThirdParty = data.isThirdParty;
+  var isAdmin = data.isAdmin;
 
   return [{
     originPath: [
@@ -58,6 +59,12 @@ function jumpControl(data) {
     ],
     targetPath: 'dashboard.html',
     condition: isLoged
+  }, {
+    originPath: [
+      '/admin/registerable',
+      '/admin/channel'
+    ],
+    condition: isAdmin
   }
   ];
 }

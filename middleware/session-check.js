@@ -8,41 +8,25 @@ var apiServer = yamlConfig.load('./config/config.yml').apiServer;
 var async = require('async');
 
 function pathControl(url, data) {
-  var arr = url.split('/');
-
-  arr.forEach(function (item, i) {
-    arr[i] = item.split('?')[0];
-  });
-
-  var lastElement = arr[arr.length - 1];
-
-  var redirectionAddress;
+  var target = {};
   var needRedirect = false;
   var jumpControl = getJumpControl(data);
 
   jumpControl.forEach((item) => {
-    if (~item.originPath.indexOf(lastElement) && item.condition) {
-      redirectionAddress = item.targetPath;
+    if (-1 < item.originPath.indexOf(url) && item.condition) {
+      target = item;
       needRedirect = true;
     }
   });
 
   return {
     needRedirect: needRedirect,
-    targetPath: redirectionAddress
+    target: target
   };
 }
 
 module.exports = function (req, res, next) {
   var userId;
-
-  if (req.headers.stress) {
-    req.session.user = {
-      id: 1,
-      userInfo: {uri: 'users/1'},
-      token: '846cd0e6d5dae4170381b6e61858c6b1'
-    };
-  }
 
   if (Boolean(req.session.user)) {
     userId = req.session.user.id;
@@ -87,13 +71,31 @@ module.exports = function (req, res, next) {
 
     isThirdParty: function (done) {
       done(null, Boolean(req.session.passport));
+    },
+
+    isAdmin: function (done) {
+      if (!userId) {
+        done(null, true);
+      } else {
+        superagent.get(apiServer + 'users/' + userId)
+            .set('Content-Type', 'application/json')
+            .end(function (err,res) {
+              if (err) {
+                done(null, true);
+              } else if(res.body.role !== '9'){
+                done(null, true);
+              } else {
+                done(null, false);
+              }
+            });
+      }
     }
 
   }, function (err, data) {
-    var result = pathControl(req.url, data);
 
-    if (result.needRedirect) {
-      res.redirect(result.targetPath);
+    var target = pathControl(req.url, data);
+    if (target.needRedirect) {
+      res.status(target.head || 403).send(target.body || "");
     } else {
       next();
     }
