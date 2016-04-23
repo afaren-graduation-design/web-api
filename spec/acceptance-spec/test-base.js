@@ -21,7 +21,7 @@ function buildspec(data, done) {
   var method = data.request.method || 'get';
   var postData = data.request.json;
   var queryData = data.request.query;
-  
+
   request(app)[method](data.request.uri)
     .query(queryData)
     .send(postData)
@@ -31,8 +31,12 @@ function buildspec(data, done) {
     })
     .end(function(err, res) {
       if(data.needRollBack) {
-        shelljs.exec("cd ../paper-api && ./gradlew flywayclean && cd -", {silent: true});
-        shelljs.exec("cd ../paper-api && ./gradlew flywaymigrate && cd -", {silent: true});
+        shelljs.exec(
+          "docker exec -i assembly_mysql_1 mysql -u BronzeSword -p12345678 BronzeSword < mysql.sql",
+          {
+            silent: true
+          }
+        );
       }
       if (err) {
         console.log(data.description);
@@ -55,8 +59,18 @@ data = data.reduce((a, b)=> {
 
 describe("paper-api:", function() {
 
+  beforeAll(() => {
+    shelljs.exec(
+      "docker exec -i assembly_mysql_1 mysqldump -u BronzeSword -p12345678 BronzeSword > mysql.sql",
+      {
+        silent: true
+      }
+    );
+  })
+
   beforeEach(()=> {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    shelljs.exec("docker exec -it ", {silent: true});
   });
 
   data.forEach((specData)=> {
