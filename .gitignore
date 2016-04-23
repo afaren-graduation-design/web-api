@@ -19,3 +19,5 @@ coverage
 doc/qa.md
 
 .gradle
+
+mysql.sql
