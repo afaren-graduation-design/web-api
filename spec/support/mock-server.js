@@ -22,12 +22,11 @@ function startServer(config, done) {
 }
 
 function stopServer(done) {
-  shelljs.exec("java -jar spec/support/moco-runner-0.10.2-standalone.jar shutdown -s 9527");
-  stdout.on('data', function(data) {
-    if(data.indexOf("Server stopped") > -1) {
-      'function' === typeof done && done()
-    }
-  })
+  shelljs.exec("java -jar spec/support/moco-runner-0.10.2-standalone.jar shutdown -s 9527", {
+    async: true,
+    silent:true
+  });
+  done();
 }
 
 module.exports = {

@@ -8,16 +8,16 @@ var mongoose = require('mongoose');
 var yamlConfig = require('node-yaml-config');
 var session = require('supertest-session');
 
-var mockServer = require('./support/mock-server');
-var app = require('../app');
+var mockServer = require('../support/mock-server');
+var app = require('../../app');
 
 global.testSession = session(app);
 
 var cachedTestData = [];
 
 var fixtureModelMap = {
-  "user-homework-quizzes": require("../models/user-homework-quizzes"),
-  "group": require("../models/group")
+  "user-homework-quizzes": require("../../models/user-homework-quizzes"),
+  "group": require("../../models/group")
 }
 
 function readFileData(file, callBack) {
@@ -30,14 +30,13 @@ function readFileData(file, callBack) {
 }
 
 function refreshMongo(data, callBack) {
-  // console.log("Refreshing mongo");
   var funList = [function(done) {
     done(null, null);
   }];
+
   data.forEach((item, key) => {
     funList.push(function(data, done) {
       var model = fixtureModelMap[this.name];
-      // console.log("Remove data:" + this.name + "......");
       model.remove(done);
     }.bind(item));
 
@@ -49,17 +48,10 @@ function refreshMongo(data, callBack) {
     }.bind(item));
   });
 
-  async.waterfall(funList, function(err, data) {
-    
-    if(err) {
-      console.log(err.stack);
-    }
-    callBack();
-  })
+  async.waterfall(funList, callBack);
 }
 
 function startServer(done) {
-  // console.log("Starting mock server");
   mockServer.start({}, (err) => {
     if(err) {
       done(err)
@@ -96,19 +88,20 @@ function cacheMongoData(data, done) {
 
 
 
-beforeAll(function(done) {
+before(function(done) {
   async.waterfall([
     startServer,
     login,
     cacheMongoData
   ], function(err, data) {
-    if(err) {return done.fail(err)}
+    // if(err) {return done.fail(err)}
     done();
   })
 });
 
-afterAll(function() {
-  mockServer.stop();
+after(function(done) {
+  mockServer.stop(done);
+  // done();
 })
 
 beforeEach(function(done) {

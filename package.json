@@ -6,7 +6,8 @@
   "scripts": {
     "test": "export NODE_ENV=integration && ./node_modules/.bin/jasmine --stop-on-failure=true",
     "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/jasmine",
-    "it": "export NODE_ENV=integration && ./node_modules/.bin/jasmine",
+    "it": "./node_modules/.bin/mocha spec/ integration-spec/*spec.js",
+    "at": "export NODE_ENV=integration && ./node_modules/.bin/jasmine spec/acceptance-spec/test-base.js",
     "eslint": "eslint .",
     "start": "nodemon app.js"
   },
@@ -33,6 +34,7 @@
     "glob": "^7.0.3",
     "jasmine": "^2.4.1",
     "jest-cli": "^0.8.2",
+    "mocha": "^2.4.5",
     "node-yaml-config": "0.0.3",
     "nodemon": "^1.8.1",
     "supertest": "^1.1.0",
