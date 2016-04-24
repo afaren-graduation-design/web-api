@@ -1,12 +1,12 @@
 [
   {
     "description": "should_return_all_papers_when_request_papers",
-    "request" :{
-      "uri" : "/papers",
-      "method" : "get"
+    "request": {
+      "uri": "/papers",
+      "method": "get"
     },
-    "response" : {
-      "json" : [
+    "response": {
+      "json": [
         {
           "paperName": "简单的试卷",
           "uri": "papers/1"
@@ -24,6 +24,21 @@
           "uri": "papers/4"
         }
       ]
+    }
+  },
+  {
+    "description":"add_a_new_paper",
+    "needRollBack":true,
+    "request": {
+      "uri": "/papers/",
+      "method": "post",
+      "json": {
+        "makerId":1,
+        "paperName":"easy"
+      }
+    },
+    "response": {
+      "json": {"paperId":5}
     }
   }
 ]
