@@ -6,6 +6,7 @@ var glob = require("glob");
 var path = require("path");
 var async = require("async");
 var shelljs = require("shelljs");
+var should = require("should");
 
 var serverAddr = "http://192.168.99.100:8080";
 
@@ -27,7 +28,7 @@ function buildspec(data, done) {
     .send(postData)
     .expect(200)
     .expect(function(res) {
-      expect(res.body).toEqual(data.response.json);
+      res.body.should.deepEqual(data.response.json);
     })
     .end(function(err, res) {
       if(data.needRollBack) {
@@ -35,12 +36,7 @@ function buildspec(data, done) {
           silent: true
         });
       }
-      if (err) {
-        console.log(data.description);
-        console.log(err);
-        return done.fail(err)
-      }
-      done();
+      done(err);
     });
 }
 
@@ -56,7 +52,7 @@ data = data.reduce((a, b)=> {
 
 describe("paper-api:", function() {
 
-  beforeAll(() => {
+  before(() => {
     shelljs.exec("eval $(docker-machine env default)");
     shelljs.exec("docker exec -i assembly_mysql_1 mysqldump -u BronzeSword -p12345678 BronzeSword > mysql.sql", {
       silent: true
@@ -64,7 +60,6 @@ describe("paper-api:", function() {
   });
 
   beforeEach(()=> {
-
   });
 
   data.forEach((specData)=> {
