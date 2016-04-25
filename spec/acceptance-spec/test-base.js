@@ -22,16 +22,17 @@ function buildspec(data, done) {
   var method = data.request.method || 'get';
   var postData = data.request.json;
   var queryData = data.request.query;
+  var responseStatus = data.response.status || 200;
 
   request(app)[method](data.request.uri)
     .query(queryData)
     .send(postData)
-    .expect(200)
+    .expect(responseStatus)
     .expect(function(res) {
       res.body.should.deepEqual(data.response.json);
     })
     .end(function(err, res) {
-      if(data.needRollBack) {
+      if(method !== 'get') {
         shelljs.exec("docker exec -i assembly_mysql_1 mysql -u BronzeSword -p12345678 BronzeSword < mysql.sql", {
           silent: true
         });
@@ -59,12 +60,11 @@ describe("paper-api:", function() {
     });
   });
 
-  beforeEach(()=> {
-  });
-
   data.forEach((specData)=> {
-    it(specData.description, function(done) {
-      buildspec(this, done);
-    }.bind(specData));
+    it(specData.description, (function(specData) {
+      return function(done) {
+        buildspec(specData, done);
+      }
+    })(specData));
   })
 });
