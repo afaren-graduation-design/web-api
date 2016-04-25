@@ -1,7 +1,6 @@
 [
   {
     "description": "should_register_a_user",
-    "needRollBack": true,
     "request": {
       "uri": "/register",
       "method": "post",

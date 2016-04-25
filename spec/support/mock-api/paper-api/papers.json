@@ -28,7 +28,6 @@
   },
   {
     "description":"add_a_new_paper",
-    "needRollBack":true,
     "request": {
       "uri": "/papers/",
       "method": "post",

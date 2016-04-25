@@ -22,7 +22,6 @@
   },
   {
     "description": "should_modify_user_detail",
-    "needRollBack": true,
     "request": {
       "uri": "/users/1/detail",
       "method": "put",
