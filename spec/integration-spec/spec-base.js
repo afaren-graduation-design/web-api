@@ -11,7 +11,7 @@ var session = require('supertest-session');
 var mockServer = require('../support/mock-server');
 var app = require('../../app');
 
-global.testSession = session(app);
+global.userSession = session(app);
 
 var cachedTestData = [];
 
@@ -63,7 +63,7 @@ function startServer(done) {
 }
 
 function login(data, done) {
-  testSession.post('/login')
+  userSession.post('/login')
       .set('Content-Type', 'application/json')
       .send({
         account: 'test@163.com',
