@@ -66,7 +66,7 @@ function jumpControl(data) {
       '/paper-assignment',
       '/paper-assignment/papers'
     ],
-    condition: isAdmin
+    condition: !isAdmin
   }
   ];
 }

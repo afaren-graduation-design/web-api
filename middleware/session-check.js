@@ -75,23 +75,14 @@ module.exports = function (req, res, next) {
     },
 
     isAdmin: function (done) {
-      if (!userId) {
-        done(null, true);
+      if (req.session.user) {
+        done(null, req.session.user.role === '9');
       } else {
-        apiRequest.get('users/' + userId, (err,res) =>{
-          if (err) {
-            done(null, true);
-          } else if(res.body.role !== '9'){
-            done(null, true);
-          } else {
-            done(null, false);
-          }
-        });
+        done(null, false);
       }
     }
 
   }, function (err, data) {
-
     var target = pathControl(req.url, data);
     if (target.needRedirect) {
       res.status(target.head || 403).send(target.body || "");

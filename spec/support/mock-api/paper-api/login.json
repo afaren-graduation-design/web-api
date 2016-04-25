@@ -15,5 +15,21 @@
         "id": 1
       }
     }
+  },{
+  "description": "should_login_in_as_admin_when_give_test_account",
+  "request" :{
+    "uri" : "/login",
+    "method" : "post",
+    "json": {"email":"admin@admin.com","password":"25d55ad283aa400af464c76d713c07ad"}
+  },
+  "response" : {
+    "json" : {
+      "userInfo": {
+        "uri": "users/7"
+      },
+      "role": "9",
+      "id": 7
+    }
   }
+}
 ]

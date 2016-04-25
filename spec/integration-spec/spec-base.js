@@ -12,13 +12,14 @@ var mockServer = require('../support/mock-server');
 var app = require('../../app');
 
 global.userSession = session(app);
+global.adminSession = session(app);
 
 var cachedTestData = [];
 
 var fixtureModelMap = {
   "user-homework-quizzes": require("../../models/user-homework-quizzes"),
   "group": require("../../models/group")
-}
+};
 
 function readFileData(file, callBack) {
   fs.readFile(file, 'utf8', function(err, content) {
@@ -43,7 +44,6 @@ function refreshMongo(data, callBack) {
     funList.push(function(data, done) {
       var records = this.content;
       var model = fixtureModelMap[this.name];
-      // console.log("Rewrite data:" + this.name + "......");
       model.create(records, done);
     }.bind(item));
   });
@@ -62,7 +62,7 @@ function startServer(done) {
   })
 }
 
-function login(data, done) {
+function loginAsUser(data, done) {
   userSession.post('/login')
       .set('Content-Type', 'application/json')
       .send({
@@ -71,7 +71,19 @@ function login(data, done) {
       })
       .expect(200)
       .end(function(err, data) {
-        console.log("User logged: test@163.com");
+        done(null, null)
+      });
+}
+
+function loginAsAdmin(data, done) {
+  adminSession.post('/login')
+      .set('Content-Type', 'application/json')
+      .send({
+        account: 'admin@admin.com',
+        password: '12345678'
+      })
+      .expect(200)
+      .end(function(err, data) {
         done(null, null)
       });
 }
@@ -91,18 +103,18 @@ function cacheMongoData(data, done) {
 before(function(done) {
   async.waterfall([
     startServer,
-    login,
+    loginAsUser,
+    loginAsAdmin,
     cacheMongoData
   ], function(err, data) {
     // if(err) {return done.fail(err)}
-    done();
+    done(err);
   })
 });
 
 after(function(done) {
   mockServer.stop(done);
-  // done();
-})
+});
 
 beforeEach(function(done) {
   refreshMongo(cachedTestData, done);
