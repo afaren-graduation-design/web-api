@@ -8,6 +8,8 @@ var async = require("async");
 var shelljs = require("shelljs");
 var should = require("should");
 
+var externalTest = require("./external-test");
+
 var serverAddr = "http://192.168.99.100:8080";
 
 app.use(proxy(serverAddr, {
@@ -24,13 +26,15 @@ function buildspec(data, done) {
   var queryData = data.request.query;
   var responseStatus = data.response.status || 200;
 
+  var contentSpecFunc = externalTest[data.description] || function(res) {
+    res.body.should.deepEqual(data.response.json);
+  };
+
   request(app)[method](data.request.uri)
     .query(queryData)
     .send(postData)
     .expect(responseStatus)
-    .expect(function(res) {
-      res.body.should.deepEqual(data.response.json);
-    })
+    .expect(contentSpecFunc)
     .end(function(err, res) {
       if(method !== 'get') {
         shelljs.exec("docker exec -i assembly_mysql_1 mysql -u BronzeSword -p12345678 BronzeSword < mysql.sql", {
