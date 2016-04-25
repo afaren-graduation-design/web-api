@@ -62,7 +62,9 @@ function jumpControl(data) {
   }, {
     originPath: [
       '/admin/registerable',
-      '/admin/channel'
+      '/admin/channel',
+      '/paper-assignment',
+      '/paper-assignment/papers'
     ],
     condition: isAdmin
   }

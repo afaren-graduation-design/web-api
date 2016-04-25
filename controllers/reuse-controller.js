@@ -20,7 +20,8 @@ ReuseController.prototype.loadAccount = (req, res) => {
       } else if (resp.status === constant.httpCode.OK) {
         res.send({
           status: constant.httpCode.OK,
-          account: resp.body.email
+          account: resp.body.email,
+          superAdmin: resp.body.role === '9'
         });
       } else if (resp.status === constant.httpCode.NOT_FOUND) {
         res.send({
