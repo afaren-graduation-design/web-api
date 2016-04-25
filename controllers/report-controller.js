@@ -5,10 +5,13 @@ var apiRequest = require('../services/api-request');
 var superAgent = require('superagent');
 var constant = require('../mixin/constant');
 var async = require('async');
+var moment = require('moment');
 var userHomeworkQuizzes = require('../models/user-homework-quizzes');
+var UserChannel = require('../models/user-channel.js');
+var Channel = require('../models/channel.js');
+
 var yamlConfig = require('node-yaml-config');
 var config = yamlConfig.load('./config/config.yml');
-var moment = require('moment');
 var ejs = require('ejs');
 var fs = require('fs');
 var BREAK_LINE_CODE = 10;
@@ -81,9 +84,18 @@ function getUserDataByPaperId(paperId, callback) {
     (userhomeworks, done)=> {
       var commitHistoryFilter = setCommitHistoryfilter(userhomeworks);
       getUsersCommitHistory(commitHistoryFilter, (err, usersCommitHistory)=> {
-        userData.usersCommitHistory = usersCommitHistory.body;
+        userData.commitHistory = usersCommitHistory.body;
         done(err, null);
       });
+    },
+
+    (data, done)=> {
+      UserChannel.find()
+          .populate('channelId')
+          .exec(function (err, usersChannels) {
+            userData.channels = usersChannels;
+            done(err, null);
+          });
 
     }], (err, result)=> {
     callback(err, userData);
@@ -151,6 +163,16 @@ function buildHomework(homeworks, usersCommitHistory, userId) {
   return homework;
 }
 
+function buildChannel(usersChannels, userId) {
+  var userChannel = usersChannels.find((channel)=> {
+    return channel.userId = userId;
+  });
+
+  return {
+    channel: userChannel === undefined ? '' : userChannel.channelId.name
+  }
+}
+
 function buildScoresheetInfo(paperId, callback) {
 
   getUserDataByPaperId(paperId, function (err, usersData) {
@@ -160,16 +182,21 @@ function buildScoresheetInfo(paperId, callback) {
     }
 
     var result = usersData.usersDetail.map((detail) => {
+
       var userSummary = buildUserSummary(detail);
 
       var logicPuzzleSummary = usersData.logicPuzzle.find((item) => {
         return item.userId === detail.userId;
       });
 
-      var homeworkSummary = buildHomework(usersData.homeworks, usersData.usersCommitHistory, detail.userId);
+      var homeworkSummary = buildHomework(usersData.homeworks, usersData.commitHistory, detail.userId);
       homeworkSummary.paperId = paperId;
-      return Object.assign({}, userSummary, logicPuzzleSummary, homeworkSummary);
+
+      var userChannelNameSummary = buildChannel(usersData.channels, detail.userId);
+
+      return Object.assign({}, userSummary, logicPuzzleSummary, homeworkSummary, userChannelNameSummary);
     });
+
 
     callback(null, result);
   });

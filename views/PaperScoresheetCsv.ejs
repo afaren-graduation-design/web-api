@@ -1,4 +1,4 @@
-"姓名","电话","邮箱","逻辑题准确率","逻辑题是否通过","逻辑题开始时间","逻辑题花费时间","编程题正确率","编程题是否通过","编程题开始时间","编程题花费时间","编程题详情"
+"姓名","电话","邮箱","来源渠道","逻辑题准确率","逻辑题是否通过","逻辑题开始时间","逻辑题花费时间","编程题正确率","编程题是否通过","编程题开始时间","编程题花费时间","编程题详情"
 #!!--
 <%
 var hour = constant.time.HOURS_PER_DAY;
@@ -17,6 +17,7 @@ var HOMEWORK_PASS_RETE = 0.6;
 <%= user.name %>,
 <%= user.mobilePhone %>,
 <%= user.email %>,
+<%= user.channel %>,
 <%= (user.correctNumber / user.itemNumber).toFixed(2) %>,
 <%= (user.correctNumber / user.itemNumber) > LOGICPUZZLE_PASS_RETE ? '是' : '否' %>,
 <%= moment.unix(user.startTime).format('YYYY-MM-DD HH:mm:ss') %>,
