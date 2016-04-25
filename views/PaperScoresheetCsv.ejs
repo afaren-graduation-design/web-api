@@ -28,7 +28,7 @@ var HOMEWORK_PASS_RETE = 0.6;
 <%= accuracy > HOMEWORK_PASS_RETE ? '是' : '否' %>,
 <%= user.homeWorkStartTime === undefined ? '--' : moment.unix(user.homeWorkStartTime).format('YYYY-MM-DD HH:mm:ss') %>,
 <%= calcHomeworkElapsedTime(user.elapsedTime) %>,
-<%= config.appServer + 'paper/' + user.paperId + '/user/' + user.userId + '/homework-details' %>
+<%= config.reportCsvAppServer + 'report/paper/' + user.paperId + '/user/' + user.userId + '/homework-details' %>
 #!!--
 <% }); %>
 <% } %>

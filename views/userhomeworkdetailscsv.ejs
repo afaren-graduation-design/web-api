@@ -16,13 +16,13 @@ var BREAK_LINE_CODE = 10;
 <%= userhomework.mobilePhone %>,
 <%= userhomework.email %>,
 <%= userhomework.id %>,
-<%= config.apiServer + userhomework.address %>,
+<%= config.paperApiServer + userhomework.address %>,
 <%= userhomework.startTime === undefined ? '--' : moment.unix(userhomework.startTime).format('YYYY-MM-DD HH:mm:ss') %>,
 <%= userhomework.commitNumbers %>,
 <%= calcHomeworkElapsedTime(userhomework.elapsedTime) %>,
 <%= userhomework.isPassed === constant.homeworkQuizzesStatus.SUCCESS ? '是' : '否' %>,
 "<%= userhomework.lastCommitedDetail.split(String.fromCharCode(BREAK_LINE_CODE)).join('##') %>",
-<%= config.appServer + 'paper/' + userhomework.paperId + '/user/' + userhomework.userId + '/homeworkQuiz/' + userhomework.id %>
+<%= config.reportCsvAppServer + 'report/paper/' + userhomework.paperId + '/user/' + userhomework.userId + '/homeworkQuiz/' + userhomework.id %>
 #!!--
 <% }); %>
 <% } %>

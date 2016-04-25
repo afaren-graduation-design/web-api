@@ -188,6 +188,7 @@ ReportController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
     fs.readFile(__dirname + '/../views/paperscoresheetcsv.ejs', function (err, data) {
 
       var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
+
       var fileName = time + '/paper-' + paperId + '.csv';
 
       res.setHeader('Content-disposition', 'attachment; filename=' + fileName + '');
