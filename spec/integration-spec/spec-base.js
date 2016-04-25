@@ -18,7 +18,9 @@ var cachedTestData = [];
 
 var fixtureModelMap = {
   "user-homework-quizzes": require("../../models/user-homework-quizzes"),
-  "group": require("../../models/group")
+  "group": require("../../models/group"),
+  "channel": require("../../models/channel"),
+  "configuration": require("../../models/configuration")
 };
 
 function readFileData(file, callBack) {
@@ -89,9 +91,12 @@ function loginAsAdmin(data, done) {
 }
 
 function cacheMongoData(data, done) {
-  glob(__dirname + "/support/fixture/*.json", {}, (err, files) => {
+  //console.log(__dirname + "../support/fixture/*.json");
+  glob("./spec/support/fixture/*.json", {}, (err, files) => {
+    console.log(files);
     async.map(files, readFileData, function(err, datas) {
       cachedTestData = datas;
+      console.log(datas);
       console.log("Fixtrue data was loaded");
       done();
     });
