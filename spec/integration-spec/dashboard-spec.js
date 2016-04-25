@@ -7,6 +7,11 @@ describe("GET /dashboard", ()=> {
     userSession
     .get("/dashboard")
     .expect(200)
+        .expect(function (res) {
+          res.body.isPaperCommited.should.equal(true);
+          res.body.isOverTime.should.equal(false);
+          res.body.isFinished.should.equal(false);
+        })
     .end(done);
   });
 });
