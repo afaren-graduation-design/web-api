@@ -91,12 +91,9 @@ function loginAsAdmin(data, done) {
 }
 
 function cacheMongoData(data, done) {
-  //console.log(__dirname + "../support/fixture/*.json");
   glob("./spec/support/fixture/*.json", {}, (err, files) => {
-    console.log(files);
     async.map(files, readFileData, function(err, datas) {
       cachedTestData = datas;
-      console.log(datas);
       console.log("Fixtrue data was loaded");
       done();
     });
