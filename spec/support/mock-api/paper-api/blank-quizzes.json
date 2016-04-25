@@ -14,4 +14,21 @@
       {"uri":"blankQuizzes/6"}
     ]
   }
-}]
+}, {
+  "description": "should_return_new_blank_quizzes_id",
+  "request": {
+    "uri": "/blankQuizzes",
+    "method": "post",
+    "json": {
+      "hardCount":3,
+      "normalCount":3,
+      "easyCount":3,
+      "exampleCount":2
+    }
+  },
+  "response": {
+    "status" : 201,
+    "json": {"id":7,"uri":"blankQuizzes/7"}
+  }
+}
+]
