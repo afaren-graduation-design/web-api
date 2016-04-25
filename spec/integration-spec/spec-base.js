@@ -20,7 +20,8 @@ var fixtureModelMap = {
   "user-homework-quizzes": require("../../models/user-homework-quizzes"),
   "group": require("../../models/group"),
   "channel": require("../../models/channel"),
-  "configuration": require("../../models/configuration")
+  "configuration": require("../../models/configuration"),
+  "logic-puzzle": require("../../models/logic-puzzle")
 };
 
 function readFileData(file, callBack) {

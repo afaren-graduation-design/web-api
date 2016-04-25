@@ -26,6 +26,7 @@
     "lightbox": "./node_modules/lightbox2/dist/js/lightbox.js"
   },
   "devDependencies": {
+    "canvas": "git://github.com/LearnBoost/node-canvas.git",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.15.0",
     "event-stream": "^3.3.2",
