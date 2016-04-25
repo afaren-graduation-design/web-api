@@ -43,6 +43,7 @@ RegisterController.prototype.register = (req, res, next) => {
   var error = {};
 
   if (checkRegisterInfo(registerInfo)) {
+
     var isMobilePhoneExist = false;
     var isEmailExist = false;
     var isCaptchaError = false;
@@ -59,6 +60,7 @@ RegisterController.prototype.register = (req, res, next) => {
         });
       },
       (data, done)=> {
+
         if (registerInfo.captcha !== req.session.captcha) {
           error.status = httpStatus.FORBIDDEN;  //403 验证码错误
           isCaptchaError = true;
@@ -68,6 +70,7 @@ RegisterController.prototype.register = (req, res, next) => {
         }
       },
       (data, done)=> {
+
         apiRequest.get('users', {field: 'mobilePhone', value: registerInfo.mobilePhone}, function (err, resp) {
           if (resp.body.uri) {
             isMobilePhoneExist = true;
@@ -76,6 +79,7 @@ RegisterController.prototype.register = (req, res, next) => {
         });
       },
       (data, done) => {
+
         apiRequest.get('users', {field: 'email', value: registerInfo.email}, function (err, resp) {
           if (resp.body.uri) {
             isEmailExist = true;
@@ -88,24 +92,27 @@ RegisterController.prototype.register = (req, res, next) => {
         });
       },
       (data, done)=> {
+
         delete registerInfo.captcha;
         registerInfo.password = md5(registerInfo.password);
         apiRequest.post('register', registerInfo, done);
       },
       (data, done) => {
+
         if (req.cookies.channel !== '') {
           var userChannel = new UserChannel({
             userId: data.body.id,
             channelId: new mongoose.Types.ObjectId(req.cookies.channel)
           });
-          userChannel.save((err, doc) => {
-            done(err, doc);
+          userChannel.save((err) => {
+            done(err);
           });
         } else {
           done();
         }
       },
-      (data, done)=> {
+      (done)=> {
+
         apiRequest.post('login', {email: registerInfo.email, password: registerInfo.password}, done);
       },
       (data, done)=> {
