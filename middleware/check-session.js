@@ -1,89 +1,36 @@
 'use strict';
 
-var getJumpControl = require('../mixin/get-jump-control');
-var logicPuzzle = require('../models/logic-puzzle');
-var superagent = require('superagent');
-var apiRequest = require('../services/api-request');
-var yamlConfig = require('node-yaml-config');
-var apiServer = yamlConfig.load('./config/config.yml').apiServer;
-var async = require('async');
+var getJumpControl = require('../mixin/jump-control');
 
-function pathControl(url, data) {
+function pathControl(url, session) {
+
   var target = {};
   var needRedirect = false;
-  var jumpControl = getJumpControl(data);
+  var jumpControl = getJumpControl(session);
 
   jumpControl.forEach((item) => {
+
     if (-1 < item.originPath.indexOf(url) && item.condition) {
       target = item;
       needRedirect = true;
+      return;
     }
   });
 
   return {
     needRedirect: needRedirect,
-    target: target
+    status: target.status
   };
 }
 
 module.exports = function (req, res, next) {
-  var userId;
-  console.log('######');
-  console.log(req.url);
 
-  if (Boolean(req.session.user)) {
-    userId = req.session.user.id;
+  var target = pathControl(req.url, req.session);
+
+  if (target.needRedirect) {
+    res.sendStatus(target.status);
+  } else {
+    next();
   }
 
-  async.parallel({
-    isLoged: function (done) {
-      done(null, Boolean(req.session.user));
-    },
-
-    isPaperCommited: function (done) {
-      if (!userId) {
-        done(null, false);
-      } else {
-        logicPuzzle.isPaperCommited(userId, (err, data) => {
-          done(null, data);
-        });
-      }
-    },
-
-    isDetailed: function (done) {
-      if (!userId) {
-        done(null, false);
-      } else {
-        superagent.get(apiServer + 'users/' + userId + '/detail')
-            .set('Content-Type', 'application/json')
-            .end(function (err) {
-              if (err) {
-                done(null, false);
-              } else {
-                done(null, true);
-              }
-            });
-      }
-    },
-
-    isThirdParty: function (done) {
-      done(null, Boolean(req.session.passport));
-    },
-
-    isAdmin: function (done) {
-      if (req.session.user) {
-        done(null, req.session.user.role === '9');
-      } else {
-        done(null, false);
-      }
-    }
-
-  }, function (err, data) {
-    var target = pathControl(req.url, data);
-    if (target.needRedirect) {
-      res.status(target.head || 403).send(target.body || "");
-    } else {
-      next();
-    }
-  });
 };

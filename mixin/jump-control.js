@@ -1,66 +1,25 @@
 'use strict';
 
-function jumpControl(data) {
-  var isLoged = data.isLoged;
-  var isPaperCommited = data.isPaperCommited;
-  var isDetailed = data.isDetailed;
-  var isThirdParty = data.isThirdParty;
-  var isAdmin = data.isAdmin;
+function jumpControl(session) {
+
+  var isLogined = Boolean(session.user);
+  var role = [1, 2, 9];
+  var isAdmin = isLogined ? (-1 < role.indexOf(Number(session.user.role))) : false;
 
   return [{
     originPath: [
-      'homework.html',
-      'logic-puzzle.html',
-      'progress.html',
-      'start.html',
-      'dashboard.html'
+      '/reuse/account'
     ],
-    targetPath: '/join',
-    condition: !isLoged
-  }, {
-    originPath: [
-      'logic-puzzle.html',
-      'start.html'
-    ],
-    targetPath: '/dashboard.html',
-    condition: isLoged && isPaperCommited && isDetailed
-  }, {
-    originPath: [
-      'homework.html',
-      'logic-puzzle.html',
-      'progress.html',
-      'start.html',
-      'dashboard.html'
-    ],
-    targetPath: '/user-center.html',
-    condition: isLoged && !isDetailed
-  }, {
-    originPath: [
-      'homework.html'
-    ],
-    targetPath: 'dashboard.html',
-    condition: !isPaperCommited
-  }, {
-    originPath: [
-      'user-center.html'
-    ],
-    targetPath: 'join',
-    condition: !(isLoged || isThirdParty)
-  }, {
-    originPath: [
-      'join'
-    ],
-    targetPath: 'dashboard.html',
-    condition: isLoged
+    condition: !isLogined,
+    status: 401
   }, {
     originPath: [
       '/admin/registerable',
-      '/admin/channel',
-      '/paper-assignment',
-      '/paper-assignment/papers'
+      '/admin/channel'
     ],
-    condition: !isAdmin
-  }
-  ];
+    condition: isLogined && !isAdmin,
+    status: 403
+  }];
+
 }
 module.exports = jumpControl;
