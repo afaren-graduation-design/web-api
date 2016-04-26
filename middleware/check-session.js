@@ -28,6 +28,8 @@ function pathControl(url, data) {
 
 module.exports = function (req, res, next) {
   var userId;
+  console.log('######');
+  console.log(req.url);
 
   if (Boolean(req.session.user)) {
     userId = req.session.user.id;
@@ -62,12 +64,6 @@ module.exports = function (req, res, next) {
               }
             });
       }
-    },
-
-    isAgreed: function (done) {
-      logicPuzzle.isDealAgree(userId, (data) => {
-        done(null, data);
-      });
     },
 
     isThirdParty: function (done) {

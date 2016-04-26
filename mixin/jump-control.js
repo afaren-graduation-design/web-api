@@ -4,7 +4,6 @@ function jumpControl(data) {
   var isLoged = data.isLoged;
   var isPaperCommited = data.isPaperCommited;
   var isDetailed = data.isDetailed;
-  var isAgreed = data.isAgreed;
   var isThirdParty = data.isThirdParty;
   var isAdmin = data.isAdmin;
 
@@ -41,12 +40,6 @@ function jumpControl(data) {
     ],
     targetPath: 'dashboard.html',
     condition: !isPaperCommited
-  }, {
-    originPath: [
-      'start.html'
-    ],
-    targetPath: 'dashboard.html',
-    condition: isAgreed
   }, {
     originPath: [
       'user-center.html'
