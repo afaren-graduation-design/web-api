@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var route = require('./routes/route');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-var sessionCheck = require('./middleware/session-check');
+var checkSession = require('./middleware/check-session');
 var util = require('util');
 var mongoConn = require('./services/mongo-conn');
 var MongoStore = require('connect-mongo')(session);
@@ -49,7 +49,8 @@ app.use(captcha(params));
 
 app.use(bodyParser.json());
 
-app.use(sessionCheck);
+
+app.use(checkSession);
 
 route.setRoutes(app);
 
