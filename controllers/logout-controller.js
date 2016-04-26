@@ -12,7 +12,7 @@ LogoutController.prototype.logout = (req, res)=> {
   var logoutUri = 'logout';
 
   if(!req.session.user){
-    res.redirect('/join');
+    res.end();
     return;
   }
 
@@ -35,7 +35,7 @@ LogoutController.prototype.logout = (req, res)=> {
       });
     }
   ], (err, data) => {
-    res.redirect('/join');
+    res.end();
   });
 };
 
