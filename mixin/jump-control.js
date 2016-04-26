@@ -3,8 +3,7 @@
 function jumpControl(session) {
 
   var isLogined = Boolean(session.user);
-  var role = [1, 2, 9];
-  var isAdmin = isLogined ? (-1 < role.indexOf(Number(session.user.role))) : false;
+  var isAdmin = isLogined ? ( Number(session.user.role) === 9) : false;
 
   return [{
     originPath: [
