@@ -45,6 +45,10 @@ var params = {
   "canvasHeight": 34
 };
 
+if('test' === env) {
+  params.text = "1234";
+}
+
 app.use(captcha(params));
 
 app.use(bodyParser.json());

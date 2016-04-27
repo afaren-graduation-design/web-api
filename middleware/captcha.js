@@ -35,7 +35,6 @@ module.exports = function (params) {
     }
 
     var text = params.text || ('' + Math.random()).substr(3, params.codeLength);
-
     for (i = 0; i < text.length; i++) {
       ctx.setTransform(Math.random() * 0.5 + 1, Math.random() * 0.4, Math.random() * 0.4, Math.random() * 0.5 + 1, Math.floor(0.575 * params.fontSize) * i + Math.floor(0.35 * params.fontSize), Math.floor(1.25 * params.fontSize));
       ctx.fillText(text.charAt(i), 0, 0);
