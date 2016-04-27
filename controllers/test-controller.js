@@ -2,6 +2,7 @@
 
 var apiRequest = require('../services/api-request');
 var constant = require('../mixin/constant');
+var logicPuzzle = require('../models/logic-puzzle');
 
 function TestController() {
 
@@ -17,11 +18,11 @@ TestController.prototype.isDetailed = (req, res) => {
       });
     }else if(resp.status === constant.httpCode.OK) {
       res.send({
-        data: false
+        data: true
       });
     }else if(resp.status === constant.httpCode.NOT_FOUND) {
       res.send({
-        data: true
+        data: false
       })
     } else {
       res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
@@ -30,7 +31,18 @@ TestController.prototype.isDetailed = (req, res) => {
       });
     }
   })
+};
 
+TestController.prototype.isPaperCommitted = (req, res, next) => {
+  var userId = req.session.user.id;
+
+  logicPuzzle.isPaperCommited(userId, function(err, data) {
+    if(err) {
+      return next(err);
+    }else {
+      res.send({isPaperCommitted: data});
+    }
+  });
 };
 
 module.exports = TestController;
