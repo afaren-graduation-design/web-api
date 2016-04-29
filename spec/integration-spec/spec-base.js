@@ -21,7 +21,8 @@ var fixtureModelMap = {
   "group": require("../../models/group"),
   "channel": require("../../models/channel"),
   "configuration": require("../../models/configuration"),
-  "logic-puzzle": require("../../models/logic-puzzle")
+  "logic-puzzle": require("../../models/logic-puzzle"),
+  "user-paper": require("../../models/user-paper")
 };
 
 function readFileData(file, callBack) {
