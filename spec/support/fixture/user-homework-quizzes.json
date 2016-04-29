@@ -4,7 +4,10 @@
     "paperId": 2,
     "quizzes": [{
       "id": 3,
-      "uri": "homework/quizzes"
+      "uri": "homework/quizzes",
+      "userAnswerRepo": "https://github.com/ss/web",
+      "branch": "master",
+      "status": 3
     }]
   }
 ]
