@@ -10,14 +10,14 @@ var userPaperSchema = new Schema({
     sections: [{
       id: Number,
       description: String,
-      type: String,
-      startTime: Number,
-      endTime: Number,
       quizzes: [{
         definition_uri: String,
         id: Number,
-        item_uri: String
-      }]
+        items_uri: String
+      }],
+      sectionType: String,
+      startTime: Number,
+      endTime: Number
     }]
   }]
 });
