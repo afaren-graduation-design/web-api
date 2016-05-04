@@ -16,4 +16,6 @@ router.put('/:groupHash', groupController.updateGroupInfo);
 
 router.post('/:groupHash/paper', groupController.operatePaper);
 
+router.get('/paper/:id', groupController.loadSection);
+
 module.exports = router;
