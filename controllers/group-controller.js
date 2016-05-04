@@ -1,5 +1,6 @@
 'use strict';
 var userApiRequest = require('../services/user-api-request');
+var apiRequest = require('../services/api-request');
 var async = require('async');
 var constant = require('../mixin/constant');
 var group = require('../models/group');
@@ -35,7 +36,7 @@ function getGroupHashByGroupId(groupList, groupId) {
   var group = groupList.find((item)=> {
     return item.groupId === groupId;
   });
-  if(group) return group._id;
+  if (group) return group._id;
 }
 
 GroupController.prototype.loadGroup = (req, res, next)=> {
@@ -149,6 +150,35 @@ GroupController.prototype.operatePaper = (req, res, next) => {
     } else if (resp.status === constant.httpCode.NOT_FOUND) {
       res.send({
         status: constant.httpCode.NOT_FOUND
+      });
+    } else {
+      return next(err);
+    }
+  });
+};
+
+GroupController.prototype.loadSection = (req, res, next) => {
+  var paperId = req.params.id;
+  var url = 'papers/' + paperId;
+
+  async.waterfall([(done) => {
+    apiRequest.get(url, done);
+  },
+    (data, done)=> {
+      if (!data) {
+        done(true, null);
+      } else {
+        done(null, data);
+      }
+    }], (err, data)=> {
+    if (err) {
+      res.send({
+        status: constant.httpCode.NOT_FOUND
+      });
+    } else if (data.status === constant.httpCode.OK) {
+      res.send({
+        sections: data.body.sections,
+        status: data.status
       });
     } else {
       return next(err);
