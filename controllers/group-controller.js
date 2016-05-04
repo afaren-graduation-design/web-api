@@ -32,9 +32,10 @@ GroupController.prototype.getGroupInfo = (req, res, next) => {
 
 
 function getGroupHashByGroupId(groupList, groupId) {
-  return groupList.find((item)=> {
+  var group = groupList.find((item)=> {
     return item.groupId === groupId;
-  })._id;
+  });
+  if(group) return group._id;
 }
 
 GroupController.prototype.loadGroup = (req, res, next)=> {
@@ -42,7 +43,6 @@ GroupController.prototype.loadGroup = (req, res, next)=> {
   var role = req.session.user.role;
   var groupUrl = 'users/' + userId + '/groups';
   var newGroupList;
-
   async.waterfall([
     (done)=> {
       userApiRequest.get(groupUrl, done);
@@ -96,21 +96,34 @@ GroupController.prototype.createGroup = (req, res, next) => {
 
 GroupController.prototype.updateGroupInfo = function (req, res, next) {
   var groupHash = req.params.groupHash;
-
+  var data;
+  var groupInfo = {
+    name: req.body.name,
+    avatar: req.body.avatar,
+    adminId: req.session.user.id,
+    announcement: req.body.announcement,
+    isAnnouncePublished: req.body.isAnnouncePublished
+  };
   async.waterfall([
     (done) => {
-      group.findOne({_id: groupHash}, done)
+      group.findOne({_id: groupHash}, done);
     },
-    (data, done) => {
-
-      var groupId = data.groupId;
-      var url = 'groups/' + groupId;
-
-      userApiRequest.put(url, req.body, done);
+    (result, done) => {
+      data = result;
+      if (data.groupId !== null) {
+        var url = 'groups/' + data.groupId;
+        userApiRequest.put(url, req.body, done);
+      } else {
+        userApiRequest.post('groups', groupInfo, (err, resp) => {
+          data.groupId = resp.body.uri.split('/')[2];
+          data.save();
+          done(null, resp);
+        });
+      }
     }
   ], (err, data) => {
     if (err) return next(err);
-    res.send({status: data.body.status});
+    res.send({status: data.status});
   });
 };
 
@@ -122,18 +135,18 @@ GroupController.prototype.operatePaper = (req, res, next) => {
     makerId: req.session.user.id
   };
 
-  apiRequest.post('papers', paperInfo, function(err, resp) {
+  apiRequest.post('papers', paperInfo, function (err, resp) {
 
     if (resp === undefined) {
       res.send({
         status: constant.httpCode.INTERNAL_SERVER_ERROR
       });
-    } else if(resp.status === constant.httpCode.OK) {
+    } else if (resp.status === constant.httpCode.OK) {
       res.send({
         status: constant.httpCode.CREATED,
         paperId: resp.body.paperId
       });
-    } else if(resp.status === constant.httpCode.NOT_FOUND) {
+    } else if (resp.status === constant.httpCode.NOT_FOUND) {
       res.send({
         status: constant.httpCode.NOT_FOUND
       });
