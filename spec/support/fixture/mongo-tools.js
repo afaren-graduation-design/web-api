@@ -2,11 +2,6 @@ var glob = require('glob');
 var async = require('async');
 var fs = require('fs');
 var path = require('path');
-var yamlConfig = require('node-yaml-config');
-var mongoConn = require('../../../services/mongo-conn');
-var config = yamlConfig.load(__dirname + '/../../../config/config.yml');
-
-mongoConn.start(config.database);
 
 var _cachedTestData;
 

@@ -293,14 +293,4 @@ HomeworkController.prototype.getEstimatedTime = (req, res, next) => {
   });
 };
 
-HomeworkController.prototype.createScroing = function(req, res, next) {
-  var data = Object.assign({}, req.body, {userId: req.session.user.id});
-
-  userHomeworkScoring.create(data, function(err, data) {
-    console.log("^^^^^^^^^^^^");
-    if(err) {return next(err)};
-    res.send(data);
-  });
-};
-
 module.exports = HomeworkController;

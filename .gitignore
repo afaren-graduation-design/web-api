@@ -21,3 +21,5 @@ doc/qa.md
 .gradle
 
 mysql.sql
+
+*.iml
