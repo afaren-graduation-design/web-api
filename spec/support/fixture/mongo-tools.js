@@ -16,7 +16,8 @@ var fixtureModelMap = {
   "channel": require("../../../models/channel"),
   "configuration": require("../../../models/configuration"),
   "logic-puzzle": require("../../../models/logic-puzzle"),
-  "user-paper": require("../../../models/user-paper")
+  "user-paper": require("../../../models/user-paper"),
+  'homework-scoring': require('../../../models/homework-scoring')
 };
 
 function cacheData(done) {
