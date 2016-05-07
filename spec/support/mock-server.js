@@ -1,31 +1,20 @@
 var shelljs = require('shelljs');
+var colors = require('colors');
 
 var stdout;
 
 function startServer(config, done) {
-  var script = "java -jar spec/support/moco-runner-0.10.2-standalone.jar http -p 12306 -g spec/support/paper-api.json -s 9527";
-  var child = shelljs.exec(script, {
-    async: true,
-    silent:true
-  });
-
-  stdout = child.stdout
-  stdout.on('data', function(data) {
-    if(data.indexOf("Server is started") > -1) {
-      'function' === typeof done && done();
-    }
-
-    if(data.indexOf("ERROR") > -1) {
-      'function' === typeof done && done(new Error(data));
-    }
-  });
+  var checkCommand = "lsof -t -i:12306 | wc -l";
+  isMockServerStarted = parseInt(shelljs.exec(checkCommand).output.trim()) > 0;
+  if(!isMockServerStarted) {
+    console.log("Mock Server Was Stopped, Please Run: npm run mock-server".underline.red);
+    done(new Error("Mock Server Was Stopped"));
+  } else {
+    done();
+  }
 }
 
 function stopServer(done) {
-  shelljs.exec("java -jar spec/support/moco-runner-0.10.2-standalone.jar shutdown -s 9527", {
-    async: true,
-    silent:true
-  });
   done();
 }
 

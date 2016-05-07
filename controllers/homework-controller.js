@@ -1,6 +1,7 @@
 'use strict';
 
 var userHomeworkQuizzes = require('../models/user-homework-quizzes');
+var userHomeworkScoring = require('../models/homework-scoring');
 var async = require('async');
 var constant = require('../mixin/constant');
 var apiRequest = require('../services/api-request');
@@ -291,5 +292,12 @@ HomeworkController.prototype.getEstimatedTime = (req, res, next) => {
     })
   });
 };
+
+HomeworkController.prototype.createScroing = function(req, res, next) {
+
+  res.send({
+    userId: 123
+  });
+}
 
 module.exports = HomeworkController;
