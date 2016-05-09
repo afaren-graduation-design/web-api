@@ -29,17 +29,12 @@ var homeworkScoringController = {
 
       function(data, done) {
         var script = data.split('\n').join('\\n')
-        var long_data = "";
-        for(var i=0; i<5000; i++) {
-          long_data += i;
-        }
 
         request
           .post(taskApi)
           .type('form')
           .send({
-            script: script,
-            long_data: long_data
+            script: script
           })
           .end(done);
       }
@@ -51,10 +46,19 @@ var homeworkScoringController = {
   },
 
   updateScoring: function(req, res, next) {
-    userHomeworkScoring.update(req.params.id, req.body, function(err, data) {
+    async.waterfall([
+      (done)=> {
+        userHomeworkScoring.update(req.params.id, req.body, done);
+      },
+
+      (data, done)=> {
+        done(null, null)
+      }
+    ], (err, data)=> {
       if(err) {return next(err);}
       res.send(data);
     });
+
   }
 };
 

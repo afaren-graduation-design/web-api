@@ -25,9 +25,7 @@ HomeworkController.prototype.getList = (req, res, next) => {
 
   var userId = req.session.user.id;
   userHomeworkQuizzes.findOne({userId: userId}, function (err, data) {
-    if (err) {
-      return next(req, res, err);
-    }
+    if (err) { return next(err); }
 
     res.send({
       status: constant.httpCode.OK,
@@ -180,7 +178,6 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
     (done) => {
       var userId = req.session.user.id;
       userHomeworkQuizzes.findOne({userId: userId}).exec(done);
-
     },
 
     (data, done) => {
