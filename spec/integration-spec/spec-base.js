@@ -28,7 +28,7 @@ function loginAsUser(data, done) {
       })
       .expect(200)
       .end(function(err, data) {
-        done(null, null)
+        done(err, null)
       });
 }
 
@@ -41,11 +41,9 @@ function loginAsAdmin(data, done) {
       })
       .expect(200)
       .end(function(err, data) {
-        done(null, null)
+        done(err, null)
       });
 }
-
-
 
 before(function(done) {
   async.waterfall([

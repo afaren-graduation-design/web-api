@@ -6,12 +6,14 @@ default:
   reportCsvAppServer: 'http://192.168.99.100:8888/api/'
   appServer: 'http://web-api:3000/'
   taskServer: 'http://task-queue:4000/'
-  sessionTtl: 3600 # 60(MINUTE_PER_HOUR) * 60(SECONDS_PER_MINUTE)
   staticFileServer: 'http://192.168.99.100:8888/fs/'
+  taskApi: 'http://jenkins/job/HOMEWORK-SCORING/buildWithParameters'
+  sessionTtl: 3600 # 60(MINUTE_PER_HOUR) * 60(SECONDS_PER_MINUTE)
   emailServer: '192.168.99.100:8888'
   emailAccount: 'twarss@163.com'
   emailPassword: 'ssww123456'
   gitHubToken: 'Basic dHdhcnM6c3cxMjM0NTY3OA=='
+
   QAInfoAddress: ''
 development:
   database: 'mongodb://192.168.99.100/twars'
@@ -22,6 +24,7 @@ integration:
   paperApiServer: 'http://localhost:12306/'
   userApiServer: 'http://localhost:12306/'
   database: 'mongodb://192.168.99.100/twars'
+  taskApi: 'http://localhost:12306/job/HOMEWORK-SCORING/buildWithParameters'
 test:
   staticFileServer: 'http://192.168.99.100:8888/fs/'
 production:

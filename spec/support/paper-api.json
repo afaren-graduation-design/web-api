@@ -3,6 +3,12 @@
     "include": "spec/support/mock-api/paper-api/papers/1.json"
   },
   {
+    "include": "spec/support/mock-api/paper-api/papers/1/user-detail.json"
+  },
+  {
+    "include": "spec/support/mock-api/paper-api/papers/1/logic-puzzle.json"
+  },
+  {
     "include": "spec/support/mock-api/paper-api/users/1.json"
   },
   {
@@ -13,5 +19,8 @@
   },
   {
     "include": "spec/support/mock-api/user-api/groups.json"
+  },
+  {
+    "include": "spec/support/mock-api/jenkins/buildWithParameters.json"
   }
 ]

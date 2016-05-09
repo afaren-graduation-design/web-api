@@ -2,6 +2,9 @@ var async = require('async');
 var fs = require('fs');
 var request = require('superagent');
 var userHomeworkScoring = require('../models/homework-scoring');
+var yamlConfig = require('node-yaml-config');
+
+var taskApi = yamlConfig.load(__dirname + '/../config/config.yml').taskApi;
 
 var homeworkScoringController = {
   getScoring: function(req, res, next) {
@@ -27,19 +30,13 @@ var homeworkScoringController = {
 
       function(data, done) {
         var script = data.split('\n').join('\\n')
-        // var script = data;
-        // var script = encodeURIComponent(data);
-        // console.log(script);
         var long_data = "";
         for(var i=0; i<5000; i++) {
           long_data += i;
         }
-        long_data += "我";
 
-        var createJobStr = 'http://192.168.99.100:8088/job/HOMEWORK-SCORING/buildWithParameters';
         request
-          .post(createJobStr)
-          .auth('twars', 'twars')
+          .post(taskApi)
           .type('form')
           .send({
             script: script,

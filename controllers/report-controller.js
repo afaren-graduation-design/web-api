@@ -206,11 +206,42 @@ function buildScoresheetInfo(paperId, callback) {
 ReportController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
   var paperId = req.params.paperId;
 
+  var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
+  var fileName = time + '/paper-' + paperId + '.csv';
+
+  res.setHeader('Content-disposition', 'attachment; filename=' + fileName + '');
+  res.setHeader('Content-Type', 'text/csv');
+
+  async.waterfall([
+
+    (done) => {
+      var usersDetailURL = 'papers/' + paperId + '/usersDetail';
+      apiRequest.get(usersDetailURL, done);
+    },
+
+    (data, done)=> {
+      var logicPuzzleURL = 'papers/' + paperId + '/logicPuzzle';
+      apiRequest.get(logicPuzzleURL, done);
+    },
+
+    (data, done)=> {
+      userHomeworkQuizzes.find({paperId: paperId}, done);
+    },
+
+    (data, done)=> {
+      var commitHistoryFilter = setCommitHistoryfilter(data);
+      getUsersCommitHistory(commitHistoryFilter, done);
+    },
+
+
+  ], function(err, data) {
+    console.log(err);
+    if(err) { return next(err); }
+    res.send(data);
+  })
+  return;
   buildScoresheetInfo(paperId, function (err, scoresheetInfo) {
-    if (err) {
-      next(err);
-      return;
-    }
+    if (err) { return next(err); }
 
     fs.readFile(__dirname + '/../views/paperscoresheetcsv.ejs', function (err, data) {
 

@@ -9,5 +9,16 @@
       "branch": "master",
       "status": 3
     }]
+  },
+  {
+    "userId": 1,
+    "paperId": 1,
+    "quizzes": [{
+      "id": 3,
+      "uri": "homework/quizzes",
+      "userAnswerRepo": "https://github.com/ss/web",
+      "branch": "master",
+      "status": 3
+    }]
   }
 ]
