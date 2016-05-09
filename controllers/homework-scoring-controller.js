@@ -8,9 +8,8 @@ var taskApi = yamlConfig.load(__dirname + '/../config/config.yml').taskApi;
 
 var homeworkScoringController = {
   getScoring: function(req, res, next) {
-    userHomeworkScoring.find({
-      userId: req.session.user.id
-    }, (err, data)=> {
+    userHomeworkScoring.find()
+    .exec((err, data)=> {
       if(err) {return next(err)}
       res.send(data);
     })

@@ -1,12 +1,11 @@
 [
   {
     "_id": "572dcf6f041ccfa51fb3f9cb",
-    "userId": 1,
-    "gitRepoUrl": "http://test.git"
+    "userAnswerRepo": "http://test.git",
+    "version": "asdasdfasdf"
   },
   {
-    "userId": 99,
-    "gitRepoUrl": "http://test_99.git",
+    "userAnswerRepo": "http://test_99.git",
     "status": "2"
   }
 ]
