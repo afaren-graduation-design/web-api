@@ -2,7 +2,7 @@ require('./spec-base');
 var userSession = global.userSession;
 
 describe("GET /paper-definition", ()=> {
-  it('should be return paper-definition list: GET /paper-definition', function (done) {
+  it('should be return 200 and paper-definition list: GET /paper-definition', function (done) {
     userSession
         .get("/paper-definition")
         .expect(200)
@@ -18,5 +18,20 @@ describe("GET /paper-definition", ()=> {
           res.body[0].logicPuzzleSections.length.should.equal(1);
         })
         .end(done);
+  });
+});
+
+describe("POST /paper-definition", ()=> {
+  it('should be return 200: POST /paper-definition', function(done) {
+    userSession
+    .post("/paper-definition")
+    .expect(200)
+    .send({
+      isPublished: false,
+      paperName: 'html 基础测验',
+      groupHashId: '57231289d46aebaca22c98fe',
+      groupId: 1
+    })
+    .end(done);
   });
 });
