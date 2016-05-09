@@ -7,4 +7,6 @@ var paperDefinitionController = new PaperDefinitionController();
 
 router.get('/', paperDefinitionController.getPaperDefinition);
 
+router.post('/', paperDefinitionController.createPaperDefinition);
+
 module.exports = router;
