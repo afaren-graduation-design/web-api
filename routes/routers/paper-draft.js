@@ -9,6 +9,6 @@ router.get('/', paperDraftController.getPaperDraft);
 
 router.post('/', paperDraftController.createPaperDraft);
 
-router.post('/:paperHash', paperDraftController.insertLogicPuzzleSection);
+router.post('/:paperHash/logicPuzzleSections', paperDraftController.insertLogicPuzzleSection);
 
 module.exports = router;
