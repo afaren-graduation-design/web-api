@@ -17,12 +17,16 @@
   ],
   "homeworkSections": [
     {
-      "definitionRepo": "https://github.com/zhangsan/posv_2",
-      "branch": "master",
-      "templateRepo": "https://github.com/zhangsan/pos_template",
-      "descriptionAddress": "https://github.com/zhangsan/posv_2/description.md",
-      "inspectionAddress": "https://github.com/zhangsan/posv_2/inspection.sh",
-      "_id": "57303a24aae48e0e65cd8db8"
+      "_id": "573169c72cf15ff4104609a5",
+      "items": [{
+        "definitionRepo": "https://github.com/zhangsan/posv_2",
+        "branch": "master",
+        "templateRepo": "https://github.com/zhangsan/pos_template",
+        "descriptionAddress": "https://github.com/zhangsan/posv_2/description.md",
+        "inspectionAddress": "https://github.com/zhangsan/posv_2/inspection.sh",
+        "_id": "57303a24aae48e0e65cd8db8"
+      }]
+
     }
   ]
 }
