@@ -16,8 +16,8 @@ router.put('/status/:historyId', homeworkController.updateStatus);
 router.get('/estimated-time', homeworkController.getEstimatedTime);
 router.post('/save', homeworkController.saveGithubUrl);
 
-router.get('/scoring', homeworkScoringController.getScoring);
-router.put('/scoring/:id', homeworkScoringController.updateScoring);
+//router.get('/scoring', homeworkScoringController.getScoring);
+router.put('/scoring/:historyId', homeworkController.updateScoring);
 router.post('/scoring', homeworkController.createScoring);
 
 module.exports = router;

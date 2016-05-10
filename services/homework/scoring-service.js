@@ -2,8 +2,9 @@
 
 var async = require('async');
 var request = require('superagent');
+var mongoose = require('mongoose');
 var userHomeworkQuizzes = require('../../models/user-homework-quizzes');
-var userHomeworkScoring = require('../../models/homework-scoring');
+var homeworkScoring = require('../../models/homework-scoring');
 var yamlConfig = require('node-yaml-config');
 var config = yamlConfig.load(__dirname + '/../../config/config.yml');
 var apiRequest = require('../api-request');
@@ -24,7 +25,7 @@ function createScoring(options, callBack) {
 
     (homeworkQuiz, done)=> {
       homeworkQuizDefinition = homeworkQuiz.evaluateScript;
-      userHomeworkScoring.create(options, done);
+      homeworkScoring.create(options, done);
     },
 
     (data, done)=> {
@@ -62,10 +63,35 @@ function createScoring(options, callBack) {
           })
           .end(done);
     }
-
   ], callBack)
 }
 
+function updateScoring(options, callback) {
+  async.waterfall([
+
+    (done)=> {
+      options.result = new Buffer(options.result || "", 'base64').toString('utf8');
+      homeworkScoring.update(options.historyId, options, done);
+    },
+
+    (data, done)=> {
+      userHomeworkQuizzes.updateStatus({
+        historyId: options.historyId,
+        status: options.status
+      }, done);
+      //var historyId = new mongoose.Types.ObjectId(options.historyId);
+      //userHomeworkQuizzes.findOne({'quizzes.homeworkSubmitPostHistory': historyId}, (err, doc)=> {
+      //  var theQuiz = doc.quizzes.find((item)=> {
+      //    return item.homeworkSubmitPostHistory.indexOf(historyId) > -1;
+      //  });
+      //  theQuiz.status = options.status;
+      //  doc.save(done);
+      //});
+    }
+  ], callback);
+}
+
 module.exports = {
-  createScoring: createScoring
+  createScoring: createScoring,
+  updateScoring: updateScoring
 };

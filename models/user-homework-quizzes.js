@@ -47,6 +47,8 @@ userHomeworkQuizzesSchema.statics.initUserHomeworkQuizzes = function (userId, qu
   });
 };
 
+
+
 userHomeworkQuizzesSchema.statics.getQuizStatus = function (userId, callback) {
   this.findOne({userId: userId})
       .exec((err, doc) => {
@@ -161,6 +163,28 @@ userHomeworkQuizzesSchema.statics.updateQuizzesStatus = function (data, callback
       });
       doc.save(callback);
     }
+  });
+};
+
+userHomeworkQuizzesSchema.statics.updateStatus = function(data, callBack) {
+  var historyId = new mongoose.Types.ObjectId(data.historyId);
+
+  this.findOne({'quizzes.homeworkSubmitPostHistory': historyId}, (err, doc)=> {
+    var nextIdx = 0;
+
+    var theQuiz = doc.quizzes.find((item, idx)=> {
+      nextIdx = idx + 1;
+      return item.homeworkSubmitPostHistory.indexOf(historyId) > -1;
+    });
+
+    var nextQuiz = doc.quizzes[nextIdx];
+
+    if(constant.homeworkQuizzesStatus.SUCCESS === data.status && nextQuiz) {
+      nextQuiz.status = constant.homeworkQuizzesStatus.ACTIVE;
+    }
+
+    theQuiz.status = data.status;
+    doc.save(callBack);
   });
 };
 

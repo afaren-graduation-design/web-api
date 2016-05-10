@@ -9,6 +9,13 @@
       "branch": "master",
       "status": 3,
       "homeworkSubmitPostHistory": ["572dcf6f041ccfa51fb3f9cb"]
+    }, {
+      "id": 3,
+      "uri": "homeworkQuizzes/1",
+      "userAnswerRepo": "https://github.com/ss/web",
+      "branch": "master",
+      "status": 1,
+      "homeworkSubmitPostHistory": []
     }]
   },
   {
@@ -20,6 +27,12 @@
       "userAnswerRepo": "https://github.com/ss/web",
       "branch": "master",
       "status": 3
+    }, {
+      "id": 4,
+      "uri": "homeworkQuizzes/1",
+      "userAnswerRepo": "https://github.com/ss/web",
+      "branch": "master",
+      "status": 1
     }]
   }
 ]

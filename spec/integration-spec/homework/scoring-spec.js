@@ -1,5 +1,8 @@
+'use strict';
+
 require('should');
 var async = require('async');
+var mongoose = require('mongoose');
 var homeworkScoring = require('../../../models/homework-scoring');
 var userHomeworkQuizzes = require('../../../models/user-homework-quizzes');
 
@@ -8,11 +11,12 @@ var userSession = global.userSession;
 
 describe('/homework/scoring', ()=> {
 
-  it('Post /homework/scoring: should create a homeworkScoring record', function (done) {
+  xit('Post /homework/scoring: should create a homeworkScoring record', function (done) {
 
     var sendPostRequest = (done)=> {
       userSession
           .post('/homework/scoring')
+          .expect(201)
           .send({
             homeworkQuizUri: 'homeworkQuizzes/1',
             userAnswerRepo: 'http://test.git',
@@ -41,6 +45,55 @@ describe('/homework/scoring', ()=> {
     async.waterfall([
       sendPostRequest,
       verifyHomeworkScoring,
+      verifyUserHomeworkQuizzes
+    ], done)
+
+  });
+
+  it('Put /homework/scoring/:id should update a homeworkScoring record', function (done) {
+
+    var sendPutRequest = (done)=> {
+      userSession
+          .put('/homework/scoring/572dcf6f041ccfa51fb3f9cb')
+          .send({
+            result: "T0sh",
+            status: 4
+          })
+          .expect(200)
+          .end(done)
+    };
+
+    var verifyHomework = (data, done)=> {
+      homeworkScoring.findById('572dcf6f041ccfa51fb3f9cb', function(err, data) {
+        data.result.should.equal('OK!');
+        data.status.should.equal(4);
+        done(err, null);
+      });
+    };
+
+    var verifyUserHomeworkQuizzes = (data, done)=> {
+      var id = new mongoose.Types.ObjectId('572dcf6f041ccfa51fb3f9cb');
+      userHomeworkQuizzes
+          .aggregate([
+            {'$unwind': '$quizzes'},
+            {'$unwind': '$quizzes.homeworkSubmitPostHistory'}
+          ])
+          .match({'quizzes.homeworkSubmitPostHistory': id})
+          .exec((err, docs)=> {
+            docs[0].quizzes.status.should.equal(4);
+            done(null,null);
+          })
+    };
+
+    var verifyNextQuizzesChanged = (data, done)=> {
+      userHomeworkQuizzes.find({}, function(err, docs) {
+        docs[0].quizzes[1].status.should.equal(2);
+      })
+    };
+
+    async.waterfall([
+      sendPutRequest,
+      verifyHomework,
       verifyUserHomeworkQuizzes
     ], done)
 

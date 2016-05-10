@@ -233,7 +233,6 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
     }
   ], (err, data) => {
     if (err) {
-      console.log(err);
       return next(req, res, err);
     }
     res.send(data);
@@ -247,6 +246,15 @@ HomeworkController.prototype.createScoring = (req, res, next)=> {
     if(err) {return next(err)}
     res.status(201).send(data);
   });
+};
+
+HomeworkController.prototype.updateScoring = (req, res, next)=> {
+  var options = Object.assign({historyId: req.params.historyId}, req.body);
+
+  scoringService.updateScoring(options, (err, data)=> {
+    if(err) {return next(err)}
+    res.send(data);
+  })
 };
 
 HomeworkController.prototype.getEstimatedTime = (req, res, next) => {
