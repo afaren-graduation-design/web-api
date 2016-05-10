@@ -108,8 +108,6 @@ PaperDraftController.prototype.insertHomeworkSections = (req, res, next) => {
     done(null, data);
   }], (err, data)=> {
     if (data) {
-      console.log('homeworkSections');
-      console.log(data);
       res.send({
         status: httpStatus.OK
       });
