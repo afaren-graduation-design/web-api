@@ -1,16 +1,17 @@
 'use strict';
 
-var userHomeworkQuizzes = require('../models/user-homework-quizzes');
-var userHomeworkScoring = require('../models/homework-scoring');
+
+
 var async = require('async');
-var constant = require('../mixin/constant');
-var apiRequest = require('../services/api-request');
+var mongoose = require('mongoose');
 var request = require('superagent');
 var yamlConfig = require('node-yaml-config');
+
+var constant = require('../mixin/constant');
+var apiRequest = require('../services/api-request');
 var config = yamlConfig.load('./config/config.yml');
-var mongoose = require('mongoose');
-var taskApi = yamlConfig.load(__dirname + '/../config/config.yml').taskApi;
-var nginxServer = yamlConfig.load(__dirname + '/../config/config.yml').nginxServer;
+var scoringService = require('../services/homework/scoring-service');
+var userHomeworkQuizzes = require('../models/user-homework-quizzes');
 
 function getDesc(status, realDesc) {
   if (status === constant.homeworkQuizzesStatus.LOCKED) {
@@ -172,6 +173,7 @@ HomeworkController.prototype.getQuiz = (req, res, next) => {
   });
 };
 
+//
 HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
   var userHomework;
   var index;
@@ -239,56 +241,12 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
 };
 
 HomeworkController.prototype.createScoring = (req, res, next)=> {
-  var homeworkQuizDefinition;
+  var options = Object.assign({}, req.session, req.body);
 
-  async.waterfall([
-
-    (done)=> {
-      var uri = req.body.homeworkQuizUri;
-      apiRequest.get(uri, done);
-    },
-
-    (data, done)=> {
-      homeworkQuizDefinition = data.body.evaluateScript;
-      userHomeworkScoring.create(req.body, done);
-    },
-
-    (data, done)=> {
-      userHomeworkQuizzes.findOne({
-        userId: req.session.user.id,
-        paperId: req.body.paperId
-      }, (err, doc)=> {
-        var theQuiz = doc.quizzes.find((quiz)=> {
-          return quiz.uri === req.body.homeworkQuizUri;
-        });
-        theQuiz.homeworkSubmitPostHistory.push(data._id);
-        doc.save(()=> {
-          done(null, null);
-        });
-      })
-    },
-
-    (data, done)=> {
-      var scriptPath = nginxServer + homeworkQuizDefinition;
-      request
-          .get(scriptPath)
-          .buffer()
-          .end(function(err, data) {
-            done(null, data.text);
-          })
-
-    },
-
-    (data, done)=> {
-      done(null, data);
-    }
-
-
-  ], (err, data)=> {
+  scoringService.createScoring(options, (err, data)=> {
     if(err) {return next(err)}
     res.status(201).send(data);
-  })
-
+  });
 };
 
 HomeworkController.prototype.getEstimatedTime = (req, res, next) => {
