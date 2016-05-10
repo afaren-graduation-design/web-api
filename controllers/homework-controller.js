@@ -203,7 +203,7 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
         callbackUrl: config.appServer + 'homework/status'
       });
     },
-
+// todo 删掉下面这一步:调用taskServer来创建一条记录
     (data, done) => {
       request
           .post(config.taskServer + 'tasks')
@@ -211,7 +211,14 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
           .send(data)
           .end(done);
     },
-
+// todo 在表中创建一条新记录
+    (data, done) => {
+      done(null, data);
+    },
+// 调用 task-runner
+    (data, done) => {
+      done(null, data);
+    },
     (data, done) => {
       var id = data.body.id;
       userHomework.quizzes[index].status = data.body.status;
@@ -227,6 +234,37 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
     }
     res.send(data);
   });
+};
+
+HomeworkController.prototype.createScoring = (req, res, next)=> {
+  async.waterfall([
+
+    (done)=> {
+      var uri = req.body.homeworkQuizUri;
+      apiRequest.get(uri, done);
+    },
+
+    (data, done)=> {
+      userHomeworkScoring.create(req.body, done);
+    },
+
+    (data, done)=> {
+      userHomeworkQuizzes.findOne({
+        userId: req.session.user.id,
+        paperId: req.body.paperId
+      }, (err, doc)=> {
+        var theQuiz = doc.quizzes.find((quiz)=> {
+          return quiz.uri === req.body.homeworkQuizUri;
+        });
+        theQuiz.homeworkSubmitPostHistory.push(data._id);
+        doc.save(done);
+      })
+    }
+  ], (err, data)=> {
+    if(err) {return next(err)}
+    res.status(201).send(data);
+  })
+
 };
 
 HomeworkController.prototype.getEstimatedTime = (req, res, next) => {

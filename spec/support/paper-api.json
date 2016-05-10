@@ -18,6 +18,9 @@
     "include": "spec/support/mock-api/paper-api/users/1/detail.json"
   },
   {
+    "include": "spec/support/mock-api/paper-api/homework-quizzes/1.json"
+  },
+  {
     "include": "spec/support/mock-api/user-api/groups.json"
   },
   {

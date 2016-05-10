@@ -28,7 +28,7 @@ var homeworkScoringController = {
       },
 
       function(data, done) {
-        var script = data.split('\n').join('\\n')
+        var script = data.split('\n').join('\\n');
 
         request
           .post(taskApi)

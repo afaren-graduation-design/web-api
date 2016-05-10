@@ -14,10 +14,10 @@ router.get('/quiz',homeworkController.getQuiz);
 router.get('/get-branches',githubReq.getBranches);
 router.put('/status/:historyId', homeworkController.updateStatus);
 router.get('/estimated-time', homeworkController.getEstimatedTime);
-router.post('/save',homeworkController.saveGithubUrl);
+router.post('/save', homeworkController.saveGithubUrl);
 
 router.get('/scoring', homeworkScoringController.getScoring);
 router.put('/scoring/:id', homeworkScoringController.updateScoring);
-router.post('/scoring', homeworkScoringController.createScoring);
+router.post('/scoring', homeworkController.createScoring);
 
 module.exports = router;
