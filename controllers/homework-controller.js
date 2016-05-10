@@ -9,6 +9,7 @@ var request = require('superagent');
 var yamlConfig = require('node-yaml-config');
 var config = yamlConfig.load('./config/config.yml');
 var mongoose = require('mongoose');
+var taskApi = yamlConfig.load(__dirname + '/../config/config.yml').taskApi;
 
 function getDesc(status, realDesc) {
   if (status === constant.homeworkQuizzesStatus.LOCKED) {
@@ -259,7 +260,14 @@ HomeworkController.prototype.createScoring = (req, res, next)=> {
         theQuiz.homeworkSubmitPostHistory.push(data._id);
         doc.save(done);
       })
+    },
+// 读取shell脚本文件
+    (data, done)=> {
+
+      done(null, data);
     }
+
+
   ], (err, data)=> {
     if(err) {return next(err)}
     res.status(201).send(data);
