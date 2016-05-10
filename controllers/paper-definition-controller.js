@@ -8,7 +8,6 @@ function PaperDefinitionController() {
 
 PaperDefinitionController.prototype.getPaperDefinition = (req, res, next) => {
   async.waterfall([(done)=> {
-    console.log('1111111111111');
     PaperDefinition.find(done);
   }, (data, done)=> {
     if (!data) {
@@ -18,15 +17,15 @@ PaperDefinitionController.prototype.getPaperDefinition = (req, res, next) => {
       done(null, data);
     }
   }], (err, data)=> {
+    console.log('data');
+    console.log(data);
     if (err === httpStatus.NOT_FOUND) {
       res.send({
         status: httpStatus.NOT_FOUND,
         paperDefinitions: null
       });
-    } else if (data.status === httpStatus.OK) {
-      res.send(data);
     } else {
-      return next(err);
+      res.send(data);
     }
   })
 };
