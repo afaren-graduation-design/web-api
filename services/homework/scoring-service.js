@@ -51,7 +51,6 @@ function createScoring(options, callBack) {
           .end(function(err, data) {
             done(null, data.text);
           })
-
     },
 
     (script, done)=> {

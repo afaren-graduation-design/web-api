@@ -11,7 +11,7 @@ var userSession = global.userSession;
 
 describe('/homework/scoring', ()=> {
 
-  xit('Post /homework/scoring: should create a homeworkScoring record', function (done) {
+  it('Post /homework/scoring: should create a homeworkScoring record', function (done) {
 
     var sendPostRequest = (done)=> {
       userSession
