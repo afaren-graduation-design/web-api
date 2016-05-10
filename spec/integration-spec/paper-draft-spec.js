@@ -35,3 +35,33 @@ describe("POST /paper-draft", ()=> {
     .end(done);
   });
 });
+
+describe("POST /paper-draft/57303a24aae48e0e65cd8db7/logicPuzzleSections", ()=> {
+  it('should be return 200: POST /paper-draft/57303a24aae48e0e65cd8db7/logicPuzzleSections', function(done) {
+    userSession
+    .post("/paper-draft/57303a24aae48e0e65cd8db7/logicPuzzleSections")
+    .expect(200)
+    .send({
+      easyCount: 4,
+      normalCount: 5,
+      hardCount: 7
+    })
+    .end(done);
+  });
+});
+
+describe("POST /paper-draft/57303a24aae48e0e65cd8db7/homeworkSections", ()=> {
+  it('should be return 200: POST /paper-draft/57303a24aae48e0e65cd8db7/homeworkSections', function (done) {
+    userSession
+    .post("/paper-draft/57303a24aae48e0e65cd8db7/homeworkSections")
+    .expect(200)
+    .send({
+      definitionRepo: 'https://github.com/lilili/pos.v_3',
+      branch: 'master',
+      templateRepo: 'https: //github.com/lilili/pos.v_3_template',
+      descriptionAddress: 'https: //github.com/lilili/pos.v_3/blob/master/description.md',
+      inspectionAddress: 'https: //github.com/lilili/pos.v_3/blob/master/inspection.sh'
+    })
+    .end(done)
+  });
+});
