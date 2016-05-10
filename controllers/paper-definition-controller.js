@@ -17,8 +17,6 @@ PaperDefinitionController.prototype.getPaperDefinition = (req, res, next) => {
       done(null, data);
     }
   }], (err, data)=> {
-    console.log('data');
-    console.log(data);
     if (err === httpStatus.NOT_FOUND) {
       res.send({
         status: httpStatus.NOT_FOUND,
