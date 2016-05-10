@@ -17,11 +17,14 @@ var paperDraftSchema = new Schema({
     hardCount: Number
   }],
   homeworkSections: [{
-    definitionRepo: String,
-    branch: String,
-    templateRepo: String,
-    descriptionAddress: String,
-    inspectionAddress: String
+    items: [{
+      definitionRepo: String,
+      branch: String,
+      templateRepo: String,
+      descriptionAddress: String,
+      inspectionAddress: String
+    }]
+
   }]
 });
 
