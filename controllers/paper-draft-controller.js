@@ -40,7 +40,7 @@ PaperDraftController.prototype.createPaperDraft = (req, res, next) => {
   });
 };
 
-PaperDraftController.prototype.insertLogicPuzzleSection = (req, res, next) => {
+PaperDraftController.prototype.insertLogicPuzzleSections = (req, res, next) => {
   var paperHash = req.params.paperHash;
   var doc;
   var error = {};
@@ -57,8 +57,7 @@ PaperDraftController.prototype.insertLogicPuzzleSection = (req, res, next) => {
         doc.logicPuzzleSections.push(req.body);
         doc.save(function (err) {
           if (err) {
-            error.status = httpStatus.INTERNAL_SERVER_ERROR;
-            done(error, null);
+            done(true, null);
           } else {
             done(null, null);
           }
@@ -81,4 +80,46 @@ PaperDraftController.prototype.insertLogicPuzzleSection = (req, res, next) => {
   });
 };
 
+PaperDraftController.prototype.insertHomeworkSections = (req, res, next) => {
+  var paperHash = req.params.paperHash;
+  var error = {};
+  var doc;
+
+  async.waterfall([(done)=> {
+    PaperDraft.findOne({_id: paperHash}, done);
+  }, (data, done)=> {
+    if (!data) {
+      error.status = httpStatus.NOT_FOUND;
+      done(error, null);
+    } else {
+      doc = data;
+      done(null, data);
+    }
+  }, (data, done) => {
+    var homeworkSectionsLength = data.homeworkSections.length;
+    doc.homeworkSections[homeworkSectionsLength - 1].items.push(req.body);
+    doc.save(function (err) {
+      if (err) {
+        done(true, null);
+      } else {
+        done(null, null);
+      }
+    });
+    done(null, data);
+  }], (err, data)=> {
+    if (data) {
+      console.log('homeworkSections');
+      console.log(data);
+      res.send({
+        status: httpStatus.OK
+      });
+    } else if(err.status === httpStatus.NOT_FOUND) {
+      res.send({
+        status: httpStatus.NOT_FOUND
+      });
+    } else {
+      next(err);
+    }
+  });
+};
 module.exports = PaperDraftController;
