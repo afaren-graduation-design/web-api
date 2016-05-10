@@ -215,14 +215,7 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
           .send(data)
           .end(done);
     },
-// todo 在表中创建一条新记录
-    (data, done) => {
-      done(null, data);
-    },
-// 调用 task-runner
-    (data, done) => {
-      done(null, data);
-    },
+
     (data, done) => {
       var id = data.body.id;
       userHomework.quizzes[index].status = data.body.status;
