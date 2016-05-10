@@ -41,10 +41,6 @@ function details(req, res, next) {
       if (paper.sections.length !== 0) {
         done(null, paper);
       } else {
-        var userPaper = new UserPaper({
-          userId: userId,
-          papers: []
-        });
         doc.papers[paperIndex].sections = data.body.sections;
 
         doc.save(function (err) {
@@ -66,7 +62,7 @@ function details(req, res, next) {
       res.send({
         status: httpStatus.NOT_FOUND
       });
-    } else if (err !== null && err.status === httpStatus) {
+    } else if (err !== null && err.status === httpStatus.INTERNAL_SERVER_ERROR) {
       res.send({
         status: httpStatus.INTERNAL_SERVER_ERROR
       });
