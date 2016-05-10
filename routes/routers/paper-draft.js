@@ -5,9 +5,9 @@ var router = express.Router();
 var PaperDraftController = require('../../controllers/paper-draft-controller');
 var paperDraftController = new PaperDraftController();
 
-router.get('/', paperDraftController.getPaperDefinition);
+router.get('/', paperDraftController.getPaperDraft);
 
-router.post('/', paperDraftController.createPaperDefinition);
+router.post('/', paperDraftController.createPaperDraft);
 
 router.post('/:paperHash', paperDraftController.insertLogicPuzzleSection);
 
