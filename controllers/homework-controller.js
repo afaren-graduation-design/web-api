@@ -10,6 +10,7 @@ var yamlConfig = require('node-yaml-config');
 var config = yamlConfig.load('./config/config.yml');
 var mongoose = require('mongoose');
 var taskApi = yamlConfig.load(__dirname + '/../config/config.yml').taskApi;
+var nginxServer = yamlConfig.load(__dirname + '/../config/config.yml').nginxServer;
 
 function getDesc(status, realDesc) {
   if (status === constant.homeworkQuizzesStatus.LOCKED) {
@@ -238,6 +239,8 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
 };
 
 HomeworkController.prototype.createScoring = (req, res, next)=> {
+  var homeworkQuizDefinition;
+
   async.waterfall([
 
     (done)=> {
@@ -246,6 +249,7 @@ HomeworkController.prototype.createScoring = (req, res, next)=> {
     },
 
     (data, done)=> {
+      homeworkQuizDefinition = data.body.evaluateScript;
       userHomeworkScoring.create(req.body, done);
     },
 
@@ -258,12 +262,24 @@ HomeworkController.prototype.createScoring = (req, res, next)=> {
           return quiz.uri === req.body.homeworkQuizUri;
         });
         theQuiz.homeworkSubmitPostHistory.push(data._id);
-        doc.save(done);
+        doc.save(()=> {
+          done(null, null);
+        });
       })
     },
-// 读取shell脚本文件
-    (data, done)=> {
 
+    (data, done)=> {
+      var scriptPath = nginxServer + homeworkQuizDefinition;
+      request
+          .get(scriptPath)
+          .buffer()
+          .end(function(err, data) {
+            done(null, data.text);
+          })
+
+    },
+
+    (data, done)=> {
       done(null, data);
     }
 
