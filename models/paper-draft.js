@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var paperDefinitionSchema = new Schema({
+var paperDraftSchema = new Schema({
   paperName: String,
   isPublished: Boolean,
   groupId: Number,
@@ -25,4 +25,4 @@ var paperDefinitionSchema = new Schema({
   }]
 });
 
-module.exports = mongoose.model('PaperDefinition', paperDefinitionSchema);
+module.exports = mongoose.model('PaperDraft', paperDraftSchema);

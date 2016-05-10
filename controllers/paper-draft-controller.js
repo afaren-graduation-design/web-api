@@ -1,4 +1,4 @@
-var PaperDefinition = require('../models/paper-definition');
+var PaperDraft = require('../models/paper-draft');
 var async = require('async');
 var httpStatus = require('../mixin/constant').httpCode;
 
@@ -8,7 +8,7 @@ function PaperDefinitionController() {
 
 PaperDefinitionController.prototype.getPaperDefinition = (req, res, next) => {
   async.waterfall([(done)=> {
-    PaperDefinition.find(done);
+    PaperDraft.find(done);
   }, (data, done)=> {
     if (!data) {
       var error = httpStatus.NOT_FOUND;
@@ -20,7 +20,7 @@ PaperDefinitionController.prototype.getPaperDefinition = (req, res, next) => {
     if (err === httpStatus.NOT_FOUND) {
       res.send({
         status: httpStatus.NOT_FOUND,
-        paperDefinitions: null
+        paperDrafts: null
       });
     } else {
       res.send(data);
@@ -29,12 +29,24 @@ PaperDefinitionController.prototype.getPaperDefinition = (req, res, next) => {
 };
 
 PaperDefinitionController.prototype.createPaperDefinition = (req, res, next) => {
-  var paperDefinitionDemo = new PaperDefinition(req.body);
+  var paperDraftDemo = new PaperDraft(req.body);
 
-  paperDefinitionDemo.save((err) => {
+  paperDraftDemo.save((err) => {
     if (err) return next(err);
-    res.send({paperHash: paperDefinitionDemo._id});
+    res.send({paperHash: paperDraftDemo._id});
   });
+};
+
+PaperDefinitionController.prototype.insertLogicPuzzleSection = (req, res, next) => {
+  var paperHash = req.params.paperHash;
+  async.waterfall([(done)=>{
+
+  }, (data, done)=>{
+
+  }], (err, data)=>{
+
+  });
+  PaperDraft.findOne({_id: paperHash}, done);
 };
 
 module.exports = PaperDefinitionController;

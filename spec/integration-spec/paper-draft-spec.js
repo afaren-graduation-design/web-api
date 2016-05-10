@@ -1,10 +1,10 @@
 require('./spec-base');
 var userSession = global.userSession;
 
-describe("GET /paper-definition", ()=> {
-  it('should be return 200 and paper-definition list: GET /paper-definition', function (done) {
+describe("GET /paper-draft", ()=> {
+  it('should be return 200 and paper-draft list: GET /paper-draft', function (done) {
     userSession
-        .get("/paper-definition")
+        .get("/paper-draft")
         .expect(200)
         .expect(function(res){
           res.body[0].paperName.should.equal('java 基础测验');
@@ -21,10 +21,10 @@ describe("GET /paper-definition", ()=> {
   });
 });
 
-describe("POST /paper-definition", ()=> {
-  it('should be return 200: POST /paper-definition', function(done) {
+describe("POST /paper-draft", ()=> {
+  it('should be return 200: POST /paper-draft', function(done) {
     userSession
-    .post("/paper-definition")
+    .post("/paper-draft")
     .expect(200)
     .send({
       isPublished: false,
