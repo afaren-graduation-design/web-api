@@ -38,5 +38,22 @@
         "uri": "scoresheets/5"
       }
     }
+  },
+  {
+    "description": "should_add_new_score_sheet_with_homework_quiz_history",
+    "request": {
+      "uri": "/scoresheets",
+      "method": "post",
+      "json_paths": {
+        "$.paperId": "2",
+        "$.examerId": "1"
+      }
+    },
+    "response": {
+      "status": 201,
+      "json": {
+        "uri": "scoresheets/1"
+      }
+    }
   }
 ]

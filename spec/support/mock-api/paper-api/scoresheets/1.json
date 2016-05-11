@@ -80,7 +80,7 @@
             "homeworkSubmitPostHistory": [
               {
                 "result": "jasmine not found",
-                "commitTime": 1453287441,
+                "commitTime": {"exist" : "true"},
                 "userAnswerRepo": "github.com/purple/3",
                 "branch": "master",
                 "version": "d8160f56ebbb5d40368048f271328eefa87cb97d",

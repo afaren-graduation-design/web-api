@@ -184,7 +184,9 @@ userHomeworkQuizzesSchema.statics.updateStatus = function(data, callBack) {
     }
 
     theQuiz.status = data.status;
-    doc.save(callBack);
+    doc.save(function(err, data) {
+      callBack(err, data);
+    });
   });
 };
 

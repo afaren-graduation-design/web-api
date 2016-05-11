@@ -11,6 +11,16 @@ var userSession = global.userSession;
 
 describe('/homework/scoring', ()=> {
 
+  it('Get /homework/quiz/1 should return homework detail', function(done) {
+    userSession
+        .get('/homework/quiz/1')
+        .expect(200)
+        .expect((res)=> {
+          console.log(res);
+        })
+        .end(done)
+  });
+
   it('Post /homework/scoring: should create a homeworkScoring record', function (done) {
 
     var sendPostRequest = (done)=> {

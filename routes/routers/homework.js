@@ -19,5 +19,6 @@ router.post('/save', homeworkController.saveGithubUrl);
 //router.get('/scoring', homeworkScoringController.getScoring);
 router.put('/scoring/:historyId', homeworkController.updateScoring);
 router.post('/scoring', homeworkController.createScoring);
+router.get('/homework-quiz/quizId',homeworkController.getOneQuiz);
 
 module.exports = router;

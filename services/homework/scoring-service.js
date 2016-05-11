@@ -12,8 +12,11 @@ var apiRequest = require('../api-request');
 var taskApi = config.taskApi;
 var nginxServer = config.nginxServer;
 
-function createScoring(options, callBack) {
+function getQuiz(options, callBack) {
+  callBack(null, options);
+}
 
+function createScoring(options, callBack) {
   var homeworkQuizDefinition;
   async.waterfall([
 
@@ -78,14 +81,48 @@ function updateScoring(options, callback) {
         historyId: options.historyId,
         status: options.status
       }, done);
-      //var historyId = new mongoose.Types.ObjectId(options.historyId);
-      //userHomeworkQuizzes.findOne({'quizzes.homeworkSubmitPostHistory': historyId}, (err, doc)=> {
-      //  var theQuiz = doc.quizzes.find((item)=> {
-      //    return item.homeworkSubmitPostHistory.indexOf(historyId) > -1;
-      //  });
-      //  theQuiz.status = options.status;
-      //  doc.save(done);
-      //});
+    },
+
+    (data, done)=> {
+      var id = new mongoose.Types.ObjectId(options.historyId);
+      userHomeworkQuizzes
+          .aggregate([
+            {'$unwind': '$quizzes'},
+            {'$unwind': '$quizzes.homeworkSubmitPostHistory'}
+          ])
+          .match({'quizzes.homeworkSubmitPostHistory': id})
+          .exec((err, docs)=> {
+            done(err, docs[0]);
+          });
+    },
+
+    (doc, done)=> {
+      homeworkScoring.findById(doc.quizzes.homeworkSubmitPostHistory, function(err, history) {
+        doc.quizzes.homeworkSubmitPostHistory = history.toJSON();
+        done(err, doc);
+      })
+    },
+
+    (data, done)=> {
+      delete data.quizzes.homeworkSubmitPostHistory._id;
+      delete data.quizzes.homeworkSubmitPostHistory.__v;
+      var data = {
+        "examerId": data.userId,
+        "paperId": data.paperId,
+        "homeworkSubmits": [{
+          "homeworkQuizId": data.quizzes.id,
+          "homeworkSubmitPostHistory":[data.quizzes.homeworkSubmitPostHistory]
+        }]
+      };
+
+      done(null, data);
+    },
+
+    (data, done)=> {
+      apiRequest.post('scoresheets', data, (err, resp)=> {
+        debugger;
+        done(err, resp);
+      })
     }
   ], callback);
 }

@@ -250,6 +250,15 @@ HomeworkController.prototype.updateScoring = (req, res, next)=> {
   })
 };
 
+HomeworkController.prototype.getOneQuiz = (req, res, next)=> {
+  scoringService.getQuiz({
+    homeworkQuizId: req.params.homeworkQuizId,
+    userId: req.session.user.id
+  }, (err, data)=> {
+    res.send(data);
+  })
+};
+
 HomeworkController.prototype.getEstimatedTime = (req, res, next) => {
   var quizId = req.query.quizId;
 

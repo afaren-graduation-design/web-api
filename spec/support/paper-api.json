@@ -6,6 +6,9 @@
     "include": "spec/support/mock-api/paper-api/papers/1/user-detail.json"
   },
   {
+    "include": "spec/support/mock-api/paper-api/scoresheets.json"
+  },
+  {
     "include": "spec/support/mock-api/paper-api/papers/1/logic-puzzle.json"
   },
   {
