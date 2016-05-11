@@ -65,19 +65,19 @@ GroupController.prototype.loadGroup = (req, res, next)=> {
       }
     }
   ], (err, data)=> {
-    if (err) return next(err);
-
+    if (err) {
+      if(err.status === '404') res.send({
+        status:constant.httpCode.NOT_FOUND,
+        groups:[],
+        role:role
+      })else {
+        next(err);
+      }
+    }
     if (data.status === constant.httpCode.OK) {
       res.send({
         status: constant.httpCode.OK,
         groups: newGroupList,
-        role: role
-      });
-    }
-
-    if (data.status === constant.httpCode.NOT_FOUND) {
-      res.send({
-        status: constant.httpCode.NOT_FOUND,
         role: role
       });
     }
