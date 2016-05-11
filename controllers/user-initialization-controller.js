@@ -9,17 +9,22 @@ var async = require('async');
 function UserInitializationController() {
 }
 
+
+
 UserInitializationController.prototype.initializeQuizzes = (req, res) => {
   var userId = req.session.user.id;
   var quizItems, quizExamples, blankQuizId, paperId;
-  var logicPuzzleUrl = 'papers/enrollment';
+  var logicPuzzleUrl = 'papers/1';
   var enrollment;
 
   async.waterfall([
 
     (done)=> {
 
-      logicPuzzle.findOne({userId: userId}, (err, data) => {
+      logicPuzzle.findOne({
+        userId: userId,
+        paperId: 1
+      }, (err, data) => {
         if (err) {
           done(err, data);
         } else {
@@ -31,7 +36,6 @@ UserInitializationController.prototype.initializeQuizzes = (req, res) => {
       apiRequest.get(logicPuzzleUrl, done);
 
     }, (responds, done)=> {
-
       enrollment = responds.body;
       var quizzes = responds.body.sections[0].quizzes[0];
       blankQuizId = quizzes.id;

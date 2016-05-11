@@ -1,6 +1,7 @@
 var apiRequest = require('../services/api-request');
 var async = require('async');
 var UserPaper = require('../models/user-paper');
+var logicPuzzleQuiz = require('../services/logic-puzzle/quiz-service');
 var httpStatus = require('../mixin/constant').httpCode;
 
 function details(req, res, next) {
@@ -73,6 +74,26 @@ function details(req, res, next) {
     }
   });
 }
+
+function obtain(req, res, next) {
+
+  var prams = {
+    paperId: req.params.paperId,
+    userId: req.session.user.id
+  };
+
+  async.waterfall([
+    (done)=> {
+      logicPuzzleQuiz.getList(params, done)
+      // 获取逻辑题状态
+    },
+
+  ], (err, data)=> {
+    if(err) {return next(err)}
+  })
+}
+
 module.exports = {
-  details: details
+  details: details,
+  obtain: obtain
 };
