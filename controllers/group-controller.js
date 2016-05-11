@@ -63,9 +63,8 @@ GroupController.prototype.loadGroup = (req, res, next)=> {
         done(null, resp);
       }
     }
-  ], (err, data)=> {
+  ], (err, data) => {
     if (err) next(err);
-
     if (data.status === constant.httpCode.OK) {
       res.send({
         status: constant.httpCode.OK,

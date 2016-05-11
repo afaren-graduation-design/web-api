@@ -191,7 +191,7 @@ function calcHomeworkElapsedTime(time) {
   return elapsedDay + '天' + elapsedHour + '小时' + elapsedMintues + '分';
 }
 
-UserController.prototype.getFeedback = (req, res)=> {
+UserController.prototype.getFeedback = (req, res, next)=> {
   var userId = req.session.user.id;
 
   buildFeedbackInfo(userId, (err, feedbackInfo) => {
