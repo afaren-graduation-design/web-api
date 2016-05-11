@@ -27,7 +27,35 @@ function createScoring(options, callBack) {
     },
 
     (homeworkQuiz, done)=> {
+      userHomeworkQuizzes
+          .aggregate({
+            '$unwind': '$quizzes'
+          })
+          .match({
+            userId: options.user.id,
+            paperId: options.paperId,
+            "quizzes.id": options.quizId
+          })
+          .exec((err, docs)=> {
+            var histories = docs[0].quizzes.homeworkSubmitPostHistory;
+            var len = histories.length;
+            if(len) {
+              homeworkScoring.findById(histories[len-1], (err, doc)=> {
+                options.startTime = doc.commitTime;
+                done(null, homeworkQuiz);
+              })
+            } else {
+              options.startTime = docs[0].startTime;
+              done(null, homeworkQuiz);
+            }
+          });
+
+    },
+
+    (homeworkQuiz, done)=> {
       homeworkQuizDefinition = homeworkQuiz.evaluateScript;
+      //todo 增加commitTime
+      options.startTime = new Date().getTime() / 1000;
       homeworkScoring.create(options, done);
     },
 
@@ -37,7 +65,7 @@ function createScoring(options, callBack) {
         paperId: options.paperId
       }, (err, doc)=> {
         var theQuiz = doc.quizzes.find((quiz)=> {
-          return quiz.uri === options.homeworkQuizUri;
+          return quiz.id === options.quizId;
         });
         theQuiz.homeworkSubmitPostHistory.push(data._id);
         doc.save(()=> {
@@ -104,8 +132,6 @@ function updateScoring(options, callback) {
     },
 
     (data, done)=> {
-      delete data.quizzes.homeworkSubmitPostHistory._id;
-      delete data.quizzes.homeworkSubmitPostHistory.__v;
       var data = {
         "examerId": data.userId,
         "paperId": data.paperId,
@@ -120,7 +146,6 @@ function updateScoring(options, callback) {
 
     (data, done)=> {
       apiRequest.post('scoresheets', data, (err, resp)=> {
-        debugger;
         done(err, resp);
       })
     }

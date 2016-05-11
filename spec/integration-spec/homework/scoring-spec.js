@@ -13,11 +13,8 @@ describe('/homework/scoring', ()=> {
 
   it('Get /homework/quiz/1 should return homework detail', function(done) {
     userSession
-        .get('/homework/quiz/1')
+        .get('/homework/quizzes/1?paperId=2')
         .expect(200)
-        .expect((res)=> {
-          console.log(res);
-        })
         .end(done)
   });
 
@@ -28,6 +25,7 @@ describe('/homework/scoring', ()=> {
           .post('/homework/scoring')
           .expect(201)
           .send({
+            quizId: 1,
             homeworkQuizUri: 'homeworkQuizzes/1',
             userAnswerRepo: 'http://test.git',
             paperId: 1
@@ -39,14 +37,14 @@ describe('/homework/scoring', ()=> {
       homeworkScoring.find({}, function(err, data) {
         data.length.should.equal(3);
         data[2].userAnswerRepo.should.equal("http://test.git");
-
+        data[2].startTime.should.equal(2345678);
         done(null, null);
       })
     };
 
     var verifyUserHomeworkQuizzes = (data, done)=> {
       userHomeworkQuizzes.findOne({userId: 1, paperId: 1}, function(err, data) {
-        data.quizzes[0].homeworkSubmitPostHistory.length.should.equal(1);
+        data.quizzes[0].homeworkSubmitPostHistory.length.should.equal(2);
 
         done(null, null);
       })

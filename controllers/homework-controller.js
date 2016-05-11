@@ -11,6 +11,7 @@ var constant = require('../mixin/constant');
 var apiRequest = require('../services/api-request');
 var config = yamlConfig.load('./config/config.yml');
 var scoringService = require('../services/homework/scoring-service');
+var quizService = require('../services/homework/quiz-service');
 var userHomeworkQuizzes = require('../models/user-homework-quizzes');
 
 function getDesc(status, realDesc) {
@@ -108,7 +109,7 @@ HomeworkController.prototype.updateStatus = (req, res, next) => {
   });
 };
 
-HomeworkController.prototype.getQuiz = (req, res, next) => {
+HomeworkController.prototype.getOneQuiz = (req, res, next) => {
 
   var userId = req.session.user.id;
   var orderId = parseInt(req.query.orderId, 10) || 1;
@@ -133,7 +134,7 @@ HomeworkController.prototype.getQuiz = (req, res, next) => {
       result.status = data.status;
       histories = data.homeworkSubmitPostHistory;
 
-      if (!data.startTime) {
+      if (!data.startTime && data.status !== constant.homeworkQuizzesStatus.LOCKED) {
         data.startTime = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
         doc.save(done);
       } else {
@@ -173,7 +174,6 @@ HomeworkController.prototype.getQuiz = (req, res, next) => {
   });
 };
 
-//
 HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
   var userHomework;
   var index;
@@ -207,7 +207,7 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
         callbackUrl: config.appServer + 'homework/status'
       });
     },
-// todo 删掉下面这一步:调用taskServer来创建一条记录
+
     (data, done) => {
       request
           .post(config.taskServer + 'tasks')
@@ -250,9 +250,10 @@ HomeworkController.prototype.updateScoring = (req, res, next)=> {
   })
 };
 
-HomeworkController.prototype.getOneQuiz = (req, res, next)=> {
-  scoringService.getQuiz({
-    homeworkQuizId: req.params.homeworkQuizId,
+HomeworkController.prototype.getQuiz = (req, res, next)=> {
+  quizService.getQuiz({
+    paperId: parseInt(req.query.paperId),
+    quizId: parseInt(req.params.quizId),
     userId: req.session.user.id
   }, (err, data)=> {
     res.send(data);

@@ -4,6 +4,7 @@
     "paperId": 2,
     "quizzes": [{
       "id": 1,
+      "startTime": 12345678,
       "uri": "homeworkQuizzes/1",
       "userAnswerRepo": "https://github.com/ss/web",
       "branch": "master",
@@ -11,6 +12,7 @@
       "homeworkSubmitPostHistory": ["572dcf6f041ccfa51fb3f9cb"]
     }, {
       "id": 2,
+      "startTime": 12345678,
       "uri": "homeworkQuizzes/2",
       "userAnswerRepo": "https://github.com/ss/web",
       "branch": "master",
@@ -23,10 +25,12 @@
     "paperId": 1,
     "quizzes": [{
       "id": 1,
+      "startTime": 12345678,
       "uri": "homeworkQuizzes/1",
       "userAnswerRepo": "https://github.com/ss/web",
       "branch": "master",
-      "status": 3
+      "status": 3,
+      "homeworkSubmitPostHistory": ["5732ece26eeb5b9a29004a76"]
     }, {
       "id": 3,
       "uri": "homeworkQuizzes/3",

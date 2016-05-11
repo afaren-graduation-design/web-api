@@ -9,7 +9,8 @@ var homeWorkScoringSchema = new Schema({
   result: { type: String, default: '排队中,请稍候...' },
   version: String,
   branch: { type: String, defaultsTo: 'master' },
-  commitTime: { type: Number, default: new Date().getTime() },
+  startTime: Number,
+  commitTime: { type: Number, default: new Date().getTime() / 1000 },
   homeworkDetail: String,
   callbackURL: String
 });
