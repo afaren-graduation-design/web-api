@@ -50,7 +50,6 @@ GroupController.prototype.loadGroup = (req, res, next)=> {
     }, (resp, done)=> {
       if (resp.status === constant.httpCode.OK) {
         var groupList;
-
         group.find({}, (err, data)=> {
           groupList = data;
           newGroupList = resp.body.map((item)=> {
@@ -65,15 +64,8 @@ GroupController.prototype.loadGroup = (req, res, next)=> {
       }
     }
   ], (err, data)=> {
-    if (err) {
-      if(err.status === '404') res.send({
-        status:constant.httpCode.NOT_FOUND,
-        groups:[],
-        role:role
-      })else {
-        next(err);
-      }
-    }
+    if (err) next(err);
+
     if (data.status === constant.httpCode.OK) {
       res.send({
         status: constant.httpCode.OK,
