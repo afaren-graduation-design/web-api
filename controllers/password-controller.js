@@ -31,7 +31,7 @@ PasswordController.prototype.retrieve = (req, res)=> {
 
       if (status === constant.httpCode.OK) {
         var token = result.body.token;
-        var linkAddress = 'http://' + emailDomain + '/password-reset.html?token=' + token;
+        var linkAddress = emailDomain + '/password-reset.html?token=' + token;
 
         emailServer.sendEmail(email, linkAddress, (err, status)=> {
           if (err) {

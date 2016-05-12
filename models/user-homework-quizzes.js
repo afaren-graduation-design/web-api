@@ -166,7 +166,7 @@ userHomeworkQuizzesSchema.statics.updateQuizzesStatus = function (data, callback
   });
 };
 
-userHomeworkQuizzesSchema.statics.updateStatus = function(data, callBack) {
+userHomeworkQuizzesSchema.statics.updateStatus = function(data, callback) {
   var historyId = new mongoose.Types.ObjectId(data.historyId);
 
   this.findOne({'quizzes.homeworkSubmitPostHistory': historyId}, (err, doc)=> {
@@ -185,7 +185,7 @@ userHomeworkQuizzesSchema.statics.updateStatus = function(data, callBack) {
 
     theQuiz.status = data.status;
     doc.save(function(err, data) {
-      callBack(err, data);
+      callback(err, data);
     });
   });
 };

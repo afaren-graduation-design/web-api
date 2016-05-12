@@ -5,7 +5,7 @@ var router = express.Router();
 
 var HomeworkController  = require('../../controllers/homework-controller');
 var homeworkScoringController  = require('../../controllers/homework-scoring-controller');
-var homeworkController  = new  HomeworkController();
+var homeworkController  = new HomeworkController();
 var githubReq = require('../../services/github-req.js');
 
 

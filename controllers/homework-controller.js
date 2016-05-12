@@ -11,6 +11,7 @@ var config = yamlConfig.load('./config/config.yml');
 var scoringService = require('../services/homework/scoring-service');
 var quizService = require('../services/homework/quiz-service');
 var userHomeworkQuizzes = require('../models/user-homework-quizzes');
+var homeworkScoring = require('../models/homework-scoring');
 
 function getDesc(status, realDesc) {
   if (status === constant.homeworkQuizzesStatus.LOCKED) {
@@ -130,28 +131,28 @@ HomeworkController.prototype.getOneQuiz = (req, res, next) => {
       var data = doc.quizzes[index];
       result.uri = data.uri;
       result.status = data.status;
+      result.id = data.id;
       histories = data.homeworkSubmitPostHistory;
 
       if (!data.startTime && data.status !== constant.homeworkQuizzesStatus.LOCKED) {
-        data.startTime = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
-        doc.save(done);
+        data.startTime = parseInt(new Date() / constant.time.MILLISECOND_PER_SECONDS);
+        doc.save(()=> {
+          done(null, histories)
+        });
       } else {
-        done(null, true, true);
+        done(null, histories)
       }
     },
 
-    (product, numAffect, done)=> {
+    (histories, done)=> {
       var lastHomeworkSubmitId = histories[histories.length - 1];
-      request
-          .get(config.taskServer + 'tasks/' + lastHomeworkSubmitId)
-          .set('Content-Type', 'application/json')
-          .end(done);
+      homeworkScoring.findById(lastHomeworkSubmitId, done);
     },
 
-    (data, done) => {
-      result.userAnswerRepo = data.body.userAnswerRepo;
-      result.branch = data.body.branch;
-      result.result = data.body.result;
+    (doc, done) => {
+      result.userAnswerRepo = doc.userAnswerRepo;
+      result.branch = doc.branch;
+      result.result = doc.result;
 
       apiRequest.get(result.uri, done);
     },
@@ -240,7 +241,6 @@ HomeworkController.prototype.createScoring = (req, res, next)=> {
 
 HomeworkController.prototype.updateScoring = (req, res, next)=> {
   var options = Object.assign({historyId: req.params.historyId}, req.body);
-
   scoringService.updateScoring(options, (err, data)=> {
     if(err) {return next(err)}
     res.send(data);

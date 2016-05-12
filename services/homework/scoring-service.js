@@ -11,13 +11,15 @@ var apiRequest = require('../api-request');
 
 var taskApi = config.taskApi;
 var nginxServer = config.nginxServer;
+var ballbackTaskUrl = config.ballbackTaskUrl;
 
 function getQuiz(options, callBack) {
   callBack(null, options);
 }
 
-function createScoring(options, callBack) {
+function createScoring(options, callback) {
   var homeworkQuizDefinition;
+  var result;
   async.waterfall([
 
     (done)=> {
@@ -26,16 +28,19 @@ function createScoring(options, callBack) {
       });
     },
 
+    // 更新时间
     (homeworkQuiz, done)=> {
+      var condition = {
+        userId: options.user.id,
+        paperId: options.paperId,
+        "quizzes.id": options.quizId
+      };
+
       userHomeworkQuizzes
           .aggregate({
             '$unwind': '$quizzes'
           })
-          .match({
-            userId: options.user.id,
-            paperId: options.paperId,
-            "quizzes.id": options.quizId
-          })
+          .match(condition)
           .exec((err, docs)=> {
             var histories = docs[0].quizzes.homeworkSubmitPostHistory;
             var len = histories.length;
@@ -54,12 +59,12 @@ function createScoring(options, callBack) {
 
     (homeworkQuiz, done)=> {
       homeworkQuizDefinition = homeworkQuiz.evaluateScript;
-      //todo 增加commitTime
-      options.startTime = new Date().getTime() / 1000;
+      options.commitTime = parseInt(new Date().getTime() / 1000);
       homeworkScoring.create(options, done);
     },
 
     (data, done)=> {
+      result = data;
       userHomeworkQuizzes.findOne({
         userId: options.user.id,
         paperId: options.paperId
@@ -67,6 +72,7 @@ function createScoring(options, callBack) {
         var theQuiz = doc.quizzes.find((quiz)=> {
           return quiz.id === options.quizId;
         });
+        theQuiz.status = data.status;
         theQuiz.homeworkSubmitPostHistory.push(data._id);
         doc.save(()=> {
           done(null, null);
@@ -85,23 +91,39 @@ function createScoring(options, callBack) {
     },
 
     (script, done)=> {
+
+      script = script.split("\n").join("\\n");
+
+      var info = {
+        script: script,
+        user_answer_repo: options.userAnswerRepo,
+        branch: options.branch,
+        callback_url: ballbackTaskUrl + result._id
+      };
+
       request
           .post(taskApi)
+          .auth('twars', 'twars')
           .type('form')
-          .send({
-            script: script
-          })
+          .send(info)
           .end(done);
     }
-  ], callBack)
+  ], (err, data)=> {
+    callback(err, result);
+  })
 }
 
 function updateScoring(options, callback) {
+
   async.waterfall([
 
     (done)=> {
       options.result = new Buffer(options.result || "", 'base64').toString('utf8');
-      homeworkScoring.update(options.historyId, options, done);
+      console.log(options);
+
+      homeworkScoring.update({
+        _id: options.historyId
+      }, options, done);
     },
 
     (data, done)=> {

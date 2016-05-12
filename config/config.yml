@@ -5,16 +5,16 @@ default:
   userApiServer: 'http://user-api:8080/user-api/'
   reportCsvAppServer: 'http://192.168.99.100:8888/api/'
   appServer: 'http://web-api:3000/'
-  nginxServer: 'http://nginx/'
+  nginxServer: 'http://nginx/fs'
   taskServer: 'http://task-queue:4000/'
+  taskApi: 'http://jenkins:8080/job/HOMEWORK-SCORING/buildWithParameters'
+  ballbackTaskUrl: 'http://web-api:3000/homework/scoring/'
   staticFileServer: 'http://192.168.99.100:8888/fs/'
-  taskApi: 'http://jenkins/job/HOMEWORK-SCORING/buildWithParameters'
   sessionTtl: 3600 # 60(MINUTE_PER_HOUR) * 60(SECONDS_PER_MINUTE)
   emailServer: '192.168.99.100:8888'
   emailAccount: 'twarss@163.com'
   emailPassword: 'ssww123456'
   gitHubToken: 'Basic dHdhcnM6c3cxMjM0NTY3OA=='
-
   QAInfoAddress: ''
 development:
   database: 'mongodb://192.168.99.100/twars'
