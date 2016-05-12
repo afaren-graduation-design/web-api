@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 var async = require('async');
 var mongoose = require('mongoose');
 var request = require('superagent');
@@ -186,10 +184,9 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
 
     (data, done) => {
       userHomework = data;
-
       var orderId = parseInt(req.body.orderId) || 1;
       orderId = Math.max(1, orderId);
-      orderId = Math.min(data.quizzes.length - 1, orderId);
+      orderId = Math.min(data.quizzes.length, orderId);
       index = orderId - 1;
       done(null, data.quizzes[index].uri);
     },
