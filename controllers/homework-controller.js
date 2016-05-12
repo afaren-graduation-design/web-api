@@ -150,9 +150,11 @@ HomeworkController.prototype.getOneQuiz = (req, res, next) => {
     },
 
     (doc, done) => {
-      result.userAnswerRepo = doc.userAnswerRepo;
-      result.branch = doc.branch;
-      result.result = doc.result;
+      if(doc){
+        result.userAnswerRepo = doc.userAnswerRepo;
+        result.branch = doc.branch;
+        result.result = doc.result;
+      }
 
       apiRequest.get(result.uri, done);
     },
