@@ -13,5 +13,5 @@ npm install
 
 zip -qr web-api.zip ./
 scp web-api.zip $REMOTE_SERVER_IP:/home/ubuntu/twars
-ssh -T $REMOTE_SERVER_IP 'sudo unzip -qo /home/ubuntu/twars/web-api.zip -d /home/ubuntu/twars/web-api'
+ssh -T $REMOTE_SERVER_IP 'unzip -qo /home/ubuntu/twars/web-api.zip -d /home/ubuntu/twars/web-api'
 ssh -T $REMOTE_SERVER_IP 'rm /home/ubuntu/twars/web-api.zip'
