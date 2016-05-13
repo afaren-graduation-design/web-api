@@ -46,11 +46,12 @@ function createScoring(options, callback) {
             var len = histories.length;
             if(len) {
               homeworkScoring.findById(histories[len-1], (err, doc)=> {
+
                 options.startTime = doc.commitTime;
                 done(null, homeworkQuiz);
               })
             } else {
-              options.startTime = docs[0].startTime;
+              options.startTime = docs[0].quizzes.startTime;
               done(null, homeworkQuiz);
             }
           });
@@ -72,6 +73,7 @@ function createScoring(options, callback) {
         var theQuiz = doc.quizzes.find((quiz)=> {
           return quiz.id === options.quizId;
         });
+
         theQuiz.status = data.status;
         theQuiz.homeworkSubmitPostHistory.push(data._id);
         doc.save(()=> {
@@ -119,7 +121,6 @@ function updateScoring(options, callback) {
 
     (done)=> {
       options.result = new Buffer(options.result || "", 'base64').toString('utf8');
-      console.log(options);
 
       homeworkScoring.update({
         _id: options.historyId
