@@ -176,7 +176,7 @@ function buildChannel(usersChannels, userId) {
   });
 
   return {
-    channel: userChannel === undefined ? '' : userChannel.channelId.name
+    channel: (!userChannel || !userChannel.channelId) ? '' : userChannel.channelId.name
   }
 }
 
