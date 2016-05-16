@@ -31,3 +31,4 @@ test:
   staticFileServer: 'http://192.168.99.100:8888/fs/'
 production:
   staticFileServer: '/fs/'
+  emailServer: 'academy.thoughtworks.cn'
