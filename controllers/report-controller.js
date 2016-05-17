@@ -193,8 +193,6 @@ function buildScoresheetInfo(paperId, callback) {
     var result = usersData.usersDetail.map((detail) => {
 
       var userSummary = buildUserSummary(detail);
-      console.log('userSummary');
-      console.log(userSummary);
 
       var logicPuzzleSummary = usersData.logicPuzzle.find((item) => {
         return item.userId === detail.userId;
@@ -227,8 +225,6 @@ ReportController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
 
       res.setHeader('Content-disposition', 'attachment; filename=' + fileName + '');
       res.setHeader('Content-Type', 'text/csv');
-      console.log('scoreSheetInfo');
-      console.log(scoresheetInfo);
 
       var csv = ejs.render(data.toString(), {
         scoresheetInfo: scoresheetInfo,
