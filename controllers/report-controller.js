@@ -2,14 +2,12 @@
 'use strict';
 
 var apiRequest = require('../services/api-request');
-var superAgent = require('superagent');
 var constant = require('../mixin/constant');
 var async = require('async');
 var moment = require('moment');
 var userHomeworkQuizzes = require('../models/user-homework-quizzes');
 var homeworkScoring = require('../models/homework-scoring');
 var UserChannel = require('../models/user-channel.js');
-var Channel = require('../models/channel.js');
 
 var yamlConfig = require('node-yaml-config');
 var config = yamlConfig.load('./config/config.yml');
@@ -113,7 +111,11 @@ function buildUserSummary(data) {
   return {
     name: data.name,
     mobilePhone: data.mobilePhone,
-    email: data.email
+    email: data.email,
+    school: data.school,
+    schoolProvince: data.schoolProvince,
+    schoolCity: data.schoolCity,
+    entranceYear: data.entranceYear
   };
 }
 
@@ -191,6 +193,8 @@ function buildScoresheetInfo(paperId, callback) {
     var result = usersData.usersDetail.map((detail) => {
 
       var userSummary = buildUserSummary(detail);
+      console.log('userSummary');
+      console.log(userSummary);
 
       var logicPuzzleSummary = usersData.logicPuzzle.find((item) => {
         return item.userId === detail.userId;
@@ -223,6 +227,8 @@ ReportController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
 
       res.setHeader('Content-disposition', 'attachment; filename=' + fileName + '');
       res.setHeader('Content-Type', 'text/csv');
+      console.log('scoreSheetInfo');
+      console.log(scoresheetInfo);
 
       var csv = ejs.render(data.toString(), {
         scoresheetInfo: scoresheetInfo,
@@ -334,7 +340,11 @@ function buildUserHomeworkDetails(paperId, userId, callback) {
         userDetail = buildUserSummary({
           name: '',
           mobilePhone: '',
-          email: ''
+          email: '',
+          school: '',
+          schoolProvince: '',
+          schoolCity: '',
+          entranceYear: ''
         });
       }
 
