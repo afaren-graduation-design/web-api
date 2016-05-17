@@ -42,7 +42,6 @@ function getUsersCommitHistory(commitHistoryFilter, callback) {
     'id': commitHistoryFilter
   };
 
-  console.log(filter);
 
   homeworkScoring.find({
     _id: {$in: filter.id}
@@ -213,33 +212,52 @@ function buildScoresheetInfo(paperId, callback) {
 
 ReportController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
   var paperId = req.params.paperId;
+  var error = {};
+  async.waterfall([(done)=> {
+    if (req.session.user === undefined || req.session.user.role !== '9') {
+      error.status = constant.httpCode.UNAUTHORIZED;
+      done(error, null);
+    } else {
+      done(null, null);
+    }
+  }, (data, done)=> {
+    buildScoresheetInfo(paperId, function (err, scoresheetInfo) {
+      if (err) {
+        done(err, null);
+      } else {
+        fs.readFile(__dirname + '/../views/paperscoresheetcsv.ejs', function (err, data) {
 
-  buildScoresheetInfo(paperId, function (err, scoresheetInfo) {
-    if (err) { return next(err); }
+          var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
 
-    fs.readFile(__dirname + '/../views/paperscoresheetcsv.ejs', function (err, data) {
+          var fileName = time + '/paper-' + paperId + '.csv';
 
-      var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
+          res.setHeader('Content-disposition', 'attachment; filename=' + fileName + '');
+          res.setHeader('Content-Type', 'text/csv');
 
-      var fileName = time + '/paper-' + paperId + '.csv';
+          var csv = ejs.render(data.toString(), {
+            scoresheetInfo: scoresheetInfo,
+            moment: moment,
+            constant: constant,
+            config: config
+          });
 
-      res.setHeader('Content-disposition', 'attachment; filename=' + fileName + '');
-      res.setHeader('Content-Type', 'text/csv');
-
-      var csv = ejs.render(data.toString(), {
-        scoresheetInfo: scoresheetInfo,
-        moment: moment,
-        constant: constant,
-        config: config
-      });
-
-      csv = csv.split(String.fromCharCode(BREAK_LINE_CODE)).join('');
-      csv = csv.split('#!!--').join(String.fromCharCode(BREAK_LINE_CODE));
-
-      res.send(csv);
+          csv = csv.split(String.fromCharCode(BREAK_LINE_CODE)).join('');
+          csv = csv.split('#!!--').join(String.fromCharCode(BREAK_LINE_CODE));
+          done(null, csv);
+        });
+      }
     });
-
+  }], (err, data)=> {
+    if (data) {
+      res.send(data);
+    } else if (err.status === constant.httpCode.UNAUTHORIZED) {
+      res.sendStatus(constant.httpCode.UNAUTHORIZED);
+    } else {
+      return next(err);
+    }
   });
+
+
 };
 
 function getHomeworkDetailsByUserId(userId, callback) {
@@ -357,36 +375,54 @@ function buildUserHomeworkDetails(paperId, userId, callback) {
 ReportController.prototype.exportUserHomeworkDetailsCsv = (req, res, next)=> {
   var paperId = req.params.paperId;
   var userId = req.params.userId;
+  var error = {};
 
-  buildUserHomeworkDetails(paperId, userId, function (err, userHomeworkDetails) {
-    if (err) {
-      next(err);
-      return;
+  async.waterfall([(done)=> {
+    if (req.session.user === undefined || req.session.user.role !== '9') {
+      error.status = constant.httpCode.UNAUTHORIZED;
+      done(error, null);
+    } else {
+      done(null, null);
     }
+  }, (data, done)=> {
+    buildUserHomeworkDetails(paperId, userId, function (err, userHomeworkDetails) {
+      if (err) {
+        done(err, null);
+      }
 
-    fs.readFile(__dirname + '/../views/userhomeworkdetailscsv.ejs', function (err, data) {
+      fs.readFile(__dirname + '/../views/userhomeworkdetailscsv.ejs', function (err, data) {
 
-      var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
-      var fileName = time + '-paper-' + paperId + '-user-' + userId + '.csv';
+        var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
+        var fileName = time + '-paper-' + paperId + '-user-' + userId + '.csv';
 
-      res.setHeader('Content-disposition', 'attachment; filename=' + fileName + '');
-      res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-disposition', 'attachment; filename=' + fileName + '');
+        res.setHeader('Content-Type', 'text/csv');
 
-      var csv = ejs.render(data.toString(), {
-        userHomeworkDetails: userHomeworkDetails,
-        moment: moment,
-        constant: constant,
-        config: config
+        var csv = ejs.render(data.toString(), {
+          userHomeworkDetails: userHomeworkDetails,
+          moment: moment,
+          constant: constant,
+          config: config
+        });
+
+        csv = unescapeHTML(csv);
+        csv = csv.split(String.fromCharCode(BREAK_LINE_CODE)).join('');
+        csv = csv.split('#!!--').join(String.fromCharCode(BREAK_LINE_CODE));
+
+        done(null, csv);
       });
-
-      csv = unescapeHTML(csv);
-      csv = csv.split(String.fromCharCode(BREAK_LINE_CODE)).join('');
-      csv = csv.split('#!!--').join(String.fromCharCode(BREAK_LINE_CODE));
-
-      res.send(csv);
     });
-
+  }], (err, data)=> {
+    if (data) {
+      res.send(data);
+    } else if (err.status === constant.httpCode.UNAUTHORIZED) {
+      res.sendStatus(constant.httpCode.UNAUTHORIZED);
+    } else {
+      return next(err);
+    }
   });
+
+
 };
 
 function unescapeHTML(str) {
@@ -529,36 +565,54 @@ ReportController.prototype.exportUserHomeworkQuizDetailsCsv = (req, res, next)=>
   var paperId = req.params.paperId;
   var userId = req.params.userId;
   var homeworkquizId = req.params.homeworkquizId;
-
-  buildUserHomeworkQuizDetails(paperId, userId, homeworkquizId, (err, userHomeworkQuizDetails)=> {
-    if (err) {
-      next(err);
-      return;
+  var error = {};
+  async.waterfall([(done)=> {
+    if (req.session.user === undefined || req.session.user.role !== '9') {
+      error.status = constant.httpCode.UNAUTHORIZED;
+      done(error, null);
+    } else {
+      done(null, null);
     }
+  }, (data, done)=> {
+    buildUserHomeworkQuizDetails(paperId, userId, homeworkquizId, (err, userHomeworkQuizDetails)=> {
+      if (err) {
+        done(err, null);
+      }
 
-    fs.readFile(__dirname + '/../views/userhomeworkquizdetailscsv.ejs', function (err, data) {
+      fs.readFile(__dirname + '/../views/userhomeworkquizdetailscsv.ejs', function (err, data) {
 
-      var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
-      var fileName = time + '-paper-' + paperId + '-user-' + userId + '-homeworkquiz-' + homeworkquizId + '.csv';
+        var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
+        var fileName = time + '-paper-' + paperId + '-user-' + userId + '-homeworkquiz-' + homeworkquizId + '.csv';
 
-      res.setHeader('Content-disposition', 'attachment; filename=' + fileName + '');
-      res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-disposition', 'attachment; filename=' + fileName + '');
+        res.setHeader('Content-Type', 'text/csv');
 
-      var csv = ejs.render(data.toString(), {
-        userHomeworkQuizDetails: userHomeworkQuizDetails,
-        moment: moment,
-        constant: constant,
-        config: config
+        var csv = ejs.render(data.toString(), {
+          userHomeworkQuizDetails: userHomeworkQuizDetails,
+          moment: moment,
+          constant: constant,
+          config: config
+        });
+
+        csv = unescapeHTML(csv);
+        csv = csv.split(String.fromCharCode(BREAK_LINE_CODE)).join('');
+        csv = csv.split('#!!--').join(String.fromCharCode(BREAK_LINE_CODE));
+
+        done(null, csv);
       });
 
-      csv = unescapeHTML(csv);
-      csv = csv.split(String.fromCharCode(BREAK_LINE_CODE)).join('');
-      csv = csv.split('#!!--').join(String.fromCharCode(BREAK_LINE_CODE));
-
-      res.send(csv);
     });
-
+  }], (err, data)=> {
+    if (data) {
+      res.send(data);
+    } else if (err.status === constant.httpCode.UNAUTHORIZED) {
+      res.sendStatus(constant.httpCode.UNAUTHORIZED);
+    } else {
+      return next(err);
+    }
   });
+
+
 };
 
 module.exports = ReportController;
