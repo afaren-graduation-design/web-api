@@ -145,8 +145,7 @@ function buildHomework(homeworks, usersCommitHistory, userId) {
       });
 
       if (lastSubmitHistory) {
-        var lastSubmitHistoryCommitTime = Date.parse(lastSubmitHistory.updatedAt) / constant.time.MILLISECOND_PER_SECONDS;
-        elapsedTime = lastSubmitHistoryCommitTime - quiz.startTime;
+        elapsedTime = lastSubmitHistory.commitTime - quiz.startTime;
       }
 
     }

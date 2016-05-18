@@ -2,6 +2,21 @@
 
 var getJumpControl = require('../mixin/jump-control');
 
+function getType(o) {
+  var typeStr = Object.prototype.toString.call(o).slice(8, -1);
+  return typeStr;
+}
+
+function matchUrl(url, patterns) {
+  return patterns.some((pattern)=> {
+    if("RegExp" ===  getType(pattern)) {
+      return pattern.test(url);
+    } else {
+      return -1 < url.indexOf(pattern)
+    }
+  });
+}
+
 function pathControl(url, session) {
 
   var target = {};
@@ -10,7 +25,7 @@ function pathControl(url, session) {
 
   jumpControl.forEach((item) => {
 
-    if (-1 < item.originPath.indexOf(url) && item.condition) {
+    if (matchUrl(url, item.originPath) && item.condition) {
       target = item;
       needRedirect = true;
       return;

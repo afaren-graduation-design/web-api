@@ -7,7 +7,8 @@ function jumpControl(session) {
 
   return [{
     originPath: [
-      '/reuse/account'
+      '/reuse/account',
+      /homework\/scoring$/
     ],
     condition: !isLogined,
     status: 401
