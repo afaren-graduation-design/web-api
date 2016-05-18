@@ -45,7 +45,7 @@ function getUsersCommitHistory(commitHistoryFilter, callback) {
 
   homeworkScoring.find({
     _id: {$in: filter.id}
-  }, callback)
+  }, callback);
 
   //var url = config.taskServer + 'tasks';
   //
@@ -296,8 +296,8 @@ function buildHomeworkDetail(quiz, userCommitHistory) {
     });
 
     if (lastSubmitHistory) {
-      var lastSubmitHistoryCommitTime = Date.parse(lastSubmitHistory.updatedAt) / constant.time.MILLISECOND_PER_SECONDS;
-      elapsedTime = lastSubmitHistoryCommitTime - quiz.startTime;
+      var lastSubmitHistoryCommitTime = Date.parse(lastSubmitHistory.commitTime) / constant.time.MILLISECOND_PER_SECONDS;
+      elapsedTime = lastSubmitHistory.commitTime - quiz.startTime;
       homeworkDetails.lastCommitedDetail = lastSubmitHistory.result;
     }
   } else {
@@ -508,17 +508,17 @@ function getupdatedAtTimeById(id, userCommitHistory) {
     return id.toString() === commitHistory.id;
   });
 
-  return time.updatedAt;
+  return time.commitTime;
 }
 
 function calculateElapsedTime(index, homeworkquiz, userCommitHistory) {
 
   var time;
   if (index === 0) {
-    time = Date.parse(getupdatedAtTimeById(homeworkquiz.homeworkSubmitPostHistory[index], userCommitHistory)) / constant.time.MILLISECOND_PER_SECONDS - homeworkquiz.startTime;
+    time = getupdatedAtTimeById(homeworkquiz.homeworkSubmitPostHistory[index], userCommitHistory) - homeworkquiz.startTime;
 
   } else {
-    time = Date.parse(getupdatedAtTimeById(homeworkquiz.homeworkSubmitPostHistory[index], userCommitHistory)) / constant.time.MILLISECOND_PER_SECONDS - Date.parse(getupdatedAtTimeById(homeworkquiz.homeworkSubmitPostHistory[index - 1], userCommitHistory)) / constant.time.MILLISECOND_PER_SECONDS;
+    time = getupdatedAtTimeById(homeworkquiz.homeworkSubmitPostHistory[index], userCommitHistory) - getupdatedAtTimeById(homeworkquiz.homeworkSubmitPostHistory[index - 1], userCommitHistory);
   }
 
   return time;
