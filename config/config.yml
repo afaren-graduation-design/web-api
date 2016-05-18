@@ -32,4 +32,4 @@ test:
 production:
   staticFileServer: '/fs/'
   emailServer: 'academy.thoughtworks.cn'
-  reportCsvAppServer: 'academy.thoughtworks.cn/api/'
+  reportCsvAppServer: 'http://academy.thoughtworks.cn/api/'
