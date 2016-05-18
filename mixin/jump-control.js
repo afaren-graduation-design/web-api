@@ -14,9 +14,10 @@ function jumpControl(session) {
   }, {
     originPath: [
       '/admin/registerable',
-      '/admin/channel'
+      '/admin/channel',
+      '/report/paper/1/scoresheet'
     ],
-    condition: isLogined && !isAdmin,
+    condition: !isLogined || !isAdmin,
     status: 403
   }];
 
