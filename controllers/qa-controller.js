@@ -3,7 +3,6 @@ var constant = require('../mixin/constant');
 var Configuration = require('../models/configuration');
 
 var yamlConfig = require('node-yaml-config');
-var config = yamlConfig.load('./config/config.yml');
 
 var async = require('async');
 var request = require('superagent');
@@ -16,29 +15,17 @@ QAController.prototype.loadQAInfo = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    if(configuration){
-      res.send({
-        QAContent: configuration.qaContent ? configuration.qaContent : ''
-      });
-    } else {
-      res.send({
-        QAContent: ''
-      });
-    }
+      res.send(configuration);
   });
 };
 
 QAController.prototype.updateQAInfo = (req, res, next) => {
-  if (!(config.QAInfoAddress || req.body.QAInfoAddress)) {
-    return res.send({status: constant.httpCode.NOT_FOUND});
-  }
-
-  var QAInfoAddress = req.body.QAInfoAddress || config.QAInfoAddress;
+  var qaInfoAddress = req.body.qaInfoAddress;
 
   async.waterfall([
     (done) => {
       request
-          .get(QAInfoAddress)
+          .get(qaInfoAddress)
           .set('Content-Type', 'application/json')
           .end(done);
     },
@@ -49,11 +36,13 @@ QAController.prototype.updateQAInfo = (req, res, next) => {
           return next(err);
         }
         configuration.qaContent = result.text;
+        configuration.qaResourceUrl = qaInfoAddress;
         configuration.save(done);
       });
     }
   ], (err) => {
     if (err) {
+      console.log(err);
       return next(err);
     }
 
