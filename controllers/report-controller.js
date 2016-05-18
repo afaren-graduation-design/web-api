@@ -191,7 +191,7 @@ function buildScoresheetInfo(paperId, callback) {
 
     var result = usersData.usersDetail.map((detail) => {
 
-      var userSummary = buildUserSummary(detail);
+      var userSummary = detail;
 
       var logicPuzzleSummary = usersData.logicPuzzle.find((item) => {
         return item.userId === detail.userId;
@@ -225,7 +225,7 @@ ReportController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
       if (err) {
         done(err, null);
       } else {
-        fs.readFile(__dirname + '/../views/paperscoresheetcsv.ejs', function (err, data) {
+        fs.readFile(__dirname + '/../views/paper-scoresheet-csv.ejs', function (err, data) {
 
           var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
 
