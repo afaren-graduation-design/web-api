@@ -349,17 +349,18 @@ function buildUserHomeworkDetails(paperId, userId, callback) {
       var userDetail;
 
       if (index === 0) {
-        userDetail = buildUserSummary(data.userDetail);
+        userDetail = data.userDetail;
       } else {
-        userDetail = buildUserSummary({
+        userDetail = {
           name: '',
           mobilePhone: '',
           email: '',
           school: '',
           schoolProvince: '',
           schoolCity: '',
-          entranceYear: ''
-        });
+          entranceYear: '',
+          major: ''
+        };
       }
 
       var homeworkSummary = buildHomeworkDetail(quiz, data.userCommitHistory);
