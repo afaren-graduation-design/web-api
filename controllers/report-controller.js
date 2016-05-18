@@ -357,7 +357,6 @@ function buildUserHomeworkDetails(paperId, userId, callback) {
 ReportController.prototype.exportUserHomeworkDetailsCsv = (req, res, next)=> {
   var paperId = req.params.paperId;
   var userId = req.params.userId;
-  var error = {};
 
   buildUserHomeworkDetails(paperId, userId, function (err, userHomeworkDetails) {
     if (err) {
@@ -528,7 +527,6 @@ ReportController.prototype.exportUserHomeworkQuizDetailsCsv = (req, res, next)=>
   var paperId = req.params.paperId;
   var userId = req.params.userId;
   var homeworkquizId = req.params.homeworkquizId;
-  var error = {};
   buildUserHomeworkQuizDetails(paperId, userId, homeworkquizId, (err, userHomeworkQuizDetails)=> {
     if (err) {
       return next(err);
