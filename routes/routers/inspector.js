@@ -9,7 +9,7 @@ var mongoConn = require('../../services/mongo-conn');
 var yamlConfig = require('node-yaml-config');
 var config = yamlConfig.load('./config/config.yml');
 
-function getInfoFromApi(done) {
+function getInfoFromApi (done) {
   apiRequest.get('inspector', function (err, resp) {
     var data;
     if (err) {
@@ -21,15 +21,15 @@ function getInfoFromApi(done) {
   });
 }
 
-function getMongoInfo(done) {
+function getMongoInfo (done) {
   done(null, mongoConn.status());
 }
 
-function getTaskQueueInfo(done) {
+function getTaskQueueInfo (done) {
   request.get(config.taskServer + 'inspector')
       .set('Content-Type', 'application/json')
       .query({'hook': config.appServer})
-      .end(function(err, resp) {
+      .end(function (err, resp) {
         var data;
         if (err) {
           data = {'task-queue': err};
@@ -48,7 +48,9 @@ router.get('/', function (req, res, next) {
     getMongoInfo,
     getTaskQueueInfo
   ], function (err, result) {
-    if(err) {return next(err);}
+    if (err) {
+      return next(err);
+    }
     result.forEach(function (v, k) {
       data = Object.assign(data, v);
     });

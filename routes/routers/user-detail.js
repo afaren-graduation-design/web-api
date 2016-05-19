@@ -13,7 +13,7 @@ var constant = require('../../mixin/constant');
 var apiRequest = require('../../services/api-request');
 
 router.get('/', function (req, res) {
-  if(req.session.user) {
+  if (req.session.user) {
     var userId = req.session.user.id;
     var result;
 
@@ -50,13 +50,12 @@ router.get('/', function (req, res) {
         });
       }
     });
-  }else {
-    res.send({status:constant.httpCode.ACCEPTED});
+  } else {
+    res.send({ status: constant.httpCode.ACCEPTED });
   }
-
 });
 
-router.put('/update', function (req, res) {
+router.put('/update', function (req, res, next) {
   var userId = req.session.user.id;
   var userInfo = req.body.data;
 
@@ -65,7 +64,9 @@ router.put('/update', function (req, res) {
   if (validate(result, userConstraint) === undefined && result.gender !== '') {
     var url = 'users/' + userId + '/detail';
     apiRequest.put(url, result, function (err, resp) {
-      if (resp === undefined) {
+      if (err) {
+        return next(err);
+      } if (resp === undefined) {
         res.send({
           status: constant.httpCode.INTERNAL_SERVER_ERROR
         });
@@ -89,14 +90,13 @@ router.put('/update', function (req, res) {
   }
 });
 
-
-router.put('/change-password', function (req, res) {
+router.put('/change-password', function (req, res, next) {
   var userId = req.session.user.id;
   var passwordInfo = req.body.data;
 
-  if (validate(passwordInfo, passwordConstraint) === undefined
-      && validate(passwordInfo, newPasswordConstraint) === undefined
-      && passwordInfo.newPassword === passwordInfo.confirmPassword) {
+  if (validate(passwordInfo, passwordConstraint) === undefined &&
+      validate(passwordInfo, newPasswordConstraint) === undefined &&
+      passwordInfo.newPassword === passwordInfo.confirmPassword) {
     var partResult = {};
 
     partResult.oldPassword = md5(passwordInfo.oldPassword);
@@ -104,7 +104,9 @@ router.put('/change-password', function (req, res) {
     var url = 'users/' + userId + '/password';
 
     apiRequest.put(url, partResult, function (err, resp) {
-      if (resp === undefined) {
+      if (err) {
+        return next(err);
+      } if (resp === undefined) {
         res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
         res.send({
           status: constant.httpCode.INTERNAL_SERVER_ERROR

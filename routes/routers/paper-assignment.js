@@ -9,6 +9,6 @@ var paperAssignmentController = new PaperAssignmentController();
 router.post('/', paperAssignmentController.addLink);
 router.get('/', paperAssignmentController.getLinks);
 router.delete('/', paperAssignmentController.removeLink);
-router.get('/papers',paperAssignmentController.getPaperName);
+router.get('/papers', paperAssignmentController.getPaperName);
 
 module.exports = router;

@@ -24,7 +24,6 @@ router.get('/remain-time', function (req, res) {
     },
     (logicPuzzle, done) => {
       if (logicPuzzle && logicPuzzle.sections.length === 0) {
-
         startTime = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
 
         logicPuzzle.sections.push({
@@ -36,8 +35,7 @@ router.get('/remain-time', function (req, res) {
           done(err, doc);
         });
       } else if (logicPuzzle && logicPuzzle.sections.length !== 0) {
-
-        thisSection = logicPuzzle.sections.find((section)=> {
+        thisSection = logicPuzzle.sections.find((section) => {
           return section.sectionId === sectionId;
         });
 
