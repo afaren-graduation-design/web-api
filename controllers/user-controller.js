@@ -1,4 +1,6 @@
 /*eslint no-magic-numbers: 2*/
+/*eslint no-magic-numbers: 1*/
+/*eslint no-magic-numbers: 0*/
 'use strict';
 
 var apiRequest = require('../services/api-request');
@@ -7,7 +9,6 @@ var superAgent = require('superagent');
 var async = require('async');
 var userHomeworkQuizzes = require('../models/user-homework-quizzes');
 var yamlConfig = require('node-yaml-config');
-var mongoose = require('mongoose');
 var config = yamlConfig.load('./config/config.yml');
 
 var hour = constant.time.HOURS_PER_DAY;
@@ -18,18 +19,15 @@ var dayToSecond = second * mintues * hour;
 var hourToSecond = second * mintues;
 var mintuesToSecond = mintues;
 
-function UserController() {
+function UserController () {
 
 }
 
-
-function buildLogicPuzzleFeedback(data) {
-
+function buildLogicPuzzleFeedback (data) {
   var isCompleted = false;
   var time = 0;
 
   if (data.endTime !== 'undefined' && data.endTime !== 0) {
-
     time = calcLogicPuzzleElapsedTime(data);
 
     isCompleted = true;
@@ -41,9 +39,7 @@ function buildLogicPuzzleFeedback(data) {
   };
 }
 
-
-function getUsersCommitHistory(commitHistoryFilter, callback) {
-
+function getUsersCommitHistory (commitHistoryFilter, callback) {
   var filter = {
     'id': commitHistoryFilter
   };
@@ -58,72 +54,64 @@ function getUsersCommitHistory(commitHistoryFilter, callback) {
       .end(callback);
 }
 
-function getHomeworkDetailsByUserId(userId, callback) {
+function getHomeworkDetailsByUserId (userId, callback) {
   var logicPuzzleURL = 'users/' + userId + '/logicPuzzle';
 
   var user = {};
   async.waterfall([
-    (done)=> {
-
-      apiRequest.get(logicPuzzleURL, (err, userDetail)=> {
+    (done) => {
+      apiRequest.get(logicPuzzleURL, (err, userDetail) => {
         user.logicPuzzle = userDetail.body;
         done(err, null);
-      })
+      });
     },
-
-    (data, done)=> {
-      userHomeworkQuizzes.findOne({userId: userId}, (err, homework)=> {
+    (data, done) => {
+      userHomeworkQuizzes.findOne({userId: userId}, (err, homework) => {
         user.homework = homework;
         done(err, homework);
       });
     },
-    (homework, done)=> {
-
+    (homework, done) => {
       if (homework !== null) {
         var filter = [];
-        homework.quizzes.forEach((quiz)=> {
+        homework.quizzes.forEach((quiz) => {
           if (quiz.homeworkSubmitPostHistory.length !== 0) {
             filter.push(quiz.homeworkSubmitPostHistory[quiz.homeworkSubmitPostHistory.length - 1]);
           }
         });
 
-        getUsersCommitHistory(filter, (err, userCommitHistory)=> {
+        getUsersCommitHistory(filter, (err, userCommitHistory) => {
           user.userCommitHistory = userCommitHistory.body;
           done(err, null);
         });
       } else {
         done(null, null);
       }
-
-    }], (err, result)=> {
+    }], (err, result) => {
     callback(err, user);
   });
 }
 
-function getCommitTime(homeworkSubmitHistory, commitHistory) {
-  return commitHistory.find((item)=> {
+function getCommitTime (homeworkSubmitHistory, commitHistory) {
+  return commitHistory.find((item) => {
     return item.id === homeworkSubmitHistory.toString();
   });
 }
 
-function buildHomeworkFeedback(homeworkDetails, commitHistories) {
-
-
+function buildHomeworkFeedback (homeworkDetails, commitHistories) {
   var homeworks = [];
 
-  homeworkDetails.quizzes.forEach((result)=> {
+  homeworkDetails.quizzes.forEach((result) => {
     var commitHistory = {};
     commitHistory.commitedNumbers = result.homeworkSubmitPostHistory.length;
     commitHistory.isCompleted = result.status === constant.homeworkQuizzesStatus.SUCCESS;
 
     if (result.homeworkSubmitPostHistory.length !== 0) {
-
       var commitTime = getCommitTime(result.homeworkSubmitPostHistory[result.homeworkSubmitPostHistory.length - 1], commitHistories);
       var lastSubmitHistoryCommitTime = Date.parse(commitTime.updatedAt) / constant.time.MILLISECOND_PER_SECONDS;
       var time = lastSubmitHistoryCommitTime - result.startTime;
 
       commitHistory.time = calcHomeworkElapsedTime(time);
-
     } else {
       commitHistory.time = 0;
     }
@@ -134,10 +122,8 @@ function buildHomeworkFeedback(homeworkDetails, commitHistories) {
   return homeworks;
 }
 
-function buildFeedbackInfo(userId, callback) {
-
+function buildFeedbackInfo (userId, callback) {
   getHomeworkDetailsByUserId(userId, (err, data) => {
-
     if (err) {
       callback(err);
       return;
@@ -154,19 +140,16 @@ function buildFeedbackInfo(userId, callback) {
     var usersInfo = Object.assign({userId: userId}, {logicPuzzle: logicPuzzleSummary}, {homework: homeworkSummary});
     usersInfo.httpCode = constant.httpCode.OK;
     callback(null, usersInfo);
-
   });
 }
 
-function calcLogicPuzzleElapsedTime(logicPuzzle) {
-
+function calcLogicPuzzleElapsedTime (logicPuzzle) {
   var startTime = logicPuzzle.startTime;
   var endTime = logicPuzzle.endTime;
   var time = endTime - startTime;
 
   var elapsedHour = 0;
   var elapsedMintues = 0;
-  var elapsedSeconds = 0;
 
   elapsedHour = Math.floor(time / hourToSecond);
   time -= hourToSecond * elapsedHour;
@@ -176,8 +159,7 @@ function calcLogicPuzzleElapsedTime(logicPuzzle) {
   return elapsedHour + '小时' + elapsedMintues + '分' + time + '秒';
 }
 
-function calcHomeworkElapsedTime(time) {
-
+function calcHomeworkElapsedTime (time) {
   var elapsedDay = 0;
   var elapsedHour = 0;
   var elapsedMintues = 0;
@@ -191,7 +173,7 @@ function calcHomeworkElapsedTime(time) {
   return elapsedDay + '天' + elapsedHour + '小时' + elapsedMintues + '分';
 }
 
-UserController.prototype.getFeedback = (req, res, next)=> {
+UserController.prototype.getFeedback = (req, res, next) => {
   var userId = req.session.user.id;
 
   buildFeedbackInfo(userId, (err, feedbackInfo) => {

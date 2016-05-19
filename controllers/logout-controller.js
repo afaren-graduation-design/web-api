@@ -1,17 +1,15 @@
 'use strict';
 var apiRequest = require('../services/api-request');
-var constant = require('../mixin/constant');
 var async = require('async');
 
-function LogoutController() {
+function LogoutController () {
 
 }
 
-LogoutController.prototype.logout = (req, res)=> {
-
+LogoutController.prototype.logout = (req, res, next) => {
   var logoutUri = 'logout';
 
-  if(!req.session.user){
+  if (!req.session.user) {
     res.end();
     return;
   }
@@ -21,7 +19,7 @@ LogoutController.prototype.logout = (req, res)=> {
   };
 
   async.waterfall([
-    (done)=> {
+    (done) => {
       req.session.destroy(function (err) {
         if (err) {
           done(err, null);
@@ -35,7 +33,11 @@ LogoutController.prototype.logout = (req, res)=> {
       });
     }
   ], (err, data) => {
-    res.end();
+    if (data) {
+      res.end();
+    } else {
+      return next(err);
+    }
   });
 };
 

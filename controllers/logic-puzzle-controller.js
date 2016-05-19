@@ -5,10 +5,10 @@ var constant = require('../mixin/constant');
 var async = require('async');
 var apiRequest = require('../services/api-request');
 
-function LogicPuzzleController() {
+function LogicPuzzleController () {
 }
 
-LogicPuzzleController.prototype.getLogicPuzzle = (req, res)=> {
+LogicPuzzleController.prototype.getLogicPuzzle = (req, res) => {
   var orderId = req.query.orderId;
   var userId = req.session.user.id;
 
@@ -27,10 +27,9 @@ LogicPuzzleController.prototype.saveAnswer = (req, res) => {
     (done) => {
       logicPuzzle.findOne({userId: userId}, done);
     }, (data, done) => {
-
       if (orderId > data.quizExamples.length - 1) {
         data.quizItems[orderId - data.quizExamples.length].userAnswer = userAnswer;
-        data.save((err, doc)=> {
+        data.save((err, doc) => {
           done(err, doc);
         });
       } else {
@@ -46,7 +45,6 @@ LogicPuzzleController.prototype.saveAnswer = (req, res) => {
       res.sendStatus(constant.httpCode.INTERNAL_SERVER_ERROR);
     }
   });
-
 };
 
 LogicPuzzleController.prototype.submitPaper = (req, res) => {
@@ -68,7 +66,7 @@ LogicPuzzleController.prototype.submitPaper = (req, res) => {
         startTime = thisSection.startTime;
         data.isCommited = true;
       }
-      data.save((err, doc)=> {
+      data.save((err, doc) => {
         done(err, doc);
       });
     },
@@ -79,7 +77,7 @@ LogicPuzzleController.prototype.submitPaper = (req, res) => {
         endTime: endTime
       };
 
-      LogicPuzzleController.setScoreSheet(scoreSheetData,done);
+      LogicPuzzleController.setScoreSheet(scoreSheetData, done);
     }
   ], (err) => {
     if (err) {
@@ -88,7 +86,6 @@ LogicPuzzleController.prototype.submitPaper = (req, res) => {
       res.sendStatus(constant.httpCode.OK);
     }
   });
-
 };
 
 LogicPuzzleController.setScoreSheet = (scoreSheetData, done) => {

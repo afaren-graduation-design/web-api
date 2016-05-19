@@ -2,25 +2,24 @@ var PaperDraft = require('../models/paper-draft');
 var async = require('async');
 var httpStatus = require('../mixin/constant').httpCode;
 
-function PaperDraftController() {
+function PaperDraftController () {
 
 }
 
 PaperDraftController.prototype.getPaperDraft = (req, res, next) => {
-  async.waterfall([(done)=> {
+  async.waterfall([(done) => {
     PaperDraft.find(done);
-  }, (data, done)=> {
+  }, (data, done) => {
     if (!data) {
       var error = httpStatus.NOT_FOUND;
       done(error, null);
     } else {
       done(null, data);
     }
-  }], (err, data)=> {
+  }], (err, data) => {
     if (data) {
       res.send(data);
-    }
-    else if (err === httpStatus.NOT_FOUND) {
+    } else if (err === httpStatus.NOT_FOUND) {
       res.send({
         status: httpStatus.NOT_FOUND,
         paperDrafts: null
@@ -28,7 +27,7 @@ PaperDraftController.prototype.getPaperDraft = (req, res, next) => {
     } else {
       next(err);
     }
-  })
+  });
 };
 
 PaperDraftController.prototype.createPaperDraft = (req, res, next) => {
@@ -46,9 +45,9 @@ PaperDraftController.prototype.insertLogicPuzzleSections = (req, res, next) => {
   var error = {};
 
   async.waterfall([
-    (done)=> {
+    (done) => {
       PaperDraft.findOne({_id: paperHash}, done);
-    }, (data, done)=> {
+    }, (data, done) => {
       if (!data) {
         error.status = httpStatus.NOT_FOUND;
         done(error, null);
@@ -64,13 +63,12 @@ PaperDraftController.prototype.insertLogicPuzzleSections = (req, res, next) => {
         });
         done(null, data);
       }
-    }], (err, data)=> {
+    }], (err, data) => {
     if (data) {
       res.send({
         status: httpStatus.OK
       });
-    }
-    else if (err === httpStatus.NOT_FOUND) {
+    } else if (err === httpStatus.NOT_FOUND) {
       res.send({
         status: httpStatus.NOT_FOUND
       });
@@ -85,9 +83,9 @@ PaperDraftController.prototype.insertHomeworkSections = (req, res, next) => {
   var error = {};
   var doc;
 
-  async.waterfall([(done)=> {
+  async.waterfall([(done) => {
     PaperDraft.findOne({_id: paperHash}, done);
-  }, (data, done)=> {
+  }, (data, done) => {
     if (!data) {
       error.status = httpStatus.NOT_FOUND;
       done(error, null);
@@ -106,12 +104,12 @@ PaperDraftController.prototype.insertHomeworkSections = (req, res, next) => {
       }
     });
     done(null, data);
-  }], (err, data)=> {
+  }], (err, data) => {
     if (data) {
       res.send({
         status: httpStatus.OK
       });
-    } else if(err.status === httpStatus.NOT_FOUND) {
+    } else if (err.status === httpStatus.NOT_FOUND) {
       res.send({
         status: httpStatus.NOT_FOUND
       });

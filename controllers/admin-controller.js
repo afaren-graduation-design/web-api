@@ -3,37 +3,35 @@
 var UserChannel = require('../models/user-channel.js');
 var Channel = require('../models/channel.js');
 var Configuration = require('../models/configuration');
-var async = require('async');
 var constant = require('../mixin/constant');
 
-
-function AdminController() {
+function AdminController () {
 
 }
 
-AdminController.prototype.addChannel = (req,res,next) => {
-  var newChannel = new Channel;
+AdminController.prototype.addChannel = (req, res, next) => {
+  var newChannel = new Channel();
   newChannel.name = req.body.name;
 
-  Channel.findOne({name:newChannel.name},(err,link)=>{
-    if(err){
+  Channel.findOne({name: newChannel.name}, (err, link) => {
+    if (err) {
       return next(err);
-    } else if(!link){
+    } else if (!link) {
       newChannel.save(function (err, newLink, numAffected) {
-        if(err){
+        if (err) {
           return next(err);
         }
       });
       res.sendStatus(constant.httpCode.OK);
-    } else if(link){
+    } else if (link) {
       res.send({message: 'Already Exist'});
     }
   });
 };
 
-AdminController.prototype.getChannel = (req,res,next) => {
-  Channel.find({},(err,links)=>{
-    if(err){
+AdminController.prototype.getChannel = (req, res, next) => {
+  Channel.find({}, (err, links) => {
+    if (err) {
       return next(err);
     }
     res.send({links: links});
@@ -44,33 +42,33 @@ AdminController.prototype.removeChannel = (req, res, next) => {
   var name = req.query.name;
   var _id = req.query._id;
 
-  Channel.findOneAndRemove({name:name,_id:_id},(err)=>{
-    if(err){
+  Channel.findOneAndRemove({name: name, _id: _id}, (err) => {
+    if (err) {
       return next(err);
     }
     res.sendStatus(constant.httpCode.OK);
   });
 };
 
-AdminController.prototype.getRegisterableStatus = (req,res,next) => {
-  Configuration.findOne({},(err,configuration)=>{
-    if(err){
+AdminController.prototype.getRegisterableStatus = (req, res, next) => {
+  Configuration.findOne({}, (err, configuration) => {
+    if (err) {
       return next(err);
     }
     res.send({configuration: configuration});
   });
 };
 
-AdminController.prototype.changeRegisterableStatus = (req,res,next) => {
+AdminController.prototype.changeRegisterableStatus = (req, res, next) => {
   var value = req.body.value;
 
-  Configuration.findOne({},(err,configuration)=>{
-    if(err){
+  Configuration.findOne({}, (err, configuration) => {
+    if (err) {
       return next(err);
     }
     configuration.registerable = value;
     configuration.save(function (err, configuration, numAffected) {
-      if(err){
+      if (err) {
         return next(err);
       }
       res.send({configuration: configuration});
@@ -79,15 +77,14 @@ AdminController.prototype.changeRegisterableStatus = (req,res,next) => {
 };
 
 AdminController.prototype.getUsersChannel = (req, res, next) => {
-
   UserChannel.find()
       .populate('channelId')
       .exec(function (err, data) {
-        if (err){
-          return next(err)
-        }else {
+        if (err) {
+          return next(err);
+        } else {
           var usersChannel = data.map((item) => {
-            return {userId:item.userId, channelName:item.channelId.name};
+            return {userId: item.userId, channelName: item.channelId.name};
           });
           res.send({
             usersChannel: usersChannel
@@ -95,6 +92,5 @@ AdminController.prototype.getUsersChannel = (req, res, next) => {
         }
       });
 };
-
 
 module.exports = AdminController;

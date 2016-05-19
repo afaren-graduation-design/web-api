@@ -2,18 +2,19 @@
 var apiRequest = require('../services/api-request');
 var constant = require('../mixin/constant');
 
-
-function ReuseController() {
+function ReuseController () {
 
 }
 
-ReuseController.prototype.loadAccount = (req, res) => {
+ReuseController.prototype.loadAccount = (req, res, next) => {
   if (req.session.user) {
     var userId = req.session.user.id;
     var url = 'users/' + userId;
 
     apiRequest.get(url, function (err, resp) {
-      if (resp === undefined) {
+      if (err) {
+        return next(err);
+      } else if (resp === undefined) {
         res.send({
           status: constant.httpCode.INTERNAL_SERVER_ERROR
         });
@@ -34,7 +35,7 @@ ReuseController.prototype.loadAccount = (req, res) => {
         });
       }
     });
-  }else {
+  } else {
     res.send({status: constant.httpCode.ACCEPTED});
   }
 };

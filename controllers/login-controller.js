@@ -1,6 +1,5 @@
 'use strict';
 
-var express = require('express');
 var constant = require('../mixin/constant');
 var md5 = require('js-md5');
 var validate = require('validate.js');
@@ -8,8 +7,7 @@ var constraint = require('../mixin/login-constraint');
 var apiRequest = require('../services/api-request');
 var async = require('async');
 
-
-function checkLoginInfo(account, password) {
+function checkLoginInfo (account, password) {
   var pass = true;
   var valObj = {};
 
@@ -29,7 +27,7 @@ function checkLoginInfo(account, password) {
   return pass;
 }
 
-function LoginController() {
+function LoginController () {
 
 }
 
@@ -39,16 +37,15 @@ LoginController.prototype.login = (req, res, next) => {
   var captcha = req.body.captcha;
   var error = {};
 
-
   async.waterfall([
-    (done)=> {
+    (done) => {
       if (captcha !== req.session.captcha) {
         error.status = constant.httpCode.FORBIDDEN;
         done(error, null);
       } else {
         done(null, null);
       }
-    }, (data, done)=> {
+    }, (data, done) => {
       if (checkLoginInfo(account, password)) {
         password = md5(password);
         apiRequest.post('login', {email: account, password: password}, done);
@@ -56,7 +53,7 @@ LoginController.prototype.login = (req, res, next) => {
         error.status = constant.httpCode.UNAUTHORIZED;
         done(error, null);
       }
-    }, (result, done)=> {
+    }, (result, done) => {
       if (result.body.id && result.headers) {
         req.session.user = {
           id: result.body.id,
@@ -68,7 +65,7 @@ LoginController.prototype.login = (req, res, next) => {
         error.status = constant.httpCode.UNAUTHORIZED;
         done(error, null);
       }
-    }], (error, result)=> {
+    }], (error, result) => {
     if (error !== null && error.status === constant.httpCode.FORBIDDEN) {
       res.send({status: constant.httpCode.FORBIDDEN});
       return;
@@ -76,12 +73,11 @@ LoginController.prototype.login = (req, res, next) => {
       res.send({status: constant.httpCode.UNAUTHORIZED});
       return;
     } else if (result.status === constant.httpCode.OK) {
-      res.send({status: constant.httpCode.OK,isSuperAdmin: result.body.role === '9'});
+      res.send({status: constant.httpCode.OK, isSuperAdmin: result.body.role === '9'});
       return;
     }
     return next(error);
   });
-
 };
 
 module.exports = LoginController;

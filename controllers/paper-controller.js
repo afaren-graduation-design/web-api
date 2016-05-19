@@ -4,7 +4,7 @@ var UserPaper = require('../models/user-paper');
 var logicPuzzleQuiz = require('../services/logic-puzzle/quiz-service');
 var httpStatus = require('../mixin/constant').httpCode;
 
-function details(req, res, next) {
+function details (req, res, next) {
   var paperHash = req.params.paperHash;
   var userId = req.session.user.id;
   var paper = {};
@@ -14,17 +14,17 @@ function details(req, res, next) {
 
   async.waterfall([
     (done) => {
-      UserPaper.findOne({userId: userId}, done)
+      UserPaper.findOne({userId: userId}, done);
     },
 
     (data, done) => {
       if (!data) {
-        done(true, null)
+        done(true, null);
       } else {
         doc = data;
-        paper = data.papers.find((paper, index)=> {
+        paper = data.papers.find((paper, index) => {
           paperIndex = index;
-          return paper._id == paperHash;
+          return paper._id === paperHash;
         });
         done(null, paper);
       }
@@ -55,9 +55,8 @@ function details(req, res, next) {
       }
     },
     (data, done) => {
-      done(null,null);
+      done(null, null);
     }
-
   ], (err, data) => {
     if (err === true) {
       res.send({
@@ -70,27 +69,27 @@ function details(req, res, next) {
     } else {
       res.send({
         status: httpStatus.OK
-      })
+      });
     }
   });
 }
 
-function obtain(req, res, next) {
-
-  var prams = {
+function obtain (req, res, next) {
+  var params = {
     paperId: req.params.paperId,
     userId: req.session.user.id
   };
 
   async.waterfall([
-    (done)=> {
-      logicPuzzleQuiz.getList(params, done)
+    (done) => {
+      logicPuzzleQuiz.getList(params, done);
       // 获取逻辑题状态
-    },
-
-  ], (err, data)=> {
-    if(err) {return next(err)}
-  })
+    }
+  ], (err, data) => {
+    if (err) {
+      return next(err);
+    }
+  });
 }
 
 module.exports = {

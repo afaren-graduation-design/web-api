@@ -13,7 +13,7 @@ var quizService = require('../services/homework/quiz-service');
 var userHomeworkQuizzes = require('../models/user-homework-quizzes');
 var homeworkScoring = require('../models/homework-scoring');
 
-function getDesc(status, realDesc) {
+function getDesc (status, realDesc) {
   if (status === constant.homeworkQuizzesStatus.LOCKED) {
     return '## 当前题目未解锁,请先完成之前的题目.';
   } else {
@@ -21,11 +21,10 @@ function getDesc(status, realDesc) {
   }
 }
 
-function HomeworkController() {
+function HomeworkController () {
 }
 
 HomeworkController.prototype.getList = (req, res, next) => {
-
   var userId = req.session.user.id;
   userHomeworkQuizzes.findOne({userId: userId}, function (err, data) {
     if (err) { return next(err); }
@@ -63,7 +62,6 @@ HomeworkController.prototype.updateStatus = (req, res, next) => {
 
     (data, done) => {
       var nextIdx;
-
       var quiz = data.quizzes.find((item, idx, doc) => {
         var match = item._id.toString() === homewrok.quizzes._id.toString();
         if (match) {
@@ -109,7 +107,6 @@ HomeworkController.prototype.updateStatus = (req, res, next) => {
 };
 
 HomeworkController.prototype.getOneQuiz = (req, res, next) => {
-
   var userId = req.session.user.id;
   var orderId = parseInt(req.query.orderId, 10) || 1;
   var result = {};
@@ -136,21 +133,21 @@ HomeworkController.prototype.getOneQuiz = (req, res, next) => {
 
       if (!data.startTime && data.status !== constant.homeworkQuizzesStatus.LOCKED) {
         data.startTime = parseInt(new Date() / constant.time.MILLISECOND_PER_SECONDS);
-        doc.save(()=> {
-          done(null, histories)
+        doc.save(() => {
+          done(null, histories);
         });
       } else {
-        done(null, histories)
+        done(null, histories);
       }
     },
 
-    (histories, done)=> {
+    (histories, done) => {
       var lastHomeworkSubmitId = histories[histories.length - 1];
       homeworkScoring.findById(lastHomeworkSubmitId, done);
     },
 
     (doc, done) => {
-      if(doc){
+      if (doc) {
         result.userAnswerRepo = doc.userAnswerRepo;
         result.branch = doc.branch;
         result.result = doc.result;
@@ -232,31 +229,39 @@ HomeworkController.prototype.saveGithubUrl = (req, res, next) => {
   });
 };
 
-HomeworkController.prototype.createScoring = (req, res, next)=> {
+HomeworkController.prototype.createScoring = (req, res, next) => {
   var options = Object.assign({}, req.session, req.body);
 
-  scoringService.createScoring(options, (err, data)=> {
-    if(err) {return next(err)}
+  scoringService.createScoring(options, (err, data) => {
+    if (err) {
+      return next(err);
+    }
     res.status(201).send(data);
   });
 };
 
-HomeworkController.prototype.updateScoring = (req, res, next)=> {
+HomeworkController.prototype.updateScoring = (req, res, next) => {
   var options = Object.assign({historyId: req.params.historyId}, req.body);
-  scoringService.updateScoring(options, (err, data)=> {
-    if(err) {return next(err)}
+  scoringService.updateScoring(options, (err, data) => {
+    if (err) {
+      return next(err);
+    }
     res.send(data);
-  })
+  });
 };
 
-HomeworkController.prototype.getQuiz = (req, res, next)=> {
+HomeworkController.prototype.getQuiz = (req, res, next) => {
   quizService.getQuiz({
     paperId: parseInt(req.query.paperId),
     quizId: parseInt(req.params.quizId),
     userId: req.session.user.id
-  }, (err, data)=> {
-    res.send(data);
-  })
+  }, (err, data) => {
+    if (data) {
+      res.send(data);
+    } else {
+      return next(err);
+    }
+  });
 };
 
 HomeworkController.prototype.getEstimatedTime = (req, res, next) => {
@@ -266,7 +271,7 @@ HomeworkController.prototype.getEstimatedTime = (req, res, next) => {
     (done) => {
       userHomeworkQuizzes.aggregate([
           {'$unwind': '$quizzes'}
-        ])
+      ])
         .match({'quizzes.id': Number(quizId)})
         .exec(done);
     },
@@ -274,7 +279,7 @@ HomeworkController.prototype.getEstimatedTime = (req, res, next) => {
       var recordIds = [];
 
       doc.forEach((item, i) => {
-        recordIds = recordIds.concat(item.quizzes.homeworkSubmitPostHistory)
+        recordIds = recordIds.concat(item.quizzes.homeworkSubmitPostHistory);
       });
       if (!recordIds.length) {
         return res.send({
@@ -290,7 +295,7 @@ HomeworkController.prototype.getEstimatedTime = (req, res, next) => {
             id: recordIds
           })
         })
-        .end(done)
+        .end(done);
     },
     (result, done) => {
       if (!result.body.length) {
@@ -316,7 +321,7 @@ HomeworkController.prototype.getEstimatedTime = (req, res, next) => {
     }
     res.send({
       estimatedTime: estimatedTime
-    })
+    });
   });
 };
 

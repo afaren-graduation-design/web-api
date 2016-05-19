@@ -11,11 +11,11 @@ var redirectUri = 'http://192.168.99.100:8888/api/auth/github/callback';
 var scope = '';
 var state = Math.random();
 
-function AuthController() {
+function AuthController () {
 
 }
 
-AuthController.prototype.loginWithGitHub = (req, res)=> {
+AuthController.prototype.loginWithGitHub = (req, res) => {
   var authUrl = 'https://github.com/login/oauth/authorize?' +
       'client_id=' + clientId +
       '&redirect_uri=' + redirectUri +
@@ -38,12 +38,12 @@ AuthController.prototype.gitHubCallback = (req, res, next) => {
       request.post('https://github.com/login/oauth/access_token')
           .set('Content-Type', 'application/json')
           .send({
-            "client_id": clientId,
-            "client_secret": clientSecret,
-            "code": req.query.code,
-            "redirect_uri": redirectUri
+            'client_id': clientId,
+            'client_secret': clientSecret,
+            'code': req.query.code,
+            'redirect_uri': redirectUri
           })
-          .end(function(err, response) {
+          .end(function (err, response) {
             done(err, response.body.access_token);
           });
     },
@@ -55,19 +55,19 @@ AuthController.prototype.gitHubCallback = (req, res, next) => {
     },
     (data, done) => {
       githubUserId = data.body.id;
-      var queryData = {'thirdPartyUserId' : githubUserId};
+      var queryData = {'thirdPartyUserId': githubUserId};
       var uri = 'auth/thirdParty/github';
-      apiRequest.get(uri, queryData, function (err,resp) {
+      apiRequest.get(uri, queryData, function (err, resp) {
         done(!err, err);
-      })
+      });
     },
     (err, done) => {
-      if(err.status === constant.httpCode.NOT_FOUND) {
-        apiRequest.post('register', userData, function(err, res) {
+      if (err.status === constant.httpCode.NOT_FOUND) {
+        apiRequest.post('register', userData, function (err, res) {
           var result = {userId: res.body.id, thirdPartyUserId: githubUserId};
           done(err, result);
         });
-      }else {
+      } else {
         done(err);
       }
     },
@@ -75,18 +75,23 @@ AuthController.prototype.gitHubCallback = (req, res, next) => {
       apiRequest.post('auth/thirdParty/github', data, done);
     }
   ], function (err) {
-    if(err && err !== true) {
-      next(err);
-    }else {
-      apiRequest.post('login', {email: userData.email, password: userData.password}, function(err, data) {
-        req.session.user = {
-          id:data.body.id,
-          role: data.body.role,
-          userInfo: data.body.userInfo
-        };
-        res.redirect('/user-center');
+    if (err && err !== true) {
+      return next(err);
+    } else {
+      apiRequest.post('login', {email: userData.email, password: userData.password}, function (err, data) {
+        if (data) {
+          req.session.user = {
+            id: data.body.id,
+            role: data.body.role,
+            userInfo: data.body.userInfo
+          };
+          res.redirect('/user-center');
+        } else {
+          return next(err);
+        }
       });
     }
-  })
+  });
 };
+
 module.exports = AuthController;

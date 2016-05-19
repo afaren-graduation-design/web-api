@@ -6,10 +6,9 @@ var userHomeworkQuizzes = require('../models/user-homework-quizzes');
 var constant = require('../mixin/constant');
 var async = require('async');
 
-function UserInitializationController() {
+function UserInitializationController () {
+
 }
-
-
 
 UserInitializationController.prototype.initializeQuizzes = (req, res) => {
   var userId = req.session.user.id;
@@ -19,8 +18,7 @@ UserInitializationController.prototype.initializeQuizzes = (req, res) => {
 
   async.waterfall([
 
-    (done)=> {
-
+    (done) => {
       logicPuzzle.findOne({
         userId: userId,
         paperId: 1
@@ -31,11 +29,9 @@ UserInitializationController.prototype.initializeQuizzes = (req, res) => {
           done(!!data, data);
         }
       });
-    }, (data, done)=> {
-
+    }, (data, done) => {
       apiRequest.get(logicPuzzleUrl, done);
-
-    }, (responds, done)=> {
+    }, (responds, done) => {
       enrollment = responds.body;
       var quizzes = responds.body.sections[0].quizzes[0];
       blankQuizId = quizzes.id;
@@ -43,13 +39,9 @@ UserInitializationController.prototype.initializeQuizzes = (req, res) => {
       var itemsUri = quizzes.items_uri;
 
       done(null, itemsUri);
-
     }, (itemsUri, done) => {
-
       apiRequest.get(itemsUri, done);
-
     }, (responds, done) => {
-
       quizItems = responds.body.quizItems;
       quizExamples = responds.body.exampleItems;
 
@@ -57,7 +49,6 @@ UserInitializationController.prototype.initializeQuizzes = (req, res) => {
 
       done(null, isNotExist);
     }, (isNotExist, done) => {
-
       logicPuzzle.create({
         userId: userId,
         quizItems: quizItems,
@@ -65,7 +56,6 @@ UserInitializationController.prototype.initializeQuizzes = (req, res) => {
         blankQuizId: blankQuizId,
         paperId: paperId
       }, done);
-
     }, (doc, done) => {
       // todo 编程题不能写死为section[1]
       userHomeworkQuizzes.initUserHomeworkQuizzes(userId, enrollment.sections[1].quizzes, paperId, done);

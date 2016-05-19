@@ -1,6 +1,5 @@
 'use strict';
 
-var express = require('express');
 var lang = require('..//mixin/lang-message/chinese');
 var constant = require('../mixin/constant').backConstant;
 var async = require('async');
@@ -13,7 +12,7 @@ var configuration = require('../models/configuration');
 var UserChannel = require('../models/user-channel');
 var mongoose = require('mongoose');
 
-function checkRegisterInfo(registerInfo) {
+function checkRegisterInfo (registerInfo) {
   var pass = true;
 
   var valObj = {};
@@ -34,7 +33,7 @@ function checkRegisterInfo(registerInfo) {
   return pass;
 }
 
-function RegisterController() {
+function RegisterController () {
 
 }
 
@@ -43,43 +42,37 @@ RegisterController.prototype.register = (req, res, next) => {
   var error = {};
 
   if (checkRegisterInfo(registerInfo)) {
-
     var isMobilePhoneExist = false;
     var isEmailExist = false;
     var isCaptchaError = false;
 
     async.waterfall([
-      (done)=> {
+      (done) => {
         configuration.findOne({}, (err, data) => {
           if (!data.registerable) {
-            error.status = httpStatus.UNAUTHORIZED;//401 未开放注册
+            error.status = httpStatus.UNAUTHORIZED; //  401 未开放注册
             done(error, data);
           } else {
             done(null, null);
           }
         });
       },
-      (data, done)=> {
-
+      (data, done) => {
         if (registerInfo.captcha !== req.session.captcha) {
-          error.status = httpStatus.FORBIDDEN;  //403 验证码错误
+          error.status = httpStatus.FORBIDDEN;  //  403 验证码错误
           isCaptchaError = true;
           done(error, null);
         } else {
           done(null, null);
         }
-      },
-      (data, done)=> {
-
+      }, (data, done) => {
         apiRequest.get('users', {field: 'mobilePhone', value: registerInfo.mobilePhone}, function (err, resp) {
           if (resp.body.uri) {
             isMobilePhoneExist = true;
           }
           done(err, resp);
         });
-      },
-      (data, done) => {
-
+      }, (data, done) => {
         apiRequest.get('users', {field: 'email', value: registerInfo.email}, function (err, resp) {
           if (resp.body.uri) {
             isEmailExist = true;
@@ -91,14 +84,12 @@ RegisterController.prototype.register = (req, res, next) => {
           }
         });
       },
-      (data, done)=> {
-
+      (data, done) => {
         delete registerInfo.captcha;
         registerInfo.password = md5(registerInfo.password);
         apiRequest.post('register', registerInfo, done);
       },
       (data, done) => {
-
         if (req.cookies.channel !== '') {
           var userChannel = new UserChannel({
             userId: data.body.id,
@@ -111,11 +102,10 @@ RegisterController.prototype.register = (req, res, next) => {
           done();
         }
       },
-      (done)=> {
-
+      (done) => {
         apiRequest.post('login', {email: registerInfo.email, password: registerInfo.password}, done);
       },
-      (data, done)=> {
+      (data, done) => {
         if (data.body.id && data.headers) {
           req.session.user = {
             id: data.body.id,
@@ -126,7 +116,6 @@ RegisterController.prototype.register = (req, res, next) => {
         done(null, data);
       }
     ], (err, data) => {
-
       if (err !== null && error.status === httpStatus.UNAUTHORIZED) {
         res.send({
           status: constant.FORBIDDEN,
@@ -158,7 +147,7 @@ RegisterController.prototype.valdateMobilePhone = (req, res, next) => {
     if (!result) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR);
       res.send();
-      return;
+      return next(err);
     }
     if (result.body.uri) {
       res.send({
@@ -177,7 +166,7 @@ RegisterController.prototype.valdateEmail = (req, res, next) => {
     if (!result) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR);
       res.send();
-      return;
+      return next(err);
     }
     if (result.body.uri) {
       res.send({
@@ -193,16 +182,15 @@ RegisterController.prototype.valdateEmail = (req, res, next) => {
 
 RegisterController.prototype.registerable = (req, res, next) => {
   async.waterfall([
-    (done)=> {
+    (done) => {
       configuration.findOne({}, done);
-    }], (err, data)=> {
+    }], (err, data) => {
     if (err) return next(err);
     res.send({
       registerable: data.registerable,
       status: constant.OK
-    })
-  })
+    });
+  });
 };
-
 
 module.exports = RegisterController;

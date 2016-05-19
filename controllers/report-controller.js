@@ -1,4 +1,4 @@
-/*eslint no-magic-numbers: 2*/
+/*eslint no-magic-numbers: 2, 1, 0*/
 'use strict';
 
 var apiRequest = require('../services/api-request');
@@ -15,16 +15,15 @@ var ejs = require('ejs');
 var fs = require('fs');
 var BREAK_LINE_CODE = 10;
 
-function ReportController() {
+function ReportController () {
 }
 
-function setCommitHistoryfilter(userhomeworks) {
+function setCommitHistoryfilter (userhomeworks) {
   var CommitHistoryfilter = [];
 
-  userhomeworks.forEach((userhomework)=> {
-
+  userhomeworks.forEach((userhomework) => {
     var objectIds = [];
-    userhomework.quizzes.forEach((quiz)=> {
+    userhomework.quizzes.forEach((quiz) => {
       if (quiz.homeworkSubmitPostHistory.length !== 0) {
         objectIds.push(quiz.homeworkSubmitPostHistory[quiz.homeworkSubmitPostHistory.length - 1]);
       }
@@ -36,20 +35,17 @@ function setCommitHistoryfilter(userhomeworks) {
   return CommitHistoryfilter;
 }
 
-function getUsersCommitHistory(commitHistoryFilter, callback) {
-
+function getUsersCommitHistory (commitHistoryFilter, callback) {
   var filter = {
     'id': commitHistoryFilter
   };
-
-
   homeworkScoring.find({
     _id: {$in: filter.id}
   }, callback);
 
-  //var url = config.taskServer + 'tasks';
+  //  var url = config.taskServer + 'tasks';
   //
-  //superAgent.get(url)
+  //  superAgent.get(url)
   //    .set('Content-Type', 'application/json')
   //    .query({
   //      filter: JSON.stringify(filter)
@@ -57,56 +53,50 @@ function getUsersCommitHistory(commitHistoryFilter, callback) {
   //    .end(callback);
 }
 
-function getUserDataByPaperId(paperId, callback) {
-
+function getUserDataByPaperId (paperId, callback) {
   var logicPuzzleURL = 'papers/' + paperId + '/logicPuzzle';
   var usersDetailURL = 'papers/' + paperId + '/usersDetail';
   var userData = {};
 
   async.waterfall([
-    (done)=> {
+    (done) => {
       apiRequest.get(usersDetailURL, (err, usersDetail) => {
         userData.usersDetail = usersDetail.body;
         done(err, null);
-      })
+      });
     },
-
-    (data, done)=> {
+    (data, done) => {
       apiRequest.get(logicPuzzleURL, (err, logicPuzzle) => {
         userData.logicPuzzle = logicPuzzle.body;
         done(err, null);
       });
     },
-
-    (data, done)=> {
+    (data, done) => {
       userHomeworkQuizzes.find({paperId: paperId}, (err, userhomeworks) => {
         userData.homeworks = userhomeworks;
         done(err, userhomeworks);
       });
     },
-
-    (userhomeworks, done)=> {
+    (userhomeworks, done) => {
       var commitHistoryFilter = setCommitHistoryfilter(userhomeworks);
-      getUsersCommitHistory(commitHistoryFilter, (err, usersCommitHistory)=> {
+      getUsersCommitHistory(commitHistoryFilter, (err, usersCommitHistory) => {
         userData.commitHistory = usersCommitHistory;
         done(err, null);
       });
     },
-
-    (data, done)=> {
+    (data, done) => {
       UserChannel.find()
           .populate('channelId')
           .exec(function (err, usersChannels) {
             userData.channels = usersChannels;
             done(err, null);
           });
-
-    }], (err, result)=> {
+    }], (err, result) => {
     callback(err, userData);
   });
 }
 
-function buildUserSummary(data) {
+function buildUserSummary (data) {
   return {
     name: data.name,
     mobilePhone: data.mobilePhone,
@@ -118,14 +108,13 @@ function buildUserSummary(data) {
   };
 }
 
-function buildHomework(homeworks, usersCommitHistory, userId) {
-
+function buildHomework (homeworks, usersCommitHistory, userId) {
   var sumTime = 0;
   var correctNumber = 0;
   var startTime = 0;
   var homework = {};
 
-  var data = homeworks.find((homework)=> {
+  var data = homeworks.find((homework) => {
     return homework.userId === userId;
   });
 
@@ -137,30 +126,24 @@ function buildHomework(homeworks, usersCommitHistory, userId) {
     var elapsedTime = 0;
 
     if (quiz.homeworkSubmitPostHistory.length !== 0) {
-
       var lasthSubmitHistoryId = quiz.homeworkSubmitPostHistory[quiz.homeworkSubmitPostHistory.length - 1];
 
-      var lastSubmitHistory = usersCommitHistory.find((log)=> {
+      var lastSubmitHistory = usersCommitHistory.find((log) => {
         return log.id === lasthSubmitHistoryId.toString();
       });
 
       if (lastSubmitHistory) {
         elapsedTime = lastSubmitHistory.commitTime - quiz.startTime;
       }
-
     }
-
     if ((quiz.homeworkSubmitPostHistory.length !== 0) && quiz.status === constant.homeworkQuizzesStatus.SUCCESS) {
       correctNumber++;
     }
-
     if (index === 0) {
       startTime = quiz.startTime;
     }
-
     sumTime += elapsedTime;
   });
-
 
   homework.homeworkCorrectNumber = correctNumber;
   homework.homeworkItemNumber = data.quizzes.length;
@@ -170,28 +153,24 @@ function buildHomework(homeworks, usersCommitHistory, userId) {
   return homework;
 }
 
-function buildChannel(usersChannels, userId) {
-  var userChannel = usersChannels.find((channel)=> {
-    return channel.userId = userId;
+function buildChannel (usersChannels, userId) {
+  var userChannel = usersChannels.find((channel) => {
+    return channel.userId === userId;
   });
 
   return {
     channel: (!userChannel || !userChannel.channelId) ? '' : userChannel.channelId.name
-  }
+  };
 }
 
-function buildScoresheetInfo(paperId, callback) {
-
+function buildScoresheetInfo (paperId, callback) {
   getUserDataByPaperId(paperId, function (err, usersData) {
     if (err) {
       callback(err);
       return;
     }
-
     var result = usersData.usersDetail.map((detail) => {
-
       var userSummary = detail;
-
       var logicPuzzleSummary = usersData.logicPuzzle.find((item) => {
         return item.userId === detail.userId;
       });
@@ -206,10 +185,9 @@ function buildScoresheetInfo(paperId, callback) {
 
     callback(null, result);
   });
-
 }
 
-ReportController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
+ReportController.prototype.exportPaperScoresheetCsv = (req, res, next) => {
   var paperId = req.params.paperId;
 
   buildScoresheetInfo(paperId, function (err, scoresheetInfo) {
@@ -217,6 +195,9 @@ ReportController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
       return next(err);
     } else {
       fs.readFile(__dirname + '/../views/paper-scoresheet-csv.ejs', function (err, data) {
+        if (err) {
+          return next(err);
+        }
 
         var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
 
@@ -238,65 +219,58 @@ ReportController.prototype.exportPaperScoresheetCsv = (req, res, next)=> {
       });
     }
   });
-
 };
 
-function getHomeworkDetailsByUserId(userId, callback) {
+function getHomeworkDetailsByUserId (userId, callback) {
   var userDetailURL = 'users/' + userId + '/detail';
 
   var user = {};
   async.waterfall([
-    (done)=> {
-      apiRequest.get(userDetailURL, (err, userDetail)=> {
+    (done) => {
+      apiRequest.get(userDetailURL, (err, userDetail) => {
         user.userDetail = userDetail.body;
         done(err, null);
-      })
+      });
     },
-
-    (data, done)=> {
-      userHomeworkQuizzes.findOne({userId: userId}, (err, homework)=> {
+    (data, done) => {
+      userHomeworkQuizzes.findOne({userId: userId}, (err, homework) => {
         user.homework = homework;
         done(err, homework);
       });
     },
-    (homework, done)=> {
-
+    (homework, done) => {
       if (homework !== null) {
         var filter = [];
-        homework.quizzes.forEach((quiz)=> {
+        homework.quizzes.forEach((quiz) => {
           if (quiz.homeworkSubmitPostHistory.length !== 0) {
             filter.push(quiz.homeworkSubmitPostHistory[quiz.homeworkSubmitPostHistory.length - 1]);
           }
         });
 
-        getUsersCommitHistory(filter, (err, userCommitHistory)=> {
+        getUsersCommitHistory(filter, (err, userCommitHistory) => {
           user.userCommitHistory = userCommitHistory;
           done(err, null);
         });
       } else {
         done(null, null);
       }
-
-    }], (err, result)=> {
+    }], (err, result) => {
     callback(err, user);
   });
 }
 
-function buildHomeworkDetail(quiz, userCommitHistory) {
-
+function buildHomeworkDetail (quiz, userCommitHistory) {
   var homeworkDetails = {};
   var elapsedTime = 0;
 
   if (quiz.homeworkSubmitPostHistory.length !== 0) {
-
     var lasthSubmitHistoryId = quiz.homeworkSubmitPostHistory[quiz.homeworkSubmitPostHistory.length - 1];
 
-    var lastSubmitHistory = userCommitHistory.find((log)=> {
+    var lastSubmitHistory = userCommitHistory.find((log) => {
       return log.id === lasthSubmitHistoryId.toString();
     });
 
     if (lastSubmitHistory) {
-      var lastSubmitHistoryCommitTime = Date.parse(lastSubmitHistory.commitTime) / constant.time.MILLISECOND_PER_SECONDS;
       elapsedTime = lastSubmitHistory.commitTime - quiz.startTime;
       homeworkDetails.lastCommitedDetail = lastSubmitHistory.result;
     }
@@ -313,10 +287,8 @@ function buildHomeworkDetail(quiz, userCommitHistory) {
   return homeworkDetails;
 }
 
-function buildUserHomeworkDetails(paperId, userId, callback) {
-
-  getHomeworkDetailsByUserId(userId, (err, data)=> {
-
+function buildUserHomeworkDetails (paperId, userId, callback) {
+  getHomeworkDetailsByUserId(userId, (err, data) => {
     if (err) {
       callback(err);
       return;
@@ -326,7 +298,7 @@ function buildUserHomeworkDetails(paperId, userId, callback) {
       callback(null, null);
       return;
     }
-    var usersInfo = data.homework.quizzes.map((quiz, index)=> {
+    var usersInfo = data.homework.quizzes.map((quiz, index) => {
       var userDetail;
 
       if (index === 0) {
@@ -354,7 +326,7 @@ function buildUserHomeworkDetails(paperId, userId, callback) {
   });
 }
 
-ReportController.prototype.exportUserHomeworkDetailsCsv = (req, res, next)=> {
+ReportController.prototype.exportUserHomeworkDetailsCsv = (req, res, next) => {
   var paperId = req.params.paperId;
   var userId = req.params.userId;
 
@@ -364,6 +336,9 @@ ReportController.prototype.exportUserHomeworkDetailsCsv = (req, res, next)=> {
     }
 
     fs.readFile(__dirname + '/../views/userhomeworkdetailscsv.ejs', function (err, data) {
+      if (err) {
+        next(err);
+      }
 
       var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
       var fileName = time + '-paper-' + paperId + '-user-' + userId + '.csv';
@@ -382,12 +357,11 @@ ReportController.prototype.exportUserHomeworkDetailsCsv = (req, res, next)=> {
       csv = csv.split(String.fromCharCode(BREAK_LINE_CODE)).join('');
       csv = csv.split('#!!--').join(String.fromCharCode(BREAK_LINE_CODE));
       res.send(csv);
-
     });
   });
 };
 
-function unescapeHTML(str) {
+function unescapeHTML (str) {
   str += '';
   var unescapeEntity = {};
   var runescapeEntity = /&([^;]+);/g;
@@ -413,59 +387,54 @@ function unescapeHTML(str) {
   return str;
 }
 
-function getHomeworkCommitHIstoryByUserId(userId, callback) {
+function getHomeworkCommitHIstoryByUserId (userId, callback) {
   var userDetailURL = 'users/' + userId + '/detail';
 
   var user = {};
   async.waterfall([
-    (done)=> {
-      apiRequest.get(userDetailURL, (err, userDetail)=> {
+    (done) => {
+      apiRequest.get(userDetailURL, (err, userDetail) => {
         user.userDetail = userDetail.body;
         done(err, null);
-      })
+      });
     },
-
-    (data, done)=> {
-      userHomeworkQuizzes.findOne({userId: userId}, (err, homework)=> {
+    (data, done) => {
+      userHomeworkQuizzes.findOne({userId: userId}, (err, homework) => {
         user.homework = homework;
         done(err, homework);
       });
     },
-
-    (homework, done)=> {
+    (homework, done) => {
       var filter = [];
-      homework.quizzes.forEach((quiz)=> {
+      homework.quizzes.forEach((quiz) => {
         if (quiz.homeworkSubmitPostHistory.length !== 0) {
           filter = filter.concat(quiz.homeworkSubmitPostHistory);
         }
       });
 
-      getUsersCommitHistory(filter, (err, userCommitHistory)=> {
+      getUsersCommitHistory(filter, (err, userCommitHistory) => {
         user.userCommitHistory = userCommitHistory;
         done(err, null);
       });
-    }], (err, result)=> {
+    }], (err, result) => {
     callback(err, user);
   });
 }
 
-function buildUserHomeworkQuizDetails(paperId, userId, homeworkquizId, callback) {
-
-  getHomeworkCommitHIstoryByUserId(userId, (err, data)=> {
+function buildUserHomeworkQuizDetails (paperId, userId, homeworkquizId, callback) {
+  getHomeworkCommitHIstoryByUserId(userId, (err, data) => {
     var usersInfo = [];
     if (err) {
       callback(err);
       return;
     }
 
-    var homeworkquiz = data.homework.quizzes.find((quiz)=> {
+    var homeworkquiz = data.homework.quizzes.find((quiz) => {
       return quiz.id.toString() === homeworkquizId;
     });
 
-
     if (homeworkquiz !== undefined && homeworkquiz.homeworkSubmitPostHistory.length !== 0) {
-
-      homeworkquiz.homeworkSubmitPostHistory.forEach((commitItem, index)=> {
+      homeworkquiz.homeworkSubmitPostHistory.forEach((commitItem, index) => {
         var userInfo = {};
         var userSummary;
         var homeworkSummary = {};
@@ -485,7 +454,7 @@ function buildUserHomeworkQuizDetails(paperId, userId, homeworkquizId, callback)
         }
         userInfo.userId = userId;
 
-        var commithistory = data.userCommitHistory.find((log)=> {
+        var commithistory = data.userCommitHistory.find((log) => {
           return commitItem.toString() === log.id;
         });
 
@@ -501,21 +470,18 @@ function buildUserHomeworkQuizDetails(paperId, userId, homeworkquizId, callback)
   });
 }
 
-function getupdatedAtTimeById(id, userCommitHistory) {
-
-  var time = userCommitHistory.find((commitHistory)=> {
+function getupdatedAtTimeById (id, userCommitHistory) {
+  var time = userCommitHistory.find((commitHistory) => {
     return id.toString() === commitHistory.id;
   });
 
   return time.commitTime;
 }
 
-function calculateElapsedTime(index, homeworkquiz, userCommitHistory) {
-
+function calculateElapsedTime (index, homeworkquiz, userCommitHistory) {
   var time;
   if (index === 0) {
     time = getupdatedAtTimeById(homeworkquiz.homeworkSubmitPostHistory[index], userCommitHistory) - homeworkquiz.startTime;
-
   } else {
     time = getupdatedAtTimeById(homeworkquiz.homeworkSubmitPostHistory[index], userCommitHistory) - getupdatedAtTimeById(homeworkquiz.homeworkSubmitPostHistory[index - 1], userCommitHistory);
   }
@@ -523,17 +489,19 @@ function calculateElapsedTime(index, homeworkquiz, userCommitHistory) {
   return time;
 }
 
-ReportController.prototype.exportUserHomeworkQuizDetailsCsv = (req, res, next)=> {
+ReportController.prototype.exportUserHomeworkQuizDetailsCsv = (req, res, next) => {
   var paperId = req.params.paperId;
   var userId = req.params.userId;
   var homeworkquizId = req.params.homeworkquizId;
-  buildUserHomeworkQuizDetails(paperId, userId, homeworkquizId, (err, userHomeworkQuizDetails)=> {
+  buildUserHomeworkQuizDetails(paperId, userId, homeworkquizId, (err, userHomeworkQuizDetails) => {
     if (err) {
       return next(err);
     }
 
     fs.readFile(__dirname + '/../views/userhomeworkquizdetailscsv.ejs', function (err, data) {
-
+      if (err) {
+        return next(err);
+      }
       var time = moment.unix(new Date() / constant.time.MILLISECOND_PER_SECONDS).format('YYYY-MM-DD');
       var fileName = time + '-paper-' + paperId + '-user-' + userId + '-homeworkquiz-' + homeworkquizId + '.csv';
 

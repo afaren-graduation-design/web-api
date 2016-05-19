@@ -251,7 +251,7 @@
     ],
     "semi": [
       2,
-      "never"
+      "always"
     ],
     "semi-spacing": [
       2,

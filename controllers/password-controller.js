@@ -8,12 +8,11 @@ var yamlConfig = require('node-yaml-config');
 var emailDomain = yamlConfig.load('./config/config.yml').emailServer;
 var md5 = require('js-md5');
 
-function PasswordController() {
+function PasswordController () {
 
 }
 
-PasswordController.prototype.retrieve = (req, res)=> {
-
+PasswordController.prototype.retrieve = (req, res) => {
   var retrieveUrl = 'users/password/retrieve';
   var email = req.query.email;
   var query = {
@@ -25,19 +24,17 @@ PasswordController.prototype.retrieve = (req, res)=> {
     (done) => {
       apiRequest.get(retrieveUrl, query, done);
     },
-    (result, done)=> {
-
+    (result, done) => {
       var status = parseInt(result.body.status);
 
       if (status === constant.httpCode.OK) {
         var token = result.body.token;
-        var linkAddress ='http://' + emailDomain + '/password-reset.html?token=' + token;
+        var linkAddress = 'http://' + emailDomain + '/password-reset.html?token=' + token;
 
-        emailServer.sendEmail(email, linkAddress, (err, status)=> {
+        emailServer.sendEmail(email, linkAddress, (err, status) => {
           if (err) {
             done(true, null);
           } else {
-
             done(null, null);
           }
         });
@@ -45,7 +42,7 @@ PasswordController.prototype.retrieve = (req, res)=> {
         done(true, null);
       }
     }
-  ], (err, data)=> {
+  ], (err, data) => {
     if (err) {
       res.send({status: constant.httpCode.NOT_FOUND});
     } else {
@@ -55,8 +52,7 @@ PasswordController.prototype.retrieve = (req, res)=> {
 
 };
 
-PasswordController.prototype.reset = (req, res)=> {
-
+PasswordController.prototype.reset = (req, res) => {
   var retrieveUrl = 'users/password/reset';
   var newPassword = md5(req.body.newPassword);
 
@@ -73,7 +69,6 @@ PasswordController.prototype.reset = (req, res)=> {
       res.send({status: parseInt(result.body.status)});
     }
   });
-
 };
 
 module.exports = PasswordController;

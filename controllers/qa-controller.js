@@ -1,21 +1,19 @@
 'use strict';
+
 var constant = require('../mixin/constant');
 var Configuration = require('../models/configuration');
-
-var yamlConfig = require('node-yaml-config');
-
 var async = require('async');
 var request = require('superagent');
 
-function QAController() {
+function QAController () {
 }
 
 QAController.prototype.loadQAInfo = (req, res, next) => {
-  Configuration.findOne({}, (err, configuration)=> {
+  Configuration.findOne({}, (err, configuration) => {
     if (err) {
       return next(err);
     }
-      res.send(configuration);
+    res.send(configuration);
   });
 };
 
@@ -31,7 +29,7 @@ QAController.prototype.updateQAInfo = (req, res, next) => {
     },
 
     (result, done) => {
-      Configuration.findOne({}, (err, configuration)=> {
+      Configuration.findOne({}, (err, configuration) => {
         if (err) {
           return next(err);
         }
