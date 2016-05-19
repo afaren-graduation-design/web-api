@@ -22,14 +22,13 @@ var start = function (mongoURL) {
   });
 };
 
-function status() {
+function status () {
   return {
     mongodb: mongoStatus
   };
 }
 
-
-//If the Node process ends, close the Mongoose connection
+// If the Node process ends, close the Mongoose connection
 process.on('SIGINT', function () {
   mongoose.connection.close(function () {
     console.log('Mongoose default connection disconnected through app termination');

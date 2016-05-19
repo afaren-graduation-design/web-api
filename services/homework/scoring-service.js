@@ -13,27 +13,21 @@ var taskApi = config.taskApi;
 var nginxServer = config.nginxServer;
 var ballbackTaskUrl = config.ballbackTaskUrl;
 
-function getQuiz(options, callBack) {
-  callBack(null, options);
-}
-
-function createScoring(options, callback) {
+function createScoring (options, callback) {
   var homeworkQuizDefinition;
   var result;
   async.waterfall([
-
-    (done)=> {
-      apiRequest.get(options.homeworkQuizUri, function(err, data) {
-        done(err, data.body)
+    (done) => {
+      apiRequest.get(options.homeworkQuizUri, function (err, data) {
+        done(err, data.body);
       });
     },
-
     // 更新时间
-    (homeworkQuiz, done)=> {
+    (homeworkQuiz, done) => {
       var condition = {
         userId: options.user.id,
         paperId: options.paperId,
-        "quizzes.id": options.quizId
+        'quizzes.id': options.quizId
       };
 
       userHomeworkQuizzes
@@ -41,60 +35,66 @@ function createScoring(options, callback) {
             '$unwind': '$quizzes'
           })
           .match(condition)
-          .exec((err, docs)=> {
+          .exec((err, docs) => {
             var histories = docs[0].quizzes.homeworkSubmitPostHistory;
             var len = histories.length;
-            if(len) {
-              homeworkScoring.findById(histories[len-1], (err, doc)=> {
-
-                options.startTime = doc.commitTime;
-                done(null, homeworkQuiz);
-              })
+            if (err) {
+              done(err, null);
+            } else if (len) {
+              homeworkScoring.findById(histories[len - 1], (err, doc) => {
+                if (err) {
+                  done(err, null);
+                } else {
+                  options.startTime = doc.commitTime;
+                  done(null, homeworkQuiz);
+                }
+              });
             } else {
               options.startTime = docs[0].quizzes.startTime;
               done(null, homeworkQuiz);
             }
           });
-
     },
-
-    (homeworkQuiz, done)=> {
+    (homeworkQuiz, done) => {
       homeworkQuizDefinition = homeworkQuiz.evaluateScript;
       options.commitTime = parseInt(new Date().getTime() / 1000);
       homeworkScoring.create(options, done);
     },
-
-    (data, done)=> {
+    (data, done) => {
       result = data;
       userHomeworkQuizzes.findOne({
         userId: options.user.id,
         paperId: options.paperId
-      }, (err, doc)=> {
-        var theQuiz = doc.quizzes.find((quiz)=> {
-          return quiz.id === options.quizId;
-        });
-
+      }, (err, doc) => {
+        if (err) {
+          done(err, null);
+        } else {
+          var theQuiz = doc.quizzes.find((quiz) => {
+            return quiz.id === options.quizId;
+          });
+        }
         theQuiz.status = data.status;
         theQuiz.homeworkSubmitPostHistory.push(data._id);
-        doc.save(()=> {
+        doc.save(() => {
           done(null, null);
         });
-      })
+      });
     },
-
-    (data, done)=> {
+    (data, done) => {
       var scriptPath = nginxServer + homeworkQuizDefinition;
       request
           .get(scriptPath)
           .buffer()
-          .end(function(err, data) {
-            done(null, data.text);
-          })
+          .end(function (err, data) {
+            if (err) {
+              done(err, null);
+            } else {
+              done(null, data.text);
+            }
+          });
     },
-
-    (script, done)=> {
-
-      script = script.split("\n").join("\\n");
+    (script, done) => {
+      script = script.split('\n').join('\\n');
 
       var info = {
         script: script,
@@ -110,31 +110,27 @@ function createScoring(options, callback) {
           .send(info)
           .end(done);
     }
-  ], (err, data)=> {
+  ], (err, data) => {
     callback(err, result);
-  })
+  });
 }
 
-function updateScoring(options, callback) {
-
+function updateScoring (options, callback) {
   async.waterfall([
-
-    (done)=> {
-      options.result = new Buffer(options.result || "", 'base64').toString('utf8');
+    (done) => {
+      options.result = new Buffer(options.result || '', 'base64').toString('utf8');
 
       homeworkScoring.update({
         _id: options.historyId
       }, options, done);
     },
-
-    (data, done)=> {
+    (data, done) => {
       userHomeworkQuizzes.updateStatus({
         historyId: options.historyId,
         status: options.status
       }, done);
     },
-
-    (data, done)=> {
+    (data, done) => {
       var id = new mongoose.Types.ObjectId(options.historyId);
       userHomeworkQuizzes
           .aggregate([
@@ -142,35 +138,32 @@ function updateScoring(options, callback) {
             {'$unwind': '$quizzes.homeworkSubmitPostHistory'}
           ])
           .match({'quizzes.homeworkSubmitPostHistory': id})
-          .exec((err, docs)=> {
+          .exec((err, docs) => {
             done(err, docs[0]);
           });
     },
-
-    (doc, done)=> {
-      homeworkScoring.findById(doc.quizzes.homeworkSubmitPostHistory, function(err, history) {
+    (doc, done) => {
+      homeworkScoring.findById(doc.quizzes.homeworkSubmitPostHistory, function (err, history) {
         doc.quizzes.homeworkSubmitPostHistory = history.toJSON();
         done(err, doc);
-      })
+      });
     },
-
-    (data, done)=> {
-      var data = {
-        "examerId": data.userId,
-        "paperId": data.paperId,
-        "homeworkSubmits": [{
-          "homeworkQuizId": data.quizzes.id,
-          "homeworkSubmitPostHistory":[data.quizzes.homeworkSubmitPostHistory]
+    (data, done) => {
+      var homeworkData = {
+        'examerId': data.userId,
+        'paperId': data.paperId,
+        'homeworkSubmits': [{
+          'homeworkQuizId': data.quizzes.id,
+          'homeworkSubmitPostHistory': [data.quizzes.homeworkSubmitPostHistory]
         }]
       };
 
-      done(null, data);
+      done(null, homeworkData);
     },
-
-    (data, done)=> {
-      apiRequest.post('scoresheets', data, (err, resp)=> {
+    (data, done) => {
+      apiRequest.post('scoresheets', data, (err, resp) => {
         done(err, resp);
-      })
+      });
     }
   ], callback);
 }

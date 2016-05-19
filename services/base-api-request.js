@@ -2,11 +2,10 @@
 
 var superAgent = require('superagent');
 
-function baseApiRequest(apiServer) {
+function baseApiRequest (apiServer) {
   var method = {
     get: function (url, query, callback) {
-
-      if ('function' === typeof query) {
+      if (typeof query === 'function') {
         callback = query;
         query = {};
       }
@@ -24,8 +23,7 @@ function baseApiRequest(apiServer) {
           .end(callback);
     },
 
-    put: function (url, data ,callback) {
-
+    put: function (url, data, callback) {
       superAgent.put(apiServer + url)
           .set('Content-Type', 'application/json')
           .send(data)

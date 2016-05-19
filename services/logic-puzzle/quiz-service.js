@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-function getList(params, callback) {
+function getList (params, callback) {
   callback(null, null);
 }
 
