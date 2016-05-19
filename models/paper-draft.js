@@ -24,7 +24,6 @@ var paperDraftSchema = new Schema({
       descriptionAddress: String,
       inspectionAddress: String
     }]
-
   }]
 });
 

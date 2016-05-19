@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 var homeworkInfoSchema = new Schema({
   userId: Number,
-  homeworkId: Number,
+  homeworkId: Number
 });
 
 module.exports = mongoose.model('HomeworkInfo', homeworkInfoSchema);

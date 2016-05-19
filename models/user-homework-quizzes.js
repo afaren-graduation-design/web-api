@@ -26,7 +26,9 @@ var userHomeworkQuizzesSchema = Schema({
 
 userHomeworkQuizzesSchema.statics.initUserHomeworkQuizzes = function (userId, quizzes, paperId, callback) {
   this.findOne({userId: userId}, (err, doc) => {
-    if (doc) {
+    if (err) {
+      callback(err, null);
+    } else if (doc) {
       callback(null, doc);
     } else {
       var _quizzes = quizzes.map((quiz) => {
@@ -47,56 +49,52 @@ userHomeworkQuizzesSchema.statics.initUserHomeworkQuizzes = function (userId, qu
   });
 };
 
-
-
 userHomeworkQuizzesSchema.statics.getQuizStatus = function (userId, callback) {
   this.findOne({userId: userId})
       .exec((err, doc) => {
         return callback(err, doc.quizzes.map((item) => {
           return {status: item.status};
         }));
-
-
-        if (err || !doc) {
-          callback(err || 'NOT_FOUND');
-        } else {
-          var result = [];
-
-          doc.quizzes.forEach((item, index) => {
-            var historyLength = item.homeworkSubmitPostHistory.length;
-            // 如果有历史记录，则返回历史记录的状态
-            if (historyLength) {
-              result.push({
-                status: item.homeworkSubmitPostHistory[historyLength - 1].status
-              });
-              // 如果是第一题，则直接解锁
-            } else if (!index) {
-              result.push({
-                status: constant.homeworkQuizzesStatus.ACTIVE
-              });
-              // 如果上一题已经成功，则直接解锁
-            } else if (doc.quizzes[index - 1].homeworkSubmitPostHistory.length) {
-              var lastStatus = doc.quizzes[index - 1].homeworkSubmitPostHistory.pop().status;
-
-              if (lastStatus === constant.homeworkQuizzesStatus.SUCCESS) {
-                result.push({
-                  status: constant.homeworkQuizzesStatus.ACTIVE
-                });
-              } else {
-                result.push({
-                  status: constant.homeworkQuizzesStatus.LOCKED
-                });
-              }
-              // 否则是锁
-            } else {
-              result.push({
-                status: constant.homeworkQuizzesStatus.LOCKED
-              });
-            }
-          });
-
-          callback(null, result);
-        }
+        // if (err || !doc) {
+        //  callback(err || 'NOT_FOUND');
+        // } else {
+        //  var result = [];
+        //
+        //  doc.quizzes.forEach((item, index) => {
+        //    var historyLength = item.homeworkSubmitPostHistory.length;
+        //    // 如果有历史记录，则返回历史记录的状态
+        //    if (historyLength) {
+        //      result.push({
+        //        status: item.homeworkSubmitPostHistory[historyLength - 1].status
+        //      });
+        //      // 如果是第一题，则直接解锁
+        //    } else if (!index) {
+        //      result.push({
+        //        status: constant.homeworkQuizzesStatus.ACTIVE
+        //      });
+        //      // 如果上一题已经成功，则直接解锁
+        //    } else if (doc.quizzes[index - 1].homeworkSubmitPostHistory.length) {
+        //      var lastStatus = doc.quizzes[index - 1].homeworkSubmitPostHistory.pop().status;
+        //
+        //      if (lastStatus === constant.homeworkQuizzesStatus.SUCCESS) {
+        //        result.push({
+        //          status: constant.homeworkQuizzesStatus.ACTIVE
+        //        });
+        //      } else {
+        //        result.push({
+        //          status: constant.homeworkQuizzesStatus.LOCKED
+        //        });
+        //      }
+        //      // 否则是锁
+        //    } else {
+        //      result.push({
+        //        status: constant.homeworkQuizzesStatus.LOCKED
+        //      });
+        //    }
+        //  });
+        //
+        //  callback(null, result);
+        // }
       });
 };
 
@@ -128,7 +126,6 @@ userHomeworkQuizzesSchema.statics.findProgressTasks = function (callback) {
 };
 
 userHomeworkQuizzesSchema.statics.checkDataForUpdate = function (userId, homeworkId, callback) {
-
   this.findOne({
     userId: userId,
     quizzes: {$elemMatch: {id: homeworkId}}
@@ -166,25 +163,26 @@ userHomeworkQuizzesSchema.statics.updateQuizzesStatus = function (data, callback
   });
 };
 
-userHomeworkQuizzesSchema.statics.updateStatus = function(data, callback) {
+userHomeworkQuizzesSchema.statics.updateStatus = function (data, callback) {
   var historyId = new mongoose.Types.ObjectId(data.historyId);
-
-  this.findOne({'quizzes.homeworkSubmitPostHistory': historyId}, (err, doc)=> {
+  this.findOne({'quizzes.homeworkSubmitPostHistory': historyId}, (err, doc) => {
+    if (err) {
+      callback(err, null);
+    }
     var nextIdx = 0;
 
-    var theQuiz = doc.quizzes.find((item, idx)=> {
+    var theQuiz = doc.quizzes.find((item, idx) => {
       nextIdx = idx + 1;
       return item.homeworkSubmitPostHistory.indexOf(historyId) > -1;
     });
 
     var nextQuiz = doc.quizzes[nextIdx];
 
-    if(constant.homeworkQuizzesStatus.SUCCESS === data.status && nextQuiz) {
+    if (constant.homeworkQuizzesStatus.SUCCESS === data.status && nextQuiz) {
       nextQuiz.status = constant.homeworkQuizzesStatus.ACTIVE;
     }
-
     theQuiz.status = data.status;
-    doc.save(function(err, data) {
+    doc.save(function (err, data) {
       callback(err, data);
     });
   });

@@ -26,7 +26,7 @@ var logicPuzzleSchema = new Schema({
     chartPath: String,
     initializedBox: String
   }],
-  sections:[{
+  sections: [{
     sectionId: Number,
     startTime: Number,
     endTime: Number
@@ -101,8 +101,6 @@ logicPuzzleSchema.statics.isDealAgree = function (userId, callback) {
     }
     callback(isDealAgree);
   });
-
-
 };
 
 module.exports = mongoose.model('LogicPuzzle', logicPuzzleSchema);
