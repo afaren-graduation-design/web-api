@@ -1,15 +1,15 @@
 'use strict';
 var path = require('path');
 
-module.exports = function(req, res, next){
+module.exports = function (req, res) {
   var isAjaxRequest = req.xhr;
 
-  if(isAjaxRequest){
+  if (isAjaxRequest) {
     res.send({
       status: 404,
       message: 'Error Request !'
     });
-  }else {
+  } else {
     res.sendFile(path.join(__dirname, '../public/assets', '404.html'));
   }
 };
