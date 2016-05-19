@@ -1,6 +1,6 @@
 'use strict';
 
-function getError(validateInfo, field) {
+function getError (validateInfo, field) {
   if (validateInfo && validateInfo[field] && validateInfo[field].length > 0) {
     return validateInfo[field][0];
   }

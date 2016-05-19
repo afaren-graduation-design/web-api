@@ -1,9 +1,8 @@
 'use strict';
 
-function jumpControl(session) {
-
+function jumpControl (session) {
   var isLogined = Boolean(session.user);
-  var isAdmin = isLogined ? ( Number(session.user.role) === 9) : false;
+  var isAdmin = isLogined ? (Number(session.user.role) === 9) : false;
 
   return [{
     originPath: [
@@ -21,6 +20,5 @@ function jumpControl(session) {
     condition: !isLogined || !isAdmin,
     status: 403
   }];
-
 }
 module.exports = jumpControl;
