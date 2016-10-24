@@ -2,7 +2,6 @@ default:
   port: 3000
   database: 'mongodb://mongo/twars'
   paperApiServer: 'http://paper-api:8080/paper-api/'
-#  paperApiServer: 'http://localhost:12306/createPaper'
   userApiServer: 'http://user-api:8080/user-api/'
   reportCsvAppServer: 'http://192.168.99.100:8888/api/'
   appServer: 'http://web-api:3000/'
@@ -20,7 +19,6 @@ default:
 development:
   database: 'mongodb://192.168.99.100/twars'
   paperApiServer: 'http://192.168.99.100:8080/paper-api/'
-#  paperApiServer: 'http://172.17.0.6:12306/paper-api/'
   appServer: 'http://192.168.99.100:3000/'
   taskServer: 'http://192.168.99.100:4000/'
 integration:
@@ -30,7 +28,7 @@ integration:
   taskApi: 'http://localhost:12306/job/HOMEWORK-SCORING/buildWithParameters'
   nginxServer: 'http://localhost:12306/nginx'
 test:
-  staticFileServer: 'http://127.0.0.1:8888/fs/'
+  staticFileServer: 'http://192.168.99.100:8888/fs/'
 production:
   staticFileServer: '/fs/'
   emailServer: 'academy.thoughtworks.cn'
