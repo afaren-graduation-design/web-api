@@ -98,8 +98,15 @@ function getLists(req, res, next) {
   });
 }
 
+function ModifyPaperMeta(req,res,next) {
+  apiRequest.put('papers-meta',(err,data)=>{
+    res.send(data);
+  });
+}
+
 module.exports = {
   details: details,
   obtain: obtain,
-  getLists: getLists
+  getLists: getLists,
+  ModifyPaperMeta:ModifyPaperMeta
 };
