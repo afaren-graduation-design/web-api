@@ -4,7 +4,7 @@ var UserPaper = require('../models/user-paper');
 var logicPuzzleQuiz = require('../services/logic-puzzle/quiz-service');
 var httpStatus = require('../mixin/constant').httpCode;
 
-function details (req, res, next) {
+function details(req, res, next) {
   var paperHash = req.params.paperHash;
   var userId = req.session.user.id;
   var paper = {};
@@ -74,7 +74,7 @@ function details (req, res, next) {
   });
 }
 
-function obtain (req, res, next) {
+function obtain(req, res, next) {
   var params = {
     paperId: req.params.paperId,
     userId: req.session.user.id
@@ -92,7 +92,22 @@ function obtain (req, res, next) {
   });
 }
 
+function getLists(req, res, next) {
+  apiRequest.get('papers', (err, data)=> {
+    res.send(data);
+  });
+}
+
+function deletePaper(req,res,next){
+//    apiRequest.put('papers',(err,stateCode))=>{
+//        res.send('aaaan');
+//     res.status(stateCode).send("");
+//    }
+}
+
 module.exports = {
   details: details,
-  obtain: obtain
+  obtain: obtain,
+  getLists: getLists,
+  deletePaper: deletePaper
 };
