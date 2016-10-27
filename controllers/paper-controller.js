@@ -98,6 +98,7 @@ function getLists(req, res, next) {
   });
 }
 
+<<<<<<< HEAD
 function modifyPaperMeta(req,res,next) {
   var paperMeta = {
     title: req.body.title,
@@ -108,6 +109,22 @@ function modifyPaperMeta(req,res,next) {
   };
   apiRequest.put('papers-meta',paperMeta,(err,data)=>{
     res.send(paperMeta);
+=======
+<<<<<<< HEAD
+=======
+
+function deletePaper(req,res,next) {
+//    apiRequest.put('papers',(err,stateCode))=>{
+//        res.send('aaaan');
+//     res.status(stateCode).send("");
+//    }
+}
+
+>>>>>>> 3a7bc88
+function ModifyPaperMeta(req,res,next) {
+  apiRequest.put('papers-meta',(err,data)=>{
+    res.send(data);
+>>>>>>> refs/remotes/origin/master
   });
 }
 
@@ -115,5 +132,16 @@ module.exports = {
   details: details,
   obtain: obtain,
   getLists: getLists,
+<<<<<<< HEAD
   modifyPaperMeta:modifyPaperMeta
+=======
+<<<<<<< HEAD
+  ModifyPaperMeta:ModifyPaperMeta
+>>>>>>> refs/remotes/origin/master
 };
+=======
+  ModifyPaperMeta:ModifyPaperMeta,
+  deletePaper: deletePaper
+}
+
+>>>>>>> 3a7bc88
