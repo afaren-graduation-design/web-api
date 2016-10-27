@@ -110,4 +110,4 @@ module.exports = {
   obtain: obtain,
   getLists: getLists,
   deletePaper: deletePaper
-};
+}
