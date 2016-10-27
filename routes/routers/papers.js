@@ -7,4 +7,6 @@ var PaperController = require('../../controllers/paper-controller');
 router.get('/:paperHash', PaperController.details);
 router.get('/:paperId/obtainment', PaperController.obtain);
 router.get('/',PaperController.getLists);
+router.put('/',PaperController.modifyPaperMeta);
+
 module.exports = router;

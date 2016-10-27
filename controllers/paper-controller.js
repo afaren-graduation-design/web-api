@@ -98,8 +98,22 @@ function getLists(req, res, next) {
   });
 }
 
+function modifyPaperMeta(req,res,next) {
+  var paperMeta = {
+    title: req.body.title,
+    description: req.body.description,
+    easyCount:req.body.easyCount,
+    normalCount:req.body.normalCount,
+    hardCount:req.body.hardCount
+  };
+  apiRequest.put('papers-meta',paperMeta,(err,data)=>{
+    res.send(paperMeta);
+  });
+}
+
 module.exports = {
   details: details,
   obtain: obtain,
-  getLists: getLists
+  getLists: getLists,
+  modifyPaperMeta:modifyPaperMeta
 };
