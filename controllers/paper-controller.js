@@ -98,16 +98,25 @@ function getLists(req, res, next) {
   });
 }
 
-function deletePaper(req,res,next){
+
+function deletePaper(req,res,next) {
 //    apiRequest.put('papers',(err,stateCode))=>{
 //        res.send('aaaan');
 //     res.status(stateCode).send("");
 //    }
 }
 
+function ModifyPaperMeta(req,res,next) {
+  apiRequest.put('papers-meta',(err,data)=>{
+    res.send(data);
+  });
+}
+
 module.exports = {
   details: details,
   obtain: obtain,
   getLists: getLists,
+  ModifyPaperMeta:ModifyPaperMeta,
   deletePaper: deletePaper
 }
+

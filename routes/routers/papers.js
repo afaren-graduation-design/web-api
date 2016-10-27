@@ -8,4 +8,6 @@ router.get('/:paperHash', PaperController.details);
 router.get('/:paperId/obtainment', PaperController.obtain);
 router.get('/',PaperController.getLists);
 router.put('/:paperId',PaperController.deletePaper);
+router.put('/', PaperController.putPaperMeta);
+
 module.exports = router;
