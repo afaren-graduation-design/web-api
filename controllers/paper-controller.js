@@ -98,20 +98,46 @@ function getLists(req, res, next) {
   });
 }
 
+
+function modifyPaperMeta(req, res, next) {
+  var paperMeta = {
+    title: req.body.title,
+    description: req.body.description,
+    easyCount: req.body.easyCount,
+    normalCount: req.body.normalCount,
+    hardCount: req.body.hardCount
+  };
+  apiRequest.put('papers-meta', paperMeta, (err, data)=> {
+    res.send(paperMeta);
+  });
+}
+
 function createPaper(req, res, next) {
   var params = {
     simple: req.body.simple,
     general: req.body.general,
     complex: req.body.complex
   };
-  apiRequest.post('papers',params, (err, data)=> {
+  apiRequest.post('papers', params, (err, data)=> {
     res.send(data);
   })
 }
+
+
+function deletePaper(req, res, next) {
+//    apiRequest.put('papers',(err,stateCode))=>{
+//        res.send('aaaan');
+//     res.status(stateCode).send("");
+//    }
+}
+
 
 module.exports = {
   details: details,
   obtain: obtain,
   getLists: getLists,
-  createPaper: createPaper
+  modifyPaperMeta: modifyPaperMeta,
+  createPaper: createPaper,
+  deletePaper: deletePaper
 };
+
