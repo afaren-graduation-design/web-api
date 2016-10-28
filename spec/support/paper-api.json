@@ -31,5 +31,8 @@
   },
   {
     "include": "spec/support/mock-api/nginx/homework-script/check-readme.json"
+  },
+  {
+    "include": "spec/support/mock-api/paper-api/inspector.json"
   }
 ]
