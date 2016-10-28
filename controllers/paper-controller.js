@@ -98,8 +98,20 @@ function getLists(req, res, next) {
   });
 }
 
+function createPaper(req, res, next) {
+  var params = {
+    simple: req.body.simple,
+    general: req.body.general,
+    complex: req.body.complex
+  };
+  apiRequest.post('papers',params, (err, data)=> {
+    res.send(data);
+  })
+}
+
 module.exports = {
   details: details,
   obtain: obtain,
-  getLists: getLists
+  getLists: getLists,
+  createPaper: createPaper
 };
