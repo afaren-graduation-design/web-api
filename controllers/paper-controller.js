@@ -124,10 +124,7 @@ function createPaper(req, res, next) {
 
 
 function deletePaper(req, res, next) {
-//    apiRequest.put('papers',(err,stateCode))=>{
-//        res.send('aaaan');
-//     res.status(stateCode).send("");
-//   });
+  res.send('aaaan');
 }
 
 

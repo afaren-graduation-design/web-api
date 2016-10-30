@@ -30,7 +30,7 @@ integration:
   taskApi: 'http://localhost:12306/job/HOMEWORK-SCORING/buildWithParameters'
   nginxServer: 'http://localhost:12306/nginx'
 test:
-  staticFileServer: 'http://192.168.99.100:8888/fs/'
+  staticFileServer: 'http://127.0.0.1:8888/fs/'
 production:
   staticFileServer: '/fs/'
   emailServer: 'academy.thoughtworks.cn'
