@@ -17,9 +17,9 @@ default:
   gitHubToken: 'Basic dHdhcnM6c3cxMjM0NTY3OA=='
   QAInfoAddress: ''
 development:
-  database: 'mongodb://192.168.99.100/twars'
-  paperApiServer: 'http://192.168.99.100:8080/paper-api/'
-  appServer: 'http://192.168.99.100:3000/'
+  database: 'mongodb://local.twars/twars'
+  paperApiServer: 'http://local.twars:8080/paper-api/'
+  appServer: 'http://local.twars:3000/'
   taskServer: 'http://192.168.99.100:4000/'
 integration:
   paperApiServer: 'http://localhost:12306/'
