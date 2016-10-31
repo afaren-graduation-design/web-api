@@ -45,8 +45,7 @@ router.get('/', function (req, res, next) {
 
   async.parallel([
     getInfoFromApi,
-    getMongoInfo,
-    getTaskQueueInfo
+    getMongoInfo
   ], function (err, result) {
     if (err) {
       return next(err);
