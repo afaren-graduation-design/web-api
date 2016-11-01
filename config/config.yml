@@ -18,7 +18,7 @@ default:
   QAInfoAddress: ''
 development:
   database: 'mongodb://localhost/twars'
-  paperApiServer: 'http://localhost:8080/paper-api/'
+  paperApiServer: 'http://localhost:12306/'
   appServer: 'http://localhost:3000/'
   taskServer: 'http://192.168.99.100:4000/'
 integration:
