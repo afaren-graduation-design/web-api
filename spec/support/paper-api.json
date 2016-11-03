@@ -34,5 +34,8 @@
   },
   {
     "include": "spec/support/mock-api/paper-api/inspector.json"
+  },
+  {
+    "include": "spec/support/mock-api/paper-api/papers/getAllPapers.json"
   }
 ]
