@@ -1,0 +1,31 @@
+[
+  {
+    "description": "should_return_all_paperLists",
+    "request": {
+      "uri": "/paperLists",
+      "method": "get"
+    },
+    "response": {
+      "json": {
+        "state": "200",
+        "message": "获取列表成功",
+        "paperLists": [
+          {
+            "name": "java",
+            "description": "this is a test",
+            "creator": "jgiodt",
+            "creatTime": "hfnu",
+            "isDistribution": false
+          },
+          {
+            "name": "vb",
+            "description": "this is a test",
+            "creator": "jgiodt",
+            "creatTime": "hfnu",
+            "isDistribution": true
+          }
+        ]
+      }
+    }
+  }
+]
