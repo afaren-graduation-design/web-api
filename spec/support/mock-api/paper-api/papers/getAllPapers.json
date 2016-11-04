@@ -11,17 +11,74 @@
         "message": "获取列表成功",
         "paperLists": [
           {
-            "name": "java",
+            "name": "Java",
             "description": "this is a test",
-            "creator": "jgiodt",
-            "creatTime": "hfnu",
+            "creator": "teacher Wang",
+            "creatTime": "2016-05-03",
             "isDistribution": false
           },
           {
-            "name": "vb",
-            "description": "this is a test",
-            "creator": "jgiodt",
-            "creatTime": "hfnu",
+            "name": "VB",
+            "description": "this is a vb test",
+            "creator": "teacher Zhang",
+            "creatTime": "2016-05-03",
+            "isDistribution": true
+          },
+
+          {
+            "name": "Ruby",
+            "description": "this is a ruby paper test",
+            "creator": "teacher Li",
+            "creatTime": "2016-03-02",
+            "isDistribution": true
+          },
+          {
+            "name": "Javascript",
+            "description": "this is a javascript paper test",
+            "creator": "teacher Ma",
+            "creatTime": "2016-03-02",
+            "isDistribution": true
+          },
+          {
+            "name": "C++",
+            "description": "this is a C++ paper test",
+            "creator": "teacher You",
+            "creatTime": "2016-03-02",
+            "isDistribution": false
+          },
+          {
+            "name": "C语言",
+            "description": "this is a C语言 paper test",
+            "creator": "teacher Chen",
+            "creatTime": "2016-04-02",
+            "isDistribution": true
+          },
+          {
+            "name": "PHP",
+            "description": "this is a PHP paper test",
+            "creator": "teacher Zhao",
+            "creatTime": "2016-5-02",
+            "isDistribution": false
+          },
+          {
+            "name": "数据结构",
+            "description": "this is a 数据结构 paper test",
+            "creator": "teacher Zhao",
+            "creatTime": "2016-5-02",
+            "isDistribution": false
+          },
+          {
+            "name": "scala",
+            "description": "this is a scala paper test",
+            "creator": "teacher Yang",
+            "creatTime": "2016-5-02",
+            "isDistribution": false
+          },
+          {
+            "name": "React",
+            "description": "this is a React paper test",
+            "creator": "teacher Cheng",
+            "creatTime": "2016-5-02",
             "isDistribution": true
           }
         ]
