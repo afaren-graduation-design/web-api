@@ -124,11 +124,13 @@ function createPaper(req, res, next) {
 
 
 function deletePaper(req, res, next) {
-    var paperId = req.params.id;
-    console.log(req.params);
+    var id = req.params.id;
+    console.log(id);
     apiRequest.get('paperLists', (err, data)=> {
-
-        res.send(data);
+        const lists = data.body.paperLists;
+        const list = lists.find(list=>list.id === id);
+        lists.splice(lists.indexOf(list), 1);
+        res.send(lists);
     });
 }
 

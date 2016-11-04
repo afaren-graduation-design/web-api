@@ -9,6 +9,6 @@ router.get('/:paperId/obtainment', PaperController.obtain);
 router.get('/',PaperController.getLists);
 router.post('/createPaper', PaperController.createPaper);
 router.put('/modifiedPaper/:paperId', PaperController.modifyPaperMeta);
-router.delete('/:paperId', PaperController.deletePaper);
+router.delete('/:id', PaperController.deletePaper);
 
 module.exports = router;

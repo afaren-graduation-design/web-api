@@ -11,7 +11,7 @@
         "message": "获取列表成功",
         "paperLists": [
           {
-            "id":1,
+            "id":"1",
             "name": "Java",
             "description": "this is a test",
             "creator": "teacher Wang",
@@ -19,7 +19,7 @@
             "isDistribution": false
           },
           {
-            "id":2,
+            "id":"2",
             "name": "VB",
             "description": "this is a vb test",
             "creator": "teacher Zhang",
@@ -28,7 +28,7 @@
           },
 
           {
-            "id":3,
+            "id":"3",
             "name": "Ruby",
             "description": "this is a ruby paper test",
             "creator": "teacher Li",
@@ -36,7 +36,7 @@
             "isDistribution": true
           },
           {
-            "id":4,
+            "id":"4",
             "name": "Javascript",
             "description": "this is a javascript paper test",
             "creator": "teacher Ma",
@@ -44,7 +44,7 @@
             "isDistribution": true
           },
           {
-            "id":5,
+            "id":"5",
             "name": "C++",
             "description": "this is a C++ paper test",
             "creator": "teacher You",
@@ -52,7 +52,7 @@
             "isDistribution": false
           },
           {
-            "id":6,
+            "id":"6",
             "name": "C语言",
             "description": "this is a C语言 paper test",
             "creator": "teacher Chen",
@@ -60,7 +60,7 @@
             "isDistribution": true
           },
           {
-            "id":7,
+            "id":"7",
             "name": "PHP",
             "description": "this is a PHP paper test",
             "creator": "teacher Zhao",
@@ -68,7 +68,7 @@
             "isDistribution": false
           },
           {
-            "id":8,
+            "id":"8",
             "name": "数据结构",
             "description": "this is a 数据结构 paper test",
             "creator": "teacher Zhao",
@@ -76,7 +76,7 @@
             "isDistribution": false
           },
           {
-            "id":9,
+            "id":"9",
             "name": "scala",
             "description": "this is a scala paper test",
             "creator": "teacher Yang",
@@ -84,7 +84,7 @@
             "isDistribution": false
           },
           {
-            "id":10,
+            "id":"10",
             "name": "React",
             "description": "this is a React paper test",
             "creator": "teacher Cheng",
