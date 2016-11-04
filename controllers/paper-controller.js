@@ -124,7 +124,12 @@ function createPaper(req, res, next) {
 
 
 function deletePaper(req, res, next) {
-    res.send('aaaan');
+    var paperId = req.params.id;
+    console.log(req.params);
+    apiRequest.get('paperLists', (err, data)=> {
+
+        res.send(data);
+    });
 }
 
 
