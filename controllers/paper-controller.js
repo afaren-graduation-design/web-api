@@ -125,7 +125,6 @@ function createPaper(req, res, next) {
 
 function deletePaper(req, res, next) {
     var id = req.params.id;
-    console.log(id);
     apiRequest.get('paperLists', (err, data)=> {
         const lists = data.body.paperLists;
         const list = lists.find(list=>list.id === id);

@@ -16,7 +16,7 @@
             "description": "this is a test",
             "creator": "teacher Wang",
             "creatTime": "2016-05-03",
-            "isDistribution": false
+            "isDistribution": true
           },
           {
             "id":"2",
@@ -49,7 +49,7 @@
             "description": "this is a C++ paper test",
             "creator": "teacher You",
             "creatTime": "2016-03-02",
-            "isDistribution": false
+            "isDistribution": true
           },
           {
             "id":"6",
@@ -65,7 +65,7 @@
             "description": "this is a PHP paper test",
             "creator": "teacher Zhao",
             "creatTime": "2016-5-02",
-            "isDistribution": false
+            "isDistribution": true
           },
           {
             "id":"8",
@@ -73,7 +73,7 @@
             "description": "this is a 数据结构 paper test",
             "creator": "teacher Zhao",
             "creatTime": "2016-5-02",
-            "isDistribution": false
+            "isDistribution": true
           },
           {
             "id":"9",
@@ -81,7 +81,7 @@
             "description": "this is a scala paper test",
             "creator": "teacher Yang",
             "creatTime": "2016-5-02",
-            "isDistribution": false
+            "isDistribution": true
           },
           {
             "id":"10",
