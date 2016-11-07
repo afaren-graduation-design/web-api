@@ -1,6 +1,7 @@
 'use strict';
 
 exports.setRoutes = function (app) {
+  console.log('route')
   app.use('/register', require('./routers/register'));
   app.use('/logic-puzzle', require('./routers/logic-puzzle'));
   app.use('/login', require('./routers/login'));
@@ -27,4 +28,5 @@ exports.setRoutes = function (app) {
   app.use('/test', require('./routers/test'));
   app.use('/paper-draft', require('./routers/paper-draft'));
   app.use('/teacherLogin', require('./routers/check-cookie'));
+  app.use('/teacher-login', require('./routers/teacher-login'));
 };

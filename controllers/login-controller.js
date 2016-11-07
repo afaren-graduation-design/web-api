@@ -44,6 +44,7 @@ LoginController.prototype.login = (req, res, next) => {
         done(error, null);
       } else {
         done(null, null);
+
       }
     }, (data, done) => {
       if (checkLoginInfo(account, password)) {

@@ -20,6 +20,7 @@ module.exports = function (params) {
 
     var canvas = new Canvas(params.canvasWidth, params.canvasHeight);
     var ctx = canvas.getContext('2d');
+
     ctx.antialias = 'gray';
     ctx.fillStyle = params.background;
     ctx.fillRect(0, 0, params.canvasWidth, params.canvasHeight);

@@ -13,12 +13,14 @@ var mongoConn = require('./services/mongo-conn');
 var MongoStore = require('connect-mongo')(session);
 var constant = require('./mixin/constant');
 var yamlConfig = require('node-yaml-config');
+var md5 = require("js-md5");
+
+var mongoTools = require('./spec/support/fixture/mongo-tools');
 
 var captcha = require('./middleware/captcha');
 var config = yamlConfig.load(__dirname + '/config/config.yml');
 
 var env = ['production', 'test', 'staging', 'integration'].indexOf(process.env.NODE_ENV) < 0 ? 'development' : process.env.NODE_ENV;
-
 
 app.use(cookieParser());
 app.use(session({
@@ -28,6 +30,7 @@ app.use(session({
     ttl: config.sessionTtl
   })
 }));
+
 
 
 app.use(bodyParser.urlencoded({
@@ -58,7 +61,7 @@ app.use(checkSession);
 
 route.setRoutes(app);
 
-app.use(function (req, res, next) {
+app.use(function (err,req, res, next) {
   res.status(404).send("Not Found!");
 });
 
