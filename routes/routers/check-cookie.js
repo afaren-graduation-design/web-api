@@ -14,7 +14,7 @@ const userCookie = new Schema({
 const UserCookie = mongoose.model('userCookies', userCookie);
 
 router.get('/', (req, res) => {
-    const userHash = '1234sa5678';
+    const userHash = '12345678';
 
     new UserCookie({userHash: '12345678'}).save((err)=> {
         if (err)
