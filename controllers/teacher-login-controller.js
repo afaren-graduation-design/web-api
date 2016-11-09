@@ -1,6 +1,7 @@
 /**
  * Created by zhangpei on 16/11/2.
  */
+
 var apiRequest = require('../services/api-request');
 var async = require('async');
 var constant = require('../mixin/constant');
@@ -34,7 +35,7 @@ function checkLoginInfo(account, password) {
 }
 
 function setCookie(res, userHash) {
-  res.cookie('teacher', userHash,{path:'/'});
+  res.cookie('user', userHash,{path:'/'});
   res.status(constant.httpCode.OK).send({
       msg: "用户登录成功!"
   });
@@ -76,6 +77,12 @@ TeacherLoginController.prototype.login = (req, res, next) => {
               });
             }
           });
+            // req.session.user = {
+            //     email
+            // };
+            // res.status(constant.httpCode.OK).send({
+            //     msg: "用户登录成功!"
+            // });
         } else {
           res.status(401).send({
             errMsg: resp.body.errMsg

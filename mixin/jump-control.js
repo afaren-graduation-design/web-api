@@ -1,7 +1,7 @@
 'use strict';
 
 function jumpControl (session) {
-  var isLogined = Boolean(session.user);
+  var isLogined = Boolean(session.user); //只要判断是否具有session
   var isAdmin = isLogined ? (Number(session.user.role) === 9) : false;
 
   return [{

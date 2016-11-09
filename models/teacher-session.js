@@ -8,7 +8,11 @@ var Schema = mongoose.Schema;
 
 var teacherSession = new Schema({
   userHash:String,
-  email:String
+    id:String,
+    role:String,
+    userInfo:{
+      uri:String
+    }
 });
 
 module.exports = mongoose.model('teacherSession', teacherSession);

@@ -14,15 +14,16 @@ var MongoStore = require('connect-mongo')(session);
 var constant = require('./mixin/constant');
 var yamlConfig = require('node-yaml-config');
 var md5 = require("js-md5");
+var checkTeacherSession = require("./middleware/check-teacher-session");
+var getUrl = require("./middleware/getUrl");
 
-var mongoTools = require('./spec/support/fixture/mongo-tools');
 
 var captcha = require('./middleware/captcha');
 var config = yamlConfig.load(__dirname + '/config/config.yml');
 
 var env = ['production', 'test', 'staging', 'integration'].indexOf(process.env.NODE_ENV) < 0 ? 'development' : process.env.NODE_ENV;
-
 app.use(cookieParser());
+
 app.use(session({
   secret: 'RECRUITING_SYSTEM', resave: false, saveUninitialized: false,
   store: new MongoStore({
@@ -58,6 +59,8 @@ app.use(bodyParser.json());
 
 
 app.use(checkSession);
+
+app.get('/checkSession',checkTeacherSession);
 
 route.setRoutes(app);
 
