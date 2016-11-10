@@ -57,9 +57,8 @@ app.use(captcha(params));
 
 app.use(bodyParser.json());
 
-if('integration' !== env) {
-  app.use(verifyToken);
-}
+
+app.use(verifyToken);
 
 route.setRoutes(app);
 

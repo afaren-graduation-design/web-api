@@ -66,7 +66,6 @@ describe("DELETE /admin/channel", ()=> {
         .expect(200)
         .end(done);
   });
-
 });
 
 

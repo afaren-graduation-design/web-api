@@ -13,8 +13,7 @@ var fixtureModelMap = {
   "logic-puzzle": require("../../../models/logic-puzzle"),
   "user-paper": require("../../../models/user-paper"),
   'homework-scoring': require('../../../models/homework-scoring'),
-  'paper-draft': require('../../../models/paper-draft'),
-  'teacher-session': require('../../../models/token')
+  'paper-draft': require('../../../models/paper-draft')
 };
 
 function cacheData(done) {
@@ -40,7 +39,10 @@ function refreshMongo(mongoData, callBack) {
     done(null, null);
   }];
 
-  mongoData.forEach((item, key) => {
+
+  mongoData.filter((item)=> {
+    return item.name !== 'teacher-session';
+  }).forEach((item, key) => {
     funList.push(function(data, done) {
       var model = fixtureModelMap[this.name];
       model.remove(done);
