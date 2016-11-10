@@ -26,6 +26,5 @@ exports.setRoutes = function (app) {
   app.use('/papers', require('./routers/papers'));
   app.use('/test', require('./routers/test'));
   app.use('/paper-draft', require('./routers/paper-draft'));
-  app.use('/teacherLogin', require('./routers/check-cookie'));
   app.use('/teacher-login', require('./routers/teacher-login'));
 };

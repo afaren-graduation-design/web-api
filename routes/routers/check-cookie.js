@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var teacherSession = require('../../models/teacher-session');
+var teacherSession = require('../../models/token');
 
 router.get('/', (req, res, next) => {
   const session = req.cookies.teacher;

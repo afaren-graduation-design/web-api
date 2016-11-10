@@ -8,7 +8,7 @@ var constant = require('../mixin/constant');
 var md5 = require('js-md5');
 var validate = require('validate.js');
 var constraint = require('../mixin/login-constraint');
-var TeacherSession = require('../models/teacher-session');
+var TeacherSession = require('../models/token');
 var uuid = require("node-uuid");
 
 function TeacherLoginController() {
