@@ -16,8 +16,6 @@ var yamlConfig = require('node-yaml-config');
 var md5 = require("js-md5");
 var verifyToken = require("./middleware/verify-token");
 
-
-
 var captcha = require('./middleware/captcha');
 var config = yamlConfig.load(__dirname + '/config/config.yml');
 
@@ -32,8 +30,6 @@ app.use(session({
     ttl: config.sessionTtl
   })
 }));
-
-
 
 app.use(bodyParser.urlencoded({
   extended: false
