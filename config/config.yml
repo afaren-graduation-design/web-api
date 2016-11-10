@@ -25,7 +25,7 @@ development:
 integration:
   paperApiServer: 'http://localhost:12306/'
   userApiServer: 'http://localhost:12306/'
-  database: 'mongodb://192.168.99.100/twars'
+  database: 'mongodb://localhost/twars'
   taskApi: 'http://localhost:12306/job/HOMEWORK-SCORING/buildWithParameters'
   nginxServer: 'http://localhost:12306/nginx'
 test:
