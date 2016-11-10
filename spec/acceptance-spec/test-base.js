@@ -58,7 +58,6 @@ data = data.reduce((a, b)=> {
 describe("paper-api:", function() {
 
   before(() => {
-    shelljs.exec("eval $(docker-machine env default)");
     shelljs.exec("docker exec -i assembly_mysql_1 mysqldump -u BronzeSword -p12345678 BronzeSword > mysql.sql", {
       silent: true
     });
