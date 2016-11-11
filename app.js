@@ -17,6 +17,7 @@ var md5 = require("js-md5");
 var verifyToken = require("./middleware/verify-token");
 
 
+
 var captcha = require('./middleware/captcha');
 var config = yamlConfig.load(__dirname + '/config/config.yml');
 
@@ -59,6 +60,7 @@ app.use(bodyParser.json());
 
 
 app.use(verifyToken);
+// app.use(checkSession);
 
 route.setRoutes(app);
 
@@ -76,6 +78,7 @@ app.listen(config.port, function () {
   console.log('Current environment is: ' + env);
   console.log('App listening at http://localhost:' + config.port);
   mongoConn.start(config.database);
+
 });
 
 module.exports = app;
