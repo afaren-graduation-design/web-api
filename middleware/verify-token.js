@@ -1,5 +1,6 @@
 'use strict';
 var Token = require('../models/token');
+var constant = require('../mixin/constant');
 
 module.exports = function (req, res, next) {
   if (['/register', '/login'].indexOf(req.url) !== -1) {
@@ -10,7 +11,7 @@ module.exports = function (req, res, next) {
   Token.findOne({uuid}, (err, user)=> {
     console.log(user);
     if (err || !user) {
-      res.sendStatus(401);
+      res.sendStatus(constant.UNAUTHORIZED);
     } else {
       next();
     }

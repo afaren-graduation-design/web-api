@@ -1,0 +1,68 @@
+[{
+    "description": "should_return_one_paper_when_request_one_program_paper",
+    "request" :{
+      "uri" : "/program/1/paper/1",
+      "method" : "get"
+    },
+    "response" : {
+      "json" : {
+        "id": 1,
+        "programId": 1,
+        "sections": [
+          {
+            "description": "这是描述",
+            "quizzes": [
+              {
+                "definition_uri": "blankQuizzes/1",
+                "items_uri": "blankQuizzes/1/items"
+              },
+              {
+                "definition_uri": "blankQuizzes/2",
+                "items_uri": "blankQuizzes/2/items"
+              }
+            ],
+            "SectionType": "blankQuizzes"
+          },
+          {
+            "description": "这是描述",
+            "quizzes": [
+              {
+                "definition_uri": "homeworkQuizzes/1",
+                "items_uri": null
+              },
+              {
+                "definition_uri": "homeworkQuizzes/2",
+                "items_uri": null
+              },
+              {
+                "definition_uri": "homeworkQuizzes/3",
+                "items_uri": null
+              },
+              {
+                "definition_uri": "homeworkQuizzes/4",
+                "items_uri": null
+              },
+              {
+                "definition_uri": "homeworkQuizzes/5",
+                "items_uri": null
+              },
+              {
+                "definition_uri": "homeworkQuizzes/6",
+                "items_uri": null
+              },
+              {
+                "definition_uri": "homeworkQuizzes/7",
+                "items_uri": null
+              },
+              {
+                "definition_uri": "homeworkQuizzes/8",
+                "items_uri": null
+              }
+            ],
+            "SectionType": "homeworkQuizzes"
+          }
+        ]
+      }
+    }
+  }
+]
