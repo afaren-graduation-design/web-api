@@ -4,47 +4,19 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var programPaperSchema = new Schema({
-  title: String,
-  isDistribution: Boolean,
-  programId: Number,
-  makerId: Number,
-  createTime: Number,
-  logicSections: {
+    id: Number,
     title: String,
-    description: String,
-    type: String,
-    quizzes: {
-      easyQuizzes:[
+    isDistribution: Boolean,
+    programId: Number,
+    makerId: Number,
+    createTime: String,
+    sections: [
         {
-          definition_uri: String,
-          items_uri: String
+            description:String,
+            type:String,
+            quizzes:[String]
         }
-      ],
-      normalQuizzes:[
-        {
-          definition_uri: String,
-          items_uri: String
-        }
-      ],
-      hardQuizzes:[
-        {
-          definition_uri: String,
-          items_uri: String
-        }
-      ]
-    }
-  },
-  homeworkSections: [{
-    title: String,
-    description: String,
-    type: String,
-    quizzes: [
-      {
-        definition_uri: String,
-        items_uri: String
-      }
     ]
-  }]
 });
 
 module.exports = mongoose.model('ProgramPaper', programPaperSchema);
