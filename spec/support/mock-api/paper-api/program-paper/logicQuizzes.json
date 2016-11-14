@@ -1,0 +1,33 @@
+[
+  {
+    "description": "should_return_logicQuizzes",
+    "request": {
+      "uri": "logicQuizzes",
+      "method": "post",
+      "json": {
+        "easyCount": 1,
+        "normalCount": 1,
+        "hardCount": 1
+      }
+    },
+    "response": {
+      "status": 200,
+      "json": {
+        "quizzes": [
+          {
+            "definition_uri": "blankQuizzes/1",
+            "items_uri": "blankQuizzes/1/items"
+          },
+          {
+            "definition_uri": "blankQuizzes/2",
+            "items_uri": "blankQuizzes/2/items"
+          },
+          {
+            "definition_uri": "blankQuizzes/3",
+            "items_uri": "blankQuizzes/3/items"
+          }
+        ]
+      }
+    }
+  }
+]

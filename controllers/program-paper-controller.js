@@ -36,30 +36,24 @@ ProgramPaperController.prototype.savePaper = (req, res, next) => {
 
   section.map(({title, description, type, quizzes}) => {
     if (type === 'logicQuizzes') {
-      async.series([
-        (done) => {
-          apiRequest.post('logicQuizzes', quizzes, (err, data) => {
-            if (err) {
-              return res.sendStatus(400);
-            }
-            logicSections.quizzes = data;
-          }, done);
+      apiRequest.post('logicQuizzes', quizzes, (err, data) => {
+          if (err) {
+            return res.sendStatus(400);
+          }
+          logicSections.quizzes = data;
         }
-      ]);
+      );
       logicSections.title = title;
       logicSections.description = description;
       logicSections.type = type;
     } else {
-      async.series([
-        (done) => {
-          apiRequest.post('homeworkQuizzes', quizzes, (err, data) => {
-            if (err) {
-              return res.sendStatus(400);
-            }
-            homeworkSections.quizees = data;
-          }, done);
+      apiRequest.post('homeworkQuizzes', quizzes, (err, data) => {
+          if (err) {
+            return res.sendStatus(400);
+          }
+          homeworkSections.quizzes = data;
         }
-      ]);
+      );
       homeworkSections.title = title;
       homeworkSections.description = description;
       homeworkSections.type = type;
@@ -75,7 +69,7 @@ ProgramPaperController.prototype.savePaper = (req, res, next) => {
     logicSections,
     homeworkSections
   }).save(function (err, data) {
-    if(err){
+    if (err) {
       return res.sendStatus(400);
     }
     var paperId = data.paperId;

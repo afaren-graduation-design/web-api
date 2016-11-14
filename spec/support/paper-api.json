@@ -46,5 +46,11 @@
   },
   {
     "include": "spec/support/mock-api/paper-api/program-paper/savePaper.json"
+  },
+  {
+    "include": "spec/support/mock-api/paper-api/program-paper/logicQuizzes.json"
+  },
+  {
+    "include": "spec/support/mock-api/paper-api/program-paper/homeworkQuizzes.json"
   }
 ]
