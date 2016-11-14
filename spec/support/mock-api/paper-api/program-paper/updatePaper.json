@@ -1,0 +1,35 @@
+[
+  {
+    "description": "should_return_success_or_fail_of_the_update",
+    "request": {
+      "uri": "/program/1/paper/1",
+      "method": "put",
+      "json": {
+        "programId": 1,
+        "paperId": 1,
+        "title": "new title",
+        "description": "update paper-api",
+        "isDistribution": false,
+        "sections": [
+          {
+            "title": "logicQuizzes",
+            "quizzes": {
+              "easy": 1,
+              "normal": 1,
+              "hard": 1
+            }
+          }, {
+            "title": "homeworkQuizzes",
+            "quizzes": [1, 2]
+          }
+        ]
+      }
+    },
+    "response": {
+      "status": 200,
+      "json": {
+        "paperId": 1
+      }
+    }
+  }
+]

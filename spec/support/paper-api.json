@@ -52,5 +52,8 @@
   },
   {
     "include": "spec/support/mock-api/paper-api/program-paper/homeworkQuizzes.json"
+  },
+  {
+    "include": "spec/support/mock-api/paper-api/program-paper/updatePaper.json"
   }
 ]
