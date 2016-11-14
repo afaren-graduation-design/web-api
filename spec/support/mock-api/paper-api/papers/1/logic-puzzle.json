@@ -2,7 +2,7 @@
   {
     "description": "should_return_logic_puzzle_when_give_paper_id",
     "request" :{
-      "uri" : "/papers/1/logicPuzzle",
+      "uri": "/papers/1/logicPuzzle",
       "method" : "get"
     },
     "response" : {

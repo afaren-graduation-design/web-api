@@ -1,7 +1,7 @@
 [{
     "description": "should_return_one_paper_when_request_one_program_paper",
     "request" :{
-      "uri" : "/program/1/paper/1",
+      "uri": "/program/1/paper/1",
       "method" : "get"
     },
     "response" : {

@@ -2,7 +2,7 @@
   {
     "description": "should_return_all_scoresheets_when_request_scoresheets",
     "request" :{
-      "uri" : "/scoresheets/1",
+      "uri": "/scoresheets/1",
       "method" : "get"
     },
     "response" : {

@@ -74,7 +74,6 @@ app.listen(config.port, function () {
   console.log('Current environment is: ' + env);
   console.log('App listening at http://localhost:' + config.port);
   mongoConn.start(config.database);
-
 });
 
 module.exports = app;

@@ -60,5 +60,5 @@ after(function(done) {
 });
 
 beforeEach(function(done) {
-  mongoTools.refresh(done);
+    mongoTools.refresh(done);
 });

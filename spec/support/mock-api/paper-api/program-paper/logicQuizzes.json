@@ -2,7 +2,7 @@
   {
     "description": "should_return_logicQuizzes",
     "request": {
-      "uri": "logicQuizzes",
+      "uri": "/getProgramPaperLogicQuizzes",
       "method": "post",
       "json": {
         "easyCount": 1,
@@ -13,20 +13,7 @@
     "response": {
       "status": 200,
       "json": {
-        "quizzes": [
-          {
-            "definition_uri": "blankQuizzes/1",
-            "items_uri": "blankQuizzes/1/items"
-          },
-          {
-            "definition_uri": "blankQuizzes/2",
-            "items_uri": "blankQuizzes/2/items"
-          },
-          {
-            "definition_uri": "blankQuizzes/3",
-            "items_uri": "blankQuizzes/3/items"
-          }
-        ]
+        "quizzes": ["blankQuizzes/1","blankQuizzes/2","blankQuizzes/3"]
       }
     }
   }

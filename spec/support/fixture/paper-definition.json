@@ -1,0 +1,26 @@
+{
+  "programId":1,
+  "isDistribution":true,
+  "makerId":1,
+  "description":"这是描述",
+  "title":"第一份试卷",
+  "createTime": "2016-11-14",
+  "updateTime": "2016-11-14",
+  "sections":[
+    {
+     "title":"逻辑题",
+      "quizzes":{
+        "easy":1,
+        "normal":1,
+        "hard":1
+      }
+    },
+    {
+      "title":"编程题",
+      "quizzes":[{"id":1,
+        "uri":"homeworkQuizzes/1"},{"id":2,
+        "uri":"homeworkQuizzes/2"}]
+    }
+  ]
+
+}

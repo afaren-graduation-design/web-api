@@ -2,7 +2,7 @@
   {
     "description": "should_return_one_paper_when_request_enrollment",
     "request" :{
-      "uri" : "/papers/enrollment",
+      "uri": "/papers/enrollment",
       "method" : "get"
     },
     "response" : {

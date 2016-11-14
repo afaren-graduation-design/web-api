@@ -2,7 +2,7 @@
   {
     "description": "should_return_one_homework_quiz_when_request_one_homework_quiz",
     "request" :{
-      "uri" : "/homeworkQuizzes/1",
+      "uri": "/homeworkQuizzes/1",
       "method" : "get"
     },
     "response" : {

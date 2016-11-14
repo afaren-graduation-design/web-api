@@ -3,20 +3,20 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var programPaperSchema = new Schema({
+var paperDefinitionSchema = new Schema({
     id: Number,
     title: String,
     isDistribution: Boolean,
     programId: Number,
     makerId: Number,
     createTime: String,
+    updateTime: String,
     sections: [
         {
-            description:String,
-            type:String,
-            quizzes:[String]
+            title:String,
+            quizzes:Object
         }
     ]
 });
 
-module.exports = mongoose.model('ProgramPaper', programPaperSchema);
+module.exports = mongoose.model('PaperDefinition', paperDefinitionSchema);

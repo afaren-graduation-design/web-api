@@ -1,7 +1,7 @@
 require('./spec-base');
 var userSession = global.userSession;
 describe('GET program/:programId/paper/:paperId',()=>{
-   it.only('should be return a paper: GET  program/:programId/paper/:paperId',(done)=>{
+   it('should be return a paper: GET  program/:programId/paper/:paperId',(done)=>{
        userSession
            .get('/program/1/paper/1')
            .expect(200)
@@ -14,4 +14,34 @@ describe('GET program/:programId/paper/:paperId',()=>{
            })
            .end(done);
    })
+});
+
+ describe('POST program/:id/papers', ()=>{
+     it.only('should be return a paperId',(done)=>{
+         userSession
+             .post('/program/1/papers')
+             .send({
+                 programId:1,
+                 isDistribution:false,
+                 description:'这是一个描述',
+                 title:'题目',
+                 sections:[
+                     {
+                         title:'logicQuizzes',
+                         quizzes:{
+                             easy:1,
+                             normal:1,
+                             hard:1
+                         }
+                     },{
+                        title:'homeworkQuizzes',
+                         quizzes:[
+                             {id:1,uri:'/homeworkQuizzes/1'},{id:2,uri:'/homeworkQuizzes/2'}
+                         ]
+                     }
+                 ]
+             })
+             .expect(201)
+             .end(done);
+     })
 });
