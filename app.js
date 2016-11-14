@@ -55,7 +55,7 @@ app.use(captcha(params));
 app.use(bodyParser.json());
 
 
-app.use(verifyToken);
+// app.use(verifyToken);
 // app.use(checkSession);
 
 route.setRoutes(app);

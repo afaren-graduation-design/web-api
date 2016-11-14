@@ -1,0 +1,47 @@
+[
+  {
+    "description": "should_return_one_paper_when_request_save_program_paper",
+    "request": {
+      "uri": "/program/1/papers",
+      "method": "post",
+      "json": {
+        "title": "js paper",
+        "programId": 1,
+        "description": "this is a js paper",
+        "sections": [
+          {
+            "description": "this is the logical part of the JS paper",
+            "title": "logic quizzes",
+            "quizzes": {
+              "easyCount": 3,
+              "normalCount": 3,
+              "hardCount": 3
+            },
+            "type": "logicQuizzes"
+          },
+          {
+            "description": "this is the homework part of the JS paper",
+            "title": "homework quizzes",
+            "quizzes": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "type": "homeworkQuizzes"
+          }
+        ]
+      }
+    },
+    "response": {
+      "status": 201,
+      "json": {
+        "uri": "/program/1/papers/1"
+      }
+    }
+  }
+]

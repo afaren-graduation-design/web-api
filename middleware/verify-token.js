@@ -11,7 +11,7 @@ module.exports = function (req, res, next) {
   Token.findOne({uuid}, (err, user)=> {
     console.log(user);
     if (err || !user) {
-      res.sendStatus(constant.UNAUTHORIZED);
+      res.sendStatus(401);
     } else {
       next();
     }

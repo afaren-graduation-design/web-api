@@ -4,5 +4,6 @@ var ProgramPaperController = require('../../controllers/program-paper-controller
 var programPaperController = new ProgramPaperController();
 
 router.get('/:programId/paper/:paperId', programPaperController.getPaper);
+router.post('/:programId/papers', programPaperController.savePaper);
 
 module.exports = router;
