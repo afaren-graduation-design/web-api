@@ -2,7 +2,7 @@
   {
     "description": "should_return_homeworkQuizzes",
     "request": {
-      "uri": "homeworkQuizzes",
+      "uri": "/homeworkQuizzes",
       "method": "post",
       "json": {
         "quizzes": [1,2,3]

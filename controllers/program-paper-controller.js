@@ -1,6 +1,5 @@
 var apiRequest = require('../services/api-request');
 var constant = require('../mixin/constant');
-var async = require('async');
 var PaperDefinition = require('../models/paper-definition');
 
 function ProgramPaperController() {
@@ -93,6 +92,29 @@ ProgramPaperController.prototype.savePaper = (req, res, next) => {
   //   var uri = 'program/' + programId + '/paper/' + paperId;
   //   res.status(201).send({uri});
   // })
+};
+
+ProgramPaperController.prototype.updatePaper = (req, res, next) => {
+  var programId = req.params.programId;
+  var paperId = req.params.paperId;
+  var updateTime = new Date().toDateString();
+
+  var {title, description, sections, isDistribution} = req.body;
+
+  new PaperDefinition({
+    programId,
+    isDistribution,
+    title,
+    description,
+    updateTime,
+    sections
+  }).save((err, paper) => {
+    if(!err & paper){
+      res.sendStatus(200);
+    }else{
+      res.sendStatus(400);
+    }
+  })
 };
 
 module.exports = ProgramPaperController;
