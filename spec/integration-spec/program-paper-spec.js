@@ -74,3 +74,49 @@ describe('PUT program/:id/paper/:id', ()=> {
       .end(done);
   })
 });
+
+ describe('POST program/:id/papers', ()=>{
+     it('should be return a paperId',(done)=>{
+         userSession
+             .post('/program/1/papers')
+             .send({
+                 programId:1,
+                 isDistribution:false,
+                 description:'这是一个描述',
+                 title:'题目',
+                 sections:[
+                     {
+                         title:'logicQuizzes',
+                         quizzes:{
+                             easy:1,
+                             normal:1,
+                             hard:1
+                         }
+                     },{
+                        title:'homeworkQuizzes',
+                         quizzes:[
+                             {id:1,uri:'/homeworkQuizzes/1'},{id:2,uri:'/homeworkQuizzes/2'}
+                         ]
+                     }
+                 ]
+             })
+             .expect(201)
+             .end(done);
+     })
+});
+
+ describe("GET program/:programId/papers",()=>{
+     it.only('should be return paper list',(done)=>{
+         userSession
+             .get('/program/1/papers')
+             .query({
+                 page:1,
+                 pageCount:3
+             })
+             .expect(200)
+             .expect((res)=>{
+                res.body.length.should.equal(3);
+             })
+             .end(done)
+     })
+ });

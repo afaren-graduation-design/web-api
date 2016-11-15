@@ -22,7 +22,7 @@ ProgramPaperController.prototype.getPaper = (req, res, next) => {
 ProgramPaperController.prototype.savePaper = (req, res, next) => {
   var programId = req.params.programId;
   // var makerId = req.session.user.id;   //去看mocha获取用户身份的方式
-  var makerId = req.body.makerId;
+    var makerId = req.body.makerId;
 
   var createTime = new Date().toDateString();
   var {title, description, sections, makerId} = req.body;
@@ -63,4 +63,23 @@ ProgramPaperController.prototype.updatePaper = (req, res, next) => {
     })
 };
 
+ProgramPaperController.prototype.getPaperList = (req,res,next) => {
+    let pageCount = req.query.pageCount;
+    let page = req.query.page;
+    let skipCount = pageCount*(page-1);
+
+    PaperDefinition.find({}).limit(Number(pageCount)).select({title:1,_id:1}).skip(skipCount).exec((err,data)=>{
+        if(!err && data){
+            res.status(200).send(data);
+        } else {
+            res.sendStatus(404);
+        }
+    })
+};
+
 module.exports = ProgramPaperController;
+
+
+
+
+
