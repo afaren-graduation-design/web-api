@@ -1,0 +1,36 @@
+[
+  {
+    "description": "should_return_uri_of_paper",
+    "request": {
+      "uri": "/distributionPaper",
+      "method": "POST",
+      "json": {
+        "title": "js paper",
+        "programId": 1,
+        "makerId": 2,
+        "createTime": "2011-11-11",
+        "updateTime": "2016-11-11",
+        "sections": [
+          {
+            "title": "logicQuizzes",
+            "quizzes": {
+              "easyCount": 3,
+              "normalCount": 3,
+              "hardCount": 3
+            }
+          },
+          {
+            "title": "homeworkQuizzes",
+            "quizzes": [1, 2, 3]
+          }
+        ]
+      }
+    },
+    "response": {
+      "status": 201,
+      "json": {
+        "uri": "/program/1/paper/1"
+      }
+    }
+  }
+]
