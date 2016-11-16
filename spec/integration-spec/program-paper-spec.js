@@ -47,12 +47,10 @@ describe('POST program/:id/papers', ()=> {
 });
 
 describe('PUT program/:id/paper/:id', ()=> {
-  it.only('should be return a paperId', (done)=> {
+  it('should be return a paperId', (done)=> {
     userSession
       .put('/program/1/paper/5829958a7007c23870a1d68a')
       .send({
-        programId: 1,
-        paperId: 1,
         title: "new title",
         description: "update paper-api",
         isDistribution: false,
@@ -120,3 +118,11 @@ describe('PUT program/:id/paper/:id', ()=> {
              .end(done)
      })
  });
+describe('DELETE program/:id/paper/:id', ()=> {
+  it.only('should be return a httpCode', (done)=> {
+    userSession
+      .delete('/program/1/paper/5829958a7007c23870a1d68a')
+      .expect(200)
+      .end(done);
+  })
+});

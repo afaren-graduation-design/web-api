@@ -1,0 +1,12 @@
+[
+  {
+    "description": "should_return_distribution_paper_uri",
+    "request": {
+      "uri": "/program/1/paper/1/distribution",
+      "method": "put"
+    },
+    "response": {
+      "status": 204
+    }
+  }
+]

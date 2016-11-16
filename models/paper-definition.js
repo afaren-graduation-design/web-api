@@ -10,6 +10,8 @@ var paperDefinitionSchema = new Schema({
     makerId: Number,
     createTime: String,
     updateTime: String,
+    isDeleted: String,
+    uri: String,
     sections: [
         {
             title:String,

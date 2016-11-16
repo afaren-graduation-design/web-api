@@ -1,5 +1,8 @@
+"use strict";
+
 var apiRequest = require('../services/api-request');
 var constant = require('../mixin/constant');
+var async = require('async');
 var PaperDefinition = require('../models/paper-definition');
 
 function ProgramPaperController() {
@@ -34,6 +37,8 @@ ProgramPaperController.prototype.savePaper = (req, res, next) => {
     description,
     title,
     createTime,
+    isDeleted: false,
+    uri: "",
     sections
   }).save((err, paper)=> {
     if (!err && paper) {
@@ -46,21 +51,68 @@ ProgramPaperController.prototype.savePaper = (req, res, next) => {
   });
 };
 
-ProgramPaperController.prototype.updatePaper = (req, res, next) => {
+ProgramPaperController.prototype.updatePaper = (req, res) => {
   var programId = req.params.programId;
   var paperId = req.params.paperId;
   var updateTime = new Date().toDateString();
 
   var {title, description, sections, isDistribution} = req.body;
+  PaperDefinition.update({programId, _id: paperId},
+    {$set: {programId, updateTime, title, description, isDistribution, sections}}, (err)=> {
+      if (!err) {
+        res.sendStatus(204);
+      } else {
+        res.sendStatus(400);
+      }
+    });
+};
 
-  PaperDefinition.update({_id: paperId},
-    {$set: {programId, updateTime, title, description, isDistribution, sections}}, (err, paper)=> {
-      if(!err && paper){
-        res.status(200).send({paperId: paper._id});
+ProgramPaperController.prototype.deletePaper = (req, res) => {
+  var programId = req.params.programId;
+  var paperId = req.params.paperId;
+
+  PaperDefinition.update({programId, _id: paperId}, {$set: {isDeleted: true}}, (err) => {
+    if (!err) {
+      res.sendStatus(204);
+    } else {
+      res.sendStatus(400);
+    }
+  });
+};
+
+ProgramPaperController.prototype.distributionPaper = (req, res) => {
+  var programId = req.params.programId;
+  var paperId = req.params.paperId;
+  var uri;
+
+  async.waterfall([
+    (done) => {
+      PaperDefinition.find({programId, _id: paperId}, done);
+    },
+
+    (paper, done) => {
+      if (!paper) {
+        done(true, null);
+      }
+      apiRequest.post('/distributionPaper', paper, done)
+    },
+
+    (result, done) => {
+      if(result.statusCode === 400){
+        done(true, null);
+      }
+      uri = result.uri;
+      PaperDefinition.update({programId, _id: paperId}, {$set: {isDistribution: true}}, done);
+    },
+
+    (err) => {
+      if(!err){
+        res.status(204).send({uri});
       }else{
         res.sendStatus(400);
       }
-    })
+    }
+  ]);
 };
 
 ProgramPaperController.prototype.getPaperList = (req,res,next) => {

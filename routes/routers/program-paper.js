@@ -7,5 +7,7 @@ router.get('/:programId/paper/:paperId', programPaperController.getPaper);
 router.post('/:programId/papers', programPaperController.savePaper);
 router.put('/:programId/paper/:paperId', programPaperController.updatePaper);
 router.get('/:programId/papers',programPaperController.getPaperList);
+router.delete('/:programId/paper/:paperId', programPaperController.deletePaper);
+router.put('/:programId/paper/:paperId/distribution', programPaperController.distributionPaper);
 
 module.exports = router;

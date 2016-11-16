@@ -55,5 +55,11 @@
   },
   {
     "include": "spec/support/mock-api/paper-api/program-paper/updatePaper.json"
+  },
+  {
+    "include": "spec/support/mock-api/paper-api/program-paper/deletePaper.json"
+  },
+  {
+    "include": "spec/support/mock-api/paper-api/program-paper/distributionPaper.json"
   }
 ]
