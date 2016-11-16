@@ -14,7 +14,8 @@ var fixtureModelMap = {
   "user-paper": require("../../../models/user-paper"),
   'homework-scoring': require('../../../models/homework-scoring'),
   'paper-draft': require('../../../models/paper-draft'),
-  'paper-definition': require('../../../models/paper-definition')
+  'paper-definition': require('../../../models/paper-definition'),
+    'homework-definition': require('../../../models/homework-definition')
 };
 
 function cacheData(done) {

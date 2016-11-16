@@ -77,7 +77,6 @@ LoginController.prototype.login = (req, res, next) => {
       return;
     } else if (result.status === constant.httpCode.OK) {
         res.send({status: constant.httpCode.OK, isSuperAdmin: result.body.role === '9'});
-        console.log('success')
       return;
     }
     return next(error);

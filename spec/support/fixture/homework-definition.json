@@ -1,0 +1,42 @@
+[
+  {
+    "description": "第一道编程题",
+    "makerId": 1,
+    "status": 1,
+    "isDeleted": false,
+    "uri": "/homeworks/1",
+    "evaluateScript": "addresss",
+    "templateRepository": "address",
+    "result":"这是一个result",
+    "name":"juanz",
+    "definitionRepo":"git address",
+    "type":"java"
+  },
+  {
+    "description": "第二道编程题",
+    "makerId": 1,
+    "status": 1,
+    "isDeleted": false,
+    "uri": "/homeworks/1",
+    "evaluateScript": "addresss",
+    "templateRepository": "address",
+    "result":"这是一个result",
+    "name":"juanz",
+    "definitionRepo":"git address",
+    "type":"java"
+  },
+  {
+    "description": "第三道编程题",
+    "makerId": 1,
+    "status": 1,
+    "isDeleted": false,
+    "uri": "/homeworks/1",
+    "evaluateScript": "addresss",
+    "templateRepository": "address",
+    "result":"这是一个result",
+    "name":"juanz",
+    "definitionRepo":"git address",
+    "type":"java"
+  }
+
+]

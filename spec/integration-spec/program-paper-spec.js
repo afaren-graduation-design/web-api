@@ -135,3 +135,18 @@ describe('PUT program/:id/paper/:id/distribution', ()=> {
       .end(done);
   })
 });
+ describe("GET program/:programId/papers",()=>{
+     it('should be return paper list',(done)=>{
+         userSession
+             .get('/program/1/papers')
+             .query({
+                 page:1,
+                 pageCount:3
+             })
+             .expect(200)
+             .expect((res)=>{
+                res.body.length.should.equal(3);
+             })
+             .end(done)
+     })
+ });
