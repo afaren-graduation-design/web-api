@@ -5,7 +5,9 @@ var HomeworkProgramController = require('../../controllers/homework-program-cont
 var homeworkProgramController = new HomeworkProgramController();
 console.log('route')
 router.get('/', homeworkProgramController.getHomeworkList);
-router.put('/homeworks/:id', homeworkProgramController.updateHomework);
-
+router.put('/homeworks/:homeworkId', homeworkProgramController.updateHomework);
+router.get('/homeworks/:homeworkId', homeworkProgramController.getOneHomework);
+router.delete('/homeworks/:homeworkId', homeworkProgramController.deleteHomework);
+router.post('/homeworks', homeworkProgramController.insertHomework);
 
 module.exports = router;
