@@ -1,3 +1,5 @@
+"use strict";
+
 var HomeworkDefinition =require( '../models/homework-definition');
 
 function HomeworkProgramController () {
@@ -14,6 +16,19 @@ HomeworkProgramController.prototype.getHomeworkList = (req, res) => {
             res.status(200).send(data);
         } else {
             res.sendStatus(404);
+        }
+    })
+};
+
+HomeworkProgramController.prototype.updateHomework = (req, res) => {
+    const {name, type, definitionRepo} = req.body;
+    const homeworkId = req.params.homeworkId;
+
+    HomeworkDefinition.update({homeworkId}, {$set: {name, type, definitionRepo}}, (err) => {
+        if(!err){
+            res.sendStatus(204);
+        }else{
+            res.sendStatus(400);
         }
     })
 };
