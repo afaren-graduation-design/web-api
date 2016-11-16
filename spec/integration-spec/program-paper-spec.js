@@ -128,7 +128,7 @@ describe('DELETE program/:id/paper/:id', ()=> {
 });
 
 describe('PUT program/:id/paper/:id/distribution', ()=> {
-  it('should_be return_a httpCode', (done)=> {
+  xit('should_be return_a httpCode', (done)=> {
     userSession
       .put('/program/1/paper/1/distribution')
       .expect(204)
