@@ -10,7 +10,7 @@ function startServer(config, done) {
 // fixme: logic error
   isMockServerStarted = parseInt(result.trim()) > 0;
 console.log("---------------: " + isMockServerStarted);
-  if(isMockServerStarted) {
+  if(!isMockServerStarted) {
     console.log("Mock Server Was Stopped, Please Run: npm run mock-server".underline.red);
     done(new Error("Mock Server Was Stopped"));
   } else {

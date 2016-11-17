@@ -6,16 +6,16 @@ var userSession = global.userSession;
 describe("GET homeworks", ()=> {
   it('should be return homeworks list', (done)=> {
     userSession
-      .get('/homeworks')
-      .query({
-        page: 1,
-        pageCount: 3
-      })
-      .expect(200)
-      .expect((res)=> {
-        res.body.length.should.equal(3);
-      })
-      .end(done)
+        .get('/homework-program')
+        .query({
+            page:1,
+            pageCount:3
+        })
+        .expect(200)
+        .expect((res)=>{
+            res.body.length.should.equal(3);
+        })
+        .end(done)
   })
 });
 
