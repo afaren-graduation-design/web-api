@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/jasmine",
-    "it": "export NODE_ENV=integration && ./node_modules/.bin/mocha spec/integration-spec/*spec.js",
+    "it": "export NODE_ENV=integration && ./node_modules/.bin/mocha  --compilers js:babel-core/register spec/integration-spec/*spec.js",
     "at": "export NODE_ENV=integration && ./node_modules/.bin/mocha spec/acceptance-spec/test-base.js",
     "mocha": "export NODE_ENV=integration && mocha",
     "mocha-d": "export NODE_ENV=integration && mocha --debug-brk",
@@ -28,6 +28,8 @@
     "lightbox": "./node_modules/lightbox2/dist/js/lightbox.js"
   },
   "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-preset-es2015": "^6.18.0",
     "canvas": "git://github.com/LearnBoost/node-canvas.git",
     "colors": "^1.1.2",
     "eslint": "^3.9.0",
