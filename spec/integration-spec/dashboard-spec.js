@@ -9,7 +9,7 @@ describe("GET /dashboard", ()=> {
         .expect(200)
         .expect(function (res) {
           res.body.isPaperCommited.should.equal(false);
-          res.body.isOverTime.should.equal(false);
+          res.body.isOverTime.should.equal(true);
           res.body.isFinished.should.equal(false);
         })
         .end(done);

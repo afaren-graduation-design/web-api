@@ -7,8 +7,9 @@ describe("GET /homework/get-list", ()=> {
         .get("/homework/get-list")
         .expect(200)
         .expect(function (res) {
-          res.body.homeworkQuizzes[0].id.should.equal(3);
-          res.body.homeworkQuizzes[0].uri.should.equal('homework/quizzes');
+          res.body.homeworkQuizzes[0].id.should.equal(1); // modify: 3 -> 1
+          res.body.homeworkQuizzes[0].status.should.equal(3);
+          res.body.homeworkQuizzes[0].uri.should.equal("homeworkQuizzes/1");
         })
         .end(done)
   });

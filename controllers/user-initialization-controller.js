@@ -57,7 +57,7 @@ UserInitializationController.prototype.initializeQuizzes = (req, res) => {
         paperId: paperId
       }, done);
     }, (doc, done) => {
-      // todo 编程题不能写死为section[1]
+      //  todo 编程题不能写死为section[1]
       userHomeworkQuizzes.initUserHomeworkQuizzes(userId, enrollment.sections[1].quizzes, paperId, done);
     }
   ], (err) => {

@@ -76,6 +76,7 @@ GroupController.prototype.loadGroup = (req, res, next) => {
 };
 
 GroupController.prototype.createGroup = (req, res, next) => {
+  // todo : 看样子应该是未完善的功能，这里没有调用 paper-api 将数据持久化到 mysql
   var demo = new Group({groupId: null});
 
   demo.save((err) => {

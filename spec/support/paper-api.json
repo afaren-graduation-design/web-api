@@ -65,4 +65,5 @@
   {
     "include": "spec/support/mock-api/paper-api/program-paper/distribution.json"
   }
+
 ]

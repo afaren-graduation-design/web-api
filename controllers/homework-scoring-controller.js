@@ -8,6 +8,7 @@ var taskApi = yamlConfig.load(__dirname + '/../config/config.yml').taskApi;
 
 var homeworkScoringController = {
   getScoring: function (req, res, next) {
+    // fixme : find 函数内需要参数
     userHomeworkScoring.find()
     .exec((err, data) => {
       if (err) {

@@ -11,7 +11,8 @@ function details(req, res, next) {
     var doc;
     var paperIndex;
     var error = {};
-
+    
+    
     async.waterfall([
         (done) => {
             UserPaper.findOne({userId: userId}, done);
@@ -24,7 +25,7 @@ function details(req, res, next) {
                 doc = data;
                 paper = data.papers.find((paper, index) => {
                     paperIndex = index;
-                    return paper._id === paperHash;
+                    return paper._id.equals(paperHash)
                 });
                 done(null, paper);
             }
