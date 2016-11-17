@@ -2,6 +2,8 @@
   {
     "programId": 1,
     "isDistribution": false,
+    "type":"java",
+    "isDeleted":false,
     "makerId": 1,
     "description": "这是描述",
     "title": "第一份试卷",
@@ -32,6 +34,8 @@
     ]
   },
   {
+    "isDeleted":false,
+    "type":"java",
     "programId": 1,
     "isDistribution": false,
     "makerId": 2,
@@ -64,6 +68,8 @@
     ]
   },
   {
+    "isDeleted":false,
+    "type":"c#",
     "programId": 1,
     "isDistribution": false,
     "makerId": 3,

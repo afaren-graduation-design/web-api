@@ -150,3 +150,20 @@ describe('PUT program/:id/paper/:id/distribution', ()=> {
              .end(done)
      })
  });
+
+describe("GET program/:programId/papers/selection",()=>{
+    it('should be return paper list as select type',(done)=>{
+        userSession
+            .get('/program/1/papers/selection')
+            .query({
+                type:'java',
+                page:1,
+                pageCount:2
+            })
+            .expect(200)
+            .expect((res)=>{
+                res.body.length.should.equal(2);
+            })
+            .end(done)
+    })
+});

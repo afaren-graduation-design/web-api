@@ -120,14 +120,40 @@ ProgramPaperController.prototype.getPaperList = (req,res,next) => {
     let page = req.query.page;
     let skipCount = pageCount*(page-1);
 
-    PaperDefinition.find({}).limit(Number(pageCount)).select({title:1,_id:1}).skip(skipCount).exec((err,data)=>{
+
+    PaperDefinition.find({isDeleted:false}).limit(Number(pageCount)).select({title:1,_id:1}).skip(skipCount).exec((err,data)=>{
         if(!err && data){
+            if(data.length < pageCount){
+                res.status(202).send(data); //返回数据数量小于请求数量
+            }
             res.status(200).send(data);
         } else {
             res.sendStatus(404);
         }
     })
 };
+
+ProgramPaperController.prototype.selectPaper = (req,res,next)=>{
+    var type = req.query.type;
+    let pageCount = req.query.pageCount;
+    let page = req.query.page;
+    let skipCount = pageCount * (page - 1);
+
+    PaperDefinition.find({isDeleted:false,type:type}).limit(Number(pageCount)).select({title:1,_id:1}).skip(skipCount).exec((err,data)=>{
+        if(!err && data){
+            if(data.length < pageCount){
+                res.status(202).send(data); //返回数据数量小于请求数量
+            }else {
+                res.status(200).send(data);
+            }
+        } else {
+            res.sendStatus(404);
+        }
+    })
+
+};
+
+
 
 module.exports = ProgramPaperController;
 
