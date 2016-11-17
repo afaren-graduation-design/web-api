@@ -60,10 +60,10 @@ HomeworkProgramController.prototype.deleteHomework = (req, res) => {
 
 HomeworkProgramController.prototype.insertHomework = (req, res) => {
   const {name, type, definitionRepo} = req.body;
-  const makerId = req.session.user.id;
+  // const makerId = req.session.user.id;
   new HomeworkDefinition({
     description: "",
-    makerId,
+    // makerId,
     status:0,
     isDeleted:false,
     uri:"",
@@ -75,10 +75,10 @@ HomeworkProgramController.prototype.insertHomework = (req, res) => {
     type
   }).save((err, homework) => {
     if(!err && homework) {
-      res.status(201).send({homeworkId: homework.id});
+      res.status(201).send({homeworkId: homework._id});
     }else{
       res.sendStatus(400);
     }
   })
-}
+};
 module.exports = HomeworkProgramController;

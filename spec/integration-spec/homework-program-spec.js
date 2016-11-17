@@ -52,7 +52,7 @@ describe("DELETE homework/:homeworkId", ()=> {
 });
 
 describe("POST /homeworks", ()=> {
-  it.only("should return the new homework id", (done)=> {
+  it("should return the new homework id", (done)=> {
     userSession
       .post('/homework-program/homeworks')
       .send({
@@ -63,4 +63,4 @@ describe("POST /homeworks", ()=> {
       .expect(201)
       .end(done)
   })
-})
+});

@@ -3,7 +3,6 @@ var router = express.Router();
 
 var HomeworkProgramController = require('../../controllers/homework-program-controller');
 var homeworkProgramController = new HomeworkProgramController();
-console.log('route')
 router.get('/', homeworkProgramController.getHomeworkList);
 router.put('/homeworks/:homeworkId', homeworkProgramController.updateHomework);
 router.get('/homeworks/:homeworkId', homeworkProgramController.getOneHomework);
