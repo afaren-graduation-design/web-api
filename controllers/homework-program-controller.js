@@ -11,11 +11,11 @@ HomeworkProgramController.prototype.getHomeworkList = (req, res) => {
   let page = req.query.page;
   let skipCount = pageCount * (page - 1);
 
-  HomeworkDefinition.find({}).limit(Number(pageCount)).select({
-    description: 1,
-    _id: 1
-  }).skip(skipCount).exec((err, data)=> {
+  HomeworkDefinition.find({isDeleted: false}).limit(Number(pageCount)).skip(skipCount).exec((err, data)=> {
     if (!err && data) {
+      if(data.length < pageCount){
+        res.status(202).send(data);
+      }
       res.status(200).send(data);
     } else {
       res.sendStatus(404);
@@ -28,11 +28,12 @@ HomeworkProgramController.prototype.matchHomework = (req, res) => {
   let page = req.query.page;
   let skipCount = pageCount * (page - 1);
   let name = req.query.name;
-  console.log(name);
-  HomeworkDefinition.find({name}).limit(Number(pageCount))
+  HomeworkDefinition.find({name, isDeleted: false}).limit(Number(pageCount))
     .skip(skipCount).exec((err, data) => {
       if(!err && data){
-        console.log(data);
+        if(data.length < pageCount){
+          res.status(202).send(data);
+        }
         res.status(200).send(data);
       }else{
         res.sendStatus(404);
@@ -43,7 +44,7 @@ HomeworkProgramController.prototype.matchHomework = (req, res) => {
 HomeworkProgramController.prototype.updateHomework = (req, res) => {
   const {name, type, definitionRepo} = req.body;
   const homeworkId = req.params.homeworkId;
-
+  console.log("dasda");
   HomeworkDefinition.update({_id: homeworkId}, {$set: {name, type, definitionRepo}}, (err) => {
     if (!err) {
       res.sendStatus(204);

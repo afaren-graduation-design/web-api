@@ -4,7 +4,7 @@ require('./spec-base');
 var userSession = global.userSession;
 
 describe("GET MATCHED homeworks", ()=> {
-  it.only("should return matched homeworks list", (done)=> {
+  it("should return matched homeworks list", (done)=> {
     userSession
       .get('/homeworks/search')
       .query({
@@ -18,17 +18,17 @@ describe("GET MATCHED homeworks", ()=> {
       })
       .end(done)
   })
-})
+});
 
 describe("GET homeworks", ()=> {
   it('should be return homeworks list', (done)=> {
     userSession
-        .get('/homework-program')
+        .get('/homeworks')
         .query({
             page:1,
-            pageCount:3
+            pageCount:5
         })
-        .expect(200)
+        .expect(202)
         .expect((res)=>{
             res.body.length.should.equal(3);
         })

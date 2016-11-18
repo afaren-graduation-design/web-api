@@ -13,7 +13,7 @@ LogoutController.prototype.logout = (req, res, next) => {
     Token.findOneAndRemove({uuid:req.cookies.uuid}).exec((err,user)=>{
       if(!err && user){
           res.clearCookie('uuid',{path:'/'});
-          res.status(constant.httpCode.REDIRECTED).end();
+          res.status(constant.httpCode.OK).end();
       }else {
           res.status(404).end();
           return ;
