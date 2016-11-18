@@ -32,7 +32,7 @@ describe('POST program/:id/papers', ()=> {
 });
 
 describe('GET program/:programId/paper/:paperId', ()=> {
-  xit('should be return a paper: GET  program/:programId/paper/:paperId', (done)=> {
+  it('should be return a paper: GET  program/:programId/paper/:paperId', (done)=> {
     userSession
       .get('/program/1/paper/5829958a7007c23870a1d68a')
       .expect(200)
@@ -113,7 +113,7 @@ describe("GET program/:programId/papers", ()=> {
       })
       .expect(200)
       .expect((res)=> {
-        res.body.length.should.equal(3);
+        res.body.data.length.should.equal(3);
       })
       .end(done)
   })
@@ -128,42 +128,27 @@ describe('DELETE program/:id/paper/:id', ()=> {
 });
 
 describe('PUT program/:id/paper/:id/distribution', ()=> {
-  xit('should_be return_a httpCode', (done)=> {
+  it('should_be return_a httpCode', (done)=> {
     userSession
       .put('/program/1/paper/1/distribution')
       .expect(204)
       .end(done);
   })
 });
- describe("GET program/:programId/papers",()=>{
-     it('should be return paper list',(done)=>{
-         userSession
-             .get('/program/1/papers')
-             .query({
-                 page:1,
-                 pageCount:3
-             })
-             .expect(200)
-             .expect((res)=>{
-                res.body.length.should.equal(3);
-             })
-             .end(done)
-     })
- });
 
 describe("GET program/:programId/papers/selection",()=>{
     it('should be return paper list as select type',(done)=>{
         userSession
             .get('/program/1/papers/selection')
             .query({
-                type:'java',
+                title:'java',
                 page:1,
                 pageCount:2
             })
             .expect(200)
             .expect((res)=>{
-                res.body.length.should.equal(2);
+                res.body.data.length.should.equal(2);
             })
-            .end(done)
+             .end(done)
     })
 });

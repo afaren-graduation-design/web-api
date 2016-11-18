@@ -118,39 +118,47 @@ ProgramPaperController.prototype.distributionPaper = (req, res) => {
 ProgramPaperController.prototype.getPaperList = (req,res,next) => {
     let pageCount = req.query.pageCount;
     let page = req.query.page;
-    let skipCount = pageCount*(page-1);
+    let skipCount = pageCount * (page - 1);
 
-
-    PaperDefinition.find({isDeleted:false}).limit(Number(pageCount)).select({title:1,_id:1}).skip(skipCount).exec((err,data)=>{
-        if(!err && data){
-            if(data.length < pageCount){
-                res.status(202).send(data); //返回数据数量小于请求数量
+    PaperDefinition.find({isDeleted:false}).limit(Number(pageCount)).skip(skipCount).exec((err,data)=> {
+        PaperDefinition.count({isDeleted: false}, (error, count) => {
+            if (!err && !error && count && data) {
+                var totalPage = Math.ceil(count / 10);
+                if (page === totalPage) {
+                    res.status(202); //返回数据数量小于请求数量
+                } else {
+                    res.status(200);
+                }
+                res.send({totalPage:totalPage,data:data})
+            } else {
+                res.sendStatus(404);
             }
-            res.status(200).send(data);
-        } else {
-            res.sendStatus(404);
-        }
-    })
+        });
+    });
 };
 
 ProgramPaperController.prototype.selectPaper = (req,res,next)=>{
-    var type = req.query.type;
+    var title = req.query.title;
     let pageCount = req.query.pageCount;
     let page = req.query.page;
     let skipCount = pageCount * (page - 1);
 
-    PaperDefinition.find({isDeleted:false,type:type}).limit(Number(pageCount)).select({title:1,_id:1}).skip(skipCount).exec((err,data)=>{
-        if(!err && data){
-            if(data.length < pageCount){
-                res.status(202).send(data); //返回数据数量小于请求数量
-            }else {
-                res.status(200).send(data);
-            }
-        } else {
-            res.sendStatus(404);
-        }
-    })
+    PaperDefinition.find({isDeleted:false,title:title}).limit(Number(pageCount)).skip(skipCount).exec((err,data)=> {
+        PaperDefinition.count({isDeleted: false}, (error, count) => {
+            if (!err && !error && count && data) {
+                var totalPage = Math.ceil(count / 10);
 
+                if (page === totalPage) {
+                    res.status(202); //返回数据数量小于请求数量
+                } else {
+                    res.status(200);
+                }
+                res.send({totalPage:totalPage,data:data})
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    });
 };
 
 

@@ -2,13 +2,12 @@
   {
     "programId": 1,
     "isDistribution": false,
-    "type":"java",
+    "isDeleted":false,
     "makerId": 1,
     "description": "这是描述",
-    "title": "第一份试卷",
+    "title": "java",
     "createTime": "2016-11-14",
     "updateTime": "2016-11-14",
-    "isDeleted": false,
     "sections": [
       {
         "title": "逻辑题",
@@ -34,12 +33,11 @@
     ]
   },
   {
-    "type":"java",
     "programId": 1,
     "isDistribution": false,
     "makerId": 2,
     "description": "这是描述",
-    "title": "第二份试卷",
+    "title": "java",
     "createTime": "2016-11-15",
     "updateTime": "2016-11-15",
     "isDeleted": false,
@@ -68,12 +66,11 @@
     ]
   },
   {
-    "type":"c#",
     "programId": 1,
     "isDistribution": false,
     "makerId": 3,
     "description": "这是描述",
-    "title": "第三份试卷",
+    "title": "c#",
     "createTime": "2016-11-16",
     "updateTime": "2016-11-16",
     "isDeleted": false,
