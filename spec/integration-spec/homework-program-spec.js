@@ -28,9 +28,9 @@ describe("GET homeworks", ()=> {
             page:1,
             pageCount:5
         })
-        .expect(202)
+        .expect(200)
         .expect((res)=>{
-            res.body.length.should.equal(3);
+            res.body.length.should.equal(5);
         })
         .end(done)
   })

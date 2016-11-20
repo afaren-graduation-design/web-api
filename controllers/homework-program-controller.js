@@ -39,12 +39,11 @@ HomeworkProgramController.prototype.matchHomework = (req, res) => {
         res.sendStatus(404);
       }
   })
-}
+};
 
 HomeworkProgramController.prototype.updateHomework = (req, res) => {
   const {name, type, definitionRepo} = req.body;
   const homeworkId = req.params.homeworkId;
-  console.log("dasda");
   HomeworkDefinition.update({_id: homeworkId}, {$set: {name, type, definitionRepo}}, (err) => {
     if (!err) {
       res.sendStatus(204);

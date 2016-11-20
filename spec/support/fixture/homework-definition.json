@@ -7,10 +7,10 @@
     "uri": "/homeworks/1",
     "evaluateScript": "addresss",
     "templateRepository": "address",
-    "result":"这是一个result",
-    "name":"juanz",
-    "definitionRepo":"git address",
-    "type":"java"
+    "result": "这是一个result",
+    "name": "juanz",
+    "definitionRepo": "git address",
+    "type": "java"
   },
   {
     "description": "第二道编程题",
@@ -20,10 +20,10 @@
     "uri": "/homeworks/1",
     "evaluateScript": "addresss",
     "templateRepository": "address",
-    "result":"这是一个result",
-    "name":"juanz",
-    "definitionRepo":"git address",
-    "type":"java"
+    "result": "这是一个result",
+    "name": "juanz",
+    "definitionRepo": "git address",
+    "type": "java"
   },
   {
     "description": "第三道编程题",
@@ -33,10 +33,74 @@
     "uri": "/homeworks/1",
     "evaluateScript": "addresss",
     "templateRepository": "address",
-    "result":"这是一个result",
-    "name":"juanz",
-    "definitionRepo":"git address",
-    "type":"java"
+    "result": "这是一个result",
+    "name": "juanz",
+    "definitionRepo": "git address",
+    "type": "java"
+  },
+  {
+    "description": "第四道编程题",
+    "makerId": 1,
+    "status": 1,
+    "isDeleted": false,
+    "uri": "/homeworks/1",
+    "evaluateScript": "addresss",
+    "templateRepository": "address",
+    "result": "这是一个result",
+    "name": "juanz",
+    "definitionRepo": "git address",
+    "type": "java"
+  },
+  {
+    "description": "第五道编程题",
+    "makerId": 1,
+    "status": 1,
+    "isDeleted": false,
+    "uri": "/homeworks/1",
+    "evaluateScript": "addresss",
+    "templateRepository": "address",
+    "result": "这是一个result",
+    "name": "juanz",
+    "definitionRepo": "git address",
+    "type": "java"
+  },
+  {
+    "description": "第六道编程题",
+    "makerId": 1,
+    "status": 1,
+    "isDeleted": false,
+    "uri": "/homeworks/1",
+    "evaluateScript": "addresss",
+    "templateRepository": "address",
+    "result": "这是一个result",
+    "name": "juanz",
+    "definitionRepo": "git address",
+    "type": "java"
+  },
+  {
+    "description": "第七道编程题",
+    "makerId": 1,
+    "status": 1,
+    "isDeleted": false,
+    "uri": "/homeworks/1",
+    "evaluateScript": "addresss",
+    "templateRepository": "address",
+    "result": "这是一个result",
+    "name": "juanz",
+    "definitionRepo": "git address",
+    "type": "java"
+  },
+  {
+    "description": "第八道编程题",
+    "makerId": 1,
+    "status": 1,
+    "isDeleted": false,
+    "uri": "/homeworks/1",
+    "evaluateScript": "addresss",
+    "templateRepository": "address",
+    "result": "这是一个result",
+    "name": "juanz",
+    "definitionRepo": "git address",
+    "type": "java"
   }
-
 ]
