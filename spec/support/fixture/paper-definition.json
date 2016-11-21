@@ -1,5 +1,6 @@
 [
   {
+    "_id": "5829958a7007c23870a1d68a",
     "programId": 1,
     "isDistribution": false,
     "isDeleted":false,
@@ -15,7 +16,8 @@
           "easy": 1,
           "normal": 1,
           "hard": 1
-        }
+        },
+        "_id": "58326fad625a2627e08232e2"
       },
       {
         "title": "编程题",
@@ -28,7 +30,8 @@
             "id": 2,
             "uri": "homeworkQuizzes/2"
           }
-        ]
+        ],
+        "_id": "58326fad625a2627e08232e3"
       }
     ]
   },

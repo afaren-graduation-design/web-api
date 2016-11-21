@@ -37,10 +37,9 @@ describe('GET program/:programId/paper/:paperId', ()=> {
       .get('/program/1/paper/5829958a7007c23870a1d68a')
       .expect(200)
       .expect(function (res) {
-        res.body.id.equal(1);
-        res.body.programId.equal(1);
-        res.body.sections[0].description.equal("这是描述");
-        res.body.sections[0].quizzes.length.equal(2);
+        res.body[0].programId.should.equal(1);
+        res.body[0].sections[0].title.should.equal("逻辑题");
+        res.body[0].sections[1].title.should.equal("编程题");
       })
       .end(done);
   })
@@ -130,7 +129,7 @@ describe('DELETE program/:id/paper/:id', ()=> {
 describe('PUT program/:id/paper/:id/distribution', ()=> {
   it('should_be return_a httpCode', (done)=> {
     userSession
-      .put('/program/1/paper/1/distribution')
+      .put('/program/1/paper/5829958a7007c23870a1d68a/distribution')
       .expect(204)
       .end(done);
   })

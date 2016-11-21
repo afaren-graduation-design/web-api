@@ -84,7 +84,7 @@ ProgramPaperController.prototype.distributionPaper = (req, res) => {
   var programId = req.params.programId;
   var paperId = req.params.paperId;
   var uri;
-
+  console.log(programId + "   " + paperId);
   async.waterfall([
     (done) => {
       PaperDefinition.find({programId, _id: paperId}, done);
@@ -94,7 +94,7 @@ ProgramPaperController.prototype.distributionPaper = (req, res) => {
       if (!paper) {
         done(true, null);
       }
-      apiRequest.post('/distributionPaper', paper, done)
+      apiRequest.post('distributionPaper', paper[0], done)
     },
 
     (result, done) => {
@@ -102,11 +102,16 @@ ProgramPaperController.prototype.distributionPaper = (req, res) => {
         done(true, null);
       }
       uri = result.uri;
-      PaperDefinition.update({programId, _id: paperId}, {$set: {isDistribution: true}}, done);
+      PaperDefinition.update({programId, _id: paperId}, {$set: {isDistribution: true}}, (err, data) => {
+        if(err){
+          done(true, null);
+        }
+        done(err, data)
+      });
     },
 
-    (err) => {
-      if(!err){
+    (data) => {
+      if(data){
         res.status(204).send({uri});
       }else{
         res.sendStatus(400);

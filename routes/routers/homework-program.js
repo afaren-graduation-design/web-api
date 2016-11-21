@@ -4,7 +4,6 @@ console.log("HomeworkProgramController");
 var HomeworkProgramController = require('../../controllers/homework-program-controller');
 var homeworkProgramController = new HomeworkProgramController();
 router.get('/search', homeworkProgramController.matchHomework);
-
 router.get('/', homeworkProgramController.getHomeworkList);
 router.put('/:homeworkId', homeworkProgramController.updateHomework);
 router.get('/:homeworkId', homeworkProgramController.getOneHomework);

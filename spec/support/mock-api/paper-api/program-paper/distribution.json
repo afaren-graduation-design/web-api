@@ -5,23 +5,38 @@
       "uri": "/distributionPaper",
       "method": "POST",
       "json": {
-        "title": "js paper",
+        "_id": "5829958a7007c23870a1d68a",
         "programId": 1,
-        "makerId": 2,
-        "createTime": "2011-11-11",
-        "updateTime": "2016-11-11",
+        "isDistribution": false,
+        "isDeleted": false,
+        "makerId": 1,
+        "title": "java",
+        "createTime": "2016-11-14",
+        "updateTime": "2016-11-14",
+        "__v": 0,
         "sections": [
           {
-            "title": "logicQuizzes",
+            "title": "逻辑题",
             "quizzes": {
-              "easyCount": 3,
-              "normalCount": 3,
-              "hardCount": 3
-            }
+              "easy": 1,
+              "normal": 1,
+              "hard": 1
+            },
+            "_id": "58326fad625a2627e08232e2"
           },
           {
-            "title": "homeworkQuizzes",
-            "quizzes": [1, 2, 3]
+            "title": "编程题",
+            "quizzes": [
+              {
+                "id": 1,
+                "uri": "homeworkQuizzes/1"
+              },
+              {
+                "id": 2,
+                "uri": "homeworkQuizzes/2"
+              }
+            ],
+            "_id": "58326fad625a2627e08232e3"
           }
         ]
       }
