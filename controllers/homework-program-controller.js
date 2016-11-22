@@ -7,27 +7,50 @@ function HomeworkProgramController() {
 
 };
 
+function unique(array){
+  var n = [];//临时数组
+  for(var i = 0;i < array.length; i++){
+    if(n.indexOf(array[i]) == -1) n.push(array[i]);
+  }
+  return n;
+}
+
 HomeworkProgramController.prototype.getHomeworkList = (req, res) => {
   let pageCount = req.query.pageCount;
   let page = req.query.page;
   let skipCount = pageCount * (page - 1);
-
+  let homeworks;
+  console.log(pageCount);
   HomeworkDefinition.find({isDeleted: false}).limit(Number(pageCount)).skip(skipCount).exec((err, data)=> {
     HomeworkDefinition.count({isDeleted: false}, (error, count) => {
+      console.log(data);
       if (!err && !error && count && data) {
         let totalPage = Math.ceil(count / pageCount);
         let ids = data.map((homework) => {
           return homework.makerId
         });
-        apiRequest.get("users/" + ids + "/detail", (err, resp) => {
+        let id = unique(ids);
+        apiRequest.get("users/" + id + "/detail", (err, resp) => {
           if (!err && resp) {
-            let homeworks = resp.body.map((id) => {
-              let user = data.find((item) => {
-                return item.makerId === id.userId;
+            console.log(resp.length);
+            if(resp.length){
+              homeworks = resp.body.map((response) => {
+                let homeworkItem = data.filter((dataItem) => {
+                  return dataItem.makerId === response.userId;
+                }).map((item) => {
+                  item.makerName = response.name;
+                  return item;
+                });
+                return homeworkItem;
               });
-              user.name = id.name;
-              return user;
-            });
+            }else{
+              homeworks = data.map((dataItem) => {
+                console.log(dataItem);
+
+                dataItem.makerName = resp.name;
+                return dataItem;
+              });
+            }
             if (page === totalPage) {
               return res.status(202).send({data: homeworks, totalPage});
             }
@@ -123,6 +146,7 @@ HomeworkProgramController.prototype.insertHomework = (req, res) => {
     description: "",
     // makerId,
     status: 0,
+    makerName: "",
     isDeleted: false,
     uri: "",
     createTime,

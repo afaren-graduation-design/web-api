@@ -3,7 +3,7 @@ var userSession = global.userSession;
 require('should');
 
 describe("should be return username by id", ()=> {
-    it.only("GET /username", function(done) {
+    it("GET /username", function(done) {
         userSession
             .get('/username')
             .expect(200)

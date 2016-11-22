@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var homeworkDefinition = new Schema({
   description: String,
   makerId: Number,
+  makerName: String,
   status: Number,
   createTime: String,
   isDeleted: Boolean,
