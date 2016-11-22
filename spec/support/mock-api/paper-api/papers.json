@@ -1,4 +1,4 @@
-        [
+[
   {
     "description": "should_return_all_papers_when_request_papers",
     "request": {
@@ -6,38 +6,115 @@
       "method": "get"
     },
     "response": {
-      "json": [
-        {
-          "paperName": "简单的试卷",
-          "uri": "papers/1"
-        },
-        {
-          "paperName": "一般的试卷",
-          "uri": "papers/2"
-        },
-        {
-          "paperName": "很难的试卷",
-          "uri": "papers/3"
-        },
-        {
-          "paperName": null,
-          "uri": "papers/4"
-        }
-      ]
+      "json": {
+        "paperCount": 11,
+        "paperInfo": [
+          {
+            "createTime": "2016",
+            "description": "simple",
+            "isDistribution": true,
+            "makerId": 1,
+            "paperName": "简单的试卷",
+            "uri": "papers/1"
+          },
+          {
+            "createTime": "2016",
+            "description": "standard",
+            "isDistribution": false,
+            "makerId": 2,
+            "paperName": "一般的试卷",
+            "uri": "papers/2"
+          },
+          {
+            "createTime": "2016",
+            "description": "hard",
+            "isDistribution": true,
+            "makerId": 2,
+            "paperName": "很难的试卷",
+            "uri": "papers/3"
+          },
+          {
+            "createTime": null,
+            "description": null,
+            "isDistribution": false,
+            "makerId": 5,
+            "paperName": null,
+            "uri": "papers/4"
+          },
+          {
+            "createTime": "2017",
+            "description": "a",
+            "isDistribution": false,
+            "makerId": 3,
+            "paperName": "java",
+            "uri": "papers/5"
+          },
+          {
+            "createTime": "2014",
+            "description": "b",
+            "isDistribution": false,
+            "makerId": 2,
+            "paperName": "js",
+            "uri": "papers/6"
+          },
+          {
+            "createTime": "2013",
+            "description": "c",
+            "isDistribution": false,
+            "makerId": 2,
+            "paperName": "c++",
+            "uri": "papers/7"
+          },
+          {
+            "createTime": "2016",
+            "description": "d",
+            "isDistribution": false,
+            "makerId": 5,
+            "paperName": "c",
+            "uri": "papers/8"
+          },
+          {
+            "createTime": "2015",
+            "description": "e",
+            "isDistribution": true,
+            "makerId": 2,
+            "paperName": "ruby",
+            "uri": "papers/9"
+          },
+          {
+            "createTime": "2015",
+            "description": "e",
+            "isDistribution": true,
+            "makerId": 3,
+            "paperName": "scale",
+            "uri": "papers/10"
+          },
+          {
+            "createTime": "2015",
+            "description": "e",
+            "isDistribution": true,
+            "makerId": 7,
+            "paperName": "react",
+            "uri": "papers/11"
+          }
+        ]
+      }
     }
   },
   {
-    "description":"add_a_new_paper",
+    "description": "add_a_new_paper",
     "request": {
       "uri": "/papers/",
       "method": "post",
       "json": {
-        "makerId":1,
-        "paperName":"easy"
+        "makerId": 1,
+        "paperName": "easy"
       }
     },
     "response": {
-      "json": {"paperId":5}
+      "json": {
+        "paperId": 5
+      }
     }
   }
 ]

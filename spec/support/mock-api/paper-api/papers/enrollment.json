@@ -24,7 +24,7 @@
                 "items_uri": "blankQuizzes/2/items"
               }
             ],
-            "type": "blankQuizzes"
+            "sectionType": "blankQuizzes"
           },
           {
             "description": "这是描述",
@@ -71,7 +71,7 @@
                 "items_uri": null
               }
             ],
-            "type": "homeworkQuizzes"
+            "sectionType": "homeworkQuizzes"
           }
         ]
       }

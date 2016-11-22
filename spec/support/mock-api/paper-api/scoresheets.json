@@ -18,6 +18,9 @@
         },
         {
           "uri": "scoresheets/4"
+        },
+        {
+          "uri": "scoresheets/5"
         }
       ]
     }
@@ -35,7 +38,7 @@
     "response": {
       "status": 201,
       "json": {
-        "uri": "scoresheets/5"
+        "uri": "scoresheets/6"
       }
     }
   },
@@ -44,9 +47,23 @@
     "request": {
       "uri": "/scoresheets",
       "method": "post",
-      "json_paths": {
-        "$.paperId": "2",
-        "$.examerId": "1"
+      "json":  {
+        "examerId": 1,
+        "paperId": 2,
+
+        "blankQuizSubmits": [
+          {
+            "blankQuizId": 1,
+            "startTime": 140345676,
+            "endTime": 142345632,
+            "itemPosts": [
+              {
+                "answer": "10",
+                "quizItemId": 3
+              }
+            ]
+          }
+        ]
       }
     },
     "response": {

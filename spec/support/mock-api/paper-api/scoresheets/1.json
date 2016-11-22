@@ -12,7 +12,6 @@
             "blankQuiz": {
               "uri": "/blankQuiz/1"
             },
-            "startTime": 1451581261,
             "endTime": 1451581262,
             "itemPosts": [
               {
@@ -33,21 +32,22 @@
                   "uri": "quizItem/3"
                 }
               }
-            ]
+            ],
+            "startTime": 1451581261
           }
         ],
         "paper": {
-          "uri": "paper/1"
+          "uri": "papers/1"
         },
         "homeworkSubmits": [
           {
             "homeworkQuiz": {
-              "uri": "homeworkQuiz/1"
+              "uri": "1"
             },
-            "startTime": 1453287449,
             "homeworkSubmitPostHistory": [
               {
                 "result": "jasmine not found",
+                "startTime": 1453287449,
                 "commitTime": 1453287441,
                 "userAnswerRepo": "github.com/purple/1",
                 "branch": "master",
@@ -58,12 +58,12 @@
           },
           {
             "homeworkQuiz": {
-              "uri": "homeworkQuiz/2"
+              "uri": "2"
             },
-            "startTime": 1453287449,
             "homeworkSubmitPostHistory": [
               {
                 "result": "jasmine not found",
+                "startTime": 1453287449,
                 "commitTime": 1453287441,
                 "userAnswerRepo": "github.com/purple/2",
                 "branch": "master",
@@ -74,13 +74,13 @@
           },
           {
             "homeworkQuiz": {
-              "uri": "homeworkQuiz/3"
+              "uri": "3"
             },
-            "startTime": 1453287449,
             "homeworkSubmitPostHistory": [
               {
                 "result": "jasmine not found",
-                "commitTime": {"exist" : "true"},
+                "startTime": 1453287449,
+                "commitTime": 1453287441,
                 "userAnswerRepo": "github.com/purple/3",
                 "branch": "master",
                 "version": "d8160f56ebbb5d40368048f271328eefa87cb97d",
@@ -90,7 +90,7 @@
           }
         ],
         "examer": {
-          "uri": "examer/1"
+          "uri": "users/1"
         }
       }
     }

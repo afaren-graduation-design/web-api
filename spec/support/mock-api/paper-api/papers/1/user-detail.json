@@ -1,29 +1,37 @@
 [
   {
     "description": "should_return_user_detail_when_give_paper_id",
-    "request" :{
+    "request": {
       "uri": "/papers/1/usersDetail",
-      "method" : "get"
+      "method": "get"
     },
-    "response" : {
-      "json" : [
+    "response": {
+      "json": [
         {
-          "mobilePhone": "18798037893",
-          "major": "计算机",
-          "gender": "F",
           "degree": "本科",
+          "email": "test@163.com",
+          "entranceYear": "2016",
+          "gender": "F",
+          "major": "计算机",
+          "mobilePhone": "18798037893",
           "name": "测试一",
-          "userId": 1,
-          "email": "test@163.com"
+          "school": "思沃学院",
+          "schoolCity": "西安",
+          "schoolProvince": "陕西",
+          "userId": 1
         },
         {
-          "mobilePhone": "18087839393",
-          "major": "电工",
-          "gender": "M",
           "degree": "本科",
+          "email": "test2@qq.com",
+          "entranceYear": null,
+          "gender": "M",
+          "major": "电工",
+          "mobilePhone": "18087839393",
           "name": "测试二",
-          "userId": 2,
-          "email": "test2@qq.com"
+          "school": "思沃大讲堂",
+          "schoolCity": null,
+          "schoolProvince": null,
+          "userId": 2
         }
       ]
     }
