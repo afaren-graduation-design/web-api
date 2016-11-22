@@ -40,7 +40,7 @@ describe("GET homeworks", ()=> {
 describe("PUT homeworks/:homeworkId", () => {
   it('should return success or fail of the updateHomework', (done)=> {
     userSession
-      .put('/homeworks/582bd78779ee8224014dba21')
+      .put('/homeworks/5829958a7007c23870a1d680')
       .send({
         type: "new modify",
         name: "update homework",
@@ -51,19 +51,19 @@ describe("PUT homeworks/:homeworkId", () => {
   })
 });
 
-describe("GET homework/:homeworkId", ()=> {
+describe("GET homeworks/:homeworkId", ()=> {
   it("should return one homework", (done)=> {
     userSession
-      .get('/homeworks/582bf51629010b2a2a9bb6d6')
+      .get('/homeworks/5829958a7007c23870a1d680')
       .expect(200)
       .end(done)
   })
 });
 
-describe("DELETE homework/:homeworkId", ()=> {
+describe("DELETE homeworks/:homeworkId", ()=> {
   it("should return success or fail of deleteHomework", (done)=> {
     userSession
-      .delete('/homeworks/582bf7ee5482bf2b99a8c7cb')
+      .delete('/homeworks/5829958a7007c23870a1d680')
       .expect(204)
       .end(done)
   })
@@ -79,6 +79,16 @@ describe("POST /homeworks", ()=> {
         definitionRepo: "github address"
       })
       .expect(201)
+      .end(done)
+  })
+});
+
+describe("DELETE /homeworks", ()=> {
+  it("should_return_httpCode", (done)=> {
+    userSession
+      .delete('/homeworks')
+      .send({homeworkIds: ['5829958a7007c23870a1d680', '5829958a7007c23870a1d681']})
+      .expect(204)
       .end(done)
   })
 });

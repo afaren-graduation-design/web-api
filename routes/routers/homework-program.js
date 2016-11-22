@@ -12,6 +12,7 @@ router.put('/:homeworkId', homeworkProgramController.updateHomework);
 router.get('/:homeworkId', homeworkProgramController.getOneHomework);
 router.delete('/:homeworkId', homeworkProgramController.deleteHomework);
 router.post('/', homeworkProgramController.insertHomework);
+router.delete('/', homeworkProgramController.deleteBatch);
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {

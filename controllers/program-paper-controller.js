@@ -154,6 +154,25 @@ ProgramPaperController.prototype.getPaperList = (req, res, next) => {
   });
 };
 
+ProgramPaperController.prototype.deleteBatch = (req, res) => {
+  let papersIds = req.body.papersIds;
+  console.log(papersIds);
+  let status = papersIds.map((papersId) => {
+    PaperDefinition.update({_id: papersId}, {$set: {isDeleted: true}}, (err) => {
+      if (!err) {
+        return 204;
+      } else {
+        return 400;
+      }
+    });
+  });
+  if(status.indexOf(400) === -1){
+    res.sendStatus(204);
+  }else{
+    res.sendStatus(400);
+  }
+};
+
 ProgramPaperController.prototype.selectPaper = (req, res, next)=> {
   var title = req.query.title;
   let pageCount = req.query.pageCount;

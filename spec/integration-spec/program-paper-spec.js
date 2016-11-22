@@ -151,3 +151,13 @@ describe("GET program/:programId/papers/selection", ()=> {
       .end(done)
   })
 });
+
+describe("DELETE /program/:programId/papers", ()=> {
+  it("should_return_httpCode", (done)=> {
+    userSession
+      .delete('/program/1/papers')
+      .send({papersIds: ['5829958a7007c23870a1d68a', '5829958a7007c23870a1d699']})
+      .expect(204)
+      .end(done)
+  })
+});

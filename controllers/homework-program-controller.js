@@ -88,9 +88,9 @@ HomeworkProgramController.prototype.updateHomework = (req, res) => {
 
 HomeworkProgramController.prototype.getOneHomework = (req, res) => {
   const homeworkId = req.params.homeworkId;
-  HomeworkDefinition.find({_id: homeworkId}, (err, homework)=> {
+  HomeworkDefinition.findOne({_id: homeworkId}, (err, homework)=> {
     if (!err && homework) {
-      res.send({homework});
+      res.send(homework);
     } else {
       res.sendStatus(400);
     }
@@ -134,6 +134,25 @@ HomeworkProgramController.prototype.insertHomework = (req, res) => {
       res.sendStatus(400);
     }
   })
+};
+
+HomeworkProgramController.prototype.deleteBatch = (req, res) => {
+  let homeworkIds = req.body.homeworkIds;
+
+  let status = homeworkIds.map((homeworkId) => {
+    HomeworkDefinition.update({_id: homeworkId}, {$set: {isDeleted: true}}, (err) => {
+      if (!err) {
+        return 204;
+      } else {
+        return 400;
+      }
+    });
+  });
+  if(status.indexOf(400) === -1){
+    res.sendStatus(204);
+  }else{
+    res.sendStatus(400);
+  }
 };
 
 HomeworkProgramController.prototype.insertEvaluateScript = (req, res)=> {
