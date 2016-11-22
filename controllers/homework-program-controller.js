@@ -2,29 +2,21 @@
 
 var HomeworkDefinition = require('../models/homework-definition');
 var apiRequest = require('../services/api-request');
+var unique = require('../tool/unique');
+var addMakerName = require('../tool/addMakerName');
 
 
 function HomeworkProgramController() {
 
 };
 
-function unique(array){
-  var n = [];//临时数组
-  for(var i = 0;i < array.length; i++){
-    if(n.indexOf(array[i]) == -1) n.push(array[i]);
-  }
-  return n;
-}
-
 HomeworkProgramController.prototype.getHomeworkList = (req, res) => {
   let pageCount = req.query.pageCount;
   let page = req.query.page;
   let skipCount = pageCount * (page - 1);
   let homeworks;
-  console.log(pageCount);
   HomeworkDefinition.find({isDeleted: false}).limit(Number(pageCount)).skip(skipCount).exec((err, data)=> {
     HomeworkDefinition.count({isDeleted: false}, (error, count) => {
-      console.log(data);
       if (!err && !error && count && data) {
         let totalPage = Math.ceil(count / pageCount);
         let ids = data.map((homework) => {
@@ -33,25 +25,7 @@ HomeworkProgramController.prototype.getHomeworkList = (req, res) => {
         let id = unique(ids);
         apiRequest.get("users/" + id + "/detail", (err, resp) => {
           if (!err && resp) {
-            console.log(resp.length);
-            if(resp.length){
-              homeworks = resp.body.map((response) => {
-                let homeworkItem = data.filter((dataItem) => {
-                  return dataItem.makerId === response.userId;
-                }).map((item) => {
-                  item.makerName = response.name;
-                  return item;
-                });
-                return homeworkItem;
-              });
-            }else{
-              homeworks = data.map((dataItem) => {
-                console.log(dataItem);
-
-                dataItem.makerName = resp.name;
-                return dataItem;
-              });
-            }
+            homeworks = addMakerName(resp, data);
             if (page === totalPage) {
               return res.status(202).send({data: homeworks, totalPage});
             }
@@ -71,6 +45,7 @@ HomeworkProgramController.prototype.matchHomework = (req, res) => {
   let page = req.query.page;
   let skipCount = pageCount * (page - 1);
   let name = req.query.name;
+  let homeworks;
   HomeworkDefinition.find({name, isDeleted: false}).limit(Number(pageCount))
     .skip(skipCount).exec((err, data) => {
     HomeworkDefinition.count({isDeleted: false}, (error, count) => {
@@ -79,15 +54,10 @@ HomeworkProgramController.prototype.matchHomework = (req, res) => {
         let ids = data.map((homework) => {
           return homework.makerId
         });
-        apiRequest.get("users/" + ids + "/detail", (err, resp) => {
+        let id = unique(ids);
+        apiRequest.get("users/" + id + "/detail", (err, resp) => {
           if (!err && resp) {
-            let homeworks = resp.body.map((id) => {
-              let user = data.find((item) => {
-                return item.makerId === id.userId;
-              });
-              user.name = id.name;
-              return user;
-            });
+            homeworks = addMakerName(resp, data);
             if (page === totalPage) {
               return res.status(202).send({data: homeworks, totalPage});
             }

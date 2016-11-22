@@ -4,6 +4,8 @@ var apiRequest = require('../services/api-request');
 var constant = require('../mixin/constant');
 var async = require('async');
 var PaperDefinition = require('../models/paper-definition');
+var unique = require('../tool/unique');
+var addMakerName = require('../tool/addMakerName');
 
 function ProgramPaperController() {
 
@@ -122,6 +124,7 @@ ProgramPaperController.prototype.getPaperList = (req, res, next) => {
   let pageCount = req.query.pageCount;
   let page = req.query.page;
   let skipCount = pageCount * (page - 1);
+  let papers;
 
   PaperDefinition.find({isDeleted: false}).limit(Number(pageCount)).skip(skipCount).exec((err, data)=> {
     PaperDefinition.count({isDeleted: false}, (error, count) => {
@@ -130,15 +133,10 @@ ProgramPaperController.prototype.getPaperList = (req, res, next) => {
         let ids = data.map((paper) => {
           return paper.makerId;
         });
-        apiRequest.get("users/" + ids + "/detail", (err, resp) => {
+        let id = unique(ids);
+        apiRequest.get("users/" + id + "/detail", (err, resp) => {
           if (!err && resp) {
-            let papers = resp.body.map((id) => {
-              let user = data.find((item) => {
-                return item.makerId === id.userId;
-              });
-              user.name = id.name;
-              return user;
-            });
+            papers = addMakerName(resp, data);
             if (page === totalPage) {
               res.status(202); //返回数据数量小于请求数量
             } else {
@@ -161,24 +159,19 @@ ProgramPaperController.prototype.selectPaper = (req, res, next)=> {
   let pageCount = req.query.pageCount;
   let page = req.query.page;
   let skipCount = pageCount * (page - 1);
+  let papers;
 
   PaperDefinition.find({isDeleted: false, title: title}).limit(Number(pageCount)).skip(skipCount).exec((err, data)=> {
     PaperDefinition.count({isDeleted: false}, (error, count) => {
       if (!err && !error && count && data) {
-
         var totalPage = Math.ceil(count / 10);
         let ids = data.map((paper) => {
           return paper.makerId;
         });
-        apiRequest.get("users/" + ids + "/detail", (err, resp) => {
+        let id = unique(ids);
+        apiRequest.get("users/" + id + "/detail", (err, resp) => {
           if (!err && resp) {
-            let papers = resp.body.map((id) => {
-              let user = data.find((item) => {
-                return item.makerId === id.userId;
-              });
-              user.name = id.name;
-              return user;
-            });
+            papers = addMakerName(resp, data);
             if (page === totalPage) {
               res.status(202); //返回数据数量小于请求数量
             } else {
