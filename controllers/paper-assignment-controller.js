@@ -3,7 +3,7 @@ var PaperAssignment = require('../models/paper-assignment');
 var constant = require('../mixin/constant');
 var apiRequest = require('../services/api-request');
 
-function PaperAssignmentController () {}
+function PaperAssignmentController() {}
 
 PaperAssignmentController.prototype.getLinks = (req, res, next) => {
   PaperAssignment.find({}, (err, links) => {
@@ -24,7 +24,7 @@ PaperAssignmentController.prototype.addLink = (req, res, next) => {
     if (err) {
       return next(err);
     } else if (!link) {
-      newLink.save(function (err, newLink, numAffected) {
+      newLink.save((err, newLink, numAffected) => {
         if (err) {
           return next(err);
         }

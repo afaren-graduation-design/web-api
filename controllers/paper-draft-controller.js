@@ -2,7 +2,7 @@ var PaperDraft = require('../models/paper-draft');
 var async = require('async');
 var httpStatus = require('../mixin/constant').httpCode;
 
-function PaperDraftController () {
+function PaperDraftController() {
 
 }
 
@@ -54,7 +54,7 @@ PaperDraftController.prototype.insertLogicPuzzleSections = (req, res, next) => {
       } else {
         doc = data;
         doc.logicPuzzleSections.push(req.body);
-        doc.save(function (err) {
+        doc.save((err) => {
           if (err) {
             done(true, null);
           } else {
@@ -96,7 +96,7 @@ PaperDraftController.prototype.insertHomeworkSections = (req, res, next) => {
   }, (data, done) => {
     var homeworkSectionsLength = data.homeworkSections.length;
     doc.homeworkSections[homeworkSectionsLength - 1].items.push(req.body);
-    doc.save(function (err) {
+    doc.save((err) => {
       if (err) {
         done(true, null);
       } else {

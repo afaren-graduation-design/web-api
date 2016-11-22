@@ -7,7 +7,7 @@ var yamlConfig = require('node-yaml-config');
 var taskApi = yamlConfig.load(__dirname + '/../config/config.yml').taskApi;
 
 var homeworkScoringController = {
-  getScoring: function (req, res, next) {
+  getScoring: (req, res, next) => {
     // fixme : find 函数内需要参数
     userHomeworkScoring.find()
     .exec((err, data) => {
@@ -18,19 +18,19 @@ var homeworkScoringController = {
     });
   },
 
-  createScoring: function (req, res, next) {
+  createScoring: (req, res, next) => {
     async.waterfall([
 
-      function (done) {
+      (done) => {
         var data = Object.assign({}, req.body, {userId: req.session.user.id});
         userHomeworkScoring.create(data, done);
       },
 
-      function (data, done) {
+      (data, done) => {
         fs.readFile('/Users/wjlin/Downloads/test.sh', 'utf8', done);
       },
 
-      function (data, done) {
+      (data, done) => {
         var script = data.split('\n').join('\\n');
 
         request
@@ -42,7 +42,7 @@ var homeworkScoringController = {
           .end(done);
       }
 
-    ], function (err, data) {
+    ], (err, data) => {
       if (err) {
         return next(err);
       }
@@ -50,7 +50,7 @@ var homeworkScoringController = {
     });
   },
 
-  updateScoring: function (req, res, next) {
+  updateScoring: (req, res, next) => {
     async.waterfall([
       (done) => {
         userHomeworkScoring.update(req.params.id, req.body, done);

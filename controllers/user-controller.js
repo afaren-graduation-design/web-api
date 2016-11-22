@@ -19,11 +19,11 @@ var dayToSecond = second * mintues * hour;
 var hourToSecond = second * mintues;
 var mintuesToSecond = mintues;
 
-function UserController () {
+function UserController() {
 
 }
 
-function buildLogicPuzzleFeedback (data) {
+function buildLogicPuzzleFeedback(data) {
   var isCompleted = false;
   var time = 0;
 
@@ -39,7 +39,7 @@ function buildLogicPuzzleFeedback (data) {
   };
 }
 
-function getUsersCommitHistory (commitHistoryFilter, callback) {
+function getUsersCommitHistory(commitHistoryFilter, callback) {
   var filter = {
     'id': commitHistoryFilter
   };
@@ -54,7 +54,7 @@ function getUsersCommitHistory (commitHistoryFilter, callback) {
       .end(callback);
 }
 
-function getHomeworkDetailsByUserId (userId, callback) {
+function getHomeworkDetailsByUserId(userId, callback) {
   var logicPuzzleURL = 'users/' + userId + '/logicPuzzle';
 
   var user = {};
@@ -92,13 +92,13 @@ function getHomeworkDetailsByUserId (userId, callback) {
   });
 }
 
-function getCommitTime (homeworkSubmitHistory, commitHistory) {
+function getCommitTime(homeworkSubmitHistory, commitHistory) {
   return commitHistory.find((item) => {
     return item.id === homeworkSubmitHistory.toString();
   });
 }
 
-function buildHomeworkFeedback (homeworkDetails, commitHistories) {
+function buildHomeworkFeedback(homeworkDetails, commitHistories) {
   var homeworks = [];
 
   homeworkDetails.quizzes.forEach((result) => {
@@ -122,7 +122,7 @@ function buildHomeworkFeedback (homeworkDetails, commitHistories) {
   return homeworks;
 }
 
-function buildFeedbackInfo (userId, callback) {
+function buildFeedbackInfo(userId, callback) {
   getHomeworkDetailsByUserId(userId, (err, data) => {
     if (err) {
       callback(err);
@@ -143,7 +143,7 @@ function buildFeedbackInfo (userId, callback) {
   });
 }
 
-function calcLogicPuzzleElapsedTime (logicPuzzle) {
+function calcLogicPuzzleElapsedTime(logicPuzzle) {
   var startTime = logicPuzzle.startTime;
   var endTime = logicPuzzle.endTime;
   var time = endTime - startTime;
@@ -159,7 +159,7 @@ function calcLogicPuzzleElapsedTime (logicPuzzle) {
   return elapsedHour + '小时' + elapsedMintues + '分' + time + '秒';
 }
 
-function calcHomeworkElapsedTime (time) {
+function calcHomeworkElapsedTime(time) {
   var elapsedDay = 0;
   var elapsedHour = 0;
   var elapsedMintues = 0;

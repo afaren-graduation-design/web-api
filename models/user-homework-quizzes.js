@@ -24,7 +24,7 @@ var userHomeworkQuizzesSchema = Schema({
   }]
 });
 
-userHomeworkQuizzesSchema.statics.initUserHomeworkQuizzes = function (userId, quizzes, paperId, callback) {
+userHomeworkQuizzesSchema.statics.initUserHomeworkQuizzes = function(userId, quizzes, paperId, callback) {
   this.findOne({userId: userId}, (err, doc) => {
     if (err) {
       callback(err, null);
@@ -49,7 +49,7 @@ userHomeworkQuizzesSchema.statics.initUserHomeworkQuizzes = function (userId, qu
   });
 };
 
-userHomeworkQuizzesSchema.statics.getQuizStatus = function (userId, callback) {
+userHomeworkQuizzesSchema.statics.getQuizStatus = function(userId, callback) {
   this.findOne({userId: userId})
       .exec((err, doc) => {
         return callback(err, doc.quizzes.map((item) => {
@@ -98,7 +98,7 @@ userHomeworkQuizzesSchema.statics.getQuizStatus = function (userId, callback) {
       });
 };
 
-userHomeworkQuizzesSchema.statics.findProgressTasks = function (callback) {
+userHomeworkQuizzesSchema.statics.findProgressTasks = function(callback) {
   this.find({quizzes: {$elemMatch: {status: constant.homeworkQuizzesStatus.PROGRESS}}}, 'userId quizzes', (err, doc) => {
     if (err) {
       callback(err);
@@ -125,7 +125,7 @@ userHomeworkQuizzesSchema.statics.findProgressTasks = function (callback) {
   });
 };
 
-userHomeworkQuizzesSchema.statics.checkDataForUpdate = function (userId, homeworkId, callback) {
+userHomeworkQuizzesSchema.statics.checkDataForUpdate = function(userId, homeworkId, callback) {
   this.findOne({
     userId: userId,
     quizzes: {$elemMatch: {id: homeworkId}}
@@ -144,7 +144,7 @@ userHomeworkQuizzesSchema.statics.checkDataForUpdate = function (userId, homewor
   });
 };
 
-userHomeworkQuizzesSchema.statics.updateQuizzesStatus = function (data, callback) {
+userHomeworkQuizzesSchema.statics.updateQuizzesStatus = function(data, callback) {
   this.findOne({userId: data.userId}, (err, doc) => {
     if (err || !doc) {
       callback(true);
@@ -163,7 +163,7 @@ userHomeworkQuizzesSchema.statics.updateQuizzesStatus = function (data, callback
   });
 };
 
-userHomeworkQuizzesSchema.statics.updateStatus = function (data, callback) {
+userHomeworkQuizzesSchema.statics.updateStatus = function(data, callback) {
   var historyId = new mongoose.Types.ObjectId(data.historyId);
   this.findOne({'quizzes.homeworkSubmitPostHistory': historyId}, (err, doc) => {
     if (err) {
@@ -182,7 +182,7 @@ userHomeworkQuizzesSchema.statics.updateStatus = function (data, callback) {
       nextQuiz.status = constant.homeworkQuizzesStatus.ACTIVE;
     }
     theQuiz.status = data.status;
-    doc.save(function (err, data) {
+    doc.save(function(err, data) {
       callback(err, data);
     });
   });

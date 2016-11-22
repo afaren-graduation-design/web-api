@@ -4,7 +4,7 @@ var constant = require('../mixin/constant');
 var async = require('async');
 var userHomeworkQuizzes = require('../models/user-homework-quizzes');
 var deadline = 7;
-function DashboardController () {
+function DashboardController() {
 
 }
 
@@ -20,7 +20,7 @@ DashboardController.prototype.isCommited = (req, res) => {
       userHomeworkQuizzes.findOne({userId: userId}, done);
     },
     (data, done) => {
-      var currentQuiz = data.quizzes.filter(function (quiz) {
+      var currentQuiz = data.quizzes.filter((quiz) => {
         return quiz.status !== constant.homeworkQuizzesStatus.LOCKED &&
             quiz.status !== constant.homeworkQuizzesStatus.SUCCESS;
       })[0];
@@ -44,7 +44,7 @@ DashboardController.prototype.isCommited = (req, res) => {
       }).length === 0;
       done(null, null);
     }
-  ], function (err) {
+  ], (err) => {
     if (err) {
       res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
     } else {

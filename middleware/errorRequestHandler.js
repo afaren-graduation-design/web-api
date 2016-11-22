@@ -1,7 +1,7 @@
 'use strict';
 var path = require('path');
 
-module.exports = function (req, res) {
+module.exports = (req, res) => {
   var isAjaxRequest = req.xhr;
 
   if (isAjaxRequest) {

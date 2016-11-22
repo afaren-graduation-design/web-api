@@ -7,14 +7,14 @@ var bodyParser = require('body-parser');
 var route = require('./routes/route');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-var checkSession = require('./middleware/check-session');
-var util = require('util');
+// var checkSession = require('./middleware/check-session');
+// var util = require('util');
 var mongoConn = require('./services/mongo-conn');
 var MongoStore = require('connect-mongo')(session);
-var constant = require('./mixin/constant');
+// var constant = require('./mixin/constant');
 var yamlConfig = require('node-yaml-config');
-var md5 = require("js-md5");
-var verifyToken = require("./middleware/verify-token");
+// var md5 = require('js-md5');
+// var verifyToken = require('./middleware/verify-token');
 
 var captcha = require('./middleware/captcha');
 var config = yamlConfig.load(__dirname + '/config/config.yml');
@@ -36,41 +36,43 @@ app.use(bodyParser.urlencoded({
 }));
 
 var params = {
-  "url": "/captcha.jpg",
-  "color": "#ffffff",
-  "background": "#000000",
-  "lineWidth": 1,
-  "fontSize": 25,
-  "codeLength": 4,
-  "canvasWidth": 72,
-  "canvasHeight": 34
+  'url': '/captcha.jpg',
+  'color': '#ffffff',
+  'background': '#000000',
+  'lineWidth': 1,
+  'fontSize': 25,
+  'codeLength': 4,
+  'canvasWidth': 72,
+  'canvasHeight': 34
 };
 
-if('test' ===  env) {
-  params.text = "1234";
+if (env === 'test') {
+  params.text = '1234';
 }
 
 app.use(captcha(params));
 
 app.use(bodyParser.json());
 
-
 // app.use(verifyToken);
 // app.use(checkSession);
 
 route.setRoutes(app);
 
-app.use(function (err,req, res, next) {
-  res.status(404).send("Not Found!");
+app.use((err, req, res, next) => {
+  if (err) {
+    return next(err);
+  }
+  res.status(404).send('Not Found!');
 });
 
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   if (err) {
     res.status(500).send(err.stack);
   }
 });
 
-app.listen(config.port, function () {
+app.listen(config.port, () => {
   console.log('Current environment is: ' + env);
   console.log('App listening at http://localhost:' + config.port);
   mongoConn.start(config.database);

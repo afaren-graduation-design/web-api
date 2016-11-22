@@ -5,7 +5,7 @@ var constant = require('../mixin/constant');
 var async = require('async');
 var apiRequest = require('../services/api-request');
 
-function LogicPuzzleController () {
+function LogicPuzzleController() {
 }
 
 LogicPuzzleController.prototype.getLogicPuzzle = (req, res) => {
