@@ -266,7 +266,7 @@
     ],
     "space-before-function-paren": [
       2,
-      "always"
+      "never"
     ],
     "space-in-parens": [
       2,
@@ -316,7 +316,7 @@
     "complexity": [
       2,
       {
-        "max": 2
+        "max": 4
       }
     ],
     "standard/object-curly-even-spacing": [
