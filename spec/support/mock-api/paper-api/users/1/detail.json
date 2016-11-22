@@ -42,5 +42,81 @@
         "uri":"userDetail/1"
       }
     }
+  },
+  {
+    "description": "should_return_user_list",
+    "request": {
+      "uri": "/users/1,1,1,1,1/detail",
+      "method": "get"
+    },
+    "response": {
+      "status": 200,
+      "json": [
+        {
+          "userId": 1,
+          "name": "wang"
+        },
+        {
+          "userId": 1,
+          "name": "wang"
+        },
+        {
+          "userId": 1,
+          "name": "wang"
+        },
+        {
+          "userId": 1,
+          "name": "wang"
+        },
+        {
+          "userId": 1,
+          "name": "wang"
+        }
+      ]
+    }
+  },
+  {
+    "description": "should_return_user_list",
+    "request": {
+      "uri": "/users/1,1,1/detail",
+      "method": "get"
+    },
+    "response": {
+      "status": 200,
+      "json": [
+        {
+          "userId": 1,
+          "name": "wang"
+        },
+        {
+          "userId": 1,
+          "name": "wang"
+        },
+        {
+          "userId": 1,
+          "name": "wang"
+        }
+      ]
+    }
+  },
+  {
+    "description": "should_return_user_list",
+    "request": {
+      "uri": "/users/1,1/detail",
+      "method": "get"
+    },
+    "response": {
+      "status": 200,
+      "json": [
+        {
+          "userId": 1,
+          "name": "wang"
+        },
+        {
+          "userId": 1,
+          "name": "wang"
+        }
+      ]
+    }
   }
 ]
