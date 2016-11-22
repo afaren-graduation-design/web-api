@@ -22,7 +22,7 @@ var start = function (mongoURL) {
   });
 };
 
-function status () {
+function status() {
   return {
     mongodb: mongoStatus
   };
