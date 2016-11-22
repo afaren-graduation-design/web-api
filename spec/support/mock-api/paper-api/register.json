@@ -13,11 +13,11 @@
     "response": {
       "json": {
         "userInfo": {
-          "uri": "userInfo/8"
+          "uri": "userInfo/9"
         },
-        "id": 8,
+        "id": 9,
         "user": {
-          "uri": "user/8"
+          "uri": "user/9"
         }
       }
     }
