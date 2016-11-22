@@ -3,6 +3,7 @@
 var HomeworkDefinition = require('../models/homework-definition');
 var apiRequest = require('../services/api-request');
 
+
 function HomeworkProgramController() {
 
 };
@@ -164,4 +165,11 @@ HomeworkProgramController.prototype.insertHomework = (req, res) => {
     }
   })
 };
+
+HomeworkProgramController.prototype.insertEvaluateScript = (req, res)=> {
+  res.send({
+    name: req.file
+  });
+};
+
 module.exports = HomeworkProgramController;
