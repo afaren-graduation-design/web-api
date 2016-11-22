@@ -10,7 +10,7 @@ var should = require("should");
 
 var externalTest = require("./external-test");
 
-var serverAddr = "http://192.168.99.100:8080";
+var serverAddr = "http://localhost:8080";
 
 app.use(proxy(serverAddr, {
   forwardPath: function(req, res) {
@@ -30,6 +30,8 @@ function buildspec(data, done) {
     res.body.should.deepEqual(data.response.json);
   };
 
+  console.log(`
+[${method}] `+data.request.uri);
   request(app)[method](data.request.uri)
     .query(queryData)
     .send(postData)
