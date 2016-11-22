@@ -12,7 +12,7 @@ var md5 = require('js-md5');
 var constant = require('../../mixin/constant');
 var apiRequest = require('../../services/api-request');
 
-router.get('/', function (req, res) {
+router.get('/', function(req, res) {
   if (req.session.user) {
     var userId = req.session.user.id;
     var result;
@@ -51,11 +51,11 @@ router.get('/', function (req, res) {
       }
     });
   } else {
-    res.send({ status: constant.httpCode.ACCEPTED });
+    res.send({status: constant.httpCode.ACCEPTED});
   }
 });
 
-router.put('/update', function (req, res, next) {
+router.put('/update', function(req, res, next) {
   var userId = req.session.user.id;
   var userInfo = req.body.data;
 
@@ -63,10 +63,11 @@ router.put('/update', function (req, res, next) {
 
   if (validate(result, userConstraint) === undefined && result.gender !== '') {
     var url = 'users/' + userId + '/detail';
-    apiRequest.put(url, result, function (err, resp) {
+    apiRequest.put(url, result, function(err, resp) {
       if (err) {
         return next(err);
-      } if (resp === undefined) {
+      }
+      if (resp === undefined) {
         res.send({
           status: constant.httpCode.INTERNAL_SERVER_ERROR
         });
@@ -90,7 +91,7 @@ router.put('/update', function (req, res, next) {
   }
 });
 
-router.put('/change-password', function (req, res, next) {
+router.put('/change-password', function(req, res, next) {
   var userId = req.session.user.id;
   var passwordInfo = req.body.data;
 
@@ -103,10 +104,11 @@ router.put('/change-password', function (req, res, next) {
     partResult.password = md5(passwordInfo.newPassword);
     var url = 'users/' + userId + '/password';
 
-    apiRequest.put(url, partResult, function (err, resp) {
+    apiRequest.put(url, partResult, function(err, resp) {
       if (err) {
         return next(err);
-      } if (resp === undefined) {
+      }
+      if (resp === undefined) {
         res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
         res.send({
           status: constant.httpCode.INTERNAL_SERVER_ERROR
