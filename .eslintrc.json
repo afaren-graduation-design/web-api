@@ -2,8 +2,7 @@
   "parserOptions": {
     "ecmaVersion": 6,
     "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "jsx": true
+      "experimentalObjectRestSpread": true
     },
     "sourceType": "module"
   },
@@ -117,6 +116,7 @@
         "capIsNew": false
       }
     ],
+	"no-console": 2,
     "new-parens": 2,
     "no-array-constructor": 2,
     "no-caller": 2,
