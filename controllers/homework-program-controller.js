@@ -137,9 +137,7 @@ HomeworkProgramController.prototype.insertHomework = (req, res) => {
 };
 
 HomeworkProgramController.prototype.insertEvaluateScript = (req, res)=> {
-  res.send({
-    name: req.file
-  });
+  res.send(req.file);
 };
 
 module.exports = HomeworkProgramController;
