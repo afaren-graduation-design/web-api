@@ -38,7 +38,7 @@
   {
     "programId": 1,
     "isDistribution": false,
-    "makerId": 2,
+    "makerId": 1,
     "description": "这是描述",
     "title": "java",
     "createTime": "2016-11-15",
@@ -71,7 +71,7 @@
   {
     "programId": 1,
     "isDistribution": false,
-    "makerId": 3,
+    "makerId": 1,
     "description": "这是描述",
     "title": "c#",
     "createTime": "2016-11-16",
@@ -104,7 +104,7 @@
   {
     "programId": 1,
     "isDistribution": false,
-    "makerId": 4,
+    "makerId": 1,
     "description": "这是描述",
     "title": "第一份试卷",
     "createTime": "2016-11-14",
@@ -137,7 +137,7 @@
   {
     "programId": 1,
     "isDistribution": false,
-    "makerId": 5,
+    "makerId": 1,
     "description": "这是描述",
     "title": "第一份试卷",
     "createTime": "2016-11-14",
@@ -170,7 +170,7 @@
   {
     "programId": 1,
     "isDistribution": false,
-    "makerId": 6,
+    "makerId": 1,
     "description": "这是描述",
     "title": "第一份试卷",
     "createTime": "2016-11-14",
@@ -203,7 +203,7 @@
   {
     "programId": 1,
     "isDistribution": false,
-    "makerId": 7,
+    "makerId": 1,
     "description": "这是描述",
     "title": "第一份试卷",
     "createTime": "2016-11-14",
@@ -236,7 +236,7 @@
   {
     "programId": 1,
     "isDistribution": false,
-    "makerId": 8,
+    "makerId": 1,
     "description": "这是描述",
     "title": "第一份试卷",
     "createTime": "2016-11-14",
@@ -269,7 +269,7 @@
   {
     "programId": 1,
     "isDistribution": false,
-    "makerId": 9,
+    "makerId": 1,
     "description": "这是描述",
     "title": "第一份试卷",
     "createTime": "2016-11-14",

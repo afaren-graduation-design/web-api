@@ -64,6 +64,9 @@
   },
   {
     "include": "spec/support/mock-api/paper-api/program-paper/distribution.json"
+  },
+  {
+    "include": "spec/support/mock-api/paper-api/program-paper/findNameById.json"
   }
 
 ]
