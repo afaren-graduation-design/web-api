@@ -31,7 +31,6 @@ var emailServer = {
 
     transporter.sendMail(mailOptions, function(error, info) {
       if (error) {
-        console.log('邮件发送失败：' + error);
         callback(true, {
           status: constant.httpCode.NOT_FOUND
         });

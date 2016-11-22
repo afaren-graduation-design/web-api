@@ -10,7 +10,6 @@ var start = function(mongoURL) {
 
   conn.on('error', function(err) {
     mongoStatus = err;
-    console.error(err);
   });
 
   conn.on('connected', function() {
@@ -31,14 +30,12 @@ function status() {
 // If the Node process ends, close the Mongoose connection
 process.on('SIGINT', function() {
   mongoose.connection.close(function() {
-    console.log('Mongoose default connection disconnected through app termination');
     process.exit(0);
   });
 });
 
 process.on('uncaughtException', function(err) {
   mongoStatus = err;
-  console.log(err.stack);
 });
 
 module.exports = {

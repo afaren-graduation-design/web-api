@@ -73,8 +73,6 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(config.port, () => {
-  console.log('Current environment is: ' + env);
-  console.log('App listening at http://localhost:' + config.port);
   mongoConn.start(config.database);
 });
 

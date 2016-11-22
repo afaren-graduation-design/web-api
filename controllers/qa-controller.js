@@ -40,7 +40,6 @@ QAController.prototype.updateQAInfo = (req, res, next) => {
     }
   ], (err) => {
     if (err) {
-      console.log(err);
       return next(err);
     }
 

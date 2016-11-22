@@ -2,7 +2,6 @@ var express = require('express');
 var multer = require('multer');
 
 var router = express.Router();
-console.log('HomeworkProgramController');
 var HomeworkProgramController = require('../../controllers/homework-program-controller');
 var homeworkProgramController = new HomeworkProgramController();
 

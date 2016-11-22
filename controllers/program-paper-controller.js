@@ -156,7 +156,6 @@ ProgramPaperController.prototype.getPaperList = (req, res, next) => {
 
 ProgramPaperController.prototype.deleteBatch = (req, res) => {
   let papersIds = req.body.papersIds;
-  console.log(papersIds);
   let status = papersIds.map((papersId) => {
     PaperDefinition.update({_id: papersId}, {$set: {isDeleted: true}}, (err) => {
       if (!err) {

@@ -9,7 +9,6 @@ module.exports = (req, res, next) => {
   const uuid = req.cookies.uuid;
 
   Token.findOne({uuid}, (err, user) => {
-    console.log(user);
     if (err || !user) {
       res.sendStatus(401);
     } else {
