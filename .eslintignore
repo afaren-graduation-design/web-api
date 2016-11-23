@@ -1,3 +1,4 @@
 spec/*
 node_modules/*
 coverage/*
+middleware/captcha.js

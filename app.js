@@ -17,7 +17,9 @@ var yamlConfig = require('node-yaml-config');
 // var verifyToken = require('./middleware/verify-token');
 
 var captcha = require('./middleware/captcha');
-var config = yamlConfig.load(__dirname + '/config/config.yml');
+
+var path = require('path');
+var config = yamlConfig.load(path.join(__dirname, '/config/config.yml'));
 
 var env = ['production', 'test', 'staging', 'integration'].indexOf(process.env.NODE_ENV) < 0 ? 'development' : process.env.NODE_ENV;
 

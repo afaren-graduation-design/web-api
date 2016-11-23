@@ -7,6 +7,7 @@ var moment = require('moment');
 var userHomeworkQuizzes = require('../models/user-homework-quizzes');
 var homeworkScoring = require('../models/homework-scoring');
 var UserChannel = require('../models/user-channel.js');
+var path = require('path');
 
 var yamlConfig = require('node-yaml-config');
 var config = yamlConfig.load('./config/config.yml');
@@ -193,7 +194,7 @@ ReportController.prototype.exportPaperScoresheetCsv = (req, res, next) => {
     if (err) {
       return next(err);
     } else {
-      fs.readFile(__dirname + '/../views/paper-scoresheet-csv.ejs', (err, data) => {
+      fs.readFile(path.join(__dirname, '/../views/paper-scoresheet-csv.ejs'), (err, data) => {
         if (err) {
           return next(err);
         }
@@ -334,7 +335,7 @@ ReportController.prototype.exportUserHomeworkDetailsCsv = (req, res, next) => {
       return next(err);
     }
 
-    fs.readFile(__dirname + '/../views/userhomeworkdetailscsv.ejs', (err, data) => {
+    fs.readFile(path.join(__dirname, '/../views/userhomeworkdetailscsv.ejs'), (err, data) => {
       if (err) {
         next(err);
       }
@@ -367,18 +368,16 @@ function unescapeHTML(str) {
   var rentityCodeHex = /^#x([\da-fA-F]+)$/;
   var rentityCode = /^#(\d+)$/;
   str = str.replace(runescapeEntity, (entity, entityCode) => {
-    var match;
-
     if (unescapeEntity.hasOwnProperty(entity)) {
       return unescapeEntity[entity];
     }
 
-    if (match = entityCode.match(rentityCodeHex)) {
-      return String.fromCharCode(parseInt(match[1], 16));
+    if (entityCode.match(rentityCodeHex)) {
+      return String.fromCharCode(parseInt(entityCode.match(rentityCodeHex)[1], 16));
     }
 
-    if (match = entityCode.match(rentityCode)) {
-      return String.fromCharCode(match[1]);
+    if (entityCode.match(rentityCode)) {
+      return String.fromCharCode(entityCode.match(rentityCode)[1]);
     }
 
     return entity;
@@ -497,7 +496,7 @@ ReportController.prototype.exportUserHomeworkQuizDetailsCsv = (req, res, next) =
       return next(err);
     }
 
-    fs.readFile(__dirname + '/../views/userhomeworkquizdetailscsv.ejs', (err, data) => {
+    fs.readFile(path.join(__dirname, '/../views/userhomeworkquizdetailscsv.ejs'), (err, data) => {
       if (err) {
         return next(err);
       }

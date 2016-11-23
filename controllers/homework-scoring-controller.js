@@ -4,18 +4,19 @@ var request = require('superagent');
 var userHomeworkScoring = require('../models/homework-scoring');
 var yamlConfig = require('node-yaml-config');
 
-var taskApi = yamlConfig.load(__dirname + '/../config/config.yml').taskApi;
+var path = require('path');
+var taskApi = yamlConfig.load(path.join(__dirname, '/config/config.yml')).taskApi;
 
 var homeworkScoringController = {
   getScoring: (req, res, next) => {
     // fixme : find 函数内需要参数
     userHomeworkScoring.find()
-    .exec((err, data) => {
-      if (err) {
-        return next(err);
-      }
-      res.send(data);
-    });
+      .exec((err, data) => {
+        if (err) {
+          return next(err);
+        }
+        res.send(data);
+      });
   },
 
   createScoring: (req, res, next) => {

@@ -316,7 +316,7 @@
     "complexity": [
       2,
       {
-        "max": 4
+        "max": 5
       }
     ],
     "standard/object-curly-even-spacing": [

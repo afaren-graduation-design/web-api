@@ -6,7 +6,8 @@ var mongoose = require('mongoose');
 var userHomeworkQuizzes = require('../../models/user-homework-quizzes');
 var homeworkScoring = require('../../models/homework-scoring');
 var yamlConfig = require('node-yaml-config');
-var config = yamlConfig.load(__dirname + '/../../config/config.yml');
+var path = require('path');
+var config = yamlConfig.load(path.join(__dirname, '/../../config/config.yml'));
 var apiRequest = require('../api-request');
 
 var taskApi = config.taskApi;

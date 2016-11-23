@@ -5,7 +5,7 @@ function UsernameController() {
 
 }
 
-UsernameController.prototype.getUsername = (req, res) => {
+UsernameController.prototype.getUsername = (req, res, next) => {
   var uuid = req.cookies.uuid;
   Token.findOne({uuid}).exec((err, user) => {
     if (!err && user) {
