@@ -23,7 +23,7 @@ function checkLoginInfo(account, password) {
   }
 
   if (password.length < constant.PASSWORD_MIN_LENGTH ||
-      password.length > constant.PASSWORD_MAX_LENGTH) {
+    password.length > constant.PASSWORD_MAX_LENGTH) {
     pass = false;
   }
   return pass;
@@ -81,4 +81,3 @@ LoginController.prototype.login = (req, res, next) => {
 };
 
 module.exports = LoginController;
-

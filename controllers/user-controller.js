@@ -47,11 +47,11 @@ function getUsersCommitHistory(commitHistoryFilter, callback) {
   var url = config.taskServer + 'tasks';
 
   superAgent.get(url)
-      .set('Content-Type', 'application/json')
-      .query({
-        filter: JSON.stringify(filter)
-      })
-      .end(callback);
+    .set('Content-Type', 'application/json')
+    .query({
+      filter: JSON.stringify(filter)
+    })
+    .end(callback);
 }
 
 function getHomeworkDetailsByUserId(userId, callback) {

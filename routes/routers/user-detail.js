@@ -96,8 +96,8 @@ router.put('/change-password', function(req, res, next) {
   var passwordInfo = req.body.data;
 
   if (validate(passwordInfo, passwordConstraint) === undefined &&
-      validate(passwordInfo, newPasswordConstraint) === undefined &&
-      passwordInfo.newPassword === passwordInfo.confirmPassword) {
+    validate(passwordInfo, newPasswordConstraint) === undefined &&
+    passwordInfo.newPassword === passwordInfo.confirmPassword) {
     var partResult = {};
 
     partResult.oldPassword = md5(passwordInfo.oldPassword);

@@ -51,51 +51,51 @@ userHomeworkQuizzesSchema.statics.initUserHomeworkQuizzes = function(userId, qui
 
 userHomeworkQuizzesSchema.statics.getQuizStatus = function(userId, callback) {
   this.findOne({userId: userId})
-      .exec((err, doc) => {
-        return callback(err, doc.quizzes.map((item) => {
-          return {status: item.status};
-        }));
-        // if (err || !doc) {
-        //  callback(err || 'NOT_FOUND');
-        // } else {
-        //  var result = [];
-        //
-        //  doc.quizzes.forEach((item, index) => {
-        //    var historyLength = item.homeworkSubmitPostHistory.length;
-        //    // 如果有历史记录，则返回历史记录的状态
-        //    if (historyLength) {
-        //      result.push({
-        //        status: item.homeworkSubmitPostHistory[historyLength - 1].status
-        //      });
-        //      // 如果是第一题，则直接解锁
-        //    } else if (!index) {
-        //      result.push({
-        //        status: constant.homeworkQuizzesStatus.ACTIVE
-        //      });
-        //      // 如果上一题已经成功，则直接解锁
-        //    } else if (doc.quizzes[index - 1].homeworkSubmitPostHistory.length) {
-        //      var lastStatus = doc.quizzes[index - 1].homeworkSubmitPostHistory.pop().status;
-        //
-        //      if (lastStatus === constant.homeworkQuizzesStatus.SUCCESS) {
-        //        result.push({
-        //          status: constant.homeworkQuizzesStatus.ACTIVE
-        //        });
-        //      } else {
-        //        result.push({
-        //          status: constant.homeworkQuizzesStatus.LOCKED
-        //        });
-        //      }
-        //      // 否则是锁
-        //    } else {
-        //      result.push({
-        //        status: constant.homeworkQuizzesStatus.LOCKED
-        //      });
-        //    }
-        //  });
-        //
-        //  callback(null, result);
-        // }
-      });
+    .exec((err, doc) => {
+      return callback(err, doc.quizzes.map((item) => {
+        return {status: item.status};
+      }));
+      // if (err || !doc) {
+      //  callback(err || 'NOT_FOUND');
+      // } else {
+      //  var result = [];
+      //
+      //  doc.quizzes.forEach((item, index) => {
+      //    var historyLength = item.homeworkSubmitPostHistory.length;
+      //    // 如果有历史记录，则返回历史记录的状态
+      //    if (historyLength) {
+      //      result.push({
+      //        status: item.homeworkSubmitPostHistory[historyLength - 1].status
+      //      });
+      //      // 如果是第一题，则直接解锁
+      //    } else if (!index) {
+      //      result.push({
+      //        status: constant.homeworkQuizzesStatus.ACTIVE
+      //      });
+      //      // 如果上一题已经成功，则直接解锁
+      //    } else if (doc.quizzes[index - 1].homeworkSubmitPostHistory.length) {
+      //      var lastStatus = doc.quizzes[index - 1].homeworkSubmitPostHistory.pop().status;
+      //
+      //      if (lastStatus === constant.homeworkQuizzesStatus.SUCCESS) {
+      //        result.push({
+      //          status: constant.homeworkQuizzesStatus.ACTIVE
+      //        });
+      //      } else {
+      //        result.push({
+      //          status: constant.homeworkQuizzesStatus.LOCKED
+      //        });
+      //      }
+      //      // 否则是锁
+      //    } else {
+      //      result.push({
+      //        status: constant.homeworkQuizzesStatus.LOCKED
+      //      });
+      //    }
+      //  });
+      //
+      //  callback(null, result);
+      // }
+    });
 };
 
 userHomeworkQuizzesSchema.statics.findProgressTasks = function(callback) {

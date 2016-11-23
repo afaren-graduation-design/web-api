@@ -2,7 +2,7 @@
 
 var express = require('express');
 var router = express.Router();
-// var request = require('superagent');
+var request = require('superagent');
 var async = require('async');
 var apiRequest = require('../../services/api-request');
 var mongoConn = require('../../services/mongo-conn');

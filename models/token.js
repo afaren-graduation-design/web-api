@@ -1,6 +1,3 @@
-/**
- * Created by zhangpei on 16/11/3.
- */
 'use strict';
 
 var mongoose = require('mongoose');

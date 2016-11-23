@@ -22,7 +22,7 @@ var storage = multer.diskStorage({
   }
 });
 
-var upload = multer({ storage: storage });
+var upload = multer({storage: storage});
 
 router.post('/:homeworkId/evaluateScript', upload.single('script'), homeworkProgramController.insertEvaluateScript);
 

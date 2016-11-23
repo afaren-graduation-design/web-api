@@ -57,7 +57,7 @@ logicPuzzleSchema.statics.isPaperCommited = function(userId, callback) {
   });
 };
 
-logicPuzzleSchema.statics.getLogicPuzzle = function(orderId, userId) {
+logicPuzzleSchema.statics.getLogicPuzzle = function (orderId, userId) {
   var userAnswer;
   var itemsCount;
 
