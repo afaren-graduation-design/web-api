@@ -22,26 +22,26 @@ DashboardController.prototype.isCommited = (req, res) => {
     (data, done) => {
       var currentQuiz = data.quizzes.filter((quiz) => {
         return quiz.status !== constant.homeworkQuizzesStatus.LOCKED &&
-            quiz.status !== constant.homeworkQuizzesStatus.SUCCESS;
+          quiz.status !== constant.homeworkQuizzesStatus.SUCCESS;
       })[0];
       if (currentQuiz) {
         var currentTime = parseInt(new Date().getTime()) /
-            (constant.time.SECONDS_PER_MINUTE *
-            constant.time.MINUTE_PER_HOUR *
-            constant.time.HOURS_PER_DAY *
-            constant.time.MILLISECOND_PER_SECONDS);
+          (constant.time.SECONDS_PER_MINUTE *
+          constant.time.MINUTE_PER_HOUR *
+          constant.time.HOURS_PER_DAY *
+          constant.time.MILLISECOND_PER_SECONDS);
         var startTime = parseInt(currentQuiz.startTime) /
-            (constant.time.SECONDS_PER_MINUTE *
-            constant.time.MINUTE_PER_HOUR *
-            constant.time.HOURS_PER_DAY);
+          (constant.time.SECONDS_PER_MINUTE *
+          constant.time.MINUTE_PER_HOUR *
+          constant.time.HOURS_PER_DAY);
 
         isOverTime = parseInt(currentTime - startTime) > deadline;
       } else {
         isOverTime = false;
       }
       isFinished = data.quizzes.filter((quiz) => {
-        return quiz.status !== constant.homeworkQuizzesStatus.SUCCESS;
-      }).length === 0;
+          return quiz.status !== constant.homeworkQuizzesStatus.SUCCESS;
+        }).length === 0;
       done(null, null);
     }
   ], (err) => {

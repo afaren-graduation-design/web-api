@@ -13,9 +13,9 @@ LogicPuzzleController.prototype.getLogicPuzzle = (req, res) => {
   var userId = req.session.user.id;
 
   logicPuzzle.getLogicPuzzle(orderId, userId)
-      .then((data) => {
-        res.send(data);
-      });
+    .then((data) => {
+      res.send(data);
+    });
 };
 
 LogicPuzzleController.prototype.saveAnswer = (req, res) => {
