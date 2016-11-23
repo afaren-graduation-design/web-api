@@ -40,8 +40,8 @@ DashboardController.prototype.isCommited = (req, res) => {
         isOverTime = false;
       }
       isFinished = data.quizzes.filter((quiz) => {
-          return quiz.status !== constant.homeworkQuizzesStatus.SUCCESS;
-        }).length === 0;
+        return quiz.status !== constant.homeworkQuizzesStatus.SUCCESS;
+      }).length === 0;
       done(null, null);
     }
   ], (err) => {

@@ -18,7 +18,6 @@ LogoutController.prototype.logout = (req, res, next) => {
       return;
     }
   });
-    
 };
 
 module.exports = LogoutController;

@@ -85,11 +85,11 @@ function getUserDataByPaperId(paperId, callback) {
     },
     (data, done) => {
       UserChannel.find()
-          .populate('channelId')
-          .exec((err, usersChannels) => {
-            userData.channels = usersChannels;
-            done(err, null);
-          });
+        .populate('channelId')
+        .exec((err, usersChannels) => {
+          userData.channels = usersChannels;
+          done(err, null);
+        });
     }], (err, result) => {
     callback(err, userData);
   });
