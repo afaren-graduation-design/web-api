@@ -107,13 +107,41 @@
       "uri": "/papers/",
       "method": "post",
       "json": {
-        "makerId": 1,
-        "paperName": "easy"
+        "makerId": 6,
+        "paperName": "php",
+        "programId": 1,
+        "sections": {
+          "blankQuizzes": {
+            "quizType": "blankQuizzes",
+            "description": "no",
+            "items": [
+              {
+                "easyCount": 1,
+                "normalCount": 2,
+                "hardCount": 3,
+                "exampleCount": 1
+              }
+            ]
+          },
+          "homeworkQuizzes": {
+            "quizType": "blankQuizzes",
+            "description": "homework",
+            "quizzes": [
+              {
+                "definitions": {
+                  "description": "lalala",
+                  "templateRepository": "HTTP://PHP",
+                  "evaluateScript": "test"
+                }
+              }
+            ]
+          }
+        }
       }
     },
     "response": {
       "json": {
-        "paperId": 5
+        "uri": "papers/13"
       }
     }
   }
