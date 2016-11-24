@@ -207,17 +207,15 @@ ProgramPaperController.prototype.selectPaper = (req, res, next) => {
   });
 };
 
-ProgramPaperController.prototype.deleteSomePapers = (req,res)=>{
-    var idArray = req.body.idArray;
-    PaperDefinition.update({_id:{$in:idArray}},{isDeleted:true},{multi: true}).exec((err,data)=>{
-        if(!err && data){
-            res.status(204).end();
-        }else {
-            res.status(400).end();
-        }
-    })
+ProgramPaperController.prototype.deleteSomePapers = (req, res) => {
+  var idArray = req.body.idArray;
+  PaperDefinition.update({_id: {$in: idArray}}, {isDeleted: true}, {multi: true}).exec((err, data) => {
+    if (!err && data) {
+      res.status(204).end();
+    } else {
+      res.status(400).end();
+    }
+  });
 };
-
-
 
 module.exports = ProgramPaperController;

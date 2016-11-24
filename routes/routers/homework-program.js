@@ -7,7 +7,7 @@ var homeworkProgramController = new HomeworkProgramController();
 
 router.get('/search', homeworkProgramController.matchHomework);
 router.get('/', homeworkProgramController.getHomeworkList);
-router.delete('/deletion',homeworkProgramController.deleteSomeHomeworks);
+router.delete('/deletion', homeworkProgramController.deleteSomeHomeworks);
 router.put('/:homeworkId', homeworkProgramController.updateHomework);
 router.get('/:homeworkId', homeworkProgramController.getOneHomework);
 router.delete('/:homeworkId', homeworkProgramController.deleteHomework);
@@ -22,7 +22,6 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({storage: storage});
-
 
 router.post('/:homeworkId/evaluateScript', upload.single('script'), homeworkProgramController.insertEvaluateScript);
 router.post('/', homeworkProgramController.insertHomework);
