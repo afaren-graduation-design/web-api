@@ -33,7 +33,7 @@
   }
 },
   {
-    "description": "should_login_in_as_admin_when_give_test_account---",
+    "description": "should_login_in_as_admin_when_give_test_account",
     "request" :{
       "uri": "/login",
       "method" : "post",
