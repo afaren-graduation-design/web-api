@@ -17,9 +17,7 @@
       {
         "uri":"blankQuizzes/5"},
       {
-        "uri":"blankQuizzes/6"},
-      {
-        "uri":"blankQuizzes/7"}
+        "uri":"blankQuizzes/6"}
     ]
   }
 }, {
@@ -36,8 +34,8 @@
   },
   "response": {
     "status" : 201,
-    "json": {"id":8,
-      "uri":"blankQuizzes/8"}
+    "json": {"id":7,
+      "uri":"blankQuizzes/7"}
   }
 }
 ]
