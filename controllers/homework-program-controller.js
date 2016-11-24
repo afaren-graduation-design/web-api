@@ -2,15 +2,10 @@
 
 var HomeworkDefinition = require('../models/homework-definition');
 var apiRequest = require('../services/api-request');
-<<<<<<< HEAD
 var unique = require('../tool/unique');
 var addMakerName = require('../tool/addMakerName');
-=======
 var request = require('superagent');
 var yamlConfig = require('node-yaml-config');
-var os = require('os');
-
->>>>>>> add the delete some papers api
 
 var taskApi = yamlConfig.load(__dirname + '/../config/config.yml').taskApi;
 
@@ -19,33 +14,14 @@ var taskApi = yamlConfig.load(__dirname + '/../config/config.yml').taskApi;
 function HomeworkProgramController() {
 };
 
-<<<<<<< HEAD
-=======
-
-
-function unique(array){
-  var n = [];//临时数组
-  for(var i = 0;i < array.length; i++){
-    if(n.indexOf(array[i]) == -1) n.push(array[i]);
-  }
-  return n;
-}
-
->>>>>>> add the delete some papers api
 HomeworkProgramController.prototype.getHomeworkList = (req, res) => {
   let pageCount = req.query.pageCount;
   let page = req.query.page;
   let skipCount = pageCount * (page - 1);
   let homeworks;
-<<<<<<< HEAD
-  HomeworkDefinition.find({isDeleted: false}).limit(Number(pageCount)).skip(skipCount).exec((err, data) => {
-    HomeworkDefinition.count({isDeleted: false}, (error, count) => {
-      if (!err && !error && count && data) {
-=======
   HomeworkDefinition.find({isDeleted: false}).limit(Number(pageCount)).skip(skipCount).exec((err, data)=> {
     HomeworkDefinition.count({isDeleted: false}, (error, count) => {
       if (!err   && !error && count && data) {
->>>>>>> add the delete some papers api
         let totalPage = Math.ceil(count / pageCount);
         let ids = data.map((homework) => {
           return homework.makerId;
@@ -53,27 +29,7 @@ HomeworkProgramController.prototype.getHomeworkList = (req, res) => {
         let id = unique(ids);
         apiRequest.get('users/' + id + '/detail', (err, resp) => {
           if (!err && resp) {
-<<<<<<< HEAD
             homeworks = addMakerName(resp, data);
-=======
-            if(resp.length){
-                homeworks = resp.body.map((response) => {
-                let homeworkItem = data.filter((dataItem) => {
-                  return dataItem.makerId === response.userId;
-                }).map((item) => {
-                  item.makerName = response.name;
-                  return item;
-                });
-                return homeworkItem;
-              });
-            }else{
-              homeworks = data.map((dataItem) => {
-                  let item = dataItem.toJSON();
-                  item.username = resp.body.name;
-                  return item;
-              });
-            }
->>>>>>> add the delete some papers api
             if (page === totalPage) {
               return res.status(202).send({data: homeworks, totalPage});
             }
