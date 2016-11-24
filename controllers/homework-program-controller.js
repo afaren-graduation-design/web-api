@@ -115,7 +115,6 @@ HomeworkProgramController.prototype.insertHomework = (req, res) => {
     description: '',
     // makerId,
     status: 0,
-    makerName: '',
     isDeleted: false,
     uri: '',
     createTime,

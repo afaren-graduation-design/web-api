@@ -303,7 +303,7 @@
   {
     "programId": 1,
     "isDistribution": false,
-    "makerId": 10,
+    "makerId": 1,
     "description": "这是描述",
     "title": "第一份试卷",
     "createTime": "2016-11-14",
@@ -336,7 +336,7 @@
   {
     "programId": 1,
     "isDistribution": false,
-    "makerId": 11,
+    "makerId": 1,
     "description": "这是描述",
     "title": "第一份试卷",
     "createTime": "2016-11-14",

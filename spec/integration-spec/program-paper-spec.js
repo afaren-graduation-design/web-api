@@ -108,11 +108,11 @@ describe("GET program/:programId/papers", ()=> {
       .get('/program/1/papers')
       .query({
         page: 1,
-        pageCount: 3
+        pageCount: 10
       })
       .expect(200)
       .expect((res)=> {
-        res.body.data.length.should.equal(3);
+        res.body.data.length.should.equal(10);
       })
       .end(done)
   })
