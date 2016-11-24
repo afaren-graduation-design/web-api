@@ -1,6 +1,6 @@
 'use strict';
 
-exports.setRoutes = function (app) {
+exports.setRoutes = (app) => {
   app.use('/register', require('./routers/register'));
   app.use('/logic-puzzle', require('./routers/logic-puzzle'));
   app.use('/login', require('./routers/login'));
@@ -29,5 +29,5 @@ exports.setRoutes = function (app) {
   app.use('/teacher-login', require('./routers/teacher-login'));
   app.use('/program', require('./routers/program-paper'));
   app.use('/username', require('./routers/username'));
-  app.use('/homeworks',require('./routers/homework-program'));
+  app.use('/homeworks', require('./routers/homework-program'));
 };

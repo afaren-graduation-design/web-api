@@ -7,7 +7,7 @@ var _timeBase = 90;
 var logicPuzzle = require('../../models/logic-puzzle');
 var async = require('async');
 
-router.get('/remain-time', function (req, res) {
+router.get('/remain-time', function(req, res) {
   var TOTAL_TIME = _timeBase * constant.time.SECONDS_PER_MINUTE;
   var userId = req.session.user ? req.session.user.id : 'invalid';
   var sectionId = req.query.sectionId ? parseInt(req.query.sectionId) : 1;

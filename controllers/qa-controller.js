@@ -5,7 +5,7 @@ var Configuration = require('../models/configuration');
 var async = require('async');
 var request = require('superagent');
 
-function QAController () {
+function QAController() {
 }
 
 QAController.prototype.loadQAInfo = (req, res, next) => {
@@ -40,7 +40,6 @@ QAController.prototype.updateQAInfo = (req, res, next) => {
     }
   ], (err) => {
     if (err) {
-      console.log(err);
       return next(err);
     }
 

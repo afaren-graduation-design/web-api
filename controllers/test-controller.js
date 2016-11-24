@@ -4,13 +4,13 @@ var apiRequest = require('../services/api-request');
 var constant = require('../mixin/constant');
 var logicPuzzle = require('../models/logic-puzzle');
 
-function TestController () {
+function TestController() {
 
 }
 TestController.prototype.isDetailed = (req, res, next) => {
   var userId = req.session.user.id;
   var uri = 'users/' + userId + '/detail';
-  apiRequest.get(uri, function (err, resp) {
+  apiRequest.get(uri, (err, resp) => {
     if (err) {
       return next(err);
     } else if (resp === undefined) {
@@ -37,7 +37,7 @@ TestController.prototype.isDetailed = (req, res, next) => {
 TestController.prototype.isPaperCommitted = (req, res, next) => {
   var userId = req.session.user.id;
 
-  logicPuzzle.isPaperCommited(userId, function (err, data) {
+  logicPuzzle.isPaperCommited(userId, (err, data) => {
     if (err) {
       return next(err);
     } else {

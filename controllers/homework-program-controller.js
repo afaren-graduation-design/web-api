@@ -1,10 +1,9 @@
-"use strict";
+'use strict';
 
 var HomeworkDefinition = require('../models/homework-definition');
 var apiRequest = require('../services/api-request');
 var unique = require('../tool/unique');
 var addMakerName = require('../tool/addMakerName');
-
 
 function HomeworkProgramController() {
 
@@ -15,15 +14,15 @@ HomeworkProgramController.prototype.getHomeworkList = (req, res) => {
   let page = req.query.page;
   let skipCount = pageCount * (page - 1);
   let homeworks;
-  HomeworkDefinition.find({isDeleted: false}).limit(Number(pageCount)).skip(skipCount).exec((err, data)=> {
+  HomeworkDefinition.find({isDeleted: false}).limit(Number(pageCount)).skip(skipCount).exec((err, data) => {
     HomeworkDefinition.count({isDeleted: false}, (error, count) => {
       if (!err && !error && count && data) {
         let totalPage = Math.ceil(count / pageCount);
         let ids = data.map((homework) => {
-          return homework.makerId
+          return homework.makerId;
         });
         let id = unique(ids);
-        apiRequest.get("users/" + id + "/detail", (err, resp) => {
+        apiRequest.get('users/' + id + '/detail', (err, resp) => {
           if (!err && resp) {
             homeworks = addMakerName(resp, data);
             if (page === totalPage) {
@@ -37,7 +36,7 @@ HomeworkProgramController.prototype.getHomeworkList = (req, res) => {
         return res.sendStatus(404);
       }
     });
-  })
+  });
 };
 
 HomeworkProgramController.prototype.matchHomework = (req, res) => {
@@ -48,30 +47,29 @@ HomeworkProgramController.prototype.matchHomework = (req, res) => {
   let homeworks;
   HomeworkDefinition.find({name, isDeleted: false}).limit(Number(pageCount))
     .skip(skipCount).exec((err, data) => {
-    HomeworkDefinition.count({isDeleted: false}, (error, count) => {
-      if (!err && !error && count && data) {
-        let totalPage = Math.ceil(count / pageCount);
-        let ids = data.map((homework) => {
-          return homework.makerId
-        });
-        let id = unique(ids);
-        apiRequest.get("users/" + id + "/detail", (err, resp) => {
-          if (!err && resp) {
-            homeworks = addMakerName(resp, data);
-            if (page === totalPage) {
-              return res.status(202).send({data: homeworks, totalPage});
+      HomeworkDefinition.count({isDeleted: false}, (error, count) => {
+        if (!err && !error && count && data) {
+          let totalPage = Math.ceil(count / pageCount);
+          let ids = data.map((homework) => {
+            return homework.makerId;
+          });
+          let id = unique(ids);
+          apiRequest.get('users/' + id + '/detail', (err, resp) => {
+            if (!err && resp) {
+              homeworks = addMakerName(resp, data);
+              if (page === totalPage) {
+                return res.status(202).send({data: homeworks, totalPage});
+              }
+              return res.status(200).send({data: homeworks, totalPage});
+            } else {
+              res.sendStatus(404);
             }
-            return res.status(200).send({data: homeworks, totalPage});
-          } else {
-            res.sendStatus(404);
-          }
-        });
-      } else {
-        res.sendStatus(404);
-      }
+          });
+        } else {
+          res.sendStatus(404);
+        }
+      });
     });
-
-  })
 };
 
 HomeworkProgramController.prototype.updateHomework = (req, res) => {
@@ -83,18 +81,18 @@ HomeworkProgramController.prototype.updateHomework = (req, res) => {
     } else {
       res.sendStatus(400);
     }
-  })
+  });
 };
 
 HomeworkProgramController.prototype.getOneHomework = (req, res) => {
   const homeworkId = req.params.homeworkId;
-  HomeworkDefinition.findOne({_id: homeworkId}, (err, homework)=> {
+  HomeworkDefinition.findOne({_id: homeworkId}, (err, homework) => {
     if (!err && homework) {
       res.send(homework);
     } else {
       res.sendStatus(400);
     }
-  })
+  });
 };
 
 HomeworkProgramController.prototype.deleteHomework = (req, res) => {
@@ -105,7 +103,7 @@ HomeworkProgramController.prototype.deleteHomework = (req, res) => {
     } else {
       res.sendStatus(400);
     }
-  })
+  });
 };
 
 HomeworkProgramController.prototype.insertHomework = (req, res) => {
@@ -114,16 +112,16 @@ HomeworkProgramController.prototype.insertHomework = (req, res) => {
 
   // const makerId = req.session.user.id;
   new HomeworkDefinition({
-    description: "",
+    description: '',
     // makerId,
     status: 0,
-    makerName: "",
+    makerName: '',
     isDeleted: false,
-    uri: "",
+    uri: '',
     createTime,
-    evaluateScript: "",
-    templateRepository: "",
-    result: "",
+    evaluateScript: '',
+    templateRepository: '',
+    result: '',
     name,
     definitionRepo,
     type
@@ -133,7 +131,7 @@ HomeworkProgramController.prototype.insertHomework = (req, res) => {
     } else {
       res.sendStatus(400);
     }
-  })
+  });
 };
 
 HomeworkProgramController.prototype.deleteBatch = (req, res) => {
@@ -148,14 +146,14 @@ HomeworkProgramController.prototype.deleteBatch = (req, res) => {
       }
     });
   });
-  if(status.indexOf(400) === -1){
+  if (status.indexOf(400) === -1) {
     res.sendStatus(204);
-  }else{
+  } else {
     res.sendStatus(400);
   }
 };
 
-HomeworkProgramController.prototype.insertEvaluateScript = (req, res)=> {
+HomeworkProgramController.prototype.insertEvaluateScript = (req, res) => {
   res.send(req.file);
 };
 

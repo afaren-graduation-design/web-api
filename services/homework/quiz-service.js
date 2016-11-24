@@ -3,7 +3,7 @@
 var async = require('async');
 var userHomeworkQuizzes = require('../../models/user-homework-quizzes');
 
-function getQuiz (options, callback) {
+function getQuiz(options, callback) {
   async.waterfall([
     (done) => {
       userHomeworkQuizzes.findOne({

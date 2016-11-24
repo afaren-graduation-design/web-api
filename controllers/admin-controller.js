@@ -5,7 +5,7 @@ var Channel = require('../models/channel.js');
 var Configuration = require('../models/configuration');
 var constant = require('../mixin/constant');
 
-function AdminController () {
+function AdminController() {
 
 }
 
@@ -17,7 +17,7 @@ AdminController.prototype.addChannel = (req, res, next) => {
     if (err) {
       return next(err);
     } else if (!link) {
-      newChannel.save(function (err, newLink, numAffected) {
+      newChannel.save((err, newLink, numAffected) => {
         if (err) {
           return next(err);
         }
@@ -67,7 +67,7 @@ AdminController.prototype.changeRegisterableStatus = (req, res, next) => {
       return next(err);
     }
     configuration.registerable = value;
-    configuration.save(function (err, configuration, numAffected) {
+    configuration.save((err, configuration, numAffected) => {
       if (err) {
         return next(err);
       }
@@ -79,7 +79,7 @@ AdminController.prototype.changeRegisterableStatus = (req, res, next) => {
 AdminController.prototype.getUsersChannel = (req, res, next) => {
   UserChannel.find()
       .populate('channelId')
-      .exec(function (err, data) {
+      .exec((err, data) => {
         if (err) {
           return next(err);
         } else {

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var apiRequest = require('../services/api-request');
 var constant = require('../mixin/constant');
@@ -26,7 +26,7 @@ ProgramPaperController.prototype.getPaper = (req, res, next) => {
 ProgramPaperController.prototype.savePaper = (req, res, next) => {
   var programId = req.params.programId;
   // var makerId = req.session.user.id;   //去看mocha获取用户身份的方式
-  var makerId = req.body.makerId;
+  // var makerId = req.body.makerId;
 
   var createTime = new Date().toDateString();
   var {title, description, sections, makerId} = req.body;
@@ -39,9 +39,9 @@ ProgramPaperController.prototype.savePaper = (req, res, next) => {
     title,
     createTime,
     isDeleted: false,
-    uri: "",
+    uri: '',
     sections
-  }).save((err, paper)=> {
+  }).save((err, paper) => {
     if (!err && paper) {
       res.status(201).send({
         paperId: paper._id
@@ -59,7 +59,7 @@ ProgramPaperController.prototype.updatePaper = (req, res) => {
 
   var {title, description, sections, isDistribution} = req.body;
   PaperDefinition.update({programId, _id: paperId},
-    {$set: {programId, updateTime, title, description, isDistribution, sections}}, (err)=> {
+    {$set: {programId, updateTime, title, description, isDistribution, sections}}, (err) => {
       if (!err) {
         res.sendStatus(204);
       } else {
@@ -94,7 +94,7 @@ ProgramPaperController.prototype.distributionPaper = (req, res) => {
       if (!paper) {
         done(true, null);
       }
-      apiRequest.post('distributionPaper', paper[0], done)
+      apiRequest.post('distributionPaper', paper[0], done);
     },
 
     (result, done) => {
@@ -106,7 +106,7 @@ ProgramPaperController.prototype.distributionPaper = (req, res) => {
         if (err) {
           done(true, null);
         }
-        done(err, data)
+        done(err, data);
       });
     },
 
@@ -126,7 +126,7 @@ ProgramPaperController.prototype.getPaperList = (req, res, next) => {
   let skipCount = pageCount * (page - 1);
   let papers;
 
-  PaperDefinition.find({isDeleted: false}).limit(Number(pageCount)).skip(skipCount).exec((err, data)=> {
+  PaperDefinition.find({isDeleted: false}).limit(Number(pageCount)).skip(skipCount).exec((err, data) => {
     PaperDefinition.count({isDeleted: false}, (error, count) => {
       if (!err && !error && count && data) {
         var totalPage = Math.ceil(count / 10);
@@ -134,15 +134,15 @@ ProgramPaperController.prototype.getPaperList = (req, res, next) => {
           return paper.makerId;
         });
         let id = unique(ids);
-        apiRequest.get("users/" + id + "/detail", (err, resp) => {
+        apiRequest.get('users/' + id + '/detail', (err, resp) => {
           if (!err && resp) {
             papers = addMakerName(resp, data);
             if (page === totalPage) {
-              res.status(202); //返回数据数量小于请求数量
+              res.status(202); // 返回数据数量小于请求数量
             } else {
               res.status(200);
             }
-            res.send({totalPage: totalPage, data: papers})
+            res.send({totalPage: totalPage, data: papers});
           } else {
             res.sendStatus(404);
           }
@@ -156,7 +156,6 @@ ProgramPaperController.prototype.getPaperList = (req, res, next) => {
 
 ProgramPaperController.prototype.deleteBatch = (req, res) => {
   let papersIds = req.body.papersIds;
-  console.log(papersIds);
   let status = papersIds.map((papersId) => {
     PaperDefinition.update({_id: papersId}, {$set: {isDeleted: true}}, (err) => {
       if (!err) {
@@ -166,21 +165,21 @@ ProgramPaperController.prototype.deleteBatch = (req, res) => {
       }
     });
   });
-  if(status.indexOf(400) === -1){
+  if (status.indexOf(400) === -1) {
     res.sendStatus(204);
-  }else{
+  } else {
     res.sendStatus(400);
   }
 };
 
-ProgramPaperController.prototype.selectPaper = (req, res, next)=> {
+ProgramPaperController.prototype.selectPaper = (req, res, next) => {
   var title = req.query.title;
   let pageCount = req.query.pageCount;
   let page = req.query.page;
   let skipCount = pageCount * (page - 1);
   let papers;
 
-  PaperDefinition.find({isDeleted: false, title: title}).limit(Number(pageCount)).skip(skipCount).exec((err, data)=> {
+  PaperDefinition.find({isDeleted: false, title: title}).limit(Number(pageCount)).skip(skipCount).exec((err, data) => {
     PaperDefinition.count({isDeleted: false}, (error, count) => {
       if (!err && !error && count && data) {
         var totalPage = Math.ceil(count / 10);
@@ -188,15 +187,15 @@ ProgramPaperController.prototype.selectPaper = (req, res, next)=> {
           return paper.makerId;
         });
         let id = unique(ids);
-        apiRequest.get("users/" + id + "/detail", (err, resp) => {
+        apiRequest.get('users/' + id + '/detail', (err, resp) => {
           if (!err && resp) {
             papers = addMakerName(resp, data);
             if (page === totalPage) {
-              res.status(202); //返回数据数量小于请求数量
+              res.status(202); // 返回数据数量小于请求数量
             } else {
               res.status(200);
             }
-            res.send({totalPage: totalPage, data: papers})
+            res.send({totalPage: totalPage, data: papers});
           } else {
             res.sendStatus(404);
           }
@@ -208,10 +207,4 @@ ProgramPaperController.prototype.selectPaper = (req, res, next)=> {
   });
 };
 
-
 module.exports = ProgramPaperController;
-
-
-
-
-

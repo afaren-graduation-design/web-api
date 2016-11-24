@@ -5,7 +5,7 @@ var async = require('async');
 var constant = require('../mixin/constant');
 var Group = require('../models/group');
 
-function GroupController () {
+function GroupController() {
 
 }
 
@@ -28,7 +28,7 @@ GroupController.prototype.getGroupInfo = (req, res, next) => {
   });
 };
 
-function getGroupHashByGroupId (groupList, groupId) {
+function getGroupHashByGroupId(groupList, groupId) {
   var group = groupList.find((item) => {
     return item.groupId === groupId;
   });
@@ -85,7 +85,7 @@ GroupController.prototype.createGroup = (req, res, next) => {
   });
 };
 
-GroupController.prototype.updateGroupInfo = function (req, res, next) {
+GroupController.prototype.updateGroupInfo = (req, res, next) => {
   var groupHash = req.params.groupHash;
   var data;
   var groupInfo = {
@@ -128,7 +128,7 @@ GroupController.prototype.operatePaper = (req, res, next) => {
     makerId: req.session.user.id
   };
 
-  apiRequest.post('papers', paperInfo, function (err, resp) {
+  apiRequest.post('papers', paperInfo, (err, resp) => {
     if (resp === undefined) {
       res.send({
         status: constant.httpCode.INTERNAL_SERVER_ERROR

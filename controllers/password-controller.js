@@ -8,7 +8,7 @@ var yamlConfig = require('node-yaml-config');
 var emailDomain = yamlConfig.load('./config/config.yml').emailServer;
 var md5 = require('js-md5');
 
-function PasswordController () {
+function PasswordController() {
 
 }
 
@@ -49,7 +49,6 @@ PasswordController.prototype.retrieve = (req, res) => {
       res.send({status: constant.httpCode.OK});
     }
   });
-
 };
 
 PasswordController.prototype.reset = (req, res) => {
@@ -62,7 +61,7 @@ PasswordController.prototype.reset = (req, res) => {
     token: token
   };
 
-  apiRequest.post(retrieveUrl, query, function (err, result) {
+  apiRequest.post(retrieveUrl, query, (err, result) => {
     if (err) {
       res.sendStatus(constant.httpCode.INTERNAL_SERVER_ERROR);
     } else {

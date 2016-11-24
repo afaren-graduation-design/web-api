@@ -4,7 +4,7 @@ var constant = require('../mixin/constant');
 var async = require('async');
 var userHomeworkQuizzes = require('../models/user-homework-quizzes');
 var deadline = 7;
-function DashboardController () {
+function DashboardController() {
 
 }
 
@@ -20,20 +20,20 @@ DashboardController.prototype.isCommited = (req, res) => {
       userHomeworkQuizzes.findOne({userId: userId}, done);
     },
     (data, done) => {
-      var currentQuiz = data.quizzes.filter(function (quiz) {
+      var currentQuiz = data.quizzes.filter((quiz) => {
         return quiz.status !== constant.homeworkQuizzesStatus.LOCKED &&
-            quiz.status !== constant.homeworkQuizzesStatus.SUCCESS;
+          quiz.status !== constant.homeworkQuizzesStatus.SUCCESS;
       })[0];
       if (currentQuiz) {
         var currentTime = parseInt(new Date().getTime()) /
-            (constant.time.SECONDS_PER_MINUTE *
-            constant.time.MINUTE_PER_HOUR *
-            constant.time.HOURS_PER_DAY *
-            constant.time.MILLISECOND_PER_SECONDS);
+          (constant.time.SECONDS_PER_MINUTE *
+          constant.time.MINUTE_PER_HOUR *
+          constant.time.HOURS_PER_DAY *
+          constant.time.MILLISECOND_PER_SECONDS);
         var startTime = parseInt(currentQuiz.startTime) /
-            (constant.time.SECONDS_PER_MINUTE *
-            constant.time.MINUTE_PER_HOUR *
-            constant.time.HOURS_PER_DAY);
+          (constant.time.SECONDS_PER_MINUTE *
+          constant.time.MINUTE_PER_HOUR *
+          constant.time.HOURS_PER_DAY);
 
         isOverTime = parseInt(currentTime - startTime) > deadline;
       } else {
@@ -44,7 +44,7 @@ DashboardController.prototype.isCommited = (req, res) => {
       }).length === 0;
       done(null, null);
     }
-  ], function (err) {
+  ], (err) => {
     if (err) {
       res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
     } else {

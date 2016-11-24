@@ -1,7 +1,7 @@
 'use strict';
 var Canvas = require('canvas');
 
-module.exports = function (params) {
+module.exports = (params) => {
   if (typeof params === 'string') {
     params = {url: params};
     params.color = params.color || 'rgb(0,100,100)';
@@ -13,7 +13,7 @@ module.exports = function (params) {
     params.canvasHeight = params.canvasHeight || 150;
   }
 
-  return function (req, res, next) {
+  return (req, res, next) => {
     if (req.path.replace(/\?.*$/, '') !== params.url) {
       return next();
     }
@@ -41,7 +41,7 @@ module.exports = function (params) {
       ctx.fillText(text.charAt(i), 0, 0);
     }
 
-    canvas.toBuffer(function (err, buf) {
+    canvas.toBuffer((err, buf) => {
       if (req.session) {
         req.session.captcha = text;
         res.type('jpg');

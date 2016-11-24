@@ -12,7 +12,7 @@ var configuration = require('../models/configuration');
 var UserChannel = require('../models/user-channel');
 var mongoose = require('mongoose');
 
-function checkRegisterInfo (registerInfo) {
+function checkRegisterInfo(registerInfo) {
   var pass = true;
 
   var valObj = {};
@@ -33,7 +33,7 @@ function checkRegisterInfo (registerInfo) {
   return pass;
 }
 
-function RegisterController () {
+function RegisterController() {
 
 }
 
@@ -49,6 +49,9 @@ RegisterController.prototype.register = (req, res, next) => {
     async.waterfall([
       (done) => {
         configuration.findOne({}, (err, data) => {
+          if (err) {
+            return next(err);
+          }
           if (!data.registerable) {
             error.status = httpStatus.UNAUTHORIZED; //  401 未开放注册
             done(error, data);
@@ -66,14 +69,14 @@ RegisterController.prototype.register = (req, res, next) => {
           done(null, null);
         }
       }, (data, done) => {
-        apiRequest.get('users', {field: 'mobilePhone', value: registerInfo.mobilePhone}, function (err, resp) {
+        apiRequest.get('users', {field: 'mobilePhone', value: registerInfo.mobilePhone}, (err, resp) => {
           if (resp.body.uri) {
             isMobilePhoneExist = true;
           }
           done(err, resp);
         });
       }, (data, done) => {
-        apiRequest.get('users', {field: 'email', value: registerInfo.email}, function (err, resp) {
+        apiRequest.get('users', {field: 'email', value: registerInfo.email}, (err, resp) => {
           if (resp.body.uri) {
             isEmailExist = true;
           }
@@ -143,7 +146,7 @@ RegisterController.prototype.register = (req, res, next) => {
 };
 
 RegisterController.prototype.valdateMobilePhone = (req, res, next) => {
-  apiRequest.get('users', {field: 'mobilePhone', value: req.query.mobilePhone}, function (err, result) {
+  apiRequest.get('users', {field: 'mobilePhone', value: req.query.mobilePhone}, (err, result) => {
     if (!result) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR);
       res.send();
@@ -162,7 +165,7 @@ RegisterController.prototype.valdateMobilePhone = (req, res, next) => {
 };
 
 RegisterController.prototype.valdateEmail = (req, res, next) => {
-  apiRequest.get('users', {field: 'email', value: req.query.email}, function (err, result) {
+  apiRequest.get('users', {field: 'email', value: req.query.email}, (err, result) => {
     if (!result) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR);
       res.send();

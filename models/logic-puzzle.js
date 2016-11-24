@@ -36,7 +36,7 @@ var logicPuzzleSchema = new Schema({
   isCommited: Boolean
 });
 
-logicPuzzleSchema.statics.isPaperCommited = function (userId, callback) {
+logicPuzzleSchema.statics.isPaperCommited = function(userId, callback) {
   var isPaperCommited;
 
   this.findOne({userId: userId}, (err, logicPuzzle) => {
@@ -50,30 +50,30 @@ logicPuzzleSchema.statics.isPaperCommited = function (userId, callback) {
 
       var usedTime = now - startTime;
 
-      isPaperCommited = logicPuzzle.isCommited || parseInt(TOTAL_TIME - usedTime) <= 0 ? true : false;
+      isPaperCommited = logicPuzzle.isCommited || parseInt(TOTAL_TIME - usedTime) <= 0;
     }
 
     callback(err, isPaperCommited);
   });
 };
 
-logicPuzzleSchema.statics.getLogicPuzzle = function (orderId, userId) {
+logicPuzzleSchema.statics.getLogicPuzzle = (orderId, userId) => {
   var userAnswer;
   var itemsCount;
 
   return this.findOne({userId: userId})
-      .then(function (data) {
-        data.quizExamples.forEach(function (example) {
+      .then(function(data) {
+        data.quizExamples.forEach(function(example) {
           example.isExample = true;
         });
-        data.quizItems.forEach(function (item) {
+        data.quizItems.forEach(function(item) {
           item.isExample = false;
         });
         var quizAll = data.quizExamples.concat(data.quizItems);
         itemsCount = quizAll.length;
         return quizAll;
       })
-      .then(function (quizAll) {
+      .then(function(quizAll) {
         userAnswer = quizAll[orderId].userAnswer || quizAll[orderId].answer || null;
         return {
           item: {
@@ -90,7 +90,7 @@ logicPuzzleSchema.statics.getLogicPuzzle = function (orderId, userId) {
       });
 };
 
-logicPuzzleSchema.statics.isDealAgree = function (userId, callback) {
+logicPuzzleSchema.statics.isDealAgree = function(userId, callback) {
   var isDealAgree;
 
   this.findOne({userId: userId}, (err, logicPuzzle) => {

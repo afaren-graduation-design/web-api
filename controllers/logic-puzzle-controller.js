@@ -5,7 +5,7 @@ var constant = require('../mixin/constant');
 var async = require('async');
 var apiRequest = require('../services/api-request');
 
-function LogicPuzzleController () {
+function LogicPuzzleController() {
 }
 
 LogicPuzzleController.prototype.getLogicPuzzle = (req, res) => {
@@ -13,9 +13,9 @@ LogicPuzzleController.prototype.getLogicPuzzle = (req, res) => {
   var userId = req.session.user.id;
 
   logicPuzzle.getLogicPuzzle(orderId, userId)
-      .then((data) => {
-        res.send(data);
-      });
+    .then((data) => {
+      res.send(data);
+    });
 };
 
 LogicPuzzleController.prototype.saveAnswer = (req, res) => {

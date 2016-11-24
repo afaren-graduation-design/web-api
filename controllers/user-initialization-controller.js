@@ -6,7 +6,7 @@ var userHomeworkQuizzes = require('../models/user-homework-quizzes');
 var constant = require('../mixin/constant');
 var async = require('async');
 
-function UserInitializationController () {
+function UserInitializationController() {
 
 }
 

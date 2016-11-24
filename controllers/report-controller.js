@@ -1,4 +1,3 @@
-/*eslint no-magic-numbers: 2, 1, 0*/
 'use strict';
 
 var apiRequest = require('../services/api-request');
@@ -8,6 +7,7 @@ var moment = require('moment');
 var userHomeworkQuizzes = require('../models/user-homework-quizzes');
 var homeworkScoring = require('../models/homework-scoring');
 var UserChannel = require('../models/user-channel.js');
+var path = require('path');
 
 var yamlConfig = require('node-yaml-config');
 var config = yamlConfig.load('./config/config.yml');
@@ -15,10 +15,10 @@ var ejs = require('ejs');
 var fs = require('fs');
 var BREAK_LINE_CODE = 10;
 
-function ReportController () {
+function ReportController() {
 }
 
-function setCommitHistoryfilter (userhomeworks) {
+function setCommitHistoryfilter(userhomeworks) {
   var CommitHistoryfilter = [];
 
   userhomeworks.forEach((userhomework) => {
@@ -35,7 +35,7 @@ function setCommitHistoryfilter (userhomeworks) {
   return CommitHistoryfilter;
 }
 
-function getUsersCommitHistory (commitHistoryFilter, callback) {
+function getUsersCommitHistory(commitHistoryFilter, callback) {
   var filter = {
     'id': commitHistoryFilter
   };
@@ -53,7 +53,7 @@ function getUsersCommitHistory (commitHistoryFilter, callback) {
   //    .end(callback);
 }
 
-function getUserDataByPaperId (paperId, callback) {
+function getUserDataByPaperId(paperId, callback) {
   var logicPuzzleURL = 'papers/' + paperId + '/logicPuzzle';
   var usersDetailURL = 'papers/' + paperId + '/usersDetail';
   var userData = {};
@@ -86,17 +86,17 @@ function getUserDataByPaperId (paperId, callback) {
     },
     (data, done) => {
       UserChannel.find()
-          .populate('channelId')
-          .exec(function (err, usersChannels) {
-            userData.channels = usersChannels;
-            done(err, null);
-          });
+        .populate('channelId')
+        .exec((err, usersChannels) => {
+          userData.channels = usersChannels;
+          done(err, null);
+        });
     }], (err, result) => {
     callback(err, userData);
   });
 }
 
-function buildUserSummary (data) {
+function buildUserSummary(data) {
   return {
     name: data.name,
     mobilePhone: data.mobilePhone,
@@ -108,7 +108,7 @@ function buildUserSummary (data) {
   };
 }
 
-function buildHomework (homeworks, usersCommitHistory, userId) {
+function buildHomework(homeworks, usersCommitHistory, userId) {
   var sumTime = 0;
   var correctNumber = 0;
   var startTime = 0;
@@ -122,7 +122,7 @@ function buildHomework (homeworks, usersCommitHistory, userId) {
     return {};
   }
 
-  data.quizzes.forEach(function (quiz, index) {
+  data.quizzes.forEach((quiz, index) => {
     var elapsedTime = 0;
 
     if (quiz.homeworkSubmitPostHistory.length !== 0) {
@@ -153,7 +153,7 @@ function buildHomework (homeworks, usersCommitHistory, userId) {
   return homework;
 }
 
-function buildChannel (usersChannels, userId) {
+function buildChannel(usersChannels, userId) {
   var userChannel = usersChannels.find((channel) => {
     return channel.userId === userId;
   });
@@ -163,8 +163,8 @@ function buildChannel (usersChannels, userId) {
   };
 }
 
-function buildScoresheetInfo (paperId, callback) {
-  getUserDataByPaperId(paperId, function (err, usersData) {
+function buildScoresheetInfo(paperId, callback) {
+  getUserDataByPaperId(paperId, (err, usersData) => {
     if (err) {
       callback(err);
       return;
@@ -190,11 +190,11 @@ function buildScoresheetInfo (paperId, callback) {
 ReportController.prototype.exportPaperScoresheetCsv = (req, res, next) => {
   var paperId = req.params.paperId;
 
-  buildScoresheetInfo(paperId, function (err, scoresheetInfo) {
+  buildScoresheetInfo(paperId, (err, scoresheetInfo) => {
     if (err) {
       return next(err);
     } else {
-      fs.readFile(__dirname + '/../views/paper-scoresheet-csv.ejs', function (err, data) {
+      fs.readFile(path.join(__dirname, '/../views/paper-scoresheet-csv.ejs'), (err, data) => {
         if (err) {
           return next(err);
         }
@@ -221,7 +221,7 @@ ReportController.prototype.exportPaperScoresheetCsv = (req, res, next) => {
   });
 };
 
-function getHomeworkDetailsByUserId (userId, callback) {
+function getHomeworkDetailsByUserId(userId, callback) {
   var userDetailURL = 'users/' + userId + '/detail';
 
   var user = {};
@@ -259,7 +259,7 @@ function getHomeworkDetailsByUserId (userId, callback) {
   });
 }
 
-function buildHomeworkDetail (quiz, userCommitHistory) {
+function buildHomeworkDetail(quiz, userCommitHistory) {
   var homeworkDetails = {};
   var elapsedTime = 0;
 
@@ -287,7 +287,7 @@ function buildHomeworkDetail (quiz, userCommitHistory) {
   return homeworkDetails;
 }
 
-function buildUserHomeworkDetails (paperId, userId, callback) {
+function buildUserHomeworkDetails(paperId, userId, callback) {
   getHomeworkDetailsByUserId(userId, (err, data) => {
     if (err) {
       callback(err);
@@ -330,12 +330,12 @@ ReportController.prototype.exportUserHomeworkDetailsCsv = (req, res, next) => {
   var paperId = req.params.paperId;
   var userId = req.params.userId;
 
-  buildUserHomeworkDetails(paperId, userId, function (err, userHomeworkDetails) {
+  buildUserHomeworkDetails(paperId, userId, (err, userHomeworkDetails) => {
     if (err) {
       return next(err);
     }
 
-    fs.readFile(__dirname + '/../views/userhomeworkdetailscsv.ejs', function (err, data) {
+    fs.readFile(path.join(__dirname, '/../views/userhomeworkdetailscsv.ejs'), (err, data) => {
       if (err) {
         next(err);
       }
@@ -361,25 +361,23 @@ ReportController.prototype.exportUserHomeworkDetailsCsv = (req, res, next) => {
   });
 };
 
-function unescapeHTML (str) {
+function unescapeHTML(str) {
   str += '';
   var unescapeEntity = {};
   var runescapeEntity = /&([^;]+);/g;
   var rentityCodeHex = /^#x([\da-fA-F]+)$/;
   var rentityCode = /^#(\d+)$/;
-  str = str.replace(runescapeEntity, function (entity, entityCode) {
-    var match;
-
+  str = str.replace(runescapeEntity, (entity, entityCode) => {
     if (unescapeEntity.hasOwnProperty(entity)) {
       return unescapeEntity[entity];
     }
 
-    if (match = entityCode.match(rentityCodeHex)) {
-      return String.fromCharCode(parseInt(match[1], 16));
+    if (entityCode.match(rentityCodeHex)) {
+      return String.fromCharCode(parseInt(entityCode.match(rentityCodeHex)[1], 16));
     }
 
-    if (match = entityCode.match(rentityCode)) {
-      return String.fromCharCode(match[1]);
+    if (entityCode.match(rentityCode)) {
+      return String.fromCharCode(entityCode.match(rentityCode)[1]);
     }
 
     return entity;
@@ -387,7 +385,7 @@ function unescapeHTML (str) {
   return str;
 }
 
-function getHomeworkCommitHIstoryByUserId (userId, callback) {
+function getHomeworkCommitHIstoryByUserId(userId, callback) {
   var userDetailURL = 'users/' + userId + '/detail';
 
   var user = {};
@@ -421,7 +419,7 @@ function getHomeworkCommitHIstoryByUserId (userId, callback) {
   });
 }
 
-function buildUserHomeworkQuizDetails (paperId, userId, homeworkquizId, callback) {
+function buildUserHomeworkQuizDetails(paperId, userId, homeworkquizId, callback) {
   getHomeworkCommitHIstoryByUserId(userId, (err, data) => {
     var usersInfo = [];
     if (err) {
@@ -470,7 +468,7 @@ function buildUserHomeworkQuizDetails (paperId, userId, homeworkquizId, callback
   });
 }
 
-function getupdatedAtTimeById (id, userCommitHistory) {
+function getupdatedAtTimeById(id, userCommitHistory) {
   var time = userCommitHistory.find((commitHistory) => {
     return id.toString() === commitHistory.id;
   });
@@ -478,7 +476,7 @@ function getupdatedAtTimeById (id, userCommitHistory) {
   return time.commitTime;
 }
 
-function calculateElapsedTime (index, homeworkquiz, userCommitHistory) {
+function calculateElapsedTime(index, homeworkquiz, userCommitHistory) {
   var time;
   if (index === 0) {
     time = getupdatedAtTimeById(homeworkquiz.homeworkSubmitPostHistory[index], userCommitHistory) - homeworkquiz.startTime;
@@ -498,7 +496,7 @@ ReportController.prototype.exportUserHomeworkQuizDetailsCsv = (req, res, next) =
       return next(err);
     }
 
-    fs.readFile(__dirname + '/../views/userhomeworkquizdetailscsv.ejs', function (err, data) {
+    fs.readFile(path.join(__dirname, '/../views/userhomeworkquizdetailscsv.ejs'), (err, data) => {
       if (err) {
         return next(err);
       }

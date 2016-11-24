@@ -2,7 +2,7 @@
 var apiRequest = require('../services/api-request');
 var constant = require('../mixin/constant');
 
-function ReuseController () {
+function ReuseController() {
 
 }
 
@@ -11,7 +11,7 @@ ReuseController.prototype.loadAccount = (req, res, next) => {
     var userId = req.session.user.id;
     var url = 'users/' + userId;
 
-    apiRequest.get(url, function (err, resp) {
+    apiRequest.get(url, (err, resp) => {
       if (err) {
         return next(err);
       } else if (resp === undefined) {
