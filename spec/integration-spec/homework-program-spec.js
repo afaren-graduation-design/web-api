@@ -83,12 +83,14 @@ describe("POST /homeworks", ()=> {
   })
 });
 
-describe("DELETE /homeworks", ()=> {
-  it("should_return_httpCode", (done)=> {
-    userSession
-      .delete('/homeworks')
-      .send({homeworkIds: ['5829958a7007c23870a1d680', '5829958a7007c23870a1d681']})
-      .expect(204)
-      .end(done)
-  })
+describe("Delete /homeworks/deletion", ()=> {
+    it("should return the delete msg", (done)=> {
+        userSession
+            .delete('/homeworks/deletion')
+            .send({
+                idArray:["5829958a7007c23870a1d681","5829958a7007c23870a1d680"]
+            })
+            .expect(204)
+            .end(done)
+    })
 });

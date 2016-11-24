@@ -152,12 +152,15 @@ describe("GET program/:programId/papers/selection", ()=> {
   })
 });
 
-describe("DELETE /program/:programId/papers", ()=> {
-  it("should_return_httpCode", (done)=> {
-    userSession
-      .delete('/program/1/papers')
-      .send({papersIds: ['5829958a7007c23870a1d68a', '5829958a7007c23870a1d699']})
-      .expect(204)
-      .end(done)
-  })
+
+describe("Delete /program/1/papers/deletion", ()=> {
+    it("should return the paper delete msg", (done)=> {
+        userSession
+            .delete('/program/1/papers/deletion')
+            .send({
+                idArray:["5829958a7007c23870a1d681","5829958a7007c23870a1d680"]
+            })
+            .expect(204)
+            .end(done)
+    })
 });
