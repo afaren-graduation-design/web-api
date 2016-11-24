@@ -3,7 +3,7 @@
     "description": "should_return_uri_of_paper",
     "request": {
       "uri": "/distributionPaper",
-      "method": "POST",
+      "method": "post",
       "json": {
         "_id": "5829958a7007c23870a1d68a",
         "programId": 1,
