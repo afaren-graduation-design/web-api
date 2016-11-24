@@ -6,7 +6,7 @@
       "method": "get"
     },
     "response": {
-      "json": {"mysql":"connected","api":"moco-connected"}
+      "json": {"mysql":"connected","api":"connected"}
     }
   }
 ]
