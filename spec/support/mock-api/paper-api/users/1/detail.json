@@ -169,20 +169,49 @@
     },
     "response": {
       "status": 200,
-      "json": [
-        {
-          "userId": 1,
-          "name": "wang"
-        },
-        {
-          "userId": 1,
-          "name": "wang"
-        },
-        {
-          "userId": 1,
-          "name": "wang"
-        }
-      ]
+      "json": {
+        "userList": [
+          {
+            "degree": "本科",
+            "email": "test@163.com",
+            "entranceYear": "2016",
+            "gender": "F",
+            "major": "计算机",
+            "mobilePhone": "18798037893",
+            "name": "测试一",
+            "school": "思沃学院",
+            "schoolCity": "西安",
+            "schoolProvince": "陕西",
+            "userId": 1
+          },
+          {
+            "degree": "本科",
+            "email": "test@163.com",
+            "entranceYear": "2016",
+            "gender": "F",
+            "major": "计算机",
+            "mobilePhone": "18798037893",
+            "name": "测试一",
+            "school": "思沃学院",
+            "schoolCity": "西安",
+            "schoolProvince": "陕西",
+            "userId": 1
+          },
+          {
+            "degree": "本科",
+            "email": "test@163.com",
+            "entranceYear": "2016",
+            "gender": "F",
+            "major": "计算机",
+            "mobilePhone": "18798037893",
+            "name": "测试一",
+            "school": "思沃学院",
+            "schoolCity": "西安",
+            "schoolProvince": "陕西",
+            "userId": 1
+          }
+        ]
+      }
     }
   },
   {
