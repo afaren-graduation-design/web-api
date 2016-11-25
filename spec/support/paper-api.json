@@ -48,21 +48,6 @@
     "include": "spec/support/mock-api/paper-api/program-paper/savePaper.json"
   },
   {
-    "include": "spec/support/mock-api/paper-api/program-paper/logicQuizzes.json"
-  },
-  {
-    "include": "spec/support/mock-api/paper-api/program-paper/homeworkQuizzes.json"
-  },
-  {
-    "include": "spec/support/mock-api/paper-api/program-paper/updatePaper.json"
-  },
-  {
     "include": "spec/support/mock-api/paper-api/program-paper/deletePaper.json"
-  },
-  {
-    "include": "spec/support/mock-api/paper-api/program-paper/distributionPaper.json"
-  },
-  {
-    "include": "spec/support/mock-api/paper-api/program-paper/distribution.json"
   }
 ]
