@@ -126,15 +126,6 @@ describe('DELETE program/:id/paper/:id', ()=> {
   })
 });
 
-describe('PUT program/:id/paper/:id/distribution', ()=> {
-  it('should_be return_a httpCode', (done)=> {
-    userSession
-      .put('/program/1/paper/5829958a7007c23870a1d68a/distribution')
-      .expect(204)
-      .end(done);
-  })
-});
-
 describe("GET program/:programId/papers/selection", ()=> {
   it('should be return paper list as select type', (done)=> {
     userSession

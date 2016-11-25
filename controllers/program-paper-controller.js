@@ -2,7 +2,6 @@
 
 var apiRequest = require('../services/api-request');
 var constant = require('../mixin/constant');
-var async = require('async');
 var PaperDefinition = require('../models/paper-definition');
 var unique = require('../tool/unique');
 var addMakerName = require('../tool/addMakerName');
@@ -79,45 +78,6 @@ ProgramPaperController.prototype.deletePaper = (req, res) => {
       res.sendStatus(400);
     }
   });
-};
-
-ProgramPaperController.prototype.distributionPaper = (req, res) => {
-  var programId = req.params.programId;
-  var paperId = req.params.paperId;
-  var uri;
-  async.waterfall([
-    (done) => {
-      PaperDefinition.find({programId, _id: paperId}, done);
-    },
-
-    (paper, done) => {
-      if (!paper) {
-        done(true, null);
-      }
-      apiRequest.post('distributionPaper', paper[0], done);
-    },
-
-    (result, done) => {
-      if (result.statusCode === 400) {
-        done(true, null);
-      }
-      uri = result.uri;
-      PaperDefinition.update({programId, _id: paperId}, {$set: {isDistribution: true}}, (err, data) => {
-        if (err) {
-          done(true, null);
-        }
-        done(err, data);
-      });
-    },
-
-    (data) => {
-      if (data) {
-        res.status(204).send({uri});
-      } else {
-        res.sendStatus(400);
-      }
-    }
-  ]);
 };
 
 ProgramPaperController.prototype.getPaperList = (req, res, next) => {
