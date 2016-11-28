@@ -30,7 +30,7 @@ integration:
   nginxServer: 'http://localhost:12306/nginx'
 test:
   staticFileServer: 'http://localhost/fs/'
-  database: 'mongodb://localhost/twars'
+  database: 'mongodb://mongo/twars'
   paperApiServer: 'http://paper-api:8080/paper-api/'
   userApiServer: 'http://user-api:8080/user-api/'
   appServer: 'http://localhost:3000/'
