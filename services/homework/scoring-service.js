@@ -56,7 +56,7 @@ function createScoring(options, callback) {
           });
     },
     (homeworkQuiz, done) => {
-      homeworkQuizDefinition = homeworkQuiz.evaluateScript;
+      homeworkQuizDefinition = homeworkQuiz.homeworkItem.evaluateScript;
       options.commitTime = parseInt(new Date().getTime() / 1000);
       homeworkScoring.create(options, done);
     },

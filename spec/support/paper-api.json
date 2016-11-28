@@ -42,27 +42,12 @@
     "include": "spec/support/mock-api/user-api/teacher-login.json"
   },
   {
-    "include": "spec/support/mock-api/paper-api/program-paper/getOnePaper.json"
+    "include": "spec/support/mock-api/paper-api/programs/1/paper/getOnePaper.json"
   },
   {
-    "include": "spec/support/mock-api/paper-api/program-paper/savePaper.json"
+    "include": "spec/support/mock-api/paper-api/programs/1/savePaper.json"
   },
   {
-    "include": "spec/support/mock-api/paper-api/program-paper/logicQuizzes.json"
-  },
-  {
-    "include": "spec/support/mock-api/paper-api/program-paper/homeworkQuizzes.json"
-  },
-  {
-    "include": "spec/support/mock-api/paper-api/program-paper/updatePaper.json"
-  },
-  {
-    "include": "spec/support/mock-api/paper-api/program-paper/deletePaper.json"
-  },
-  {
-    "include": "spec/support/mock-api/paper-api/program-paper/distributionPaper.json"
-  },
-  {
-    "include": "spec/support/mock-api/paper-api/program-paper/distribution.json"
+    "include": "spec/support/mock-api/paper-api/programs/1/paper/deletePaper.json"
   }
 ]
