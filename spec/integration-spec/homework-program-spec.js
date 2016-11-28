@@ -9,12 +9,12 @@ describe("GET MATCHED homeworks", ()=> {
       .get('/homeworks/search')
       .query({
         page: 1,
-        pageCount: 3,
-        name: "juanz"
+        pageCount: 1,
+        name: "juanz1"
       })
       .expect(200)
       .expect((res) => {
-        res.body.data.length.should.equal(3);
+        res.body.data.length.should.equal(1);
       })
       .end(done)
   })
