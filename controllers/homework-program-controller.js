@@ -42,10 +42,9 @@ HomeworkProgramController.prototype.getHomeworkList = (req, res) => {
   });
 };
 
-
 HomeworkProgramController.prototype.getHomeworkListByMysql = (req, res) => {
   apiRequest.get('homeworkQuizzes', (err, resp) => {
-    if(!err && resp){
+    if (!err && resp) {
       return res.send(resp.body);
     }
     return res.sendStatus(404);
@@ -203,6 +202,5 @@ HomeworkProgramController.prototype.deleteSomeHomeworks = (req, res) => {
     }
   });
 };
-
 
 module.exports = HomeworkProgramController;
