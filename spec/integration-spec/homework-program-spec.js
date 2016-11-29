@@ -94,3 +94,15 @@ describe("Delete /homeworks/deletion", ()=> {
             .end(done)
     })
 });
+
+describe("GET /homeworks/homeworkList", ()=> {
+  it("should return mysql homeworkList", (done)=> {
+    userSession
+      .get('/homeworks/homeworkList')
+      .expect(200)
+      .expect((res) => {
+        res.body.length.should.equal(8)
+      })
+      .end(done)
+  })
+})
