@@ -34,6 +34,11 @@ test:
   paperApiServer: 'http://paper-api:8080/paper-api/'
   userApiServer: 'http://user-api:8080/user-api/'
   appServer: 'http://localhost:3000/'
+  taskServer: 'http://192.168.10.54:9090/'
+  taskApi: 'http://192.168.10.54:9090/job/TASK-RUNNER/buildWithParameters'
+  nginxServer: 'http://localhost/fs'
+  ballbackTaskUrl: 'http://localhost:3000/homework/scoring/'
+
 production:
   staticFileServer: '/fs/'
   emailServer: 'academy.thoughtworks.cn'
