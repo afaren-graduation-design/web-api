@@ -76,7 +76,7 @@ function createScoring(options, callback) {
         theQuiz.status = data.status;
         theQuiz.homeworkSubmitPostHistory.push(data._id);
         doc.save(() => {
-          done(null, null);
+          done(null, theQuiz);
         });
       });
     },
