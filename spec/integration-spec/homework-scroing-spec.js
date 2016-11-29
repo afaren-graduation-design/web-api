@@ -63,8 +63,7 @@ describe('/homework/scoring', ()=> {
         ], done)
     });
 
-  // fixme: 这个用例很奇怪，大概一半的概率会 fail，还没找原因
-    it.skip('PUT /homework/scoring: should be update', function (done) {
+    it('PUT /homework/scoring: should be update', function (done) {
         function updateScoring(done) {
             userSession
                 .put('/homework/scoring/572dcf6f041ccfa51fb3f9cb')
@@ -78,20 +77,26 @@ describe('/homework/scoring', ()=> {
         
         function verifyScoring(data, done) {
             homeworkScoring.find({}, (err, data)=> {
-                data.length.should.equal(2);
-                data[0].userAnswerRepo.should.equal('http://test.git');
-                data[0].status.should.equal(5);
-                data[0].result.should.equal('Complete!');
+              data.length.should.equal(2);
+              var item = data.find((da) => {
+                return da._id == "572dcf6f041ccfa51fb3f9cb";
+              });
+                item.userAnswerRepo.should.equal('http://test.git');
+                item.status.should.equal(5);
+                item.result.should.equal('Complete!');
                 done(null, null);
             })
         }
 
         function verifyUserHomeWorkQuiz(data, done) {
             userHomeworkQuizzes
-                .findOne({userId: 1})
+                .find({userId: 1})
                 .populate({path: 'quizzes.homeworkSubmitPostHistory'})
                 .exec((err, data)=> {
-                    data.quizzes[0].homeworkSubmitPostHistory[0].status.should.equal(5);
+                  var item = data.find((da)=> {
+                    return da.paperId === 2;
+                  });
+                  item.quizzes[0].homeworkSubmitPostHistory[0].status.should.equal(5);
                     done();
                 });
         }

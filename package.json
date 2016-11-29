@@ -11,7 +11,7 @@
     "mocha-d": "export NODE_ENV=integration && mocha --debug-brk",
     "mock-server": "java -jar spec/support/moco-runner-0.10.2-standalone.jar http -p 12306 -g spec/support/paper-api.json -s 9527",
     "eslint": "eslint .",
-    "refreshMongo":"node ./mongoRefreshment.js",
+    "refreshMongo": "node ./mongoRefreshment.js",
     "start": "nodemon app.js"
   },
   "repository": {
@@ -61,6 +61,7 @@
     "ejs": "^2.4.1",
     "express": "^4.13.3",
     "express-session": "^1.12.1",
+    "fs": "0.0.1-security",
     "js-md5": "^0.3.0",
     "moment": "^2.12.0",
     "mongoose": "^4.3.3",

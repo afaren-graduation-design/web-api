@@ -3,6 +3,7 @@
     "_id": "572dcf6f041ccfa51fb3f9cb",
     "userAnswerRepo": "http://test.git",
     "branch": "master",
+    "commitTime": 2345678,
     "version": "asdasdfasdf"
   },
   {
