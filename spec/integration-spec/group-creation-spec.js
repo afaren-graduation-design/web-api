@@ -3,7 +3,7 @@ var adminSession = global.adminSession;
 
 describe("PUT /group/:groupHash", ()=> {
   // TODO：未完成的功能，需要跟老师商量
-  it.skip('should be return 201: POST /group', function (done) {
+  it('should be return 201: POST /group', function (done) {
     adminSession
       .post("/group")
       .send({

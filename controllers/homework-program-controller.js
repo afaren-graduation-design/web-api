@@ -42,6 +42,15 @@ HomeworkProgramController.prototype.getHomeworkList = (req, res) => {
   });
 };
 
+HomeworkProgramController.prototype.getHomeworkListByMysql = (req, res) => {
+  apiRequest.get('homeworkQuizzes', (err, resp) => {
+    if (!err && resp) {
+      return res.send(resp.body);
+    }
+    return res.sendStatus(404);
+  });
+};
+
 HomeworkProgramController.prototype.matchHomework = (req, res) => {
   let pageCount = req.query.pageCount;
   let page = req.query.page;

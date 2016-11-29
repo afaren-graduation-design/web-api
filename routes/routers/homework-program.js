@@ -6,6 +6,7 @@ var HomeworkProgramController = require('../../controllers/homework-program-cont
 var homeworkProgramController = new HomeworkProgramController();
 
 router.get('/search', homeworkProgramController.matchHomework);
+router.get('/homeworkList', homeworkProgramController.getHomeworkListByMysql);
 router.get('/', homeworkProgramController.getHomeworkList);
 router.delete('/deletion', homeworkProgramController.deleteSomeHomeworks);
 router.put('/:homeworkId', homeworkProgramController.updateHomework);

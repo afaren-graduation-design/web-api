@@ -1,0 +1,77 @@
+[
+  {
+    "description": "should_return_all_homework_quizzes",
+    "request": {
+      "uri": "/homeworkQuizzes",
+      "method": "get"
+    },
+    "response": {
+      "json": [
+        {
+          "description": "第二道编程题",
+          "makerId": 1,
+          "makerName": "测试一",
+          "createTime": "2016-11-15",
+          "uri": "/homeworks/1",
+          "name": "js"
+        },
+        {
+          "description": "第二道编程题",
+          "makerId": 1,
+          "makerName": "测试一",
+          "createTime": "2016-11-15",
+          "uri": "/homeworks/1",
+          "name": "c"
+        },
+        {
+          "description": "第三道编程题",
+          "makerId": 1,
+          "makerName": "测试一",
+          "createTime": "2016-11-15",
+          "uri": "/homeworks/1",
+          "name": "vb"
+        },
+        {
+          "description": "第四道编程题",
+          "makerId": 1,
+          "makerName": "测试一",
+          "createTime": "2016-11-15",
+          "uri": "/homeworks/1",
+          "name": "java"
+        },
+        {
+          "description": "第五道编程题",
+          "makerId": 1,
+          "makerName": "测试一",
+          "createTime": "2016-11-15",
+          "uri": "/homeworks/1",
+          "name": "python"
+        },
+        {
+          "description": "第六道编程题",
+          "makerId": 1,
+          "makerName": "测试一",
+          "createTime": "2016-11-15",
+          "uri": "/homeworks/1",
+          "name": "ruby"
+        },
+        {
+          "description": "第七道编程题",
+          "makerId": 1,
+          "makerName": "测试一",
+          "createTime": "2016-11-15",
+          "uri": "/homeworks/1",
+          "name": "c#"
+        },
+        {
+          "description": "第八道编程题",
+          "makerId": 1,
+          "makerName": "测试一",
+          "createTime": "2016-11-15",
+          "uri": "/homeworks/1",
+          "name": "c++"
+        }
+      ]
+    }
+  }
+]
