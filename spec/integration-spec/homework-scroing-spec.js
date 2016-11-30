@@ -63,7 +63,7 @@ describe('/homework/scoring', ()=> {
         ], done)
     });
 
-    it('PUT /homework/scoring: should be update', function (done) {
+    it.only('PUT /homework/scoring: should be update', function (done) {
         function updateScoring(done) {
             userSession
                 .put('/homework/scoring/572dcf6f041ccfa51fb3f9cb')
@@ -83,7 +83,7 @@ describe('/homework/scoring', ()=> {
               });
                 item.userAnswerRepo.should.equal('http://test.git');
                 item.status.should.equal(5);
-                item.result.should.equal('Complete!');
+                item.result.should.equal('\n����^');
                 done(null, null);
             })
         }

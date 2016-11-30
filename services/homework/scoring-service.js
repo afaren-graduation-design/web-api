@@ -117,7 +117,6 @@ function updateScoring(options, callback) {
   async.waterfall([
     (done) => {
       options.result = new Buffer(options.result || '', 'base64').toString('utf8');
-
       homeworkScoring.update({
         _id: options.historyId
       }, options, done);
@@ -160,6 +159,7 @@ function updateScoring(options, callback) {
     (data, done) => {
       // fixme: debug 时 timeout，查看 mock-server 没有这个接口
       apiRequest.post('scoresheets', data, (err, resp) => {
+        console.log("resp");
         done(err, resp);
       });
     }
