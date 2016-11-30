@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 var paperDefinitionSchema = new Schema({
   title: String,
   isDistribution: Boolean,
+  description: String,
   programId: Number,
   makerId: Number,
   createTime: String,
