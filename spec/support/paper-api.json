@@ -42,15 +42,6 @@
     "include": "spec/support/mock-api/user-api/teacher-login.json"
   },
   {
-    "include": "spec/support/mock-api/paper-api/programs/1/paper/getOnePaper.json"
-  },
-  {
-    "include": "spec/support/mock-api/paper-api/programs/1/savePaper.json"
-  },
-  {
-    "include": "spec/support/mock-api/paper-api/programs/1/paper/deletePaper.json"
-  },
-  {
     "include": "spec/support/mock-api/paper-api/homework-quizzes.json"
   }
 ]

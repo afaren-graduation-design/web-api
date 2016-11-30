@@ -60,8 +60,8 @@ HomeworkProgramController.prototype.getHomeworkListByMysql = (req, res) => {
 };
 
 HomeworkProgramController.prototype.matchHomework = (req, res) => {
-  let pageCount = req.query.pageCount;
-  let page = req.query.page;
+  let pageCount = req.query.pageCount || 10;
+  let page = req.query.page || 1;
   let skipCount = pageCount * (page - 1);
   let name = req.query.name;
   let homeworks;
