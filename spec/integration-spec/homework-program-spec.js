@@ -99,9 +99,13 @@ describe("GET /homeworks/homeworkList", ()=> {
   it("should return mysql homeworkList", (done)=> {
     userSession
       .get('/homeworks/homeworkList')
+      .query({
+        page: 1,
+        pageCount: 3
+      })
       .expect(200)
       .expect((res) => {
-        res.body.length.should.equal(8)
+        res.body.homeworkList.length.should.equal(3)
       })
       .end(done)
   })
