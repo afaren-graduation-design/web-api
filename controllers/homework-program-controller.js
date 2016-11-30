@@ -44,15 +44,13 @@ HomeworkProgramController.prototype.getHomeworkList = (req, res) => {
 
 HomeworkProgramController.prototype.getHomeworkListByMysql = (req, res) => {
   let pageCount = Number(req.query.pageCount) || 10;
-  let page = req.query.page || 1;
+  let page = Number(req.query.page) || 1;
   let skipCount = pageCount * (page - 1);
   apiRequest.get('homeworkQuizzes', (err, resp) => {
     if (!err && resp) {
-      let totalPage = Math.ceil(resp.body.length/pageCount);
-      console.log("========" + totalPage);
+      let totalPage = Math.ceil(resp.body.length / pageCount);
       let homeworkList = resp.body.slice(skipCount, skipCount + pageCount);
-      console.log(homeworkList.length);
-      if(page == totalPage){
+      if (page === totalPage) {
         return res.status(202).send({homeworkList, totalPage});
       }
       return res.status(200).send({homeworkList, totalPage});
