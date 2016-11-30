@@ -55,7 +55,7 @@ DashboardController.prototype.isCommited = (req, res) => {
       done(null, null);
     }, (data, done) => {
       apiRequest.get('users/' + userId + '/detail', (err, res, next) => {
-        if (err) {
+        if (err && res.statusCode !== 404) {
           return next(err);
         }
         isFinishedDetail = res.statusCode === 404 ? false : checkDetail(res.body);
