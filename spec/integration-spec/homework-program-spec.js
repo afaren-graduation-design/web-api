@@ -96,7 +96,7 @@ describe("Delete /homeworks/deletion", ()=> {
 });
 
 describe("GET /homeworks/homeworkList", ()=> {
-  it.only("should return mysql homeworkList", (done)=> {
+  it("should return mysql homeworkList", (done)=> {
     userSession
       .get('/homeworks/homeworkList')
       .query({
