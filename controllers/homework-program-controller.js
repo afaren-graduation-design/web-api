@@ -59,9 +59,30 @@ HomeworkProgramController.prototype.getHomeworkListByMysql = (req, res) => {
   });
 };
 
+HomeworkProgramController.prototype.matchHomeworkByMysql = (req, res) => {
+  let pageCount = Number(req.query.pageCount) || 10;
+  let page = Number(req.query.page) || 1;
+  let skipCount = pageCount * (page - 1);
+  let name = req.query.name;
+  apiRequest.get('homeworkQuizzes', (err, resp) => {
+    if (!err && resp) {
+      let matchedHomeworks = resp.body.filter((homework) => {
+        return homework.name === name;
+      });
+      let totalPage = Math.ceil(matchedHomeworks.length / pageCount);
+      let homeworkList = matchedHomeworks.slice(skipCount, skipCount + pageCount);
+      if (page === totalPage) {
+        return res.status(202).send({homeworkList, totalPage});
+      }
+      return res.status(200).send({homeworkList, totalPage});
+    }
+    return res.sendStatus(404);
+  });
+};
+
 HomeworkProgramController.prototype.matchHomework = (req, res) => {
-  let pageCount = req.query.pageCount;
-  let page = req.query.page;
+  let pageCount = req.query.pageCount || 10;
+  let page = req.query.page || 1;
   let skipCount = pageCount * (page - 1);
   let name = req.query.name;
   let homeworks;
