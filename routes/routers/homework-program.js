@@ -5,9 +5,9 @@ var router = express.Router();
 var HomeworkProgramController = require('../../controllers/homework-program-controller');
 var homeworkProgramController = new HomeworkProgramController();
 
-router.get('/search', homeworkProgramController.matchHomework);
+router.get('/selection', homeworkProgramController.matchHomework);
 router.get('/homeworkList', homeworkProgramController.getHomeworkListByMysql);
-router.get('/homeworkList/search', homeworkProgramController.matchHomeworkByMysql);
+router.get('/homeworkList/selection', homeworkProgramController.matchHomeworkByMysql);
 router.get('/', homeworkProgramController.getHomeworkList);
 router.delete('/deletion', homeworkProgramController.deleteSomeHomeworks);
 router.put('/:homeworkId', homeworkProgramController.updateHomework);

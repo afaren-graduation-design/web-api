@@ -6,7 +6,7 @@ var userSession = global.userSession;
 describe("GET MATCHED homeworks", ()=> {
   it("should return matched homeworks list", (done)=> {
     userSession
-      .get('/homeworks/search')
+      .get('/homeworks/selection')
       .query({
         page: 1,
         pageCount: 1,
@@ -111,10 +111,10 @@ describe("GET /homeworks/homeworkList", ()=> {
   })
 });
 
-describe("GET /homeworks/homeworkList/search", ()=> {
+describe("GET /homeworks/homeworkList/selection", ()=> {
   it("should return matched homeworkList by mysql", (done)=> {
     userSession
-      .get('/homeworks/homeworkList/search')
+      .get('/homeworks/homeworkList/selection')
       .query({
         page: 1,
         pageCount: 3,
