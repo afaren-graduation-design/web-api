@@ -19,7 +19,7 @@ function createScoring(options, callback) {
   var result;
   async.waterfall([
     (done) => {
-      apiRequest.get(options.homeworkQuizUri, function (err, data) {
+      apiRequest.get(options.homeworkQuizUri, function(err, data) {
         done(err, data.body);
       });
     },
@@ -85,7 +85,7 @@ function createScoring(options, callback) {
       request
           .get(scriptPath)
           .buffer()
-          .end(function (err, data) {
+          .end(function(err, data) {
             if (err) {
               done(err, null);
             } else {
@@ -141,7 +141,7 @@ function updateScoring(options, callback) {
           });
     },
     (doc, done) => {
-      homeworkScoring.findById(doc.quizzes.homeworkSubmitPostHistory, function (err, history) {
+      homeworkScoring.findById(doc.quizzes.homeworkSubmitPostHistory, function(err, history) {
         doc.quizzes.homeworkSubmitPostHistory = history.toJSON();
         done(err, doc);
       });
