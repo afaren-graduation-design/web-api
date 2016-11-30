@@ -63,7 +63,7 @@ describe('/homework/scoring', ()=> {
         ], done)
     });
 
-    it.only('PUT /homework/scoring: should be update', function (done) {
+    it('PUT /homework/scoring: should be update', function (done) {
         function updateScoring(done) {
             userSession
                 .put('/homework/scoring/572dcf6f041ccfa51fb3f9cb')
