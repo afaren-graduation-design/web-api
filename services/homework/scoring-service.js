@@ -150,12 +150,11 @@ function updateScoring(options, callback) {
       var homeworkData = {
         'examerId': data.userId,
         'paperId': data.paperId,
-        'homeworkSubmits': [{
+        'homeworkQuizSubmits': [{
           'homeworkQuizId': data.quizzes.id,
           'homeworkSubmitPostHistory': [data.quizzes.homeworkSubmitPostHistory]
         }]
       };
-
       done(null, homeworkData);
     },
     (data, done) => {

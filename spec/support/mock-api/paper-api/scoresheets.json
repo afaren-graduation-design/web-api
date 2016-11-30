@@ -78,7 +78,7 @@
       "json": {
         "examerId": 1,
         "paperId": 2,
-        "homeworkSubmits": [
+        "homeworkQuizSubmits": [
           {
             "homeworkQuizId": 1,
             "homeworkSubmitPostHistory": [
