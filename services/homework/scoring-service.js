@@ -159,7 +159,6 @@ function updateScoring(options, callback) {
     (data, done) => {
       // fixme: debug 时 timeout，查看 mock-server 没有这个接口
       apiRequest.post('scoresheets', data, (err, resp) => {
-        console.log("resp");
         done(err, resp);
       });
     }
