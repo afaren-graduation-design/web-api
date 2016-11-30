@@ -109,4 +109,21 @@ describe("GET /homeworks/homeworkList", ()=> {
       })
       .end(done)
   })
+});
+
+describe("GET /homeworks/homeworkList/search", ()=> {
+  it("should return matched homeworkList by mysql", (done)=> {
+    userSession
+      .get('/homeworks/homeworkList/search')
+      .query({
+        page: 1,
+        pageCount: 3,
+        name: 'c'
+      })
+      .expect(202)
+      .expect((res)=> {
+        res.body.homeworkList.length.should.equal(1)
+      })
+      .end(done)
+  })
 })
