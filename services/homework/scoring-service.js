@@ -19,7 +19,7 @@ function createScoring(options, callback) {
   var result;
   async.waterfall([
     (done) => {
-      apiRequest.get(options.homeworkQuizUri, function(err, data) {
+      apiRequest.get(options.homeworkQuizUri, function (err, data) {
         done(err, data.body);
       });
     },
@@ -85,7 +85,7 @@ function createScoring(options, callback) {
       request
           .get(scriptPath)
           .buffer()
-          .end(function(err, data) {
+          .end(function (err, data) {
             if (err) {
               done(err, null);
             } else {
@@ -116,9 +116,7 @@ function createScoring(options, callback) {
 function updateScoring(options, callback) {
   async.waterfall([
     (done) => {
-      // fixme： 乱码，这里不知道怎么弄，注释掉 base64 之后可以正常通过，不应该这样解决的吧！！！
-      // options.result = new Buffer(options.result  || '', 'base64').toString('utf8');
-      options.result = new Buffer(options.result || '').toString('utf8');
+      options.result = new Buffer(options.result || '', 'base64').toString('utf8');
 
       homeworkScoring.update({
         _id: options.historyId
@@ -143,7 +141,7 @@ function updateScoring(options, callback) {
           });
     },
     (doc, done) => {
-      homeworkScoring.findById(doc.quizzes.homeworkSubmitPostHistory, function(err, history) {
+      homeworkScoring.findById(doc.quizzes.homeworkSubmitPostHistory, function (err, history) {
         doc.quizzes.homeworkSubmitPostHistory = history.toJSON();
         done(err, doc);
       });
