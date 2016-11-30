@@ -29,6 +29,15 @@ function checkLoginInfo(account, password) {
   return pass;
 }
 
+function checkDetail(userDetatil) {
+  for (var member in userDetatil) {
+    if (userDetatil[member] === null) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function LoginController() {
 
 }
@@ -68,6 +77,11 @@ LoginController.prototype.login = (req, res, next) => {
         error.status = constant.httpCode.UNAUTHORIZED;
         done(error, null);
       }
+    }, (result, done) => {
+      apiRequest.get('users/' + result.body.id + '/detail', (err, res) => {
+        result.body.isFinishedDetail = res.statusCode === 404 ? false : checkDetail(res.body);
+        done(err, result);
+      });
     }], (error, result) => {
     if (error !== null && error.status === constant.httpCode.FORBIDDEN) {
       res.send({status: constant.httpCode.FORBIDDEN});
@@ -76,7 +90,7 @@ LoginController.prototype.login = (req, res, next) => {
       res.send({status: constant.httpCode.UNAUTHORIZED});
       return;
     } else if (result.status === constant.httpCode.OK) {
-      res.send({status: constant.httpCode.OK, isSuperAdmin: result.body.role === '9'});
+      res.send({status: constant.httpCode.OK, isSuperAdmin: result.body.role === '9', isFinishedDetail: result.body.isFinishedDetail});
       return;
     }
     return next(error);
