@@ -118,7 +118,7 @@ describe("GET /homeworks/homeworkList/search", ()=> {
       .query({
         page: 1,
         pageCount: 3,
-        name: 'c'
+        name: 'homework1'
       })
       .expect(202)
       .expect((res)=> {

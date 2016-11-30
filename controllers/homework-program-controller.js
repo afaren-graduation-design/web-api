@@ -48,8 +48,8 @@ HomeworkProgramController.prototype.getHomeworkListByMysql = (req, res) => {
   let skipCount = pageCount * (page - 1);
   apiRequest.get('homeworkQuizzes', (err, resp) => {
     if (!err && resp) {
-      let totalPage = Math.ceil(resp.body.length / pageCount);
-      let homeworkList = resp.body.slice(skipCount, skipCount + pageCount);
+      let totalPage = Math.ceil(resp.body.homeworkQuizzes.length / pageCount);
+      let homeworkList = resp.body.homeworkQuizzes.slice(skipCount, skipCount + pageCount);
       if (page === totalPage) {
         return res.status(202).send({homeworkList, totalPage});
       }
@@ -66,12 +66,12 @@ HomeworkProgramController.prototype.matchHomeworkByMysql = (req, res) => {
   let name = req.query.name;
   apiRequest.get('homeworkQuizzes', (err, resp) => {
     if (!err && resp) {
-      let matchedHomeworks = resp.body.filter((homework) => {
-        return homework.name === name;
+      let matchedHomeworks = resp.body.homeworkQuizzes.filter((homework) => {
+        return homework.homeworkName === name;
       });
       let totalPage = Math.ceil(matchedHomeworks.length / pageCount);
       let homeworkList = matchedHomeworks.slice(skipCount, skipCount + pageCount);
-      if (page === totalPage) {
+      if (totalPage === 0 || page === totalPage) {
         return res.status(202).send({homeworkList, totalPage});
       }
       return res.status(200).send({homeworkList, totalPage});
