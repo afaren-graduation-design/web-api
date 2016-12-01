@@ -8,8 +8,8 @@ router.post('/:programId/papers', programPaperController.savePaper);
 router.get('/:programId/papers/selection', programPaperController.selectPaper);
 router.delete('/:programId/papers/deletion', programPaperController.deleteSomePapers);
 router.delete('/:programId/paper/:paperId', programPaperController.deletePaper);
-router.get('/:programId/paper/:paperId', programPaperController.getPaper);
-router.put('/:programId/paper/:paperId', programPaperController.updatePaper);
+router.get('/:programId/papers/:paperId', programPaperController.getPaper);
+router.put('/:programId/papers/:paperId', programPaperController.updatePaper);
 router.delete('/:programId/papers', programPaperController.deleteBatch);
 
 module.exports = router;
