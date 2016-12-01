@@ -18,9 +18,6 @@
         },
         {
           "uri": "scoresheets/4"
-        },
-        {
-          "uri": "scoresheets/5"
         }
       ]
     }
@@ -38,7 +35,7 @@
     "response": {
       "status": 201,
       "json": {
-        "uri": "scoresheets/6"
+        "uri": "scoresheets/5"
       }
     }
   },
