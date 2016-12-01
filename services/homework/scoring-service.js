@@ -116,10 +116,7 @@ function createScoring(options, callback) {
 function updateScoring(options, callback) {
   async.waterfall([
     (done) => {
-      // fixme： 乱码，这里不知道怎么弄，注释掉 base64 之后可以正常通过，不应该这样解决的吧！！！
-      // options.result = new Buffer(options.result  || '', 'base64').toString('utf8');
-      options.result = new Buffer(options.result || '').toString('utf8');
-
+      options.result = new Buffer(options.result || '', 'base64').toString('utf8');
       homeworkScoring.update({
         _id: options.historyId
       }, options, done);
@@ -152,12 +149,11 @@ function updateScoring(options, callback) {
       var homeworkData = {
         'examerId': data.userId,
         'paperId': data.paperId,
-        'homeworkSubmits': [{
+        'homeworkQuizSubmits': [{
           'homeworkQuizId': data.quizzes.id,
           'homeworkSubmitPostHistory': [data.quizzes.homeworkSubmitPostHistory]
         }]
       };
-
       done(null, homeworkData);
     },
     (data, done) => {

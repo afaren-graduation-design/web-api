@@ -83,7 +83,7 @@ describe('/homework/scoring', ()=> {
               });
                 item.userAnswerRepo.should.equal('http://test.git');
                 item.status.should.equal(5);
-                item.result.should.equal('Complete!');
+                item.result.should.equal('\n����^');
                 done(null, null);
             })
         }

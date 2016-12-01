@@ -9,7 +9,7 @@
       "json": {
         "homeworkQuizzes": [
           {
-            "homeworkName": 123456,
+            "homeworkName": "homework1",
             "evaluateScript": "/homework-script/check-readme.sh",
             "templateRepository": "",
             "createTime": 123456,
@@ -18,7 +18,7 @@
             "makerName": "测试一"
           },
           {
-            "homeworkName": 123457,
+            "homeworkName": "homework2",
             "evaluateScript": "/homework-script/thousands_separators.sh",
             "templateRepository": "https://github.com/sialvsic/thousands_separators.git",
             "createTime": 123457,
@@ -27,7 +27,7 @@
             "makerName": "测试二"
           },
           {
-            "homeworkName": 123458,
+            "homeworkName": "homework3",
             "evaluateScript": "/homework-script/calculate_median.sh",
             "templateRepository": "https://github.com/simpletrain/easy-calculate.git",
             "createTime": 123458,
@@ -36,7 +36,7 @@
             "makerName": "测试二"
           },
           {
-            "homeworkName": 123459,
+            "homeworkName": "homework4",
             "evaluateScript": "/homework-script/configure.sh",
             "templateRepository": "https://github.com/purpletianjing/test-post.git",
             "createTime": 123459,
@@ -45,7 +45,7 @@
             "makerName": "测试一"
           },
           {
-            "homeworkName": 123450,
+            "homeworkName": "homework5",
             "evaluateScript": "/homework-script/collection-calculate-camp.sh",
             "templateRepository": "https://github.com/wengjiaojiao/empty-flaten.git",
             "createTime": 123450,
@@ -54,7 +54,7 @@
             "makerName": "测试一"
           },
           {
-            "homeworkName": 123450,
+            "homeworkName": "homework6",
             "evaluateScript": "/homework-script/prepos.sh",
             "templateRepository": "https://github.com/Lucky-LengYi/pre-pos-sec-1.git",
             "createTime": 123450,
@@ -63,7 +63,7 @@
             "makerName": "测试一"
           },
           {
-            "homeworkName": 123450,
+            "homeworkName": "homework7",
             "evaluateScript": "/homework-script/fibonacci_series.sh",
             "templateRepository": "https://github.com/sialvsic/fibonacci_series.git",
             "createTime": 123450,
@@ -72,7 +72,7 @@
             "makerName": "测试一"
           },
           {
-            "homeworkName": 123450,
+            "homeworkName": "homework8",
             "evaluateScript": "/homework-script/collection.sh",
             "templateRepository": "https://github.com/AnliHuer/collection.git",
             "createTime": 123450,
