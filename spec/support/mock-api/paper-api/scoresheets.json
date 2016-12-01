@@ -18,6 +18,9 @@
         },
         {
           "uri": "scoresheets/4"
+        },
+        {
+          "uri": "scoresheets/5"
         }
       ]
     }
@@ -35,7 +38,7 @@
     "response": {
       "status": 201,
       "json": {
-        "uri": "scoresheets/5"
+        "uri": "scoresheets/6"
       }
     }
   },
@@ -78,7 +81,7 @@
       "json": {
         "examerId": 1,
         "paperId": 2,
-        "homeworkSubmits": [
+        "homeworkQuizSubmits": [
           {
             "homeworkQuizId": 1,
             "homeworkSubmitPostHistory": [
@@ -98,7 +101,7 @@
       }
     },
     "response": {
-      "status": 200,
+      "status": 201,
       "json": {
         "uri": "scoresheets/5"
       }
