@@ -78,7 +78,7 @@ HomeworkDefinitionController.prototype.matchHomework = (req, res) => {
 HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
   const {name, type, definitionRepo} = req.body;
   const homeworkId = req.params.homeworkId;
-  HomeworkDefinition.update({_id: homeworkId}, {$set: {name, type, definitionRepo}}, (err) => {
+  HomeworkDefinition.update({_id: homeworkId, isDeleted: false}, {$set: {name, type, definitionRepo}}, (err) => {
     if (!err) {
       res.sendStatus(204);
     } else {
@@ -89,7 +89,7 @@ HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
 
 HomeworkDefinitionController.prototype.getOneHomework = (req, res) => {
   const homeworkId = req.params.homeworkId;
-  HomeworkDefinition.findOne({_id: homeworkId}, (err, homework) => {
+  HomeworkDefinition.findOne({_id: homeworkId, isDeleted: false}, (err, homework) => {
     if (!err && homework) {
       res.send(homework);
     } else {
@@ -100,7 +100,7 @@ HomeworkDefinitionController.prototype.getOneHomework = (req, res) => {
 
 HomeworkDefinitionController.prototype.deleteHomework = (req, res) => {
   const homeworkId = req.params.homeworkId;
-  HomeworkDefinition.update({_id: homeworkId}, {$set: {isDeleted: true}}, (err) => {
+  HomeworkDefinition.update({_id: homeworkId, isDeleted: false}, {$set: {isDeleted: true}}, (err) => {
     if (!err) {
       res.sendStatus(204);
     } else {
@@ -160,32 +160,13 @@ HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
   });
 };
 
-HomeworkDefinitionController.prototype.deleteBatch = (req, res) => {
-  let homeworkIds = req.body.homeworkIds;
-
-  let status = homeworkIds.map((homeworkId) => {
-    HomeworkDefinition.update({_id: homeworkId}, {$set: {isDeleted: true}}, (err) => {
-      if (!err) {
-        return 204;
-      } else {
-        return 400;
-      }
-    });
-  });
-  if (status.indexOf(400) === -1) {
-    res.sendStatus(204);
-  } else {
-    res.sendStatus(400);
-  }
-};
-
 HomeworkDefinitionController.prototype.insertEvaluateScript = (req, res) => {
   res.send(req.file);
 };
 
 HomeworkDefinitionController.prototype.deleteSomeHomeworks = (req, res) => {
   var idArray = req.body.idArray;
-  HomeworkDefinition.update({_id: {$in: idArray}}, {isDeleted: true}, {multi: true}).exec((err, data) => {
+  HomeworkDefinition.update({_id: {$in: idArray}, isDeleted: false}, {isDeleted: true}, {multi: true}).exec((err, data) => {
     if (!err && data) {
       res.status(204).end();
     } else {

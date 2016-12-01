@@ -31,8 +31,8 @@ describe('POST program/:id/papers', ()=> {
   })
 });
 
-describe('GET program/:programId/paper/:paperId', ()=> {
-  it('should be return a paper: GET  program/:programId/paper/:paperId', (done)=> {
+describe('GET program/:programId/papers/:paperId', ()=> {
+  it('should be return a paper: GET  program/:programId/papers/:paperId', (done)=> {
     userSession
       .get('/program/1/papers/5829958a7007c23870a1d68a')
       .expect(200)
@@ -45,7 +45,7 @@ describe('GET program/:programId/paper/:paperId', ()=> {
   })
 });
 
-describe('PUT program/:id/paper/:id', ()=> {
+describe('PUT program/:id/papers/:id', ()=> {
   it('should be return a paperId', (done)=> {
     userSession
       .put('/program/1/papers/5829958a7007c23870a1d68a')
