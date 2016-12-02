@@ -7,7 +7,7 @@ router.post('/:programId/papers', programPaperController.savePaper);
 
 router.get('/:programId/papers/selection', programPaperController.selectPaper);
 router.delete('/:programId/papers/deletion', programPaperController.deleteSomePapers);
-router.delete('/:programId/paper/:paperId', programPaperController.deletePaper);
+router.delete('/:programId/papers/:paperId', programPaperController.deletePaper);
 router.get('/:programId/papers/:paperId', programPaperController.getPaper);
 router.put('/:programId/papers/:paperId', programPaperController.updatePaper);
 router.post('/:programId/papers/distribution', programPaperController.distributePaper);

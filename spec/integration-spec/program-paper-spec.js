@@ -116,10 +116,10 @@ describe("GET program/:programId/papers", ()=> {
       .end(done)
   })
 });
-describe('DELETE program/:id/paper/:id', ()=> {
+describe('DELETE program/:id/papers/:id', ()=> {
   it('should be return a httpCode', (done)=> {
     userSession
-      .delete('/program/1/paper/5829958a7007c23870a1d68a')
+      .delete('/program/1/papers/5829958a7007c23870a1d68a')
       .expect(204)
       .end(done);
   })

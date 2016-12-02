@@ -45,6 +45,6 @@
     "include": "spec/support/mock-api/paper-api/homework-quizzes.json"
   },
   {
-    "include": "spec/support/mock-api/paper-api/programs/1/papers/distributionPaper.json"
+    "include": "spec/support/mock-api/paper-api/programs/1/papers/distribution-paper.json"
   }
 ]
