@@ -10,5 +10,6 @@ router.delete('/:programId/papers/deletion', programPaperController.deleteSomePa
 router.delete('/:programId/paper/:paperId', programPaperController.deletePaper);
 router.get('/:programId/papers/:paperId', programPaperController.getPaper);
 router.put('/:programId/papers/:paperId', programPaperController.updatePaper);
+router.post('/:programId/papers/distribution', programPaperController.distributePaper);
 
 module.exports = router;

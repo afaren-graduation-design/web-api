@@ -52,7 +52,6 @@ describe('PUT program/:id/papers/:id', ()=> {
       .send({
         title: "new title",
         description: "update paper-api",
-        isDistribution: false,
         sections: [
           {
             title: "logicQuizzes",

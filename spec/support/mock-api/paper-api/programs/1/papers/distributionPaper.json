@@ -1,0 +1,36 @@
+[
+  {
+    "description": "should_return_distributed_paper_uri",
+    "request": {
+      "uri": "/papers",
+      "method": "post",
+      "json": {
+        "makerId": "1",
+        "programId": "1",
+        "programName": "new title",
+        "sections": {
+          "blankQuizzes": {
+            "quizType": "blankQuizzes",
+            "items": {
+              "easy": 1,
+              "normal": 1,
+              "hard": 1
+            }
+          },
+          "homeworkQuizzes": {
+            "quizType": "homeworkQuizzes",
+            "quizzes": [
+              { "id": 1, "uri": "/homeworkQuizzes/1" },
+              { "id": 2, "uri": "/homeworkQuizzes/2" } ]
+          }
+        }
+      }
+    },
+    "response": {
+      "status": 201,
+      "json": {
+        "uri": "/program/1/papers"
+      }
+    }
+  }
+]

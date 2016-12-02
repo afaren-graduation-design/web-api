@@ -56,9 +56,9 @@ ProgramPaperController.prototype.updatePaper = (req, res) => {
   var paperId = req.params.paperId;
   var updateTime = new Date().toDateString();
 
-  var {title, description, sections, isDistribution} = req.body;
+  var {title, description, sections} = req.body;
   PaperDefinition.update({programId, _id: paperId},
-    {$set: {programId, updateTime, title, description, isDistribution, sections}}, (err) => {
+    {$set: {programId, updateTime, title, description, sections}}, (err) => {
       if (!err) {
         res.sendStatus(204);
       } else {
@@ -157,6 +157,56 @@ ProgramPaperController.prototype.deleteSomePapers = (req, res) => {
     } else {
       res.status(400).end();
     }
+  });
+};
+
+ProgramPaperController.prototype.distributePaper = (req, res) => {
+  var {title, description, sections} = req.body;
+  var programId = req.params.programId;
+  // var makerId = req.session.use.id;
+  var makerId = '1';
+  var createTime = new Date().toDateString();
+  var homeworkQuizzes;
+  var data;
+  new PaperDefinition({
+    programId,
+    uri: '',
+    title,
+    description,
+    sections,
+    makerId,
+    isDistribution: true,
+    createTime,
+    isDeleted: false
+  }).save((err, paper) => {
+    if (!err && paper) {
+      if (sections.length === 1) {
+        homeworkQuizzes = {quizType: "homeworkQuizzes", quizzes: sections[0].quizzes}
+        data = {
+          makerId, programId, programName: title, sections: homeworkQuizzes
+        };
+      } else if (sections.length === 2) {
+        var blankQuizzes = {quizType: "blankQuizzes", items: sections[0].quizzes};
+        homeworkQuizzes = {quizType: "homeworkQuizzes", quizzes: sections[1].quizzes};
+        data = {
+          makerId, programId, programName: title, sections: {blankQuizzes, homeworkQuizzes}
+        };
+      }
+      console.log(data.sections.blankQuizzes);
+      console.log(data.sections.homeworkQuizzes);
+      apiRequest.post('papers', data, (error, resp) => {
+        if (!error && resp) {
+          PaperDefinition.update({_id: paper._id}, {uri: resp.body.uri}, (err) => {
+            if (!err) {
+              res.status(201).send(resp.body.uri).end();
+            }
+            res.sendStatus(400).end();
+          });
+        }
+        res.sendStatus(400).end();
+      });
+    }
+    res.sendStatus(400).end();
   });
 };
 
