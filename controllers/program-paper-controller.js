@@ -181,19 +181,17 @@ ProgramPaperController.prototype.distributePaper = (req, res) => {
   }).save((err, paper) => {
     if (!err && paper) {
       if (sections.length === 1) {
-        homeworkQuizzes = {quizType: "homeworkQuizzes", quizzes: sections[0].quizzes}
+        homeworkQuizzes = {quizType: 'homeworkQuizzes', quizzes: sections[0].quizzes};
         data = {
           makerId, programId, programName: title, sections: homeworkQuizzes
         };
       } else if (sections.length === 2) {
-        var blankQuizzes = {quizType: "blankQuizzes", items: sections[0].quizzes};
-        homeworkQuizzes = {quizType: "homeworkQuizzes", quizzes: sections[1].quizzes};
+        var blankQuizzes = {quizType: 'blankQuizzes', items: sections[0].quizzes};
+        homeworkQuizzes = {quizType: 'homeworkQuizzes', quizzes: sections[1].quizzes};
         data = {
           makerId, programId, programName: title, sections: {blankQuizzes, homeworkQuizzes}
         };
       }
-      console.log(data.sections.blankQuizzes);
-      console.log(data.sections.homeworkQuizzes);
       apiRequest.post('papers', data, (error, resp) => {
         if (!error && resp) {
           PaperDefinition.update({_id: paper._id}, {uri: resp.body.uri}, (err) => {
