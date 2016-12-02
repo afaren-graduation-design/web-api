@@ -180,3 +180,31 @@ describe("POST /program/1/papers/distribution", ()=> {
       .end(done)
   })
 });
+
+describe("PUT /program/1/papers/:paperId/distribution", ()=> {
+  it("should return distributed paper uri", (done)=> {
+    userSession
+      .put('/program/1/papers/5829958a7007c23870a1d68a/distribution')
+      .send({
+        "title": "new title",
+        "description": "update paper-api",
+        "isDistribution": false,
+        "sections": [
+          {
+            "title": "logicQuizzes",
+            "quizzes": {
+              "easy": 1,
+              "normal": 1,
+              "hard": 1
+            }
+          }, {
+            "title": "homeworkQuizzes",
+            "quizzes": [{"id": 1, "uri": "/homeworkQuizzes/1"}, {"id": 2, "uri": "/homeworkQuizzes/2"}]
+          }
+        ]
+      })
+      .expect(201)
+      .end(done)
+  })
+});
+

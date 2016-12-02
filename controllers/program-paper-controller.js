@@ -5,6 +5,7 @@ var constant = require('../mixin/constant');
 var PaperDefinition = require('../models/paper-definition');
 var unique = require('../tool/unique');
 var addMakerName = require('../tool/addMakerName');
+var formatSections = require('../tool/format-sections');
 
 function ProgramPaperController() {
 
@@ -166,7 +167,6 @@ ProgramPaperController.prototype.distributePaper = (req, res) => {
   // var makerId = req.session.use.id;
   var makerId = '1';
   var createTime = new Date().toDateString();
-  var homeworkQuizzes;
   var data;
   new PaperDefinition({
     programId,
@@ -177,23 +177,16 @@ ProgramPaperController.prototype.distributePaper = (req, res) => {
     makerId,
     isDistribution: false,
     createTime,
+    updateTime: '',
     isDeleted: false
   }).save((err, paper) => {
     if (err) {
-      return res.sendStatus(404);
+      return res.sendStatus(400);
     }
-    if (sections.length === 1) {
-      homeworkQuizzes = {quizType: 'homeworkQuizzes', quizzes: sections[0].quizzes};
-      data = {
-        makerId, programId, programName: title, sections: homeworkQuizzes
-      };
-    } else if (sections.length === 2) {
-      var blankQuizzes = {quizType: 'blankQuizzes', items: sections[0].quizzes};
-      homeworkQuizzes = {quizType: 'homeworkQuizzes', quizzes: sections[1].quizzes};
-      data = {
-        makerId, programId, programName: title, sections: {blankQuizzes, homeworkQuizzes}
-      };
-    }
+    var formattedSections = formatSections(sections);
+    data = {
+      makerId, programId, programName: title, sections: formattedSections
+    };
     apiRequest.post('papers', data, (error, resp) => {
       if (!error && resp) {
         PaperDefinition.update({_id: paper._id}, {uri: resp.body.uri, isDistribution: true}, (err) => {
@@ -204,10 +197,43 @@ ProgramPaperController.prototype.distributePaper = (req, res) => {
           return res.sendStatus(400);
         });
       } else {
-        return res.sendStatus(401);
+        return res.sendStatus(400);
       }
     });
   });
+};
+
+ProgramPaperController.prototype.distributePaperById = (req, res) => {
+  var {title, description, sections} = req.body;
+  var programId = req.params.programId;
+  var paperId = req.params.paperId;
+  // var makerId = req.session.use.id;
+  var makerId = '1';
+  var updateTime = new Date().toDateString();
+  var data;
+  PaperDefinition.update({_id: paperId, programId, isDeleted: false},
+    {title, description, sections, updateTime}, (err) => {
+      if (err) {
+        return res.sendStatus(400);
+      }
+      var formattedSections = formatSections(sections);
+      data = {
+        makerId, programId, programName: title, sections: formattedSections
+      };
+      apiRequest.post('papers', data, (error, resp) => {
+        if (!error && resp) {
+          PaperDefinition.update({_id: paperId}, {uri: resp.body.uri, isDistribution: true}, (err) => {
+            if (!err) {
+              var uri = resp.body.uri;
+              return res.status(201).send(uri);
+            }
+            return res.sendStatus(400);
+          });
+        } else {
+          return res.sendStatus(400);
+        }
+      });
+    });
 };
 
 module.exports = ProgramPaperController;

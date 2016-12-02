@@ -11,5 +11,5 @@ router.delete('/:programId/papers/:paperId', programPaperController.deletePaper)
 router.get('/:programId/papers/:paperId', programPaperController.getPaper);
 router.put('/:programId/papers/:paperId', programPaperController.updatePaper);
 router.post('/:programId/papers/distribution', programPaperController.distributePaper);
-
+router.put('/:programId/papers/:paperId/distribution', programPaperController.distributePaperById);
 module.exports = router;
