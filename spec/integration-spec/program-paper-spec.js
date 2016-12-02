@@ -155,7 +155,7 @@ describe("Delete /program/1/papers/deletion", ()=> {
 });
 
 describe("POST /program/1/papers/distribution", ()=> {
-  it.only("should return distributed paper uri", (done)=> {
+  it("should return distributed paper uri", (done)=> {
     userSession
       .post('/program/1/papers/distribution')
       .send({
