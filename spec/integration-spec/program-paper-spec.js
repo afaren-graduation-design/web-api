@@ -142,7 +142,6 @@ describe("GET program/:programId/papers/selection", ()=> {
   })
 });
 
-
 describe("Delete /program/1/papers/deletion", ()=> {
     it("should return the paper delete msg", (done)=> {
         userSession
@@ -153,4 +152,31 @@ describe("Delete /program/1/papers/deletion", ()=> {
             .expect(204)
             .end(done)
     })
+});
+
+describe("POST /program/1/papers/distribution", ()=> {
+  it.only("should return distributed paper uri", (done)=> {
+    userSession
+      .post('/program/1/papers/distribution')
+      .send({
+        "title": "new title",
+        "description": "update paper-api",
+        "isDistribution": false,
+        "sections": [
+          {
+            "title": "logicQuizzes",
+            "quizzes": {
+              "easy": 1,
+              "normal": 1,
+              "hard": 1
+            }
+          }, {
+            "title": "homeworkQuizzes",
+            "quizzes": [{"id": 1, "uri": "/homeworkQuizzes/1"}, {"id": 2, "uri": "/homeworkQuizzes/2"}]
+          }
+        ]
+      })
+      .expect(201)
+      .end(done)
+  })
 });

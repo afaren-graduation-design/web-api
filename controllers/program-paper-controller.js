@@ -175,36 +175,38 @@ ProgramPaperController.prototype.distributePaper = (req, res) => {
     description,
     sections,
     makerId,
-    isDistribution: true,
+    isDistribution: false,
     createTime,
     isDeleted: false
   }).save((err, paper) => {
-    if (!err && paper) {
-      if (sections.length === 1) {
-        homeworkQuizzes = {quizType: 'homeworkQuizzes', quizzes: sections[0].quizzes};
-        data = {
-          makerId, programId, programName: title, sections: homeworkQuizzes
-        };
-      } else if (sections.length === 2) {
-        var blankQuizzes = {quizType: 'blankQuizzes', items: sections[0].quizzes};
-        homeworkQuizzes = {quizType: 'homeworkQuizzes', quizzes: sections[1].quizzes};
-        data = {
-          makerId, programId, programName: title, sections: {blankQuizzes, homeworkQuizzes}
-        };
-      }
-      apiRequest.post('papers', data, (error, resp) => {
-        if (!error && resp) {
-          PaperDefinition.update({_id: paper._id}, {uri: resp.body.uri}, (err) => {
-            if (!err) {
-              res.status(201).send(resp.body.uri).end();
-            }
-            res.sendStatus(400).end();
-          });
-        }
-        res.sendStatus(400).end();
-      });
+    if (err) {
+      return res.sendStatus(404);
     }
-    res.sendStatus(400).end();
+    if (sections.length === 1) {
+      homeworkQuizzes = {quizType: 'homeworkQuizzes', quizzes: sections[0].quizzes};
+      data = {
+        makerId, programId, programName: title, sections: homeworkQuizzes
+      };
+    } else if (sections.length === 2) {
+      var blankQuizzes = {quizType: 'blankQuizzes', items: sections[0].quizzes};
+      homeworkQuizzes = {quizType: 'homeworkQuizzes', quizzes: sections[1].quizzes};
+      data = {
+        makerId, programId, programName: title, sections: {blankQuizzes, homeworkQuizzes}
+      };
+    }
+    apiRequest.post('papers', data, (error, resp) => {
+      if (!error && resp) {
+        PaperDefinition.update({_id: paper._id}, {uri: resp.body.uri, isDistribution: true}, (err) => {
+          if (!err) {
+            var uri = resp.body.uri;
+            return res.status(201).send(uri);
+          }
+          return res.sendStatus(400);
+        });
+      } else {
+        return res.sendStatus(401);
+      }
+    });
   });
 };
 
