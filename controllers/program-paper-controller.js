@@ -29,14 +29,13 @@ ProgramPaperController.prototype.savePaper = (req, res, next) => {
   // var makerId = req.body.makerId;
 
   var createTime = new Date().toDateString();
-  var {title, description, sections, makerId} = req.body;
-
+  var {paperName, description, sections} = req.body;
   new PaperDefinition({
     programId,
     isDistribution: false,
-    makerId,
+    makerId: 1,
     description,
-    title,
+    paperName,
     createTime,
     isDeleted: false,
     uri: '',
@@ -57,9 +56,9 @@ ProgramPaperController.prototype.updatePaper = (req, res) => {
   var paperId = req.params.paperId;
   var updateTime = new Date().toDateString();
 
-  var {title, description, sections} = req.body;
+  var {paperName, description, sections} = req.body;
   PaperDefinition.update({programId, _id: paperId},
-    {$set: {programId, updateTime, title, description, sections}}, (err) => {
+    {$set: {programId, updateTime, paperName, description, sections}}, (err) => {
       if (!err) {
         res.sendStatus(204);
       } else {
@@ -86,7 +85,6 @@ ProgramPaperController.prototype.getPaperList = (req, res, next) => {
   let page = req.query.page;
   let skipCount = pageCount * (page - 1);
   let papers;
-
   PaperDefinition.find({isDeleted: false}).limit(Number(pageCount)).skip(skipCount).exec((err, data) => {
     PaperDefinition.count({isDeleted: false}, (error, count) => {
       if (!err && !error && count && data) {
@@ -116,13 +114,13 @@ ProgramPaperController.prototype.getPaperList = (req, res, next) => {
 };
 
 ProgramPaperController.prototype.selectPaper = (req, res, next) => {
-  var title = req.query.title;
+  var paperName = req.query.title;
   let pageCount = req.query.pageCount;
   let page = req.query.page;
   let skipCount = pageCount * (page - 1);
   let papers;
 
-  PaperDefinition.find({isDeleted: false, title: title}).limit(Number(pageCount)).skip(skipCount).exec((err, data) => {
+  PaperDefinition.find({isDeleted: false, paperName}).limit(Number(pageCount)).skip(skipCount).exec((err, data) => {
     PaperDefinition.count({isDeleted: false}, (error, count) => {
       if (!err && !error && count && data) {
         var totalPage = Math.ceil(count / 10);
@@ -162,7 +160,7 @@ ProgramPaperController.prototype.deleteSomePapers = (req, res) => {
 };
 
 ProgramPaperController.prototype.distributePaper = (req, res) => {
-  var {title, description, sections} = req.body;
+  var {paperName, description, sections} = req.body;
   var programId = req.params.programId;
   // var makerId = req.session.use.id;
   var makerId = '1';
@@ -171,7 +169,7 @@ ProgramPaperController.prototype.distributePaper = (req, res) => {
   new PaperDefinition({
     programId,
     uri: '',
-    title,
+    paperName,
     description,
     sections,
     makerId,
@@ -185,7 +183,7 @@ ProgramPaperController.prototype.distributePaper = (req, res) => {
     }
     var formattedSections = formatSections(sections);
     data = {
-      makerId, programId, programName: title, sections: formattedSections
+      makerId, programId, paperName, sections: formattedSections
     };
     apiRequest.post('papers', data, (error, resp) => {
       if (!error && resp) {
@@ -194,17 +192,17 @@ ProgramPaperController.prototype.distributePaper = (req, res) => {
             var uri = resp.body.uri;
             return res.status(201).send(uri);
           }
-          return res.sendStatus(400);
+          return res.sendStatus(401);
         });
       } else {
-        return res.sendStatus(400);
+        return res.sendStatus(402);
       }
     });
   });
 };
 
 ProgramPaperController.prototype.distributePaperById = (req, res) => {
-  var {title, description, sections} = req.body;
+  var {paperName, description, sections} = req.body;
   var programId = req.params.programId;
   var paperId = req.params.paperId;
   // var makerId = req.session.use.id;
@@ -212,13 +210,13 @@ ProgramPaperController.prototype.distributePaperById = (req, res) => {
   var updateTime = new Date().toDateString();
   var data;
   PaperDefinition.update({_id: paperId, programId, isDeleted: false},
-    {title, description, sections, updateTime}, (err) => {
+    {paperName, description, sections, updateTime}, (err) => {
       if (err) {
         return res.sendStatus(400);
       }
       var formattedSections = formatSections(sections);
       data = {
-        makerId, programId, programName: title, sections: formattedSections
+        makerId, programId, paperName, sections: formattedSections
       };
       apiRequest.post('papers', data, (error, resp) => {
         if (!error && resp) {

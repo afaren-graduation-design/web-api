@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var paperDefinitionSchema = new Schema({
-  title: String,
+  paperName: String,
   isDistribution: Boolean,
   description: String,
   programId: Number,

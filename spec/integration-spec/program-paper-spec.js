@@ -9,7 +9,7 @@ describe('POST program/:id/papers', ()=> {
         programId: 1,
         isDistribution: false,
         description: '这是一个描述',
-        title: '题目',
+        paperName: '题目',
         sections: [
           {
             title: 'logicQuizzes',
@@ -50,7 +50,7 @@ describe('PUT program/:id/papers/:id', ()=> {
     userSession
       .put('/program/1/papers/5829958a7007c23870a1d68a')
       .send({
-        title: "new title",
+        paperName: "new title",
         description: "update paper-api",
         sections: [
           {
@@ -79,7 +79,7 @@ describe('POST program/:id/papers', ()=> {
         programId: 1,
         isDistribution: false,
         description: '这是一个描述',
-        title: '题目',
+        paperName: '题目',
         sections: [
           {
             title: 'logicQuizzes',
@@ -159,20 +159,19 @@ describe("POST /program/1/papers/distribution", ()=> {
     userSession
       .post('/program/1/papers/distribution')
       .send({
-        "title": "new title",
-        "description": "update paper-api",
-        "isDistribution": false,
-        "sections": [
+        paperName: "new title",
+        description: "update paper-api",
+        sections: [
           {
-            "title": "logicQuizzes",
-            "quizzes": {
-              "easy": 1,
-              "normal": 1,
-              "hard": 1
+            title: "logicQuizzes",
+            quizzes: {
+              easy: 1,
+              normal: 1,
+              hard: 1
             }
           }, {
-            "title": "homeworkQuizzes",
-            "quizzes": [{"id": 1, "uri": "/homeworkQuizzes/1"}, {"id": 2, "uri": "/homeworkQuizzes/2"}]
+            title: "homeworkQuizzes",
+            quizzes: [{id: 1, uri: "/homeworkQuizzes/1"}, {id: 2, uri: "/homeworkQuizzes/2"}]
           }
         ]
       })
@@ -186,20 +185,19 @@ describe("PUT /program/1/papers/:paperId/distribution", ()=> {
     userSession
       .put('/program/1/papers/5829958a7007c23870a1d68a/distribution')
       .send({
-        "title": "new title",
-        "description": "update paper-api",
-        "isDistribution": false,
-        "sections": [
+        paperName: "new title",
+        description: "update paper-api",
+        sections: [
           {
-            "title": "logicQuizzes",
-            "quizzes": {
-              "easy": 1,
-              "normal": 1,
-              "hard": 1
+            title: "logicQuizzes",
+            quizzes: {
+              easy: 1,
+              normal: 1,
+              hard: 1
             }
           }, {
-            "title": "homeworkQuizzes",
-            "quizzes": [{"id": 1, "uri": "/homeworkQuizzes/1"}, {"id": 2, "uri": "/homeworkQuizzes/2"}]
+            title: "homeworkQuizzes",
+            quizzes: [{id: 1, uri: "/homeworkQuizzes/1"}, {id: 2, uri: "/homeworkQuizzes/2"}]
           }
         ]
       })
