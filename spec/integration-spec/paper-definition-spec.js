@@ -1,10 +1,10 @@
 require('./spec-base');
 var userSession = global.userSession;
 
-describe('POST program/:id/papers', ()=> {
+describe('POST programs/:id/paperDefinitions', ()=> {
   it('should be return a paperId', (done)=> {
     userSession
-      .post('/program/1/papers')
+      .post('/programs/1/paperDefinitions')
       .send({
         programId: 1,
         isDistribution: false,
@@ -31,10 +31,10 @@ describe('POST program/:id/papers', ()=> {
   })
 });
 
-describe('GET program/:programId/papers/:paperId', ()=> {
-  it('should be return a paper: GET  program/:programId/papers/:paperId', (done)=> {
+describe('GET programs/:programId/paperDefinitions/:paperId', ()=> {
+  it('should be return a paper: GET  programs/:programId/paperDefinitions/:paperId', (done)=> {
     userSession
-      .get('/program/1/papers/5829958a7007c23870a1d68a')
+      .get('/programs/1/paperDefinitions/5829958a7007c23870a1d68a')
       .expect(200)
       .expect(function (res) {
         res.body[0].programId.should.equal(1);
@@ -45,10 +45,10 @@ describe('GET program/:programId/papers/:paperId', ()=> {
   })
 });
 
-describe('PUT program/:id/papers/:id', ()=> {
+describe('PUT programs/:id/paperDefinitions/:id', ()=> {
   it('should be return a paperId', (done)=> {
     userSession
-      .put('/program/1/papers/5829958a7007c23870a1d68a')
+      .put('/programs/1/paperDefinitions/5829958a7007c23870a1d68a')
       .send({
         paperName: "new title",
         description: "update paper-api",
@@ -71,10 +71,10 @@ describe('PUT program/:id/papers/:id', ()=> {
   })
 });
 
-describe('POST program/:id/papers', ()=> {
+describe('POST programs/:id/paperDefinitions', ()=> {
   it('should be return a paperId', (done)=> {
     userSession
-      .post('/program/1/papers')
+      .post('/programs/1/paperDefinitions')
       .send({
         programId: 1,
         isDistribution: false,
@@ -101,10 +101,10 @@ describe('POST program/:id/papers', ()=> {
   })
 });
 
-describe("GET program/:programId/papers", ()=> {
+describe("GET programs/:programId/paperDefinitions", ()=> {
   it('should be return paper list', (done)=> {
     userSession
-      .get('/program/1/papers')
+      .get('/programs/1/paperDefinitions')
       .query({
         page: 1,
         pageCount: 10
@@ -116,19 +116,19 @@ describe("GET program/:programId/papers", ()=> {
       .end(done)
   })
 });
-describe('DELETE program/:id/papers/:id', ()=> {
+describe('DELETE programs/:id/paperDefinitions/:id', ()=> {
   it('should be return a httpCode', (done)=> {
     userSession
-      .delete('/program/1/papers/5829958a7007c23870a1d68a')
+      .delete('/programs/1/paperDefinitions/5829958a7007c23870a1d68a')
       .expect(204)
       .end(done);
   })
 });
 
-describe("GET program/:programId/papers/selection", ()=> {
+describe("GET programs/:programId/paperDefinitions/selection", ()=> {
   it('should be return paper list as select type', (done)=> {
     userSession
-      .get('/program/1/papers/selection')
+      .get('/programs/1/paperDefinitions/selection')
       .query({
         title: 'java',
         page: 1,
@@ -142,10 +142,10 @@ describe("GET program/:programId/papers/selection", ()=> {
   })
 });
 
-describe("Delete /program/1/papers/deletion", ()=> {
+describe("Delete /programs/1/paperDefinitions/deletion", ()=> {
     it("should return the paper delete msg", (done)=> {
         userSession
-            .delete('/program/1/papers/deletion')
+            .delete('/programs/1/paperDefinitions/deletion')
             .send({
                 idArray:["5829958a7007c23870a1d681","5829958a7007c23870a1d680"]
             })
@@ -154,10 +154,10 @@ describe("Delete /program/1/papers/deletion", ()=> {
     })
 });
 
-describe("POST /program/1/papers/distribution", ()=> {
+describe("POST /programs/1/paperDefinitions/distribution", ()=> {
   it("should return distributed paper uri", (done)=> {
     userSession
-      .post('/program/1/papers/distribution')
+      .post('/programs/1/paperDefinitions/distribution')
       .send({
         paperName: "new title",
         description: "update paper-api",
@@ -180,10 +180,10 @@ describe("POST /program/1/papers/distribution", ()=> {
   })
 });
 
-describe("PUT /program/1/papers/:paperId/distribution", ()=> {
+describe("PUT /programs/1/paperDefinitions/:paperId/distribution", ()=> {
   it("should return distributed paper uri", (done)=> {
     userSession
-      .put('/program/1/papers/5829958a7007c23870a1d68a/distribution')
+      .put('/programs/1/paperDefinitions/5829958a7007c23870a1d68a/distribution')
       .send({
         paperName: "new title",
         description: "update paper-api",
