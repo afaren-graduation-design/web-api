@@ -7,7 +7,7 @@ describe('/user/:userId/programs', ()=> {
         .get('/user/1/programs')
         .expect(200)
         .expect((res)=> {
-            res.body.programIds.length.should.equal(4)
+            res.body.programIds.length.should.equal(2)
         })
         .end(done)
   });
