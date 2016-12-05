@@ -29,6 +29,7 @@ ProgramPaperController.prototype.savePaper = (req, res, next) => {
   // var makerId = req.body.makerId;
 
   var createTime = new Date().toDateString();
+  var updateTime = createTime;
   var {paperName, description, sections} = req.body;
   new PaperDefinition({
     programId,
@@ -37,6 +38,7 @@ ProgramPaperController.prototype.savePaper = (req, res, next) => {
     description,
     paperName,
     createTime,
+    updateTime,
     isDeleted: false,
     uri: '',
     sections
