@@ -1,4 +1,4 @@
-'use strict';
+ 'use strict';
 
 exports.setRoutes = (app) => {
   app.use('/register', require('./routers/register'));

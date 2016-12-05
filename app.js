@@ -1,6 +1,5 @@
 'use strict';
-
-// require('newrelic');
+require('newrelic');
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -58,7 +57,6 @@ app.use(bodyParser.json());
 
 // app.use(verifyToken);
 // app.use(checkSession);
-
 route.setRoutes(app);
 
 app.use((err, req, res, next) => {
@@ -77,6 +75,8 @@ app.use((err, req, res, next) => {
 app.listen(config.port, () => {
   console.log('server started at http://localhost:' + config.port);   // eslint-disable-line no-console
   mongoConn.start(config.database);
+  console.log('Current environment is: ' + env); // eslint-disable-line no-console
+  console.log('App listening at http://localhost:' + config.port); // eslint-disable-line no-console
 });
 
 module.exports = app;

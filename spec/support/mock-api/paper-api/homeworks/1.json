@@ -1,0 +1,21 @@
+[
+  {
+    "description": "should_return_one_homework_quiz_when_request_one_homework_quiz",
+    "request": {
+      "uri": "/homeworks/1",
+      "method": "post",
+      "json": {
+        "description": "zhangpei",
+        "templateUrl": "./uploads/1480320856738848600",
+        "evaluateScript": ""
+      }
+    },
+    "response": {
+      "json": {
+        "uri":"homeworks/1"
+      }
+    }
+  }
+]
+
+

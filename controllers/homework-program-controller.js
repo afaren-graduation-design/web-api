@@ -1,6 +1,7 @@
 var apiRequest = require('../services/api-request');
 
 function HomeworkProgramController() {
+
 };
 
 HomeworkProgramController.prototype.getHomeworkListByMysql = (req, res) => {
@@ -37,8 +38,8 @@ HomeworkProgramController.prototype.matchHomeworkByMysql = (req, res) => {
       }
       return res.status(200).send({homeworkList, totalPage});
     }
-    return res.sendStatus(404);
   });
 };
 
 module.exports = HomeworkProgramController;
+
