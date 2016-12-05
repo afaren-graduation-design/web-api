@@ -7,5 +7,5 @@ var UserController = require('../../controllers/user-controller');
 var userController = new UserController();
 
 router.get('/feedback-result', userController.getFeedback);
-
+router.get('/:userId/programs', userController.getUserProgramIds);
 module.exports = router;

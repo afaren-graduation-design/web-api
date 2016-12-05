@@ -47,11 +47,11 @@ function getUsersCommitHistory(commitHistoryFilter, callback) {
   var url = config.taskServer + 'tasks';
 
   superAgent.get(url)
-    .set('Content-Type', 'application/json')
-    .query({
-      filter: JSON.stringify(filter)
-    })
-    .end(callback);
+      .set('Content-Type', 'application/json')
+      .query({
+        filter: JSON.stringify(filter)
+      })
+      .end(callback);
 }
 
 function getHomeworkDetailsByUserId(userId, callback) {
@@ -179,6 +179,16 @@ UserController.prototype.getFeedback = (req, res, next) => {
   buildFeedbackInfo(userId, (err, feedbackInfo) => {
     if (err) return next(err);
     res.send(feedbackInfo);
+  });
+};
+
+UserController.prototype.getUserProgramIds = (req, res) => {
+  var userId = req.params.userId;
+  apiRequest.get('users/' + userId + '/programs', (err, resp) => {
+    if (err) {
+      return res.sendStatus(400);
+    }
+    return res.send({programIds: resp.body.programIds});
   });
 };
 
