@@ -1,6 +1,6 @@
 'use strict';
 
-require('newrelic');
+// require('newrelic');
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -75,6 +75,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(config.port, () => {
+  console.log('server started at http://localhost:' + config.port);   // eslint-disable-line no-console
   mongoConn.start(config.database);
 });
 
