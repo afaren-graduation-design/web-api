@@ -13,7 +13,7 @@ router.get('/:homeworkId', homeworkDefinationController.getOneHomework);
 router.delete('/:homeworkId', homeworkDefinationController.deleteHomework);
 
 var storage = multer.diskStorage({
-  destination: './uploads',
+  destination: './homework-script',
   filename: function(req, file, cb) {
     cb(null, new Date().getTime() + Math.random().toString().slice(2, 8));
   }

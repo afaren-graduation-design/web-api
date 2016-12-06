@@ -6,8 +6,8 @@
       "method": "post",
       "json": {
         "description": "zhangpei",
-        "templateUrl": "./uploads/1480320856738848600",
-        "evaluateScript": ""
+        "templateUrl": "",
+        "evaluateScript": "/homework-script/1481000787024961074"
       }
     },
     "response": {

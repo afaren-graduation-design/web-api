@@ -123,8 +123,8 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
   var templateUrl = req.file ? `./${req.file.path}` : '';
   apiRequest.post('homeworks/1', {
     description: 'zhangpei',
-    templateUrl: './uploads/1480320856738848600',
-    evaluateScript: ''
+    templateUrl: "",
+    evaluateScript: '/homework-script/1481000787024961074'
   }, (err, resp) => {
     if (!err && resp) {
       HomeworkDefinition.update({_id: id}, {
