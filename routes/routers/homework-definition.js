@@ -8,7 +8,7 @@ var homeworkDefinationController = new HomeworkDefinationController();
 router.get('/selection', homeworkDefinationController.matchHomework);
 router.get('/', homeworkDefinationController.getHomeworkList);
 router.delete('/deletion', homeworkDefinationController.deleteSomeHomeworks);
-// router.put('/:homeworkId', homeworkDefinationController.updateHomework);
+router.put('/:homeworkId', homeworkDefinationController.updateHomework);
 router.get('/:homeworkId', homeworkDefinationController.getOneHomework);
 router.delete('/:homeworkId', homeworkDefinationController.deleteHomework);
 

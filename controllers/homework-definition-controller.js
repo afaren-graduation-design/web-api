@@ -163,50 +163,40 @@ HomeworkDefinitionController.prototype.searchStatus = (req, res) => {
   });
 };
 
-// HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
-//   const {name, type, definitionRepo} = req.body;
-//   const homeworkId = req.params.homeworkId;
-//   HomeworkDefinition.update({_id: homeworkId}, {$set: {name, type, definitionRepo}}, (err, data) => {
-//     if (!err && data) {
-//       request
-//         .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
-//         .send({
-//           git: definitionRepo,
-//           // ip: getId(),
-//           mongo: data.toJSON()._id + ''
-//         })
-//         .type('form')
-//         .end((err, resp) => {
-//           if (!err) {
-//             resp.sendStatus(200);
-//           } else {
-//             HomeworkDefinition.update({_id: data._id}, {$set: {status: 0}}).exec((err, data) => {
-//               resp.sendStatus(404);
-//               if (err) {
-//                 throw err;
-//               }
-//             });
-//           }
-//         });
-//       res.sendStatus(204);
-//     } else {
-//       res.sendStatus(400);
-//     }
-//   });
+HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
+  const {name, type, definitionRepo} = req.body;
+  const homeworkId = req.params.homeworkId;
+  HomeworkDefinition.update({_id: homeworkId}, {$set: {name, type, definitionRepo}}, (err, data) => {
+    if (!err && data) {
+      request
+        .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
+        .send({
+          git: definitionRepo,
+          ip: getIp(),
+          mongo: homeworkId
+        })
+        .type('form')
+        .end((err, resp) => {
+          if (!err) {
+            resp.sendStatus(200);
+          } else {
+            HomeworkDefinition.update({_id: data._id}, {$set: {status: 0}}).exec((err, data) => {
+              resp.sendStatus(404);
+              if (err) {
+                throw err;
+              }
+            });
+          }
+        });
+      res.sendStatus(204);
+    } else {
+      res.sendStatus(400);
+    }
+  });
+};
 
 HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
   const {name, type, definitionRepo} = req.body;
-  var interfaces = os.networkInterfaces();
-  var addresses = [];
-
-  for (var k in interfaces) {
-    for (var k2 in interfaces[k]) {
-      var address = interfaces[k][k2];
-      if (address.family === 'IPv4' && !address.internal) {
-        addresses.push(address.address);
-      }
-    }
-  }
 
   async.waterfall([
     (done) => {
@@ -222,7 +212,7 @@ HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
             .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
             .send({
               git: definitionRepo,
-              ip: addresses[0],
+              ip: getIp(),
               mongo: data.toJSON()._id + ''
             })
             .type('form')
@@ -249,5 +239,25 @@ HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
     }
   });
 };
+
+function getIp() {
+  var interfaces = os.networkInterfaces();
+  var addresses = [];
+
+  for (var k in interfaces) {
+    for (var k2 in interfaces[k]) {
+      var address = interfaces[k][k2];
+      if (address.family === 'IPv4' && !address.internal) {
+        addresses.push(address.address);
+      }
+    }
+  }
+
+  return addresses[0];
+}
+
+
+
+
 
 module.exports = HomeworkDefinitionController;
