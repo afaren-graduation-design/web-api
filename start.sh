@@ -14,13 +14,13 @@ then
     java -jar spec/support/moco-runner-0.10.2-standalone.jar shutdown -s $MOCO_STOP_PORT
 fi
 
-if check_port $MONGO_PORT
-then
-    echo "mongo started"
-else
-    echo "mongo not started"
-    exit 1
-fi
+#if check_port $MONGO_PORT
+#then
+#    echo "mongo started"
+#else
+#    echo "mongo not started"
+#    exit 1
+#fi
 
 ## nohup 方式启动
 nohup java -jar spec/support/moco-runner-0.10.2-standalone.jar http -p $MOCO_START_PORT -g spec/support/paper-api.json -s $MOCO_STOP_PORT > /dev/null &
