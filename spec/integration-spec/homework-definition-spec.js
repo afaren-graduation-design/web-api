@@ -36,21 +36,6 @@ describe("GET homeworkDefinitions", ()=> {
   })
 });
 
-
-describe("PUT homeworkDefinitions/:homeworkId", () => {
-  it('should return success or fail of the updateHomework', (done)=> {
-    userSession
-      .put('/homeworkDefinitions/5829958a7007c23870a1d680')
-      .send({
-        type: "new modify",
-        name: "update homework",
-        definitionRepo: "baidu.com"
-      })
-      .expect(204)
-      .end(done)
-  })
-});
-
 describe("GET homeworkDefinitions/:homeworkId", ()=> {
   it("should return one homework", (done)=> {
     userSession
@@ -65,20 +50,6 @@ describe("DELETE homeworkDefinitions/:homeworkId", ()=> {
     userSession
       .delete('/homeworkDefinitions/5829958a7007c23870a1d680')
       .expect(204)
-      .end(done)
-  })
-});
-
-describe("POST /homeworkDefinitions", ()=> {
-  it("should return the new homework id", (done)=> {
-    userSession
-      .post('/homeworkDefinitions')
-      .send({
-        name: "new homework",
-        type: "js homework",
-        definitionRepo: "github address"
-      })
-      .expect(201)
       .end(done)
   })
 });
