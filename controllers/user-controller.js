@@ -183,7 +183,7 @@ UserController.prototype.getFeedback = (req, res, next) => {
 };
 
 UserController.prototype.getUserProgramIds = (req, res) => {
-  var userId = req.params.userId;
+  var userId = req.session.user.id;
   apiRequest.get('users/' + userId + '/programs', (err, resp) => {
     if (err) {
       return res.sendStatus(400);
