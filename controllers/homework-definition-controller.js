@@ -7,7 +7,7 @@ var addMakerName = require('../tool/addMakerName');
 var os = require('os');
 var request = require('superagent');
 var constant = require('../mixin/constant');
-var async = require('async')
+var async = require('async');
 
 function HomeworkDefinitionController() {
 };
@@ -112,9 +112,7 @@ HomeworkDefinitionController.prototype.deleteSomeHomeworks = (req, res) => {
   });
 };
 
-
 HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
-  console.log('1111111111')
   var {description, status, id} = req.body;
   var createTime = parseInt(new Date().getTime()) /
     (constant.time.SECONDS_PER_MINUTE *
@@ -128,7 +126,6 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
     templateUrl: './uploads/1480320856738848600',
     evaluateScript: ''
   }, (err, resp) => {
-    console.log(resp.body)
     if (!err && resp) {
       HomeworkDefinition.update({_id: id}, {
         $set: {
@@ -155,7 +152,6 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
   });
 };
 
-
 HomeworkDefinitionController.prototype.searchStatus = (req, res) => {
   let {id} = req.params;
   HomeworkDefinition.findOne({_id: id}).exec((err, data) => {
@@ -166,7 +162,6 @@ HomeworkDefinitionController.prototype.searchStatus = (req, res) => {
     }
   });
 };
-
 
 // HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
 //   const {name, type, definitionRepo} = req.body;
@@ -199,66 +194,60 @@ HomeworkDefinitionController.prototype.searchStatus = (req, res) => {
 //     }
 //   });
 
+HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
+  const {name, type, definitionRepo} = req.body;
+  var interfaces = os.networkInterfaces();
+  var addresses = [];
 
-  HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
-    const {name, type, definitionRepo} = req.body;
-    var interfaces = os.networkInterfaces();
-    var addresses = [];
-
-    for (var k in interfaces) {
-      for (var k2 in interfaces[k]) {
-        var address = interfaces[k][k2];
-        if (address.family === 'IPv4' && !address.internal) {
-          addresses.push(address.address);
-        }
+  for (var k in interfaces) {
+    for (var k2 in interfaces[k]) {
+      var address = interfaces[k][k2];
+      if (address.family === 'IPv4' && !address.internal) {
+        addresses.push(address.address);
       }
     }
+  }
 
-    console.log()
-
-    async.waterfall([
-      (done) => {
-        new HomeworkDefinition({
-          name,
-          type,
-          definitionRepo,
-          status: 1
-        }).save((err, data) => {
-
-          if (!err && data) {
-            res.status(200).send({id: data._id});
-            request
-              .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
-              .send({
-                git: definitionRepo,
-                ip: addresses[0],
-                mongo: data.toJSON()._id + ''
-              })
-              .type('form')
-              .end((err, resp) => {
-
-                if (!err) {
-                  resp.sendStatus(200);
-                } else {
-                  HomeworkDefinition.update({_id: data._id}, {$set: {status: 0}}).exec((err, data) => {
-                    resp.sendStatus(404);
-                    if (err) {
-                      throw err;
-                    }
-                  });
-                }
-              });
-          } else {
-            done(err);
-          }
-        });
-      }], (err) => {
-      res.status(403).send({status: 0});
-      if (err) {
-        throw err;
-      }
-    });
-  };
-
+  async.waterfall([
+    (done) => {
+      new HomeworkDefinition({
+        name,
+        type,
+        definitionRepo,
+        status: 1
+      }).save((err, data) => {
+        if (!err && data) {
+          res.status(200).send({id: data._id});
+          request
+            .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
+            .send({
+              git: definitionRepo,
+              ip: addresses[0],
+              mongo: data.toJSON()._id + ''
+            })
+            .type('form')
+            .end((err, resp) => {
+              if (!err) {
+                resp.sendStatus(200);
+              } else {
+                HomeworkDefinition.update({_id: data._id}, {$set: {status: 0}}).exec((err, data) => {
+                  resp.sendStatus(404);
+                  if (err) {
+                    throw err;
+                  }
+                });
+              }
+            });
+        } else {
+          done(err);
+        }
+      });
+    }], (err) => {
+    res.status(403).send({status: 0});
+    if (err) {
+      throw err;
+    }
+  });
+};
 
 module.exports = HomeworkDefinitionController;

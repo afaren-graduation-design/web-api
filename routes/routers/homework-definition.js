@@ -22,7 +22,6 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage});
 
 router.post('/', homeworkDefinationController.insertHomework);
-console.log('afer')
 router.get('/status/:id', homeworkDefinationController.searchStatus);
 router.post('/jenkinsReaction', upload.single('script'), homeworkDefinationController.saveHomework);
 
