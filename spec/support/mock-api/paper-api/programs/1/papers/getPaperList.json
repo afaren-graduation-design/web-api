@@ -1,0 +1,81 @@
+[
+  {
+    "description": "should_return_mysql_paperList",
+    "request": {
+      "uri": "/programs/1/papers",
+      "method": "get"
+    },
+    "response": {
+      "json": [
+        {
+          "paperName": "java",
+          "type": "java"
+        },
+        {
+          "paperName": "javaScript",
+          "type": "javaScript"
+        },
+        {
+          "paperName": "ruby",
+          "type": "ruby"
+        },
+        {
+          "paperName": "ruby",
+          "type": "ruby"
+        },
+        {
+          "paperName": "ruby",
+          "type": "ruby"
+        },
+        {
+          "paperName": "ruby",
+          "type": "ruby"
+        },
+        {
+          "paperName": "python",
+          "type": "python"
+        },
+        {
+          "paperName": "python",
+          "type": "python"
+        },
+        {
+          "paperName": "python",
+          "type": "python"
+        },
+        {
+          "paperName": "python",
+          "type": "python"
+        },
+        {
+          "paperName": "javaScript",
+          "type": "javaScript"
+        },
+        {
+          "paperName": "javaScript",
+          "type": "javaScript"
+        },
+        {
+          "paperName": "javaScript",
+          "type": "javaScript"
+        },
+        {
+          "paperName": "javaScript",
+          "type": "javaScript"
+        },
+        {
+          "paperName": "java",
+          "type": "java"
+        },
+        {
+          "paperName": "java",
+          "type": "java"
+        },
+        {
+          "paperName": "java",
+          "type": "java"
+        }
+      ]
+    }
+  }
+]

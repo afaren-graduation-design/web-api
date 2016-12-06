@@ -7,11 +7,11 @@ var unique = require('../tool/unique');
 var addMakerName = require('../tool/addMakerName');
 var formatSections = require('../tool/format-sections');
 
-function ProgramPaperController() {
+function PaperDefinitionController() {
 
 }
 
-ProgramPaperController.prototype.getPaper = (req, res, next) => {
+PaperDefinitionController.prototype.getPaperDefinition = (req, res, next) => {
   var programId = req.params.programId;
   var paperId = req.params.paperId;
   PaperDefinition.findOne({programId, _id: paperId}, (err, data) => {
@@ -23,7 +23,7 @@ ProgramPaperController.prototype.getPaper = (req, res, next) => {
   });
 };
 
-ProgramPaperController.prototype.savePaper = (req, res, next) => {
+PaperDefinitionController.prototype.savePaperDefinition = (req, res, next) => {
   var programId = req.params.programId;
   var makerId = req.session.user.id;
   var createTime = new Date().toDateString();
@@ -51,7 +51,7 @@ ProgramPaperController.prototype.savePaper = (req, res, next) => {
   });
 };
 
-ProgramPaperController.prototype.updatePaper = (req, res) => {
+PaperDefinitionController.prototype.updatePaperDefinition = (req, res) => {
   var programId = req.params.programId;
   var paperId = req.params.paperId;
   var updateTime = new Date().toDateString();
@@ -67,7 +67,7 @@ ProgramPaperController.prototype.updatePaper = (req, res) => {
     });
 };
 
-ProgramPaperController.prototype.deletePaper = (req, res) => {
+PaperDefinitionController.prototype.deletePaperDefinition = (req, res) => {
   var programId = req.params.programId;
   var paperId = req.params.paperId;
 
@@ -80,7 +80,7 @@ ProgramPaperController.prototype.deletePaper = (req, res) => {
   });
 };
 
-ProgramPaperController.prototype.getPaperList = (req, res, next) => {
+PaperDefinitionController.prototype.getPaperDefinitionList = (req, res, next) => {
   let pageCount = req.query.pageCount;
   let page = req.query.page;
   let skipCount = pageCount * (page - 1);
@@ -113,7 +113,7 @@ ProgramPaperController.prototype.getPaperList = (req, res, next) => {
   });
 };
 
-ProgramPaperController.prototype.selectPaper = (req, res, next) => {
+PaperDefinitionController.prototype.selectPaperDefinition = (req, res, next) => {
   var paperName = req.query.title;
   let pageCount = req.query.pageCount;
   let page = req.query.page;
@@ -148,7 +148,7 @@ ProgramPaperController.prototype.selectPaper = (req, res, next) => {
   });
 };
 
-ProgramPaperController.prototype.deleteSomePapers = (req, res) => {
+PaperDefinitionController.prototype.deleteSomePaperDefinition = (req, res) => {
   var idArray = req.body.idArray;
   PaperDefinition.update({_id: {$in: idArray}}, {isDeleted: true}, {multi: true}).exec((err, data) => {
     if (!err && data) {
@@ -159,7 +159,7 @@ ProgramPaperController.prototype.deleteSomePapers = (req, res) => {
   });
 };
 
-ProgramPaperController.prototype.distributePaper = (req, res) => {
+PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
   var {paperName, description, sections} = req.body;
   var programId = req.params.programId;
   var makerId = req.session.user.id;
@@ -200,7 +200,7 @@ ProgramPaperController.prototype.distributePaper = (req, res) => {
   });
 };
 
-ProgramPaperController.prototype.distributePaperById = (req, res) => {
+PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) => {
   var {paperName, description, sections} = req.body;
   var programId = req.params.programId;
   var paperId = req.params.paperId;
@@ -232,4 +232,4 @@ ProgramPaperController.prototype.distributePaperById = (req, res) => {
     });
 };
 
-module.exports = ProgramPaperController;
+module.exports = PaperDefinitionController;
