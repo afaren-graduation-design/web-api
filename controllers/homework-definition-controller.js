@@ -256,8 +256,4 @@ function getIp() {
   return addresses[0];
 }
 
-
-
-
-
 module.exports = HomeworkDefinitionController;
