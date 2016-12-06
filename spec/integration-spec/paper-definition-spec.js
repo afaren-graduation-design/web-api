@@ -37,9 +37,9 @@ describe('GET programs/:programId/paperDefinitions/:paperId', ()=> {
       .get('/programs/1/paperDefinitions/5829958a7007c23870a1d68a')
       .expect(200)
       .expect(function (res) {
-        res.body[0].programId.should.equal(1);
-        res.body[0].sections[0].title.should.equal("逻辑题");
-        res.body[0].sections[1].title.should.equal("编程题");
+        res.body.programId.should.equal(1);
+        res.body.sections[0].title.should.equal("逻辑题");
+        res.body.sections[1].title.should.equal("编程题");
       })
       .end(done);
   })

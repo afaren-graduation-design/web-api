@@ -14,7 +14,7 @@ function ProgramPaperController() {
 ProgramPaperController.prototype.getPaper = (req, res, next) => {
   var programId = req.params.programId;
   var paperId = req.params.paperId;
-  PaperDefinition.find({programId, _id: paperId}, (err, data) => {
+  PaperDefinition.findOne({programId, _id: paperId}, (err, data) => {
     if (!err && data) {
       res.status(200).send(data);
     } else {
