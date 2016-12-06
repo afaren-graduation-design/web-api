@@ -13,6 +13,7 @@ var paperDefinitionSchema = new Schema({
   updateTime: String,
   isDeleted: Boolean,
   uri: String,
+  type: String,
   sections: [
     {
       title: String,

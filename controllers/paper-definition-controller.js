@@ -25,16 +25,14 @@ ProgramPaperController.prototype.getPaper = (req, res, next) => {
 
 ProgramPaperController.prototype.savePaper = (req, res, next) => {
   var programId = req.params.programId;
-  // var makerId = req.session.user.id;   //去看mocha获取用户身份的方式
-  // var makerId = req.body.makerId;
-
+  var makerId = req.session.user.id;
   var createTime = new Date().toDateString();
   var updateTime = createTime;
   var {paperName, description, sections} = req.body;
   new PaperDefinition({
     programId,
     isDistribution: false,
-    makerId: 1,
+    makerId,
     description,
     paperName,
     createTime,
@@ -164,8 +162,7 @@ ProgramPaperController.prototype.deleteSomePapers = (req, res) => {
 ProgramPaperController.prototype.distributePaper = (req, res) => {
   var {paperName, description, sections} = req.body;
   var programId = req.params.programId;
-  // var makerId = req.session.use.id;
-  var makerId = '1';
+  var makerId = req.session.user.id;
   var createTime = new Date().toDateString();
   var data;
   new PaperDefinition({
@@ -207,8 +204,7 @@ ProgramPaperController.prototype.distributePaperById = (req, res) => {
   var {paperName, description, sections} = req.body;
   var programId = req.params.programId;
   var paperId = req.params.paperId;
-  // var makerId = req.session.use.id;
-  var makerId = '1';
+  var makerId = req.session.user.id;
   var updateTime = new Date().toDateString();
   var data;
   PaperDefinition.update({_id: paperId, programId, isDeleted: false},

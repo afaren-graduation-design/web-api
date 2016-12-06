@@ -5,7 +5,7 @@
       "uri": "/papers",
       "method": "post",
       "json": {
-        "makerId": "1",
+        "makerId": 1,
         "programId": "1",
         "paperName": "new title",
         "sections": {
