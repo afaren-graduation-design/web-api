@@ -4,7 +4,7 @@
   "description": "ThoughtWorks Academy Recruiting System",
   "main": "index.js",
   "scripts": {
-    "coverage": "./node_modules/.bin/istanbul  cover _mocha spec/integration-spec/*spec.js",
+    "coverage": "./node_modules/.bin/istanbul  cover _mocha -- --compiler js:babel-core/register  spec/integration-spec/*spec.js",
     "it": "export NODE_ENV=integration && ./node_modules/.bin/mocha  --compilers js:babel-core/register spec/integration-spec/*spec.js",
     "at": "export NODE_ENV=integration && ./node_modules/.bin/mocha spec/acceptance-spec/test-base.js",
     "mocha": "export NODE_ENV=integration && mocha",
