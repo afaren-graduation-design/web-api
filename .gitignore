@@ -23,7 +23,7 @@ doc/qa.md
 mysql.sql
 
 *.iml
-homework-script
+homework-script/*
 !homework-script/calculate_median.sh
 !homework-script/check-readme.sh
 !homework-script/fibonacci_series.sh
