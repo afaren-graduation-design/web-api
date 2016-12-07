@@ -92,6 +92,26 @@
       }
 
       }
+    },
+  {
+    "description": "should_return_one_homework_quiz_when_request_save_one_homework_quiz",
+    "request": {
+      "uri": "/homeworkQuizzes",
+      "method": "post",
+      "json": {
+        "description": "zhangpei",
+        "evaluateScript":"/homework-script/check-readme.sh",
+        "templateRepository":"https://github.com/sialvsic/thousands_separators.git",
+        "makerId":1,
+        "createTime":1111111,
+        "homeworkName": "homework name"
+      }
+    },
+    "response": {
+      "json": {
+        "uri":"homeworkQuizzes/1"
+      }
     }
+  }
 
 ]
