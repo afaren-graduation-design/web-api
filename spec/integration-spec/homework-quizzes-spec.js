@@ -9,7 +9,6 @@ describe('GET /homeworkQuizzes/1', ()=> {
         .get('/homeworkQuizzes/1')
         .expect(200)
         .expect((res)=> {
-          console.log(res.body)
           res.body.homeworkName.should.equal('homework1')
         })
         .end(done)
