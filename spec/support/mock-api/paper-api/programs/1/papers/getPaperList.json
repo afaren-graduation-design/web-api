@@ -9,88 +9,71 @@
       "json": [
         {
           "id": 1,
-          "paperName": "java",
-          "type": "java"
+          "paperName": "java"
         },
         {
           "id": 2,
-          "paperName": "javaScript",
-          "type": "javaScript"
+          "paperName": "javaScript"
         },
         {
           "id": 3,
-          "paperName": "ruby",
-          "type": "ruby"
+          "paperName": "ruby"
         },
         {
           "id": 4,
-          "paperName": "ruby",
-          "type": "ruby"
+          "paperName": "ruby"
         },
         {
           "id": 5,
-          "paperName": "ruby",
-          "type": "ruby"
+          "paperName": "ruby"
         },
         {
           "id": 6,
-          "paperName": "ruby",
-          "type": "ruby"
+          "paperName": "ruby"
         },
         {
           "id": 7,
-          "paperName": "python",
-          "type": "python"
+          "paperName": "python"
         },
         {
           "id": 8,
-          "paperName": "python",
-          "type": "python"
+          "paperName": "python"
         },
         {
           "id": 9,
-          "paperName": "python",
-          "type": "python"
+          "paperName": "python"
         },
         {
           "id": 10,
-          "paperName": "python",
-          "type": "python"
+          "paperName": "python"
         },
         {
           "id": 11,
-          "paperName": "javaScript",
-          "type": "javaScript"
+          "paperName": "javaScript"
         },
         {
           "id": 12,
-          "paperName": "javaScript",
-          "type": "javaScript"
+          "paperName": "javaScript"
         },
         {
           "id": 13,
-          "paperName": "javaScript",
-          "type": "javaScript"
+          "paperName": "javaScript"
         },
         {
           "id": 14,
-          "paperName": "javaScript",
-          "type": "javaScript"
+          "paperName": "javaScript"
         },
         {
           "id": 15,
-          "paperName": "java",
-          "type": "java"
+          "paperName": "java"
         },
         {
           "id": 16,
-          "paperName": "java",
-          "type": "java"
+          "paperName": "java"
         },
         {
           "id": 17,
-          "paperName": "java",
-          "type": "java"
+          "paperName": "java"
         }
       ]
     }
