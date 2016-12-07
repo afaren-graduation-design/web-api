@@ -19,7 +19,6 @@ describe('GET programs/:programId/papers/1', ()=> {
       .get('/programs/1/papers/1')
       .expect(200)
       .expect((res) => {
-        console.log(res.body)
         res.body.data.paperName.should.equal('java');
       })
       .end(done);
