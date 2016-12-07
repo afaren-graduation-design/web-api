@@ -6,27 +6,29 @@ describe('POST programs/:id/paperDefinitions', ()=> {
     userSession
       .post('/programs/1/paperDefinitions')
       .send({
-        programId: 1,
-        isDistribution: false,
-        description: '这是一个描述',
-        paperName: '题目',
-        sections: [
-          {
-            title: 'logicQuizzes',
-            quizzes: {
-              easy: 1,
-              normal: 1,
-              hard: 1
-            },
-            type: 'loginQuiz'
-          }, {
-            title: 'homeworkQuizzes',
-            quizzes: [
-              {id: 1, uri: '/homeworkQuizzes/1'}, {id: 2, uri: '/homeworkQuizzes/2'}
-            ],
-            type: 'homeworkQuiz'
-          }
-        ]
+        data: {
+          programId: 1,
+          isDistribution: false,
+          description: '这是一个描述',
+          paperName: '题目',
+          sections: [
+            {
+              title: 'logicQuizzes',
+              quizzes: {
+                easy: 1,
+                normal: 1,
+                hard: 1
+              },
+              type: 'loginQuiz'
+            }, {
+              title: 'homeworkQuizzes',
+              quizzes: [
+                {id: 1, uri: '/homeworkQuizzes/1'}, {id: 2, uri: '/homeworkQuizzes/2'}
+              ],
+              type: 'homeworkQuiz'
+            }
+          ]
+        }
       })
       .expect(201)
       .end(done);
@@ -51,7 +53,7 @@ describe('PUT programs/:id/paperDefinitions/:id', ()=> {
   it('should be return a paperId', (done)=> {
     userSession
       .put('/programs/1/paperDefinitions/5829958a7007c23870a1d68a')
-      .send({
+      .send({data: {
         paperName: "new title",
         description: "update paper-api",
         sections: [
@@ -69,7 +71,7 @@ describe('PUT programs/:id/paperDefinitions/:id', ()=> {
             type: 'homeworkQUiz'
           }
         ]
-      })
+      }})
       .expect(204)
       .end(done);
   })
@@ -79,7 +81,7 @@ describe('POST programs/:id/paperDefinitions', ()=> {
   it('should be return a paperId', (done)=> {
     userSession
       .post('/programs/1/paperDefinitions')
-      .send({
+      .send({data: {
         programId: 1,
         isDistribution: false,
         description: '这是一个描述',
@@ -101,7 +103,7 @@ describe('POST programs/:id/paperDefinitions', ()=> {
             type: 'homeworkQuiz'
           }
         ]
-      })
+      }})
       .expect(201)
       .end(done);
   })
@@ -149,22 +151,22 @@ describe("GET programs/:programId/paperDefinitions/selection", ()=> {
 });
 
 describe("Delete /programs/1/paperDefinitions/deletion", ()=> {
-    it("should return the paper delete msg", (done)=> {
-        userSession
-            .delete('/programs/1/paperDefinitions/deletion')
-            .send({
-                idArray:["5829958a7007c23870a1d681","5829958a7007c23870a1d680"]
-            })
-            .expect(204)
-            .end(done)
-    })
+  it("should return the paper delete msg", (done)=> {
+    userSession
+      .delete('/programs/1/paperDefinitions/deletion')
+      .send({
+        idArray: ["5829958a7007c23870a1d681", "5829958a7007c23870a1d680"]
+      })
+      .expect(204)
+      .end(done)
+  })
 });
 
 describe("POST /programs/1/paperDefinitions/distribution", ()=> {
   it("should return distributed paper uri", (done)=> {
     userSession
       .post('/programs/1/paperDefinitions/distribution')
-      .send({
+      .send({data: {
         paperName: "new title",
         description: "update paper-api",
         sections: [
@@ -182,7 +184,7 @@ describe("POST /programs/1/paperDefinitions/distribution", ()=> {
             type: 'homeworkQuiz'
           }
         ]
-      })
+      }})
       .expect(201)
       .end(done)
   })
@@ -192,7 +194,7 @@ describe("PUT /programs/1/paperDefinitions/:paperId/distribution", ()=> {
   it("should return distributed paper uri", (done)=> {
     userSession
       .put('/programs/1/paperDefinitions/5829958a7007c23870a1d68a/distribution')
-      .send({
+      .send({data: {
         paperName: "new title",
         description: "update paper-api",
         sections: [
@@ -210,7 +212,7 @@ describe("PUT /programs/1/paperDefinitions/:paperId/distribution", ()=> {
             type: 'homeworkQuiz'
           }
         ]
-      })
+      }})
       .expect(201)
       .end(done)
   })

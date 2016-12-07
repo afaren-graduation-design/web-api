@@ -13,8 +13,8 @@ describe('GET programs/:programId/papers', ()=> {
   })
 });
 
-describe('GET programs/:programId/papers/1', ()=> {
-  it('should be return a paper: GET  programs/:programId/papers/1', (done)=> {
+describe('GET programs/:programId/papers/:paperId', ()=> {
+  it('should be return a paper: GET  programs/:programId/papers/:paperId', (done)=> {
     userSession
       .get('/programs/1/papers/1')
       .expect(200)

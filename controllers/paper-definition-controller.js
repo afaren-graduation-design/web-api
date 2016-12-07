@@ -28,7 +28,7 @@ PaperDefinitionController.prototype.savePaperDefinition = (req, res, next) => {
   var makerId = req.session.user.id;
   var createTime = new Date().toDateString();
   var updateTime = createTime;
-  var {paperName, description, sections} = req.body;
+  var {paperName, description, sections} = req.body.data;
   new PaperDefinition({
     programId,
     isDistribution: false,
@@ -56,7 +56,7 @@ PaperDefinitionController.prototype.updatePaperDefinition = (req, res) => {
   var paperId = req.params.paperId;
   var updateTime = new Date().toDateString();
 
-  var {paperName, description, sections} = req.body;
+  var {paperName, description, sections} = req.body.data;
   PaperDefinition.update({programId, _id: paperId},
     {$set: {programId, updateTime, paperName, description, sections}}, (err) => {
       if (!err) {
@@ -160,7 +160,7 @@ PaperDefinitionController.prototype.deleteSomePaperDefinition = (req, res) => {
 };
 
 PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
-  var {paperName, description, sections} = req.body;
+  var {paperName, description, sections} = req.body.data;
   var programId = req.params.programId;
   var makerId = req.session.user.id;
   var createTime = new Date().toDateString();
@@ -201,7 +201,7 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
 };
 
 PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) => {
-  var {paperName, description, sections} = req.body;
+  var {paperName, description, sections} = req.body.data;
   var programId = req.params.programId;
   var paperId = req.params.paperId;
   var makerId = req.session.user.id;
