@@ -6,7 +6,7 @@
   "scripts": {
     "coverage": "./node_modules/.bin/istanbul  cover _mocha -- --compiler js:babel-core/register  spec/integration-spec/*spec.js",
     "it": "export NODE_ENV=integration && ./node_modules/.bin/mocha  --compilers js:babel-core/register spec/integration-spec/*spec.js",
-    "at": "export NODE_ENV=integration && ./node_modules/.bin/mocha spec/acceptance-spec/test-base.js",
+    "at": "export NODE_ENV=integration && ./node_modules/.bin/mocha spec/acceptance-spec/test-base.js --timeout 5000",
     "mocha": "export NODE_ENV=integration && mocha",
     "mocha-d": "export NODE_ENV=integration && mocha --debug-brk",
     "mock-server": "java -jar spec/support/moco-runner-0.10.2-standalone.jar http -p 12306 -g spec/support/paper-api.json -s 9527",
