@@ -37,7 +37,7 @@ test:
   taskServer: 'http://192.168.10.54:9090/'
   taskApi: 'http://192.168.10.54:9090/job/HOMEWORK_SCORING/buildWithParameters'
   nginxServer: 'http://localhost/fs'
-  ballbackTaskUrl: 'http://192.168.10.155:3000/homework/scoring/'
+  ballbackTaskUrl: 'http://192.168.10.165:3000/homework/scoring/'
 
 production:
   staticFileServer: '/fs/'

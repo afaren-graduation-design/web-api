@@ -54,7 +54,7 @@ logicPuzzleSchema.statics.isPaperCommited = function(userId, callback) {
     }
 
     callback(err, isPaperCommited);
-  });
+  });   //判断用户是否提交过并且判断用户时间是否还够用（只是针对逻辑题）
 };
 
 logicPuzzleSchema.statics.getLogicPuzzle = (orderId, userId) => {

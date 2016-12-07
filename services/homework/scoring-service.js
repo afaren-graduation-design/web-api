@@ -8,8 +8,9 @@ var homeworkScoring = require('../../models/homework-scoring');
 var yamlConfig = require('node-yaml-config');
 var path = require('path');
 var config = yamlConfig.load(path.join(__dirname, '/../../config/config.yml'));
+var scriptBasePath = path.join(__dirname,'/../..');
 var apiRequest = require('../api-request');
-
+var fs = require('fs');
 var taskApi = config.taskApi;
 var nginxServer = config.nginxServer;
 var ballbackTaskUrl = config.ballbackTaskUrl;
@@ -81,21 +82,23 @@ function createScoring(options, callback) {
       });
     },
     (data, done) => {
-      var scriptPath = nginxServer + homeworkQuizDefinition;
-      request
-          .get(scriptPath)
-          .buffer()
-          .end(function(err, data) {
-            if (err) {
-              done(err, null);
-            } else {
-              done(null, data.text);
+      var scriptPath = scriptBasePath+homeworkQuizDefinition;
+      fs.exists(scriptPath, function(fileOk){
+        if (fileOk) {
+          fs.readFile(scriptPath,'utf-8',function (error, data) {
+            if (error) {
+              done(error,null)
+            }else {
+              done(null, data);
             }
           });
+        } else {
+          done(true,"file not found");
+        };
+      });
     },
     (script, done) => {
-      script = script.split('\n').join('\\n');
-
+      script = script.toString().split('\n').join('\\n');
       var info = {
         script: script,
         user_answer_repo: options.userAnswerRepo,
@@ -113,6 +116,7 @@ function createScoring(options, callback) {
     callback(err, result);
   });
 }
+
 function updateScoring(options, callback) {
   async.waterfall([
     (done) => {

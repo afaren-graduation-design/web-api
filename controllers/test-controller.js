@@ -44,6 +44,6 @@ TestController.prototype.isPaperCommitted = (req, res, next) => {
       res.send({isPaperCommitted: data});
     }
   });
-};
+};   //判断用户是否超时，或者赋予开始时间
 
 module.exports = TestController;
