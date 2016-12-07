@@ -24,3 +24,11 @@ mysql.sql
 
 *.iml
 homework-script
+!homework-script/calculate_median.sh
+!homework-script/check-readme.sh
+!homework-script/fibonacci_series.sh
+!homework-script/thousands_separators.sh
+!homework-script/collection-calculate-camp.sh
+!homework-script/collection.sh
+!homework-script/configure.sh
+!homework-script/prepos.sh
