@@ -1,0 +1,45 @@
+[
+  {
+    "description": "should return one paper",
+    "request": {
+      "uri": "/program/1/paper/1",
+      "method": "get"
+    },
+    "response": {
+      "json": {
+        "id": 1,
+        "programId": 1,
+        "paperName": "java",
+        "sections": [
+          {
+            "type": "logicQuiz",
+            "quizzes": {
+              "easy": 1,
+              "normal": 1,
+              "hard": 1
+            },
+            "title": "loginQuiz"
+          },
+          {
+            "type": "homeworkQuiz",
+            "title": "homeworkQuizzes",
+            "quizzes": [
+              {
+                "id": 1,
+                "uri": "/homeworkQuizzes/1"
+              },
+              {
+                "id": 1,
+                "uri": "/homeworkQuizzes/1"
+              },
+              {
+                "id": 1,
+                "uri": "/homeworkQuizzes/1"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+]
