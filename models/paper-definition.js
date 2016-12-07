@@ -13,13 +13,13 @@ var paperDefinitionSchema = new Schema({
   updateTime: String,
   isDeleted: Boolean,
   uri: String,
-  type: String,
   sections: [
     {
       title: String,
-      quizzes: Object
+      quizzes: Object,
+      type: String
     }
   ]
-});
+}, {typeKey: '$type'});
 
 module.exports = mongoose.model('PaperDefinition', paperDefinitionSchema);

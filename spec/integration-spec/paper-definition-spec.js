@@ -17,12 +17,14 @@ describe('POST programs/:id/paperDefinitions', ()=> {
               easy: 1,
               normal: 1,
               hard: 1
-            }
+            },
+            type: 'loginQuiz'
           }, {
             title: 'homeworkQuizzes',
             quizzes: [
               {id: 1, uri: '/homeworkQuizzes/1'}, {id: 2, uri: '/homeworkQuizzes/2'}
-            ]
+            ],
+            type: 'homeworkQuiz'
           }
         ]
       })
@@ -59,10 +61,12 @@ describe('PUT programs/:id/paperDefinitions/:id', ()=> {
               easy: 1,
               normal: 1,
               hard: 1
-            }
+            },
+            type: 'loginQuiz'
           }, {
             title: "homeworkQuizzes",
-            quizzes: [{id: 1, uri: '/homeworkQuizzes/1'}, {id: 2, uri: '/homeworkQuizzes/2'}]
+            quizzes: [{id: 1, uri: '/homeworkQuizzes/1'}, {id: 2, uri: '/homeworkQuizzes/2'}],
+            type: 'homeworkQUiz'
           }
         ]
       })
@@ -87,12 +91,14 @@ describe('POST programs/:id/paperDefinitions', ()=> {
               easy: 1,
               normal: 1,
               hard: 1
-            }
+            },
+            type: 'loginQuiz'
           }, {
             title: 'homeworkQuizzes',
             quizzes: [
               {id: 1, uri: '/homeworkQuizzes/1'}, {id: 2, uri: '/homeworkQuizzes/2'}
-            ]
+            ],
+            type: 'homeworkQuiz'
           }
         ]
       })
@@ -168,10 +174,12 @@ describe("POST /programs/1/paperDefinitions/distribution", ()=> {
               easy: 1,
               normal: 1,
               hard: 1
-            }
+            },
+            type: 'loginQuiz'
           }, {
             title: "homeworkQuizzes",
-            quizzes: [{id: 1, uri: "/homeworkQuizzes/1"}, {id: 2, uri: "/homeworkQuizzes/2"}]
+            quizzes: [{id: 1, uri: "/homeworkQuizzes/1"}, {id: 2, uri: "/homeworkQuizzes/2"}],
+            type: 'homeworkQuiz'
           }
         ]
       })
@@ -194,10 +202,12 @@ describe("PUT /programs/1/paperDefinitions/:paperId/distribution", ()=> {
               easy: 1,
               normal: 1,
               hard: 1
-            }
+            },
+            type: 'loginQuiz'
           }, {
             title: "homeworkQuizzes",
-            quizzes: [{id: 1, uri: "/homeworkQuizzes/1"}, {id: 2, uri: "/homeworkQuizzes/2"}]
+            quizzes: [{id: 1, uri: "/homeworkQuizzes/1"}, {id: 2, uri: "/homeworkQuizzes/2"}],
+            type: 'homeworkQuiz'
           }
         ]
       })

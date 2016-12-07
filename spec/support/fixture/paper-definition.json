@@ -9,7 +9,6 @@
     "paperName": "java",
     "createTime": "2016-11-14",
     "updateTime": "2016-11-14",
-    "type": "java",
     "sections": [
       {
         "title": "逻辑题",
@@ -18,6 +17,7 @@
           "normal": 1,
           "hard": 1
         },
+        "type": "logicQuiz",
         "_id": "58326fad625a2627e08232e2"
       },
       {
@@ -32,6 +32,7 @@
             "uri": "homeworkQuizzes/2"
           }
         ],
+        "type": "homeworkQuiz",
         "_id": "58326fad625a2627e08232e3"
       }
     ]
@@ -43,7 +44,6 @@
     "makerId": 1,
     "description": "这是描述",
     "paperName": "java",
-    "type": "java",
     "createTime": "2016-11-15",
     "updateTime": "2016-11-15",
     "isDeleted": false,
@@ -54,7 +54,8 @@
           "easy": 1,
           "normal": 1,
           "hard": 1
-        }
+        },
+        "type": "logicQuiz"
       },
       {
         "title": "编程题",
@@ -67,7 +68,8 @@
             "id": 2,
             "uri": "homeworkQuizzes/2"
           }
-        ]
+        ],
+        "type": "homeworkQuiz"
       }
     ]
   },
@@ -78,7 +80,6 @@
     "makerId": 1,
     "description": "这是描述",
     "paperName": "c#",
-    "type": "c#",
     "createTime": "2016-11-16",
     "updateTime": "2016-11-16",
     "isDeleted": false,
@@ -89,7 +90,8 @@
           "easy": 1,
           "normal": 1,
           "hard": 1
-        }
+        },
+        "type": "logicQuiz"
       },
       {
         "title": "编程题",
@@ -102,7 +104,8 @@
             "id": 2,
             "uri": "homeworkQuizzes/2"
           }
-        ]
+        ],
+        "type": "homeworkQuiz"
       }
     ]
   },
@@ -113,7 +116,6 @@
     "makerId": 1,
     "description": "这是描述",
     "paperName": "第一份试卷",
-    "type": "python",
     "createTime": "2016-11-14",
     "updateTime": "2016-11-14",
     "isDeleted": false,
@@ -124,7 +126,8 @@
           "easy": 1,
           "normal": 1,
           "hard": 1
-        }
+        },
+        "type": "logicQuiz"
       },
       {
         "title": "编程题",
@@ -137,7 +140,8 @@
             "id": 2,
             "uri": "homeworkQuizzes/2"
           }
-        ]
+        ],
+        "type": "homeworkQuiz"
       }
     ]
   },
@@ -148,7 +152,6 @@
     "makerId": 1,
     "description": "这是描述",
     "paperName": "第一份试卷",
-    "type": "javaScript",
     "createTime": "2016-11-14",
     "updateTime": "2016-11-14",
     "isDeleted": false,
@@ -159,7 +162,8 @@
           "easy": 1,
           "normal": 1,
           "hard": 1
-        }
+        },
+        "type": "logicQuiz"
       },
       {
         "title": "编程题",
@@ -172,7 +176,8 @@
             "id": 2,
             "uri": "homeworkQuizzes/2"
           }
-        ]
+        ],
+        "type": "homeworkQuiz"
       }
     ]
   },
@@ -183,7 +188,6 @@
     "makerId": 1,
     "description": "这是描述",
     "paperName": "第一份试卷",
-    "type": "Ruby",
     "createTime": "2016-11-14",
     "updateTime": "2016-11-14",
     "isDeleted": false,
@@ -194,7 +198,8 @@
           "easy": 1,
           "normal": 1,
           "hard": 1
-        }
+        },
+        "type": "logicQuiz"
       },
       {
         "title": "编程题",
@@ -207,7 +212,8 @@
             "id": 2,
             "uri": "homeworkQuizzes/2"
           }
-        ]
+        ],
+        "type": "homeworkQuiz"
       }
     ]
   },
@@ -218,7 +224,6 @@
     "makerId": 1,
     "description": "这是描述",
     "paperName": "第一份试卷",
-    "type": "C",
     "createTime": "2016-11-14",
     "updateTime": "2016-11-14",
     "isDeleted": false,
@@ -229,7 +234,8 @@
           "easy": 1,
           "normal": 1,
           "hard": 1
-        }
+        },
+        "type": "logicQuiz"
       },
       {
         "title": "编程题",
@@ -242,7 +248,8 @@
             "id": 2,
             "uri": "homeworkQuizzes/2"
           }
-        ]
+        ],
+        "type": "homeworkQuiz"
       }
     ]
   },
@@ -253,7 +260,6 @@
     "makerId": 1,
     "description": "这是描述",
     "paperName": "第一份试卷",
-    "type": "java",
     "createTime": "2016-11-14",
     "updateTime": "2016-11-14",
     "isDeleted": false,
@@ -264,7 +270,8 @@
           "easy": 1,
           "normal": 1,
           "hard": 1
-        }
+        },
+        "type": "logicQuiz"
       },
       {
         "title": "编程题",
@@ -277,7 +284,8 @@
             "id": 2,
             "uri": "homeworkQuizzes/2"
           }
-        ]
+        ],
+        "type": "homeworkQuiz"
       }
     ]
   },
@@ -288,7 +296,6 @@
     "makerId": 1,
     "description": "这是描述",
     "paperName": "第一份试卷",
-    "type": "java",
     "createTime": "2016-11-14",
     "updateTime": "2016-11-14",
     "isDeleted": false,
@@ -299,7 +306,8 @@
           "easy": 1,
           "normal": 1,
           "hard": 1
-        }
+        },
+        "type": "logicQuiz"
       },
       {
         "title": "编程题",
@@ -312,7 +320,8 @@
             "id": 2,
             "uri": "homeworkQuizzes/2"
           }
-        ]
+        ],
+        "type": "homeworkQuiz"
       }
     ]
   },
@@ -324,7 +333,6 @@
     "description": "这是描述",
     "paperName": "第一份试卷",
     "createTime": "2016-11-14",
-    "type": "java",
     "updateTime": "2016-11-14",
     "isDeleted": false,
     "sections": [
@@ -334,7 +342,8 @@
           "easy": 1,
           "normal": 1,
           "hard": 1
-        }
+        },
+        "type": "logicQuiz"
       },
       {
         "title": "编程题",
@@ -347,7 +356,8 @@
             "id": 2,
             "uri": "homeworkQuizzes/2"
           }
-        ]
+        ],
+        "type": "homeworkQuiz"
       }
     ]
   },
@@ -358,7 +368,6 @@
     "makerId": 1,
     "description": "这是描述",
     "paperName": "第一份试卷",
-    "type": "java",
     "createTime": "2016-11-14",
     "updateTime": "2016-11-14",
     "isDeleted": false,
@@ -369,7 +378,8 @@
           "easy": 1,
           "normal": 1,
           "hard": 1
-        }
+        },
+        "type": "logicQuiz"
       },
       {
         "title": "编程题",
@@ -382,7 +392,8 @@
             "id": 2,
             "uri": "homeworkQuizzes/2"
           }
-        ]
+        ],
+        "type": "homeworkQuiz"
       }
     ]
   }
