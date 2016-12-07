@@ -8,11 +8,10 @@ var homeworkScoring = require('../../models/homework-scoring');
 var yamlConfig = require('node-yaml-config');
 var path = require('path');
 var config = yamlConfig.load(path.join(__dirname, '/../../config/config.yml'));
-var scriptBasePath = path.join(__dirname,'/../..');
+var scriptBasePath = path.join(__dirname, '/../..');
 var apiRequest = require('../api-request');
 var fs = require('fs');
 var taskApi = config.taskApi;
-var nginxServer = config.nginxServer;
 var ballbackTaskUrl = config.ballbackTaskUrl;
 
 function createScoring(options, callback) {
@@ -82,18 +81,18 @@ function createScoring(options, callback) {
       });
     },
     (data, done) => {
-      var scriptPath = scriptBasePath+homeworkQuizDefinition;
-      fs.exists(scriptPath, function(fileOk){
+      var scriptPath = scriptBasePath + homeworkQuizDefinition;
+      fs.exists(scriptPath, function(fileOk) {
         if (fileOk) {
-          fs.readFile(scriptPath,'utf-8',function (error, data) {
+          fs.readFile(scriptPath, 'utf-8', function(error, data) {
             if (error) {
-              done(error,null)
-            }else {
+              done(error, null);
+            } else {
               done(null, data);
             }
           });
         } else {
-          done(true,"file not found");
+          done(true, 'file not found');
         };
       });
     },
