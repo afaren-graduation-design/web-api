@@ -114,13 +114,12 @@ HomeworkDefinitionController.prototype.deleteSomeHomeworks = (req, res) => {
 
 HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
   var id = req.params.dataId;
-  var {description, status} = req.body;
+  var {description, status, result} = req.body;
   var createTime = parseInt(new Date().getTime()) /
     (constant.time.SECONDS_PER_MINUTE *
     constant.time.MINUTE_PER_HOUR *
     constant.time.HOURS_PER_DAY *
     constant.time.MILLISECOND_PER_SECONDS);
-  var result = status === '2' ? 'success' : '文件不存在';
   var templateUrl = req.file ? `./${req.file.path}` : '';
   apiRequest.post('homeworkQuizzes', {
     'description': 'zhangpei',
@@ -234,7 +233,7 @@ HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
             });
         } else {
           if (err.code === 11000) {
-            res.status(405).send({status: 4});
+            res.sendStatus(400);
           }
           done(err);
         }
