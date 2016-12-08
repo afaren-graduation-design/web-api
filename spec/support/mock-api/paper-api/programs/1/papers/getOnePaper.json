@@ -8,6 +8,7 @@
     "response": {
       "json": {
         "id": 1,
+        "paperName": "java",
         "sections":  [
             {
               "description": "这是描述",
