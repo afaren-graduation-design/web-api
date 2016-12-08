@@ -113,7 +113,8 @@ HomeworkDefinitionController.prototype.deleteSomeHomeworks = (req, res) => {
 };
 
 HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
-  var {description, status, id} = req.body;
+  var id = req.params.dataId;
+  var {description, status} = req.body;
   var createTime = parseInt(new Date().getTime()) /
     (constant.time.SECONDS_PER_MINUTE *
     constant.time.MINUTE_PER_HOUR *
@@ -171,12 +172,12 @@ HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
   const homeworkId = req.params.homeworkId;
   HomeworkDefinition.update({_id: homeworkId}, {$set: {name, type, definitionRepo}}, (err, data) => {
     if (!err && data) {
+      var callbackUrl = `${getIp()}/api/homeworkDefinitions/jenkinsReaction/${homeworkId}`;
       request
         .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
         .send({
           git: definitionRepo,
-          ip: getIp(),
-          mongo: homeworkId
+          callback_url: callbackUrl
         })
         .type('form')
         .end((err, resp) => {
@@ -210,13 +211,13 @@ HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
         status: 1
       }).save((err, data) => {
         if (!err && data) {
+          var callbackUrl = `${getIp()}/api/homeworkDefinitions/jenkinsReaction/${data._id}`;
           res.status(200).send({id: data._id});
           request
             .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
             .send({
               git: definitionRepo,
-              ip: getIp(),
-              mongo: data.toJSON()._id + ''
+              callback_url: callbackUrl
             })
             .type('form')
             .end((err, resp) => {

@@ -23,7 +23,7 @@ var upload = multer({storage: storage});
 
 router.post('/', homeworkDefinationController.insertHomework);
 router.get('/status/:id', homeworkDefinationController.searchStatus);
-router.post('/jenkinsReaction', upload.single('script'), homeworkDefinationController.saveHomework);
+router.post('/jenkinsReaction/:dataId', upload.single('script'), homeworkDefinationController.saveHomework);
 
 module.exports = router;
 
