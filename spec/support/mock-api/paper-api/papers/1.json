@@ -8,11 +8,12 @@
     "response": {
       "json": {
         "id": 1,
+        "paperName": "简单的试卷",
         "sections": [
           {
-              "description": "这是描述",
-              "id": 1,
-              "quizzes": [
+            "description": "这是描述",
+            "id": 1,
+            "quizzes": [
                   {
                       "definition_uri": "blankQuizzes/1",
                       "id": 1,
