@@ -8,6 +8,7 @@
     "response" : {
       "json" : {
         "id": 1,
+        "paperName": "简单的试卷",
         "sections": [
           {
             "description": "这是描述",
