@@ -121,38 +121,60 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
     constant.time.HOURS_PER_DAY *
     constant.time.MILLISECOND_PER_SECONDS);
   var templateUrl = req.file ? `./${req.file.path}` : '';
-  apiRequest.post('homeworkQuizzes', {
-    'description': 'zhangpei',
-    'makerId': 1,
-    'createTime': 1111111,
-    'evaluateScript': '/homework-script/check-readme.sh',
-    'templateRepository': 'https://github.com/sialvsic/thousands_separators.git',
-    'homeworkName': 'homework name'
-  }, (err, resp) => {
-    if (!err && resp) {
-      HomeworkDefinition.update({_id: id}, {
-        $set: {
-          status,
-          makerId: 1,
-          description,
-          isDeleted: false,
-          uri: resp.body.uri,
-          createTime,
-          evaluateScript: '',
-          templateUrl,
-          result
-        }
-      }).exec((err, data) => {
-        if (!err && data) {
-          res.sendStatus(200);
-        } else {
-          res.sendStatus(403);
-        }
-      });
-    } else {
-      res.sendStatus(403);
-    }
-  });
+  if(status === 2) {
+    apiRequest.post('homeworkQuizzes', {
+      'description': 'zhangpei',
+      'makerId': 1,
+      'createTime': 1111111,
+      'evaluateScript': '/homework-script/check-readme.sh',
+      'templateRepository': 'https://github.com/sialvsic/thousands_separators.git',
+      'homeworkName': 'homework name'
+    }, (err, resp) => {
+      if (!err && resp) {
+        HomeworkDefinition.update({_id: id}, {
+          $set: {
+            status,
+            makerId: 1,
+            description,
+            isDeleted: false,
+            uri: resp.body.uri,
+            createTime,
+            evaluateScript: '',
+            templateUrl,
+            result
+          }
+        }).exec((err, data) => {
+          if (!err && data) {
+            res.sendStatus(200);
+          } else {
+            res.sendStatus(403);
+          }
+        });
+      } else {
+        res.sendStatus(403);
+      }
+    })
+  } else {
+    HomeworkDefinition.update({_id: id}, {
+      $set: {
+        status,
+        makerId: 1,
+        description,
+        isDeleted: false,
+        uri: '',
+        createTime,
+        evaluateScript: '',
+        templateUrl,
+        result
+      }
+    }).exec((err, data) => {
+      if (!err && data) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(403);
+      }
+    });
+  }
 };
 
 HomeworkDefinitionController.prototype.searchStatus = (req, res) => {
