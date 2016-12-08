@@ -2,14 +2,15 @@ function formatSections(sections) {
   var homeworkQuizzes;
   var blankQuizzes;
   var data;
-  if (sections.length === 1) {
-    homeworkQuizzes = {quizType: 'homeworkQuizzes', quizzes: sections[0].quizzes};
-    data = {homeworkQuizzes};
-  } else if (sections.length === 2) {
-    blankQuizzes = {quizType: 'blankQuizzes', items: sections[0].quizzes};
-    homeworkQuizzes = {quizType: 'homeworkQuizzes', quizzes: sections[1].quizzes};
-    data = {blankQuizzes, homeworkQuizzes};
-  }
+  data = sections.map((section) => {
+    if (section.type === 'homeworkQuiz') {
+      homeworkQuizzes = {quizType: 'homeworkQuizzes', quizzes: section.quizzes};
+      return {homeworkQuizzes};
+    } else if (section.type === 'logicQuiz') {
+      blankQuizzes = {quizType: 'blankQuizzes', items: sections[0].quizzes};
+      return {blankQuizzes};
+    }
+  });
   return data;
 }
 

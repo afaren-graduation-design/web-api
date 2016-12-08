@@ -112,41 +112,41 @@ describe('POST programs/:id/paperDefinitions', ()=> {
 describe("GET programs/:programId/paperDefinitions", ()=> {
   it('should be return paper list', (done)=> {
     userSession
-      .get('/programs/1/paperDefinitions')
-      .query({
-        page: 1,
-        pageCount: 10
-      })
-      .expect(200)
-      .expect((res)=> {
-        res.body.data.length.should.equal(10);
-      })
-      .end(done)
+        .get('/programs/1/paperDefinitions')
+        .query({
+          page: 1,
+          pageCount: 10
+        })
+        .expect(200)
+        .expect((res)=> {
+          res.body.data.length.should.equal(10);
+        })
+        .end(done)
   })
 });
 describe('DELETE programs/:id/paperDefinitions/:id', ()=> {
   it('should be return a httpCode', (done)=> {
     userSession
-      .delete('/programs/1/paperDefinitions/5829958a7007c23870a1d68a')
-      .expect(204)
-      .end(done);
+        .delete('/programs/1/paperDefinitions/5829958a7007c23870a1d68a')
+        .expect(204)
+        .end(done);
   })
 });
 
 describe("GET programs/:programId/paperDefinitions/selection", ()=> {
   it('should be return paper list as select type', (done)=> {
     userSession
-      .get('/programs/1/paperDefinitions/selection')
-      .query({
-        title: 'java',
-        page: 1,
-        pageCount: 2
-      })
-      .expect(200)
-      .expect((res)=> {
-        res.body.data.length.should.equal(2);
-      })
-      .end(done)
+        .get('/programs/1/paperDefinitions/selection')
+        .query({
+          title: 'java',
+          page: 1,
+          pageCount: 2
+        })
+        .expect(200)
+        .expect((res)=> {
+          res.body.data.length.should.equal(2);
+        })
+        .end(done)
   })
 });
 
@@ -165,56 +165,56 @@ describe("Delete /programs/1/paperDefinitions/deletion", ()=> {
 describe("POST /programs/1/paperDefinitions/distribution", ()=> {
   it("should return distributed paper uri", (done)=> {
     userSession
-      .post('/programs/1/paperDefinitions/distribution')
-      .send({data: {
-        paperName: "new title",
-        description: "update paper-api",
-        sections: [
-          {
-            title: "logicQuizzes",
-            quizzes: {
-              easy: 1,
-              normal: 1,
-              hard: 1
-            },
-            type: 'loginQuiz'
-          }, {
-            title: "homeworkQuizzes",
-            quizzes: [{id: 1, uri: "/homeworkQuizzes/1"}, {id: 2, uri: "/homeworkQuizzes/2"}],
-            type: 'homeworkQuiz'
-          }
-        ]
-      }})
-      .expect(201)
-      .end(done)
+        .post('/programs/1/paperDefinitions/distribution')
+        .send({data: {
+          paperName: "new title",
+          description: "1",
+          sections: [
+            {
+              title: "logicQuizzes",
+              quizzes: {
+                easy: 1,
+                normal: 1,
+                hard: 1
+              },
+              type: 'logicQuiz'
+            }, {
+              title: "homeworkQuizzes",
+              quizzes: [{id: 1, uri: "/homeworkQuizzes/1"}, {id: 2, uri: "/homeworkQuizzes/2"}],
+              type: 'homeworkQuiz'
+            }
+          ]
+        }})
+        .expect(201)
+        .end(done)
   })
 });
 
 describe("PUT /programs/1/paperDefinitions/:paperId/distribution", ()=> {
   it("should return distributed paper uri", (done)=> {
     userSession
-      .put('/programs/1/paperDefinitions/5829958a7007c23870a1d68a/distribution')
-      .send({data: {
-        paperName: "new title",
-        description: "update paper-api",
-        sections: [
-          {
-            title: "logicQuizzes",
-            quizzes: {
-              easy: 1,
-              normal: 1,
-              hard: 1
-            },
-            type: 'loginQuiz'
-          }, {
-            title: "homeworkQuizzes",
-            quizzes: [{id: 1, uri: "/homeworkQuizzes/1"}, {id: 2, uri: "/homeworkQuizzes/2"}],
-            type: 'homeworkQuiz'
-          }
-        ]
-      }})
-      .expect(201)
-      .end(done)
+        .put('/programs/1/paperDefinitions/5829958a7007c23870a1d68a/distribution')
+        .send({data: {
+          paperName: "new title",
+          description: "1",
+          sections: [
+            {
+              title: "logicQuizzes",
+              quizzes: {
+                easy: 1,
+                normal: 1,
+                hard: 1
+              },
+              type: 'logicQuiz'
+            }, {
+              title: "homeworkQuizzes",
+              quizzes: [{id: 1, uri: "/homeworkQuizzes/1"}, {id: 2, uri: "/homeworkQuizzes/2"}],
+              type: 'homeworkQuiz'
+            }
+          ]
+        }})
+        .expect(201)
+        .end(done)
   })
 });
 

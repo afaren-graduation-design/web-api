@@ -7,7 +7,7 @@ describe('GET programs/:programId/papers', ()=> {
       .get('/programs/1/papers')
       .expect(200)
       .expect(function (res) {
-        res.body.data.length.should.equal(17);
+        res.body.data.length.should.equal(8);
       })
       .end(done);
   })

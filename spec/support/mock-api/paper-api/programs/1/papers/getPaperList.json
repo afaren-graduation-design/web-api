@@ -2,7 +2,7 @@
   {
     "description": "should_return_mysql_paperList",
     "request": {
-      "uri": "/programs/6/papers",
+      "uri": "/programs/1/papers",
       "method": "get"
     },
     "response": {

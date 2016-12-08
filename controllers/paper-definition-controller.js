@@ -182,7 +182,7 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
     }
     var formattedSections = formatSections(sections);
     data = {
-      makerId, programId, paperName, sections: formattedSections
+      makerId, programId, paperName, description, sections: formattedSections
     };
     apiRequest.post('papers', data, (error, resp) => {
       if (!error && resp) {
@@ -214,7 +214,7 @@ PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) =
       }
       var formattedSections = formatSections(sections);
       data = {
-        makerId, programId, paperName, sections: formattedSections
+        makerId, programId, paperName, description, sections: formattedSections
       };
       apiRequest.post('papers', data, (error, resp) => {
         if (!error && resp) {

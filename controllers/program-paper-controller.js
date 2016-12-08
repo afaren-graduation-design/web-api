@@ -14,7 +14,7 @@ ProgramPaperController.prototype.getPaperList = (req, res) => {
       return res.sendStatus(400);
     }
     return res.send({
-      data: resp.body
+      data: resp.body.paperList
     });
   });
 };
@@ -23,7 +23,7 @@ ProgramPaperController.prototype.getOnePaper = (req, res) => {
   var programId = req.params.programId;
   var paperId = req.params.paperId;
 
-  apiRequest.get(`program/${programId}/paper/${paperId}`, (err, resp) => {
+  apiRequest.get(`programs/${programId}/paper/${paperId}`, (err, resp) => {
     if (err) {
       return res.sendStatus(400);
     }
