@@ -121,7 +121,7 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
     constant.time.HOURS_PER_DAY *
     constant.time.MILLISECOND_PER_SECONDS);
   var templateUrl = req.file ? `./${req.file.path}` : '';
-  if(status === 2) {
+  if (status === 2) {
     apiRequest.post('homeworkQuizzes', {
       'description': 'zhangpei',
       'makerId': 1,
@@ -153,7 +153,7 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
       } else {
         res.sendStatus(403);
       }
-    })
+    });
   } else {
     HomeworkDefinition.update({_id: id}, {
       $set: {
