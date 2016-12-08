@@ -121,10 +121,13 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
     constant.time.MILLISECOND_PER_SECONDS);
   var result = status === '2' ? 'success' : '文件不存在';
   var templateUrl = req.file ? `./${req.file.path}` : '';
-  apiRequest.post('homeworks/1', {
-    description: 'zhangpei',
-    templateUrl: '',
-    evaluateScript: '/homework-script/1481000787024961074'
+  apiRequest.post('homeworkQuizzes', {
+    'description': 'zhangpei',
+    'makerId': 1,
+    'createTime': 1111111,
+    'evaluateScript': '/homework-script/check-readme.sh',
+    'templateRepository': 'https://github.com/sialvsic/thousands_separators.git',
+    'homeworkName': 'homework name'
   }, (err, resp) => {
     if (!err && resp) {
       HomeworkDefinition.update({_id: id}, {
