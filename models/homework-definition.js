@@ -11,7 +11,7 @@ var homeworkDefinition = new Schema({
   evaluateScript: String,
   templateRepository: String,
   result: String,
-  name: {type:String,unique:true},
+  name: {type: String, unique: true},
   definitionRepo: String,
   type: String
 });

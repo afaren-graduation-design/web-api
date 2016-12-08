@@ -232,8 +232,8 @@ HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
               }
             });
         } else {
-          if (err.code === 11000){
-            res.status(405).send({status:4})
+          if (err.code === 11000) {
+            res.status(405).send({status: 4});
           }
           done(err);
         }
