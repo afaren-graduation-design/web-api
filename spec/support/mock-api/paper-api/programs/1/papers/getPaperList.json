@@ -7,88 +7,16 @@
     },
     "response": {
       "json": {
-        "paperList": [
-        {
+        "paperList": [{
           "createTime": "2016",
-          "description": "f",
-          "id": 4,
-          "isDistribution": false,
-          "makerId": 2,
-          "paperName": "测试试卷",
-          "programId": 6,
-          "uri": "/papers/4"
-        },
-        {
-          "createTime": "2017",
-          "description": "a",
-          "id": 5,
-          "isDistribution": false,
-          "makerId": 3,
-          "paperName": "java",
-          "programId": 6,
-          "uri": "/papers/5"
-        },
-        {
-          "createTime": "2014",
-          "description": "b",
-          "id": 6,
-          "isDistribution": false,
-          "makerId": 2,
-          "paperName": "js",
-          "programId": 6,
-          "uri": "/papers/6"
-        },
-        {
-          "createTime": "2013",
-          "description": "c",
-          "id": 7,
-          "isDistribution": false,
-          "makerId": 2,
-          "paperName": "c++",
-          "programId": 6,
-          "uri": "/papers/7"
-        },
-        {
-          "createTime": "2016",
-          "description": "d",
-          "id": 8,
-          "isDistribution": false,
-          "makerId": 5,
-          "paperName": "c",
-          "programId": 6,
-          "uri": "/papers/8"
-        },
-        {
-          "createTime": "2015",
-          "description": "e",
-          "id": 9,
+          "description": "simple",
+          "id": 1,
           "isDistribution": true,
-          "makerId": 2,
-          "paperName": "ruby",
-          "programId": 6,
-          "uri": "/papers/9"
-        },
-        {
-          "createTime": "2015",
-          "description": "e",
-          "id": 10,
-          "isDistribution": true,
-          "makerId": 3,
-          "paperName": "scale",
-          "programId": 6,
-          "uri": "/papers/10"
-        },
-        {
-          "createTime": "2015",
-          "description": "e",
-          "id": 11,
-          "isDistribution": true,
-          "makerId": 7,
-          "paperName": "react",
-          "programId": 6,
-          "uri": "/papers/11"
-        }
-      ]
+          "makerId": 1,
+          "paperName": "简单的试卷",
+          "programId": 1,
+          "uri": "/papers/1"
+        }]
       }
     }
   }
