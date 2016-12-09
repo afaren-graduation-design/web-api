@@ -19,7 +19,7 @@ describe('GET programs/:programId/papers/:paperId', ()=> {
       .get('/programs/1/papers/1')
       .expect(200)
       .expect((res) => {
-        res.body.data.paperName.should.equal('java');
+        res.body.data.paperName.should.equal('简单的试卷');
       })
       .end(done);
   })
