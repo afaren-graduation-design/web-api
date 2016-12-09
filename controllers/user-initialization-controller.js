@@ -13,7 +13,6 @@ function UserInitializationController() {
 
 UserInitializationController.prototype.initializeQuizzes = (req, res) => {
   var userId = req.session.user.id;
-  var userId = 1;
   var programId = req.params.programId;
   var paperId = req.params.paperId;
   var quizItems, quizExamples, blankQuizId;
