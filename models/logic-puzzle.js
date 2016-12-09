@@ -10,6 +10,7 @@ var Schema = mongoose.Schema;
 
 var logicPuzzleSchema = new Schema({
   userId: Number,
+  programId: Number,
   quizItems: [{
     id: Number,
     question: String,

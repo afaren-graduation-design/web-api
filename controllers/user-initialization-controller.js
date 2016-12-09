@@ -1,8 +1,9 @@
 'use strict';
 
 var apiRequest = require('../services/api-request');
-var logicPuzzle = require('../models/logic-puzzle');
-var userHomeworkQuizzes = require('../models/user-homework-quizzes');
+var LogicPuzzle = require('../models/logic-puzzle');
+var UserHomeworkQuizzes = require('../models/user-homework-quizzes');
+var UserPaperForm = require('../models/user-paper-form');
 var constant = require('../mixin/constant');
 var async = require('async');
 
@@ -11,63 +12,188 @@ function UserInitializationController() {
 }
 
 UserInitializationController.prototype.initializeQuizzes = (req, res) => {
-  var userId = req.session.user.id;
-  var quizItems, quizExamples, blankQuizId, paperId;
-  var logicPuzzleUrl = 'papers/1';
-  var enrollment;
+  // var userId = req.session.user.id;
+  var userId = 1;
+  var programId = req.params.programId;
+  var paperId = req.params.paperId;
+  var quizItems, quizExamples, blankQuizId;
+  var enrollment, sections;
+  var result = [];
+  var logicQuizArray = [];
+  var homeworkQuizArray = [];
 
   async.waterfall([
-
     (done) => {
-      logicPuzzle.findOne({
-        userId: userId,
-        paperId: 1
-      }, (err, data) => {
+      UserPaperForm.findOne({
+        userId, programId, paperId
+      }, (err, resp) => {
         if (err) {
-          done(err, data);
+          done(err, resp);
         } else {
-          done(!!data, data);
+          done(!!resp, resp);
         }
       });
     }, (data, done) => {
-      apiRequest.get(logicPuzzleUrl, done);
+      apiRequest.get(`programs/${programId}/paper/${paperId}`, done);
     }, (responds, done) => {
       enrollment = responds.body;
-      var quizzes = responds.body.sections[0].quizzes[0];
-      blankQuizId = quizzes.id;
-      paperId = responds.body.id;
-      var itemsUri = quizzes.items_uri;
-
-      done(null, itemsUri);
-    }, (itemsUri, done) => {
-      apiRequest.get(itemsUri, done);
-    }, (responds, done) => {
-      quizItems = responds.body.quizItems;
-      quizExamples = responds.body.exampleItems;
-
-      var isNotExist = true;
-
-      done(null, isNotExist);
-    }, (isNotExist, done) => {
-      logicPuzzle.create({
-        userId: userId,
-        quizItems: quizItems,
-        quizExamples: quizExamples,
-        blankQuizId: blankQuizId,
-        paperId: paperId
-      }, done);
-    }, (doc, done) => {
-      //  todo 编程题不能写死为section[1]
-      userHomeworkQuizzes.initUserHomeworkQuizzes(userId, enrollment.sections[1].quizzes, paperId, done);
+      sections = enrollment.sections;
+      async.map(sections, (section, callback) => {
+        var type = section.sectionType;
+        if (type === 'blankQuizzes') {
+          blankQuizId = section.quizzes[0].id;
+          var itemsUri = section.quizzes[0].items_uri;
+          apiRequest.get(itemsUri, (err, respond) => {
+            if (err) {
+              done(err);
+            }
+            quizItems = respond.body.quizItems;
+            quizExamples = respond.body.exampleItems;
+            new LogicPuzzle({
+              userId: userId,
+              quizItems: quizItems,
+              quizExamples: quizExamples,
+              blankQuizId: blankQuizId,
+              paperId: paperId,
+              programId: programId
+            }).save((err, data) => {
+              if (err) {
+                done(err);
+              }
+              callback(null, {type: 'logicQuizzes', id: data._id});
+            });
+          });
+        } else if (type === 'homeworkQuizzes') {
+          var homeworkQuiz = section.quizzes;
+          new UserHomeworkQuizzes({
+            userId, quizzes: homeworkQuiz, paperId, programId
+          }).save((err, data) => {
+            if (err) {
+              done(err);
+            }
+            callback(null, {type, id: data._id});
+          });
+        }
+      }, (err, results) => {
+        if (err) {
+          done(err, results);
+        }
+        result = results;
+        done();
+      });
     }
-  ], (err) => {
+  ], (err, data) => {
     if (err && err !== true) {
       res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
       res.send({status: constant.httpCode.INTERNAL_SERVER_ERROR, message: err.message});
     } else {
-      res.send({status: constant.httpCode.OK});
+      if (!data) {
+        new UserPaperForm({
+          userId, programId, paperId
+        }).save((err, data) => {
+          if (!err && data) {
+            return res.send({status: constant.httpCode.OK, sections: result});
+          }
+          res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
+          return res.send({status: constant.httpCode.INTERNAL_SERVER_ERROR, message: err.message});
+        });
+      }
+
+      LogicPuzzle.find({userId, programId, paperId}).select('_id').exec((err, logicQuizzes) => {
+        if (err) {
+          res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
+          res.send({status: constant.httpCode.INTERNAL_SERVER_ERROR, message: err.message});
+        }
+
+        UserHomeworkQuizzes.find({userId, programId, paperId}).select('_id').exec((err, homeworkQuizzes) => {
+          if (err) {
+            res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
+            res.send({status: constant.httpCode.INTERNAL_SERVER_ERROR, message: err.message});
+          }
+
+          logicQuizArray = (logicQuizzes.length === 0) ? [] : logicQuizzes.map((logicQuiz) => {
+            var item = logicQuiz.toJSON();
+            item.type = 'logicQuizzes';
+            item.id = logicQuiz._id;
+            return item;
+          });
+
+          homeworkQuizArray = (homeworkQuizzes.length === 0) ? [] : homeworkQuizzes.map((homeworkQuiz) => {
+            var item = homeworkQuiz.toJSON();
+            item.type = 'homeworkQuizzes';
+            item.id = homeworkQuiz._id;
+            return item;
+          });
+
+          result = logicQuizArray.concat(homeworkQuizArray);
+          return res.send({status: constant.httpCode.OK, sections: result});
+        });
+      });
     }
   });
 };
+
+//
+// UserInitializationController.prototype.initializeQuizzes1 = (req, res) => {
+//   var userId = req.session.user.id;
+//   var programId = req.params.programId;
+//   var paperId = req.params.paperId;
+//   var quizItems, quizExamples, blankQuizId;
+//   var LogicPuzzleUrl = 'papers/1';
+//   var enrollment;
+//
+//   async.waterfall([
+//
+//     (done) => {
+//       LogicPuzzle.findOne({
+//         userId: userId,
+//         paperId: 1
+//       }, (err, data) => {
+//         if (err) {
+//           done(err, data);
+//         } else {
+//           done(!!data, data);
+//         }
+//       });
+//     }, (data, done) => {
+//       apiRequest.get(LogicPuzzleUrl, done);
+//     }, (responds, done) => {
+//       enrollment = responds.body;
+//       var quizzes = responds.body.sections[0].quizzes[0];
+//       blankQuizId = quizzes.id;
+//       paperId = responds.body.id;
+//       var itemsUri = quizzes.items_uri;
+//
+//       done(null, itemsUri);
+//     }, (itemsUri, done) => {
+//       apiRequest.get(itemsUri, done);
+//     }, (responds, done) => {
+//       quizItems = responds.body.quizItems;
+//       quizExamples = responds.body.exampleItems;
+//
+//       var isNotExist = true;
+//
+//       done(null, isNotExist);
+//     }, (isNotExist, done) => {
+//       LogicPuzzle.create({
+//         userId: userId,
+//         quizItems: quizItems,
+//         quizExamples: quizExamples,
+//         blankQuizId: blankQuizId,
+//         paperId: paperId
+//       }, done);
+//     }, (doc, done) => {
+//       //  todo 编程题不能写死为section[1]
+//       UserHomeworkQuizzes.initUserHomeworkQuizzes(userId, enrollment.sections[1].quizzes, paperId, done);
+//     }
+//   ], (err, logicQuizzes) => {
+//     if (err && err !== true) {
+//       res.status(constant.httpCode.INTERNAL_SERVER_ERROR);
+//       res.send({status: constant.httpCode.INTERNAL_SERVER_ERROR, message: err.message});
+//     } else {
+//       return res.send({status: constant.httpCode.OK, sections});
+//     }
+//   });
+// };
 
 module.exports = UserInitializationController;

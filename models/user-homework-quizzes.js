@@ -7,6 +7,7 @@ var constant = require('../mixin/constant');
 var userHomeworkQuizzesSchema = Schema({
   userId: Number,
   paperId: Number,
+  programId: Number,
   quizzes: [{
     id: Number,
     startTime: Number,

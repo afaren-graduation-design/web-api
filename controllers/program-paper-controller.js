@@ -8,7 +8,6 @@ function ProgramPaperController() {
 
 ProgramPaperController.prototype.getPaperList = (req, res) => {
   var programId = req.params.programId;
-
   apiRequest.get(`programs/${programId}/papers`, (err, resp) => {
     if (err) {
       return res.sendStatus(400);
