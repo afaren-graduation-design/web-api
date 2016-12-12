@@ -51,9 +51,6 @@
     "include": "spec/support/mock-api/user-api/get-user-program.json"
   },
   {
-    "include": "spec/support/mock-api/paper-api/homeworks/1.json"
-  },
-  {
     "include": "spec/support/mock-api/paper-api/programs/1/papers/getPaperList.json"
   },
   {
