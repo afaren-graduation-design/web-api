@@ -13,7 +13,7 @@ HomeworkQuizzesController.prototype.getOneHomework = (req, res) => {
     if (err) {
       return res.sendStatus(400);
     }
-    return res.send({homeworkName: data.body.homeworkItem.homeworkName});
+    return res.send({homeworkName: data.body.homeworkItem.homeworkName, type: data.body.homeworkItem.type});
   });
 };
 
