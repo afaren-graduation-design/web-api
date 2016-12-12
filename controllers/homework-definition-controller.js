@@ -16,8 +16,13 @@ HomeworkDefinitionController.prototype.getHomeworkList = (req, res) => {
   let pageCount = req.query.pageCount || 10;
   let page = req.query.page || 1;
   let skipCount = pageCount * (page - 1);
+  let order = req.query.order || '1';
+  let sort = req.query.sort || 'createTime';
   let homeworks;
-  HomeworkDefinition.find({isDeleted: false}).limit(Number(pageCount)).skip(skipCount).exec((err, data) => {
+  let sortData = {};
+  sortData[sort] = order;
+
+  HomeworkDefinition.find({isDeleted: false}).sort(sortData).limit(Number(pageCount)).skip(skipCount).exec((err, data) => {
     HomeworkDefinition.count({isDeleted: false}, (error, count) => {
       if (!err && !error && count && data) {
         let totalPage = Math.ceil(count / pageCount);
@@ -103,7 +108,10 @@ HomeworkDefinitionController.prototype.insertEvaluateScript = (req, res) => {
 
 HomeworkDefinitionController.prototype.deleteSomeHomeworks = (req, res) => {
   var idArray = req.body.idArray;
-  HomeworkDefinition.update({_id: {$in: idArray}, isDeleted: false}, {isDeleted: true}, {multi: true}).exec((err, data) => {
+  HomeworkDefinition.update({
+    _id: {$in: idArray},
+    isDeleted: false
+  }, {isDeleted: true}, {multi: true}).exec((err, data) => {
     if (!err && data) {
       res.status(204).end();
     } else {
