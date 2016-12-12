@@ -36,6 +36,7 @@ test:
   appServer: 'http://localhost:3000/'
   taskServer: 'http://192.168.10.54:9090/'
   taskApi: 'http://192.168.10.54:9090/job/HOMEWORK_SCORING/buildWithParameters'
+  homeworkCreationTaskApi: 'http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters'
   nginxServer: 'http://localhost/fs'
   ballbackTaskUrl: 'http://192.168.10.165:3000/homework/scoring/'
 

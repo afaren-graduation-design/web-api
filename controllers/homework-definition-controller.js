@@ -123,42 +123,50 @@ HomeworkDefinitionController.prototype.deleteSomeHomeworks = (req, res) => {
 HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
   var id = req.params.dataId;
   var {description, status, result} = req.body;
-  var createTime = parseInt(new Date().getTime()) /
+  var createTime = parseInt(parseInt(new Date().getTime()) /
     (constant.time.SECONDS_PER_MINUTE *
     constant.time.MINUTE_PER_HOUR *
     constant.time.HOURS_PER_DAY *
-    constant.time.MILLISECOND_PER_SECONDS);
-  var templateUrl = req.file ? `./${req.file.path}` : '';
-  if (status === 2) {
-    apiRequest.post('homeworkQuizzes', {
-      'description': 'zhangpei',
-      'makerId': 1,
-      'createTime': 1111111,
-      'evaluateScript': '/homework-script/check-readme.sh',
-      'templateRepository': 'https://github.com/sialvsic/thousands_separators.git',
-      'homeworkName': 'homework name'
-    }, (err, resp) => {
-      if (!err && resp) {
-        HomeworkDefinition.update({_id: id}, {
-          $set: {
-            status,
-            makerId: 1,
-            description,
-            isDeleted: false,
-            uri: resp.body.uri,
-            createTime,
-            evaluateScript: '',
-            templateUrl,
-            result
-          }
-        }).exec((err, data) => {
-          if (!err && data) {
-            res.sendStatus(200);
+    constant.time.MILLISECOND_PER_SECONDS));
+  var evaluateScript = req.file ? `./${req.file.path}` : '';
+  if (status === "2") {
+    HomeworkDefinition.findOne({_id:id}).exec((err,doc)=>{
+      if(!err ) {
+        apiRequest.post('homeworkQuizzes',
+        {
+          "description": description,
+          "evaluateScript":evaluateScript,
+          "templateRepository":"https://github.com/sialvsic/thousands_separators.git",
+          "makerId":1,
+          "createTime": createTime,
+          "homeworkName": doc.toJSON().name.toString()
+        }
+        , (err, resp) => {
+          if (!err && resp) {
+            HomeworkDefinition.update({_id: id}, {
+              $set: {
+                status,
+                makerId: 1,
+                description,
+                isDeleted: false,
+                uri: resp.body.uri,
+                createTime,
+                evaluateScript,
+                templateUrl:'',
+                result
+              }
+            }).exec((err, data) => {
+              if (!err && data) {
+                res.sendStatus(200);
+              } else {
+                res.sendStatus(403);
+              }
+            });
           } else {
             res.sendStatus(403);
           }
         });
-      } else {
+      }else {
         res.sendStatus(403);
       }
     });
@@ -171,8 +179,8 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
         isDeleted: false,
         uri: '',
         createTime,
-        evaluateScript: '',
-        templateUrl,
+        evaluateScript,
+        templateUrl:'',
         result
       }
     }).exec((err, data) => {
@@ -201,7 +209,7 @@ HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
   const homeworkId = req.params.homeworkId;
   HomeworkDefinition.update({_id: homeworkId}, {$set: {name, type, definitionRepo}}, (err, data) => {
     if (!err && data) {
-      var callbackUrl = `${getIp()}/api/homeworkDefinitions/jenkinsReaction/${homeworkId}`;
+      var callbackUrl = `${getIp()}/api/homeworkDefinitions/${homeworkId}/status`;
       request
         .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
         .send({
@@ -240,7 +248,7 @@ HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
         status: 1
       }).save((err, data) => {
         if (!err && data) {
-          var callbackUrl = `${getIp()}/api/homeworkDefinitions/jenkinsReaction/${data._id}`;
+          var callbackUrl = `${getIp()}/api/homeworkDefinitions/${data._id}/status`;
           res.status(200).send({id: data._id});
           request
             .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')

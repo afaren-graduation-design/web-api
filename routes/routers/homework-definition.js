@@ -8,7 +8,7 @@ var homeworkDefinationController = new HomeworkDefinationController();
 router.get('/selection', homeworkDefinationController.matchHomework);
 router.get('/', homeworkDefinationController.getHomeworkList);
 router.delete('/deletion', homeworkDefinationController.deleteSomeHomeworks);
-router.put('/:homeworkId', homeworkDefinationController.updateHomework);
+
 router.get('/:homeworkId', homeworkDefinationController.getOneHomework);
 router.delete('/:homeworkId', homeworkDefinationController.deleteHomework);
 
@@ -23,7 +23,8 @@ var upload = multer({storage: storage});
 
 router.post('/', homeworkDefinationController.insertHomework);
 router.get('/status/:id', homeworkDefinationController.searchStatus);
-router.post('/jenkinsReaction/:dataId', upload.single('script'), homeworkDefinationController.saveHomework);
+router.put('/:dataId/status', upload.single('script'), homeworkDefinationController.saveHomework);
+router.put('/:homeworkId', homeworkDefinationController.updateHomework);
 
 module.exports = router;
 
