@@ -2,17 +2,20 @@
   {
     "description": "should_return_one_homework_quiz_when_request_one_homework_quiz",
     "request": {
-      "uri": "/homeworks/1",
+      "uri": "/homeworkQuizzes",
       "method": "post",
       "json": {
-        "description": "zhangpei",
-        "templateUrl": "",
-        "evaluateScript": "/homework-script/1481000787024961074"
+        "description": "shijuan",
+        "evaluateScript": "test.sh",
+        "templateRepository": "http://github.com/test",
+        "makerId": 1,
+        "createTime": 123456,
+        "homeworkName": "javaScript"
       }
     },
     "response": {
       "json": {
-        "uri":"homeworks/1"
+        "uri": "homeworkQuizzes/9"
       }
     }
   }
