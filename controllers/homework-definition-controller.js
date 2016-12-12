@@ -129,17 +129,16 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
     constant.time.HOURS_PER_DAY *
     constant.time.MILLISECOND_PER_SECONDS));
   var evaluateScript = req.file ? `./${req.file.path}` : '';
-  if (status === "2") {
-    HomeworkDefinition.findOne({_id:id}).exec((err,doc)=>{
-      if(!err ) {
-        apiRequest.post('homeworkQuizzes',
-        {
-          "description": description,
-          "evaluateScript":evaluateScript,
-          "templateRepository":"https://github.com/sialvsic/thousands_separators.git",
-          "makerId":1,
-          "createTime": createTime,
-          "homeworkName": doc.toJSON().name.toString()
+  if (status === '2') {
+    HomeworkDefinition.findOne({_id: id}).exec((err, doc) => {
+      if (!err) {
+        apiRequest.post('homeworkQuizzes', {
+          'description': description,
+          'evaluateScript': evaluateScript,
+          'templateRepository': 'https://github.com/sialvsic/thousands_separators.git',
+          'makerId': 1,
+          'createTime': createTime,
+          'homeworkName': doc.toJSON().name.toString()
         }
         , (err, resp) => {
           if (!err && resp) {
@@ -152,7 +151,7 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
                 uri: resp.body.uri,
                 createTime,
                 evaluateScript,
-                templateUrl:'',
+                templateUrl: '',
                 result
               }
             }).exec((err, data) => {
@@ -166,7 +165,7 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
             res.sendStatus(403);
           }
         });
-      }else {
+      } else {
         res.sendStatus(403);
       }
     });
@@ -180,7 +179,7 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
         uri: '',
         createTime,
         evaluateScript,
-        templateUrl:'',
+        templateUrl: '',
         result
       }
     }).exec((err, data) => {
