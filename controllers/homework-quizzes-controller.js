@@ -15,6 +15,6 @@ HomeworkQuizzesController.prototype.getOneHomework = (req, res) => {
     }
     return res.send({homeworkName: data.body.homeworkItem.homeworkName, type: data.body.homeworkItem.type});
   });
-};
+}
 
 module.exports = HomeworkQuizzesController;

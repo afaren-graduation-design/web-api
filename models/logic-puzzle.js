@@ -58,12 +58,12 @@ logicPuzzleSchema.statics.isPaperCommited = function(userId, callback) {
   });   // 判断用户是否提交过并且判断用户时间是否还够用（只是针对逻辑题）
 };
 
-logicPuzzleSchema.statics.getLogicPuzzle = (orderId, userId) => {
+logicPuzzleSchema.statics.getLogicPuzzle = (orderId, userId, id) => {
   var userAnswer;
   var itemsCount;
 
   var model = mongoose.model('LogicPuzzle');
-  return model.findOne({userId: userId})
+  return model.findOne({userId: userId, _id: id})
       .then(function(data) {
         data.quizExamples.forEach(function(example) {
           example.isExample = true;
