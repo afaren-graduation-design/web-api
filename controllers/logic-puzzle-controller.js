@@ -4,6 +4,7 @@ var logicPuzzle = require('../models/logic-puzzle');
 var constant = require('../mixin/constant');
 var async = require('async');
 var apiRequest = require('../services/api-request');
+var paperId, programId;
 
 function LogicPuzzleController() {
 }
@@ -85,7 +86,7 @@ LogicPuzzleController.prototype.submitPaper = (req, res) => {
     if (err) {
       res.status(constant.httpCode.INTERNAL_SERVER_ERROR).send(err.stack);
     } else {
-      res.sendStatus(constant.httpCode.OK);
+      res.status(constant.httpCode.OK).send({paperId, programId});
     }
   });
 };
@@ -94,6 +95,8 @@ LogicPuzzleController.setScoreSheet = (scoreSheetData, done) => {
   var scoreSheetUri = 'scoresheets';
   var itemPosts = [];
   var data = scoreSheetData.data;
+  paperId = data.paperId;
+  programId = data.programId;
 
   data.quizItems.forEach((quizItem) => {
     itemPosts.push({answer: quizItem.userAnswer, quizItemId: quizItem.id});
@@ -101,7 +104,7 @@ LogicPuzzleController.setScoreSheet = (scoreSheetData, done) => {
 
   var body = {
     examerId: data.userId,
-    paperId: data.paperId,
+    paperId: paperId,
     blankQuizSubmits: [{
       startTime: scoreSheetData.startTime,
       endTime: scoreSheetData.endTime,
