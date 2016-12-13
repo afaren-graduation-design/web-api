@@ -9,7 +9,7 @@ function formatSections(sections) {
         normalCount: section.quizzes.normal,
         hardCount: section.quizzes.hard,
         exampleCount: (section.quizzes.example ? section.quizzes.example : 1)
-      }
+      };
       return {type: 'blankQuizzes', description: section.title, items};
     }
   });
