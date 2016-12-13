@@ -161,9 +161,10 @@ PaperDefinitionController.prototype.deleteSomePaperDefinition = (req, res) => {
 
 PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
   var {paperName, description, sections} = req.body.data;
-  var programId = req.params.programId;
+  var programId = Number(req.params.programId);
   var makerId = req.session.user.id;
-  var createTime = new Date().toDateString();
+  // var createTime = new Date().toDateString();
+  var createTime = 111111;
   var data;
   new PaperDefinition({
     programId,
@@ -182,8 +183,9 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
     }
     var formattedSections = formatSections(sections);
     data = {
-      makerId, programId, paperName, description, sections: formattedSections
+      makerId, createTime, programId, paperName, description, sections: formattedSections
     };
+
     apiRequest.post('papers', data, (error, resp) => {
       if (!error && resp) {
         PaperDefinition.update({_id: paper._id}, {uri: resp.body.uri, isDistribution: true}, (err) => {
@@ -202,7 +204,7 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
 
 PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) => {
   var {paperName, description, sections} = req.body.data;
-  var programId = req.params.programId;
+  var programId = Number(req.params.programId);
   var paperId = req.params.paperId;
   var makerId = req.session.user.id;
   var updateTime = new Date().toDateString();
@@ -214,8 +216,9 @@ PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) =
       }
       var formattedSections = formatSections(sections);
       data = {
-        makerId, programId, paperName, description, sections: formattedSections
+        makerId, createTime: 111111, programId, paperName, description, sections: formattedSections
       };
+
       apiRequest.post('papers', data, (error, resp) => {
         if (!error && resp) {
           PaperDefinition.update({_id: paperId}, {uri: resp.body.uri, isDistribution: true}, (err) => {

@@ -6,14 +6,14 @@
       "method": "post",
       "json": {
         "makerId": 1,
-        "programId": 1,
-        "description": "描述",
-        "paperName": "new title",
         "createTime": 111111,
+        "programId": 1,
+        "paperName": "new title",
+        "description": "描述",
         "sections": [
           {
-            "description": "blank",
             "type": "blankQuizzes",
+            "description": "blank",
             "items": {
               "easyCount": 1,
               "normalCount": 1,
@@ -22,8 +22,8 @@
             }
           },
           {
-            "description": "homework",
             "type": "homeworkQuizzes",
+            "description": "homework",
             "items": [
               {
                 "id": 1,

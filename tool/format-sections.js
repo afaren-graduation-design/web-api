@@ -1,14 +1,16 @@
 function formatSections(sections) {
-  var homeworkQuizzes;
-  var blankQuizzes;
   var data;
   data = sections.map((section) => {
     if (section.type === 'homeworkQuiz') {
-      homeworkQuizzes = {quizType: 'homeworkQuizzes', quizzes: section.quizzes};
-      return {homeworkQuizzes};
+      return {type: 'homeworkQuizzes', description: section.title, items: section.quizzes};
     } else if (section.type === 'logicQuiz') {
-      blankQuizzes = {quizType: 'blankQuizzes', items: sections[0].quizzes};
-      return {blankQuizzes};
+      var items = {
+        easyCount: section.quizzes.easy,
+        normalCount: section.quizzes.normal,
+        hardCount: section.quizzes.hard,
+        exampleCount: (section.quizzes.example ? section.quizzes.example : 1)
+      }
+      return {type: 'blankQuizzes', description: section.title, items};
     }
   });
   return data;

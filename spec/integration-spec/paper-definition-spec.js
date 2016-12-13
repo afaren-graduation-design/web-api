@@ -168,10 +168,10 @@ describe("POST /programs/1/paperDefinitions/distribution", ()=> {
         .post('/programs/1/paperDefinitions/distribution')
         .send({data: {
           paperName: "new title",
-          description: "1",
+          description: "描述",
           sections: [
             {
-              title: "logicQuizzes",
+              title: "blank",
               quizzes: {
                 easy: 1,
                 normal: 1,
@@ -179,8 +179,8 @@ describe("POST /programs/1/paperDefinitions/distribution", ()=> {
               },
               type: 'logicQuiz'
             }, {
-              title: "homeworkQuizzes",
-              quizzes: [{id: 1, uri: "/homeworkQuizzes/1"}, {id: 2, uri: "/homeworkQuizzes/2"}],
+              title: "homework",
+              quizzes: [{id: 1, uri: "homeworkQuizzes/1"}, {id: 2, uri: "homeworkQuizzes/2"}],
               type: 'homeworkQuiz'
             }
           ]
@@ -196,10 +196,10 @@ describe("PUT /programs/1/paperDefinitions/:paperId/distribution", ()=> {
         .put('/programs/1/paperDefinitions/5829958a7007c23870a1d68a/distribution')
         .send({data: {
           paperName: "new title",
-          description: "1",
+          description: "描述",
           sections: [
             {
-              title: "logicQuizzes",
+              title: "blank",
               quizzes: {
                 easy: 1,
                 normal: 1,
@@ -207,8 +207,8 @@ describe("PUT /programs/1/paperDefinitions/:paperId/distribution", ()=> {
               },
               type: 'logicQuiz'
             }, {
-              title: "homeworkQuizzes",
-              quizzes: [{id: 1, uri: "/homeworkQuizzes/1"}, {id: 2, uri: "/homeworkQuizzes/2"}],
+              title: "homework",
+              quizzes: [{id: 1, uri: "homeworkQuizzes/1"}, {id: 2, uri: "homeworkQuizzes/2"}],
               type: 'homeworkQuiz'
             }
           ]
