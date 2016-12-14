@@ -76,7 +76,7 @@ UserInitializationController.prototype.initializeQuizzes = (req, res) => {
             if (err) {
               done(err);
             }
-            callback(null, {type, id: data._id})
+            callback(null, {type, id: data._id});
           });
         }
       }, (err, results) => {

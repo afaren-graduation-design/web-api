@@ -186,7 +186,7 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
       makerId, createTime, programId, paperName, description, sections: formattedSections
     };
 
-    apiRequest.post('papers', data, (error, resp) => {
+    apiRequest.post('programs/1/papers', data, (error, resp) => {
       if (!error && resp) {
         PaperDefinition.update({_id: paper._id}, {uri: resp.body.uri, isDistribution: true}, (err) => {
           if (!err) {
@@ -219,7 +219,7 @@ PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) =
         makerId, createTime: 111111, programId, paperName, description, sections: formattedSections
       };
 
-      apiRequest.post('papers', data, (error, resp) => {
+      apiRequest.post('programs/1/papers', data, (error, resp) => {
         if (!error && resp) {
           PaperDefinition.update({_id: paperId}, {uri: resp.body.uri, isDistribution: true}, (err) => {
             if (!err) {
