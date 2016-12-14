@@ -64,13 +64,19 @@ UserInitializationController.prototype.initializeQuizzes = (req, res) => {
           });
         } else if (type === 'homeworkQuizzes') {
           var homeworkQuiz = section.quizzes;
-          new UserHomeworkQuizzes({
-            userId, quizzes: homeworkQuiz, paperId, programId
-          }).save((err, data) => {
+          // new UserHomeworkQuizzes({
+          //   userId, quizzes: homeworkQuiz, paperId, programId
+          // }).save((err, data) => {
+          //   if (err) {
+          //     done(err);
+          //   }
+          //   callback(null, {type, id: data._id});
+          // });
+          UserHomeworkQuizzes.initUserHomeworkQuizzes(userId, homeworkQuiz, programId, paperId, (err, data) => {
             if (err) {
               done(err);
             }
-            callback(null, {type, id: data._id});
+            callback(null, {type, id: data._id})
           });
         }
       }, (err, results) => {

@@ -7,7 +7,7 @@ var HomeworkController = require('../../controllers/homework-controller');
 var homeworkController = new HomeworkController();
 var githubReq = require('../../services/github-req.js');
 
-router.get('/get-list', homeworkController.getList);
+router.get('/get-list/:id', homeworkController.getList);
 router.get('/quiz', homeworkController.getOneQuiz);
 router.get('/get-branches', githubReq.getBranches);
 router.put('/status/:historyId', homeworkController.updateStatus);

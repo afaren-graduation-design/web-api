@@ -26,7 +26,8 @@ function HomeworkController() {
 
 HomeworkController.prototype.getList = (req, res, next) => {
   var userId = req.session.user.id;
-  userHomeworkQuizzes.findOne({userId: userId}, (err, data) => {
+  var id = req.params.id;
+  userHomeworkQuizzes.findOne({userId: userId, _id: id}, (err, data) => {
     if (err) {
       return next(err);
     }
