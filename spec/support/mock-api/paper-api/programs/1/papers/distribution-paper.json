@@ -41,7 +41,7 @@
     "response": {
       "status": 201,
       "json": {
-        "uri": "programs/1/papers"
+        "uri": "programs/1/papers/12"
       }
     }
   }
