@@ -129,26 +129,26 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
     constant.time.HOURS_PER_DAY *
     constant.time.MILLISECOND_PER_SECONDS));
   var evaluateScript = req.file ? `./${req.file.path}` : '';
-  if(status === '2'){
+  if (status === '2') {
     async.waterfall([
-      (done)=>{
-        HomeworkDefinition.findOne({_id: id},(err,doc)=>{
-          done(err,doc);
+      (done) => {
+        HomeworkDefinition.findOne({_id: id}, (err, doc) => {
+          done(err, doc);
         });
       },
-      (doc,done)=>{
+      (doc, done) => {
         apiRequest.post('homeworkQuizzes', {
-            'description': description,
-            'evaluateScript': evaluateScript,
-            'templateRepository': 'https://github.com/sialvsic/thousands_separators.git',
-            'makerId': 1,
-            'createTime': createTime,
-            'homeworkName': doc.toJSON().name.toString()
-          },(err,resp)=>{
-          done(err,resp);
+          'description': description,
+          'evaluateScript': evaluateScript,
+          'templateRepository': 'https://github.com/sialvsic/thousands_separators.git',
+          'makerId': 1,
+          'createTime': createTime,
+          'homeworkName': doc.toJSON().name.toString()
+        }, (err, resp) => {
+          done(err, resp);
         });
       },
-      (resp,done)=>{
+      (resp, done) => {
         HomeworkDefinition.update({_id: id}, {
           $set: {
             status,
@@ -161,19 +161,23 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
             templateUrl: '',
             result
           }
-        }).exec((err,doc)=>{
-          done(err,doc);
-        })
+        }).exec((err, doc) => {
+          done(err, doc);
+        });
       },
-      (doc,done)=>{
+      (doc, done) => {
         res.sendStatus(200);
+        done(null, null);
       }
-    ],(error,result)=>{
-      res.sendStatus(404);
-    })
+    ], (error, result) => {
+      if (error) {
+        res.sendStatus(404);
+        throw error;
+      }
+    });
   } else {
     async.waterfall([
-      (done)=>{
+      (done) => {
         HomeworkDefinition.update({_id: id}, {
           $set: {
             status,
@@ -186,19 +190,21 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
             templateUrl: '',
             result
           }
-        }).exec((err,doc)=>{
-          done(err,doc)
-        })
+        }).exec((err, doc) => {
+          done(err, doc);
+        });
       },
-      (doc,done)=>{
+      (doc, done) => {
         res.sendStatus(200);
       }
-    ],(error,result)=>{
-      res.sendStatus(403);
-    })
+    ], (error, result) => {
+      if (error) {
+        res.sendStatus(403);
+        throw error;
+      }
+    });
   }
 };
-
 
 HomeworkDefinitionController.prototype.searchStatus = (req, res) => {
   let {id} = req.params;
@@ -217,7 +223,9 @@ HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
 
   async.waterfall([
     (done) => {
-      HomeworkDefinition.update({_id: homeworkId}, {$set: {name, type, definitionRepo, status: 1}}, (err, data)=>{done(err,data)})
+      HomeworkDefinition.update({_id: homeworkId}, {$set: {name, type, definitionRepo, status: 1}}, (err, data) => {
+        done(err, data);
+      });
     },
     (data, done) => {
       res.sendStatus(204);
@@ -226,73 +234,28 @@ HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
         .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
         .send({git: definitionRepo, callback_url: callbackUrl})
         .type('form')
-        .end((err, resp)=>{
-          if(err){
-            done(err,resp)
-          }})
+        .end((err, resp) => {
+          if (err) {
+            done(err, resp);
+          }
+        });
     }
-  ], (err, result) => {
-    HomeworkDefinition.update({_id: data._id}, {$set: {status: 0}}).exec((err, data) => {
+  ], (err, data) => {
+    HomeworkDefinition.update({_id: homeworkId}, {$set: {status: 0}}).exec((err) => {
       if (err) {
         throw err;
       }
     });
-    res.sendStatus(400);
+    if (err) {
+      res.sendStatus(400);
+      throw err;
+    }
   });
 };
 
-
-// HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
-//   const {name, type, definitionRepo} = req.body;
-//
-//   async.waterfall([
-//     (done) => {
-//       new HomeworkDefinition({
-//         name,
-//         type,
-//         definitionRepo,
-//         status: 1
-//       }).save((err, data) => {
-//         if (!err && data) {
-//           var callbackUrl = `${getIp()}/api/homeworkDefinitions/${data._id}/status`;
-//           res.status(200).send({id: data._id});
-//           request
-//             .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
-//             .send({
-//               git: definitionRepo,
-//               callback_url: callbackUrl
-//             })
-//             .type('form')
-//             .end((err, resp) => {
-//               if (!err) {
-//                 resp.sendStatus(200);
-//               } else {
-//                 HomeworkDefinition.update({_id: data._id}, {$set: {status: 0}}).exec((err, data) => {
-//                   resp.sendStatus(404);
-//                   if (err) {
-//                     throw err;
-//                   }
-//                 });
-//               }
-//             });
-//         } else {
-//           if (err.code === 11000) {
-//             res.sendStatus(400);
-//           }
-//           done(err);
-//         }
-//       });
-//     }], (err) => {
-//     res.status(403).send({status: 0});
-//     if (err) {
-//       throw err;
-//     }
-//   });
-// };
-
 HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
   const {name, type, definitionRepo} = req.body;
-  let  error = {};
+  let error = {};
   async.waterfall([
     (done) => {
       new HomeworkDefinition({
@@ -300,16 +263,15 @@ HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
         type,
         definitionRepo,
         status: 1
-      }).save((err,data)=>{
-        if(err || !data){
-          error.status=0;
-          error.err=err;
-          done(error,data);
+      }).save((err, data) => {
+        if (err || !data) {
+          error.status = 0;
+          error.err = err;
+          done(error, data);
         }
-        done(null,data)
+        done(null, data);
       });
-    }, (data,done)=>{
-      res.status(200).send({id: data._id});  //存储成功！
+    }, (data, done) => {
       const callbackUrl = `${getIp()}/api/homeworkDefinitions/${data._id}/status`;
       request
         .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
@@ -318,16 +280,16 @@ HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
           callback_url: callbackUrl
         })
         .type('form')
-        .end((err,resp)=>{
-          if(err || !resp){
-            error.status=1;
-            error.err=err;
-            done(error,null)
+        .end((err, resp) => {
+          if (err || !resp) {
+            error.status = 1;
+            error.err = err;
+            done(error, data);
           }
-          done(null.null);
-        })
-    }], (error,result) => {
-    if(error.status === 1){
+          res.status(200).send({id: data._id});
+        });
+    }], (error, data) => {
+    if (error.status === 1) {
       HomeworkDefinition.update({_id: data._id}, {$set: {status: 0}}).exec((err, data) => {
         if (err) {
           throw err;
@@ -336,10 +298,10 @@ HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
     } else {
       if (error.err.code === 11000) {
         res.sendStatus(400);
-      } else {
+      } else if (error) {
         res.status(403).send({status: 0});
       }
-    }   //存储失败！
+    }
   });
 };
 
