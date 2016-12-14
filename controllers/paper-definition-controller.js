@@ -81,8 +81,8 @@ PaperDefinitionController.prototype.deletePaperDefinition = (req, res) => {
 };
 
 PaperDefinitionController.prototype.getPaperDefinitionList = (req, res, next) => {
-  let pageCount = req.query.pageCount || 1;
-  let page = req.query.page || 10;
+  let pageCount = req.query.pageCount || 10;
+  let page = req.query.page || 1;
   let skipCount = pageCount * (page - 1);
   let papers;
   let order = req.query.order || '1';
@@ -120,8 +120,8 @@ PaperDefinitionController.prototype.getPaperDefinitionList = (req, res, next) =>
 
 PaperDefinitionController.prototype.selectPaperDefinition = (req, res, next) => {
   var paperName = req.query.title;
-  let pageCount = req.query.pageCount || 1;
-  let page = req.query.page || 10;
+  let pageCount = req.query.pageCount || 10;
+  let page = req.query.page || 1;
   let skipCount = pageCount * (page - 1);
   let papers;
 
