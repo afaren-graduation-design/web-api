@@ -93,7 +93,7 @@ PaperDefinitionController.prototype.getPaperDefinitionList = (req, res, next) =>
   PaperDefinition.find({isDeleted: false}).sort(sortData).limit(Number(pageCount)).skip(skipCount).exec((err, data) => {
     PaperDefinition.count({isDeleted: false}, (error, count) => {
       if (!err && !error && count && data) {
-        var totalPage = Math.ceil(count / 10);
+        var totalPage = Math.ceil(count / pageCount);
         let ids = data.map((paper) => {
           return paper.makerId;
         });
@@ -128,7 +128,7 @@ PaperDefinitionController.prototype.selectPaperDefinition = (req, res, next) => 
   PaperDefinition.find({isDeleted: false, paperName}).limit(Number(pageCount)).skip(skipCount).exec((err, data) => {
     PaperDefinition.count({isDeleted: false}, (error, count) => {
       if (!err && !error && count && data) {
-        var totalPage = Math.ceil(count / 10);
+        var totalPage = Math.ceil(count / pageCount);
         let ids = data.map((paper) => {
           return paper.makerId;
         });
