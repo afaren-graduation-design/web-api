@@ -8,7 +8,7 @@
     "response": {
       "json": {
         "paperList": [{
-          "createTime": "2016",
+          "createTime": 2016,
           "description": "simple",
           "id": 1,
           "isDistribution": true,

@@ -2,7 +2,7 @@
   {
     "description": "should_return_distributed_paper_uri",
     "request": {
-      "uri": "/papers",
+      "uri": "/programs/1/papers",
       "method": "post",
       "json": {
         "makerId": 1,
@@ -41,7 +41,7 @@
     "response": {
       "status": 201,
       "json": {
-        "uri": "/programs/1/papers"
+        "uri": "programs/1/papers"
       }
     }
   }

@@ -9,7 +9,7 @@
       "json": {
         "paperInfo": [
           {
-            "createTime": "2016",
+            "createTime": 2016,
             "paperName": "简单的试卷",
             "description": "simple",
             "isDistribution": true,
@@ -17,7 +17,7 @@
             "makerId": 1
           },
           {
-            "createTime": "2016",
+            "createTime": 2016,
             "paperName": "一般的试卷",
             "description": "standard",
             "isDistribution": false,
@@ -25,7 +25,7 @@
             "makerId": 2
           },
           {
-            "createTime": "2016",
+            "createTime": 2016,
             "paperName": "很难的试卷",
             "description": "hard",
             "isDistribution": true,
@@ -33,7 +33,7 @@
             "makerId": 2
           },
           {
-            "createTime": "2016",
+            "createTime": 2016,
             "paperName": "测试试卷",
             "description": "f",
             "isDistribution": false,
@@ -41,7 +41,7 @@
             "makerId": 2
           },
           {
-            "createTime": "2017",
+            "createTime": 2017,
             "paperName": "java",
             "description": "a",
             "isDistribution": false,
@@ -49,7 +49,7 @@
             "makerId": 3
           },
           {
-            "createTime": "2014",
+            "createTime": 2014,
             "paperName": "js",
             "description": "b",
             "isDistribution": false,
@@ -57,7 +57,7 @@
             "makerId": 2
           },
           {
-            "createTime": "2013",
+            "createTime": 2013,
             "paperName": "c++",
             "description": "c",
             "isDistribution": false,
@@ -65,7 +65,7 @@
             "makerId": 2
           },
           {
-            "createTime": "2016",
+            "createTime": 2016,
             "paperName": "c",
             "description": "d",
             "isDistribution": false,
@@ -73,7 +73,7 @@
             "makerId": 5
           },
           {
-            "createTime": "2015",
+            "createTime": 2015,
             "paperName": "ruby",
             "description": "e",
             "isDistribution": true,
@@ -81,7 +81,7 @@
             "makerId": 2
           },
           {
-            "createTime": "2015",
+            "createTime": 2015,
             "paperName": "scale",
             "description": "e",
             "isDistribution": true,
@@ -89,7 +89,7 @@
             "makerId": 3
           },
           {
-            "createTime": "2015",
+            "createTime": 2015,
             "paperName": "react",
             "description": "e",
             "isDistribution": true,
