@@ -213,7 +213,7 @@ describe("PUT /programs/1/paperDefinitions/:paperId/distribution", ()=> {
             }
           ]
         }})
-        .expect(201)
+        .expect(204)
         .end(done)
   })
 });

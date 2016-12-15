@@ -168,6 +168,7 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
   var {paperName, description, sections} = req.body.data;
   var programId = Number(req.params.programId);
   var makerId = req.session.user.id;
+  console.log(programId);
   // var createTime = new Date().toDateString();
   var createTime = 111111;
   var data;
@@ -190,7 +191,7 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
     data = {
       makerId, createTime, programId, paperName, description, sections: formattedSections
     };
-
+    console.log(JSON.stringify(data, null, 2));
     apiRequest.post('programs/1/papers', data, (error, resp) => {
       if (!error && resp) {
         PaperDefinition.update({_id: paper._id}, {uri: resp.body.uri, isDistribution: true}, (err) => {
@@ -229,7 +230,7 @@ PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) =
           PaperDefinition.update({_id: paperId}, {uri: resp.body.uri, isDistribution: true}, (err) => {
             if (!err) {
               var uri = resp.body.uri;
-              return res.status(201).send(uri);
+              return res.status(204).send(uri);
             }
             return res.sendStatus(400);
           });
