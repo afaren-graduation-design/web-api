@@ -11,8 +11,8 @@ var config = yamlConfig.load(path.join(__dirname, '/../../config/config.yml'));
 var scriptBasePath = path.join(__dirname, '/../..');
 var apiRequest = require('../api-request');
 var fs = require('fs');
+var os = require('os');
 var taskApi = config.taskApi;
-var ballbackTaskUrl = config.ballbackTaskUrl;
 
 function createScoring(options, callback) {
   var homeworkQuizDefinition;
@@ -102,7 +102,7 @@ function createScoring(options, callback) {
         script: script,
         user_answer_repo: options.userAnswerRepo,
         branch: options.branch,
-        callback_url: ballbackTaskUrl + result._id
+        callback_url: `http://${getIp()}:3000/homework/scoring/` + result._id
       };
       request
           .post(taskApi)
@@ -166,6 +166,22 @@ function updateScoring(options, callback) {
       });
     }
   ], callback);
+}
+
+function getIp() {
+  var interfaces = os.networkInterfaces();
+  var addresses = [];
+
+  for (var k in interfaces) {
+    for (var k2 in interfaces[k]) {
+      var address = interfaces[k][k2];
+      if (address.family === 'IPv4' && !address.internal) {
+        addresses.push(address.address);
+      }
+    }
+  }
+
+  return addresses[0];
 }
 
 module.exports = {
