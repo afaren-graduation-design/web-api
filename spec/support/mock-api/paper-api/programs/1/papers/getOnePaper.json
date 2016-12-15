@@ -2,7 +2,7 @@
   {
     "description": "should return one paper",
     "request": {
-      "uri": "/programs/1/paper/1",
+      "uri": "/programs/1/papers/1",
       "method": "get"
     },
     "response": {

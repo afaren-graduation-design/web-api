@@ -44,6 +44,7 @@ userHomeworkQuizzesSchema.statics.initUserHomeworkQuizzes = function(userId, qui
       this.create({
         userId: userId,
         paperId: paperId,
+        programId: programId,
         quizzes: _quizzes
       }, callback);
     }
