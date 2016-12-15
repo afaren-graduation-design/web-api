@@ -168,7 +168,6 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
   var {paperName, description, sections} = req.body.data;
   var programId = Number(req.params.programId);
   var makerId = req.session.user.id;
-  console.log(programId);
   // var createTime = new Date().toDateString();
   var createTime = 111111;
   var data;
