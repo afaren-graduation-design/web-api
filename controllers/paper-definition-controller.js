@@ -191,7 +191,6 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
     data = {
       makerId, createTime, programId, paperName, description, sections: formattedSections
     };
-    console.log(JSON.stringify(data, null, 2));
     apiRequest.post('programs/1/papers', data, (error, resp) => {
       if (!error && resp) {
         PaperDefinition.update({_id: paper._id}, {uri: resp.body.uri, isDistribution: true}, (err) => {

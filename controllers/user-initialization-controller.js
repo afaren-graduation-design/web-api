@@ -33,7 +33,7 @@ UserInitializationController.prototype.initializeQuizzes = (req, res) => {
         }
       });
     }, (data, done) => {
-      apiRequest.get(`programs/${programId}/paper/${paperId}`, done);
+      apiRequest.get(`programs/${programId}/papers/${paperId}`, done);
     }, (responds, done) => {
       enrollment = responds.body;
       sections = enrollment.sections;
