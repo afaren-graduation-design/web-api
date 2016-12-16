@@ -170,6 +170,7 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
   var makerId = req.session.user.id;
   // var createTime = new Date().toDateString();
   var createTime = 111111;
+  var updateTime = new Date().toDateString();
   var data;
   new PaperDefinition({
     programId,
@@ -180,7 +181,7 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
     makerId,
     isDistribution: false,
     createTime,
-    updateTime: '',
+    updateTime,
     isDeleted: false
   }).save((err, paper) => {
     if (err) {
