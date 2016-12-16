@@ -4,4 +4,126 @@ description:
 version: V1
 baseUri: http://api.bronzesword.com/teacher-admin-web/
 
+/coaches
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            coachList
+              properties:
+                []:
+                  properties:
+                    coachId:integer
+                    coachName:string
+      500:
+        description:服务器错误
 
+/coaches/:coachId
+  get:
+    responses:
+      200:
+        body:
+          application/json
+            coachId:integer
+            name:string
+            e-mail:string
+            skills
+              properties:
+                []
+      500:
+        description:服务器错误
+
+/students
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            studentList
+              properties:
+                []:
+                  properties:
+                    studentId:integer
+                    name:string
+                    school:string
+                    major:string
+
+      500：
+        description:服务器错误
+
+/students/:id
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            studentId:integer
+            name:string
+            e-mail:string
+            mobilePhone:string
+            school:string
+            major:string
+            commitRecord:
+              properties:
+                []
+      500:
+        description:服务器错误
+
+
+
+/invitation/sender
+  post:
+    body:
+      application/json:
+        properties:
+          studentId:integer
+          coachId:integer
+          sendTime:string
+          content:string
+          status:integer
+            description:三种状态:[0:sending,1:success,2:failed]
+    responses:
+      200:
+        description:发送成功
+      500:
+        description:服务器错误
+
+  put:
+    body:
+      application/json:
+        properties:
+          studentId:integer
+          coachId:integer
+          updateTime:string
+          status:integer
+            description:三种状态:[0:sending,1:success,2:failed]
+    responses:
+      200:
+        description:发送成功
+      500:
+        description:服务器错误
+
+/invitation/receiver
+   get:
+     200:
+       application/json:
+         properties:
+           studentId:integer
+           coachId:integer
+           sendTime:string
+           content:string
+           status:integer
+             description:四种状态:[0:unread,1:read,2:accepted,3:rejected]
+     500:
+       description:服务器错误
+
+   put:
+     200:
+       application/json:
+         properties:
+           studentId:integer
+           coachId:integer
+           updateTime:string
+           status:integer
+             description:四种状态:[0:unread,1:read,2:accepted,3:rejected]
