@@ -37,7 +37,7 @@ var logicPuzzleSchema = new Schema({
   isCommited: Boolean
 });
 
-logicPuzzleSchema.statics.isPaperCommited = function(userId) {
+logicPuzzleSchema.statics.isPaperCommited = function(userId, data, done) {
   var isPaperCommited;
 
   this.findOne({userId: userId}, (err, logicPuzzle) => {
@@ -52,9 +52,10 @@ logicPuzzleSchema.statics.isPaperCommited = function(userId) {
       var usedTime = now - startTime;
 
       isPaperCommited = logicPuzzle.isCommited || parseInt(TOTAL_TIME - usedTime) <= 0;
+      Object.assign(data, {logicPuzzleEnabled: !isPaperCommited});
+      done(null, data);
     }
-
-  });   // 判断用户是否提交过并且判断用户时间是否还够用（只是针对逻辑题）
+  });
 };
 
 logicPuzzleSchema.statics.getLogicPuzzle = (orderId, userId, id) => {

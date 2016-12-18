@@ -8,9 +8,9 @@ describe("GET /dashboard", ()=> {
         .get("/dashboard")
         .expect(200)
         .expect(function (res) {
-          res.body.isPaperCommited.should.equal(false);
-          res.body.isOverTime.should.equal(true);
-          res.body.isFinished.should.equal(false);
+          res.body.isFinishedDetail.should.equal(true);
+          res.body.logicPuzzleEnabled.should.equal(true);
+          res.body.homeworkQuizzesEnabled.should.equal(false);
         })
         .end(done);
   });

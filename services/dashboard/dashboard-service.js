@@ -3,31 +3,30 @@ var userHomeworkQuizzes = require('../../models/user-homework-quizzes');
 var constant = require('../../mixin/constant');
 var async = require('async');
 var deadline = 7;
-
-function getLogicPuzzleStatus(userId){
-  return !logicPuzzle.isPaperCommited(userId);
+function getLogicPuzzleStatus(userId, data, done) {
+  logicPuzzle.isPaperCommited(userId, data, done);
 }
 
-function getHomeworkQuizStatus(userId) {
-  var status = false;   //模块不可访问
+function getHomeworkQuizStatus(userId, data, done) {
+  var status = false;
   async.waterfall([
-    (done)=>{
-      userHomeworkQuizzes.findOne({userId:userId}).exec((err,data)=>{done(err,data)})
+    (done) => {
+      userHomeworkQuizzes.findOne({userId: userId}).exec((err, data) => {
+        done(err, data);
+      });
     },
-    (data,done)=>{
+    (data, done) => {
       var quizzes = data.toJSON().quizzes;
-      console.log(JSON.stringify(quizzes) + 'quizzes' + typeof quizzes +"\n")
-      status = quizzes.every((item)=> {
-        return item.status === 4
-        })  || quizzes.filter((item,index)=>{
+      status = quizzes.every((item) => {
+        return item.status === 4;
+      }) || quizzes.filter((item, index) => {
         return index > 0;
-        }).every(item=>(item.status === 1)) && !quizzes[0].startTime
-      console.log("status****"+status+data.toString());
-      done(status,data);
+      }).every(item => (item.status === 1)) && !quizzes[0].startTime;
+      done(status, data);
     },
-    (data,done)=>{
-      var currentQuiz = data.toJSON().quizzes.filter((item)=>{
-        return item.status !== 1 && item.status !== 4
+    (data, done) => {
+      var currentQuiz = data.toJSON().quizzes.filter((item) => {
+        return item.status !== 1 && item.status !== 4;
       })[0];
       var currentTime = parseInt(new Date().getTime()) /
         (constant.time.SECONDS_PER_MINUTE *
@@ -39,20 +38,20 @@ function getHomeworkQuizStatus(userId) {
         constant.time.MINUTE_PER_HOUR *
         constant.time.HOURS_PER_DAY);
       status = currentTime - startTime > deadline;
-      console.log()
-      done(status,data)
+      done(status, data);
     }
-  ],(err,status)=>{
-    if(err){
-      console.log('完了'+err)
-      return false;
+  ], (err) => {
+    if (err) {
+      Object.assign(data, {homeworkQuizzesEnabled: false});
+      done(null, data);
     } else {
-      return true;
+      Object.assign(data, {homeworkQuizzesEnabled: true});
+      done(null, data);
     }
-  })
+  });
 }
 
 module.exports = {
-  getHomeworkQuizStatus:getHomeworkQuizStatus,
-  getLogicPuzzleStatus:getLogicPuzzleStatus
+  getHomeworkQuizStatus: getHomeworkQuizStatus,
+  getLogicPuzzleStatus: getLogicPuzzleStatus
 };
