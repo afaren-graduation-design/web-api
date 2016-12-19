@@ -21,7 +21,6 @@ ProgramPaperController.prototype.getPaperList = (req, res) => {
 ProgramPaperController.prototype.getOnePaper = (req, res) => {
   var programId = req.params.programId;
   var paperId = req.params.paperId;
-
   apiRequest.get(`programs/${programId}/papers/${paperId}`, (err, resp) => {
     if (err) {
       return res.sendStatus(400);

@@ -7,21 +7,34 @@ function getLogicPuzzleStatus(userId, data, done) {
   logicPuzzle.isPaperCommited(userId, data, done);
 }
 
-function getHomeworkQuizStatus(userId, data, done) {
+function getHomeworkQuizStatus(userId, allData, done) {
   var status = false;
   async.waterfall([
     (done) => {
       userHomeworkQuizzes.findOne({userId: userId}).exec((err, data) => {
-        done(err, data);
+        if (err) {
+          throw err;
+        } else {
+          done(null, data);
+        }
       });
     },
     (data, done) => {
+      logicPuzzle.findOne({userId: userId}).exec((err, logicData) => {
+        if (err) {
+          throw err;
+        } else {
+          done(null, data, logicData.toJSON().isCommited);
+        }
+      });
+    },
+    (data, isCommited, done) => {
       var quizzes = data.toJSON().quizzes;
       status = quizzes.every((item) => {
         return item.status === 4;
       }) || quizzes.filter((item, index) => {
         return index > 0;
-      }).every(item => (item.status === 1)) && !quizzes[0].startTime;
+      }).every(item => (item.status === 1)) && !quizzes[0].startTime && !isCommited;
       done(status, data);
     },
     (data, done) => {
@@ -42,11 +55,11 @@ function getHomeworkQuizStatus(userId, data, done) {
     }
   ], (err) => {
     if (err) {
-      Object.assign(data, {homeworkQuizzesEnabled: false});
-      done(null, data);
+      Object.assign(allData, {homeworkQuizzesEnabled: false});
+      done(null, allData);
     } else {
-      Object.assign(data, {homeworkQuizzesEnabled: true});
-      done(null, data);
+      Object.assign(allData, {homeworkQuizzesEnabled: true});
+      done(null, allData);
     }
   });
 }
