@@ -39,7 +39,7 @@ baseUri: http://api.bronzesword.com/teacher-admin-web/
       application/json:
         studentId:integer
     responses:
-      200:
+      201:
         description:添加成功
       500:
         description:服务器失败
@@ -94,7 +94,7 @@ baseUri: http://api.bronzesword.com/teacher-admin-web/
           status:integer
             description:四种状态:[0:unread,1:read,2:accepted,3:rejected]
     responses:
-      200:
+      201:
         body:
           application/json:
             properties:
@@ -110,7 +110,7 @@ baseUri: http://api.bronzesword.com/teacher-admin-web/
           status:integer
             description:四种状态:[0:unread,1:read,2:accepted,3:rejected]
     responses:
-      200:
+      204:
         description:发送成功
       500:
         description:服务器错误
