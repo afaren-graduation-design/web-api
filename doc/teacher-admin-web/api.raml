@@ -16,33 +16,10 @@ baseUri: http://api.bronzesword.com/teacher-admin-web/
                   properties:
                     mentorId:integer
                     mentorName:string
+                    state:integer
+                      description:两种状态:[0:pending,1:accept]
       500:
         description:服务器错误
-
-/mentors/:mentorId
-  get:
-    responses:
-      200:
-        body:
-          application/json
-            mentorId:integer
-            name:string
-            e-mail:string
-            skills
-              properties:
-                []
-      500:
-        description:服务器错误
-
-  post:
-    body:
-      application/json:
-        studentId:integer
-    responses:
-      201:
-        description:添加成功
-      500:
-        description:服务器失败
 
 /students
   get:
@@ -56,31 +33,24 @@ baseUri: http://api.bronzesword.com/teacher-admin-web/
                   properties:
                     studentId:integer
                     name:string
-                    school:string
-                    major:string
+                    answeredNumber:integer
+                    accuracy:float
 
       500：
         description:服务器错误
 
-/students/:studentId
+/commitRecord/:studentId
   get:
-    responses:
+    description:查看学生提交记录
+    response:
       200:
         body:
-          application/json:
-            studentId:integer
-            name:string
-            e-mail:string
-            mobilePhone:string
-            school:string
-            major:string
-            commitRecord:
-              properties:
-                []
-      500:
-        description:服务器错误
-
-
+          []
+            properties:
+              commitTime:string
+              paperName:string
+              score:integer
+              consumeTime:string
 
 /invitation
   post:
