@@ -5,19 +5,21 @@ version: V1
 baseUri: http://api.bronzesword.com/teacher-admin-web/
 
 /mentors:
-   /{mentorMobilePhone}:
+   /{email}:
      get:
        responses:
          200:
            body:
              application/json:
-              properties:
-                userId: integer
-                name: string
-                major: string
+               properties:
+                 mentorsUri:
+                 properties:
+                    string[]
          404:
-           description: 没有这个教练
-     /{mentorId}/users/{userId}:
+           description: 没有这个字段
+
+/relationshipCreating:
+   /{mentorId}/users/{userId}:
        post:
          responses:
            201:
