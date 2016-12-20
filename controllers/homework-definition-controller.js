@@ -143,7 +143,7 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
           'templateRepository': '',
           'makerId': 1,
           'createTime': createTime,
-          'type': doc.toJSON().type.toString()
+          'type': doc.toJSON().type.toString(),
           'homeworkName': doc.toJSON().name.toString()
         }, (err, resp) => {
           done(err, resp);
