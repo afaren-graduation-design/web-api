@@ -37,10 +37,10 @@ var logicPuzzleSchema = new Schema({
   isCommited: Boolean
 });
 
-logicPuzzleSchema.statics.isPaperCommited = function(userId, data, done) {
+logicPuzzleSchema.statics.isPaperCommited = function(userId, programId, paperId, data, done) {
   var isPaperCommited;
 
-  this.findOne({userId: userId}, (err, logicPuzzle) => {
+  this.findOne({userId, programId, paperId}, (err, logicPuzzle) => {
     if (err || !logicPuzzle) {
       isPaperCommited = false;
     } else {

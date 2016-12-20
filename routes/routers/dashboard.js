@@ -5,6 +5,6 @@ var router = express.Router();
 var DashboardController = require('../../controllers/dashboard-controller');
 var dashboardController = new DashboardController();
 
-router.get('/', dashboardController.isCommited);
+router.get('/:programId/:paperId', dashboardController.isCommited);
 
 module.exports = router;

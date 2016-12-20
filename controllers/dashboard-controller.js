@@ -18,6 +18,8 @@ function checkDetail(userDetatil) {
 
 DashboardController.prototype.isCommited = (req, res) => {
   var userId = req.session.user.id;
+  var paperId = req.params.paperId;
+  var programId = req.params.programId;
   var data = {};
   async.waterfall([
     (done) => {
@@ -30,10 +32,10 @@ DashboardController.prototype.isCommited = (req, res) => {
       });
     },
     (data, done) => {
-      dashboardService.getLogicPuzzleStatus(userId, data, done);
+      dashboardService.getLogicPuzzleStatus(userId, programId, paperId, data, done);
     },
     (data, done) => {
-      dashboardService.getHomeworkQuizStatus(userId, data, done);
+      dashboardService.getHomeworkQuizStatus(userId, programId, paperId, data, done);
     }
   ], (err, data) => {
     if (err) {

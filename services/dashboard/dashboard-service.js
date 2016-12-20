@@ -3,15 +3,15 @@ var userHomeworkQuizzes = require('../../models/user-homework-quizzes');
 var constant = require('../../mixin/constant');
 var async = require('async');
 var deadline = 7;
-function getLogicPuzzleStatus(userId, data, done) {
-  logicPuzzle.isPaperCommited(userId, data, done);
+function getLogicPuzzleStatus(userId, programId, paperId, data, done) {
+  logicPuzzle.isPaperCommited(userId, programId, paperId, data, done);
 }
 
-function getHomeworkQuizStatus(userId, allData, done) {
+function getHomeworkQuizStatus(userId, programId, paperId, allData, done) {
   var status = false;
   async.waterfall([
     (done) => {
-      userHomeworkQuizzes.findOne({userId: userId}).exec((err, data) => {
+      userHomeworkQuizzes.findOne({userId, programId, paperId}).exec((err, data) => {
         if (err) {
           throw err;
         } else {
@@ -20,7 +20,7 @@ function getHomeworkQuizStatus(userId, allData, done) {
       });
     },
     (data, done) => {
-      logicPuzzle.findOne({userId: userId}).exec((err, logicData) => {
+      logicPuzzle.findOne({userId, programId, paperId}).exec((err, logicData) => {
         if (err) {
           throw err;
         } else {

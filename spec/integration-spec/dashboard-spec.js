@@ -2,10 +2,10 @@ require('./spec-base');
 var userSession = global.userSession;
 
 
-describe("GET /dashboard", ()=> {
-  it('should be return 200: GET /dashboard', function (done) {
+describe("GET /dashboard/:programId/:paperId", ()=> {
+  it('should be return 200: GET /dashboard/:programId/:paperId', function (done) {
     userSession
-        .get("/dashboard")
+        .get("/dashboard/1/1")
         .expect(200)
         .expect(function (res) {
           res.body.isFinishedDetail.should.equal(true);

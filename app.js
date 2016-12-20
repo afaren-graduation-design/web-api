@@ -13,7 +13,6 @@ var MongoStore = require('connect-mongo')(session);
 var yamlConfig = require('node-yaml-config');
 // var md5 = require('js-md5');
 // var verifyToken = require('./middleware/verify-token');
-
 var captcha = require('./middleware/captcha');
 
 var path = require('path');
