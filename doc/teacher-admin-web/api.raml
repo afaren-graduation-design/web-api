@@ -4,101 +4,23 @@ description:
 version: V1
 baseUri: http://api.bronzesword.com/teacher-admin-web/
 
-/mentors
-  get:
-    responses:
-      200:
-        body:
-          application/json:
-            mentorList
+/mentors:
+   /{mentorMobilePhone}:
+     get:
+       responses:
+         200:
+           body:
+             application/json:
               properties:
-                []:
-                  properties:
-                    mentorId:integer
-                    mentorName:string
-                    state:integer
-                      description:两种状态:[0:pending,1:accept]
-      500:
-        description:服务器错误
-
-/students
-  get:
-    responses:
-      200:
-        body:
-          application/json:
-            studentList
-              properties:
-                []:
-                  properties:
-                    studentId:integer
-                    name:string
-                    answeredNumber:integer
-                    accuracy:float
-
-      500：
-        description:服务器错误
-
-/commitRecord/:studentId
-  get:
-    description:查看学生提交记录
-    response:
-      200:
-        body:
-          []
-            properties:
-              commitTime:string
-              paperName:string
-              score:integer
-              consumeTime:string
-
-/invitation
-  post:
-    body:
-      application/json:
-        properties:
-          sender:integer
-          receiver:integer
-          sendTime:string
-          content:string
-          status:integer
-            description:四种状态:[0:unread,1:read,2:accepted,3:rejected]
-    responses:
-      201:
-        body:
-          application/json:
-            properties:
-              invitationId:integer
-      500:
-        description:服务器错误
-
-/invitation/:invitationId
-  put:
-    body:
-      application/json:
-        properties:
-          status:integer
-            description:四种状态:[0:unread,1:read,2:accepted,3:rejected]
-    responses:
-      204:
-        description:发送成功
-      500:
-        description:服务器错误
-
-  get:
-    responses:
-      200:
-        application/json:
-          sender:integer
-          receiver:integer
-          sendTime:string
-          content:string
-          status:integer
-            description:四种状态:[0:unread,1:read,2:accepted,3:rejected]
-      500:
-        description:服务器错误
-
-  delete:
-    responses:
-      204:
-        description:删除成功
+                userId: integer
+                name: string
+                major: string
+         404:
+           description: 没有这个教练
+     /{mentorId}/users/{userId}:
+       post:
+         responses:
+           201:
+             description: 成功建立关系
+           403:
+             description: 关系已存在，拒绝执行
