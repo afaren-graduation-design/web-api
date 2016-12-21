@@ -32,32 +32,35 @@ function createScoring(options, callback) {
         'quizzes.id': options.quizId
       };
       userHomeworkQuizzes
-          .aggregate({
-            '$unwind': '$quizzes'
-          })
-          .match(condition)
-          .exec((err, docs) => {
-            var histories = docs[0].quizzes.homeworkSubmitPostHistory;
-            var len = histories.length;
-            if (err) {
-              done(err, null);
-            } else if (len) {
-              homeworkScoring.findById(histories[len - 1], (err, doc) => {
-                if (err) {
-                  done(err, null);
-                } else {
-                  options.startTime = doc.commitTime;
-                  done(null, homeworkQuiz);
-                }
-              });
-            } else {
-              options.startTime = docs[0].quizzes.startTime;
-              done(null, homeworkQuiz);
-            }
-          });
+        .aggregate({
+          '$unwind': '$quizzes'
+        })
+        .match(condition)
+        .exec((err, docs) => {
+          var histories = docs[0].quizzes.homeworkSubmitPostHistory;
+          var len = histories.length;
+          if (err) {
+            done(err, null);
+          } else if (len) {
+            homeworkScoring.findById(histories[len - 1], (err, doc) => {
+              if (err) {
+                done(err, null);
+              } else {
+                options.startTime = doc.commitTime;
+                done(null, homeworkQuiz);
+              }
+            });
+          } else {
+            options.startTime = docs[0].quizzes.startTime;
+            done(null, homeworkQuiz);
+          }
+        });
     },
     (homeworkQuiz, done) => {
       homeworkQuizDefinition = homeworkQuiz.homeworkItem.evaluateScript;
+      if (homeworkQuizDefinition[0] === '.') {
+        homeworkQuizDefinition = homeworkQuizDefinition.substr(1, homeworkQuizDefinition.length);
+      }
       options.commitTime = parseInt(new Date().getTime() / 1000);
       homeworkScoring.create(options, done);
     },
@@ -65,7 +68,8 @@ function createScoring(options, callback) {
       result = data;
       userHomeworkQuizzes.findOne({
         userId: options.user.id,
-        paperId: options.paperId
+        paperId: parseInt(options.paperId),
+        programId: parseInt(options.programId)
       }, (err, doc) => {
         if (err) {
           done(err, null);
@@ -94,7 +98,8 @@ function createScoring(options, callback) {
           });
         } else {
           done(true, 'file not found');
-        };
+        }
+        ;
       });
     },
     (script, done) => {
@@ -106,11 +111,11 @@ function createScoring(options, callback) {
         callback_url: `http://${getIp()}:3000/homework/scoring/` + result._id
       };
       request
-          .post(taskApi)
-          .auth('twars', 'twars')
-          .type('form')
-          .send(info)
-          .end(done);
+        .post(taskApi)
+        .auth('twars', 'twars')
+        .type('form')
+        .send(info)
+        .end(done);
     }
   ], (err, data) => {
     callback(err, result);
@@ -134,14 +139,14 @@ function updateScoring(options, callback) {
     (data, done) => {
       var id = new mongoose.Types.ObjectId(options.historyId);
       userHomeworkQuizzes
-          .aggregate([
-            {'$unwind': '$quizzes'},
-            {'$unwind': '$quizzes.homeworkSubmitPostHistory'}
-          ])
-          .match({'quizzes.homeworkSubmitPostHistory': id})
-          .exec((err, docs) => {
-            done(err, docs[0]);
-          });
+        .aggregate([
+          {'$unwind': '$quizzes'},
+          {'$unwind': '$quizzes.homeworkSubmitPostHistory'}
+        ])
+        .match({'quizzes.homeworkSubmitPostHistory': id})
+        .exec((err, docs) => {
+          done(err, docs[0]);
+        });
     },
     (doc, done) => {
       homeworkScoring.findById(doc.quizzes.homeworkSubmitPostHistory, function(err, history) {
