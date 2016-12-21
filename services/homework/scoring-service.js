@@ -28,6 +28,7 @@ function createScoring(options, callback) {
       var condition = {
         userId: options.user.id,
         paperId: parseInt(options.paperId),
+        programId: parseInt(options.programId),
         'quizzes.id': options.quizId
       };
       userHomeworkQuizzes
