@@ -4,19 +4,23 @@ description:
 version: V1
 baseUri: http://api.bronzesword.com/teacher-admin-web/
 
-/mentors:
-   /{email}:
-     get:
-       responses:
-         200:
-           body:
-             application/json:
-               properties:
-                 mentorsUri:
-                 properties:
-                    string[]
-         404:
-           description: 没有这个字段
+/users:
+  /search:
+    get:
+      description: 获取查询条件
+      queryParameters:
+        privilege: string
+        email: string
+      responses:
+        200:
+          body:
+            application/json:
+              properties:
+                usersUri:
+                properties:
+                   string[]
+        404:
+          description: 没有这个字段
 
 /relationshipCreating:
    /{mentorId}/users/{userId}:
