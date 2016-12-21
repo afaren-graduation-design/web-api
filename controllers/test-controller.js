@@ -38,8 +38,7 @@ TestController.prototype.isPaperCommitted = (req, res, next) => {
   var userId = req.session.user.id;
   var programId = req.query.programId;
   var paperId = req.query.paperId;
-  var data = {};
-  logicPuzzle.isPaperCommited(userId, programId, paperId, data, (err, data) => {
+  logicPuzzle.isPaperCommited(userId, programId, paperId, (err, data) => {
     if (err) {
       return next(err);
     } else {
