@@ -39,7 +39,6 @@ var logicPuzzleSchema = new Schema({
 
 logicPuzzleSchema.statics.isPaperCommited = function(userId, programId, paperId, data, done) {
   var isPaperCommited;
-
   this.findOne({userId, programId, paperId}, (err, logicPuzzle) => {
     if (err || !logicPuzzle) {
       isPaperCommited = false;
@@ -64,32 +63,32 @@ logicPuzzleSchema.statics.getLogicPuzzle = (orderId, userId, id) => {
 
   var model = mongoose.model('LogicPuzzle');
   return model.findOne({userId: userId, _id: id})
-      .then(function(data) {
-        data.quizExamples.forEach(function(example) {
-          example.isExample = true;
-        });
-        data.quizItems.forEach(function(item) {
-          item.isExample = false;
-        });
-        var quizAll = data.quizExamples.concat(data.quizItems);
-        itemsCount = quizAll.length;
-        return quizAll;
-      })
-      .then(function(quizAll) {
-        userAnswer = quizAll[orderId].userAnswer || quizAll[orderId].answer || null;
-        return {
-          item: {
-            id: quizAll[orderId].id,
-            initializedBox: JSON.parse(quizAll[orderId].initializedBox),
-            question: quizAll[orderId].question,
-            description: JSON.parse(quizAll[orderId].description),
-            chartPath: config.staticFileServer + quizAll[orderId].chartPath
-          },
-          userAnswer: userAnswer,
-          itemsCount: itemsCount,
-          isExample: quizAll[orderId].isExample
-        };
+    .then(function(data) {
+      data.quizExamples.forEach(function(example) {
+        example.isExample = true;
       });
+      data.quizItems.forEach(function(item) {
+        item.isExample = false;
+      });
+      var quizAll = data.quizExamples.concat(data.quizItems);
+      itemsCount = quizAll.length;
+      return quizAll;
+    })
+    .then(function(quizAll) {
+      userAnswer = quizAll[orderId].userAnswer || quizAll[orderId].answer || null;
+      return {
+        item: {
+          id: quizAll[orderId].id,
+          initializedBox: JSON.parse(quizAll[orderId].initializedBox),
+          question: quizAll[orderId].question,
+          description: JSON.parse(quizAll[orderId].description),
+          chartPath: config.staticFileServer + quizAll[orderId].chartPath
+        },
+        userAnswer: userAnswer,
+        itemsCount: itemsCount,
+        isExample: quizAll[orderId].isExample
+      };
+    });
 };
 
 logicPuzzleSchema.statics.isDealAgree = function(userId, callback) {

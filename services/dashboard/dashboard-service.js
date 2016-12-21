@@ -15,6 +15,9 @@ function getHomeworkQuizStatus(userId, programId, paperId, allData, done) {
         if (err) {
           throw err;
         } else {
+          if (!data) {
+            done(true, data);
+          }
           done(null, data);
         }
       });

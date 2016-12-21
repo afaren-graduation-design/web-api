@@ -36,8 +36,10 @@ TestController.prototype.isDetailed = (req, res, next) => {
 
 TestController.prototype.isPaperCommitted = (req, res, next) => {
   var userId = req.session.user.id;
-
-  logicPuzzle.isPaperCommited(userId, (err, data) => {
+  var programId = req.query.programId;
+  var paperId = req.query.paperId;
+  var data = {};
+  logicPuzzle.isPaperCommited(userId, programId, paperId, data, (err, data) => {
     if (err) {
       return next(err);
     } else {

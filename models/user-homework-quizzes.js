@@ -26,7 +26,7 @@ var userHomeworkQuizzesSchema = Schema({
 });
 
 userHomeworkQuizzesSchema.statics.initUserHomeworkQuizzes = function(userId, quizzes, programId, paperId, callback) {
-  this.findOne({userId: userId}, (err, doc) => {
+  this.findOne({userId, programId, paperId}, (err, doc) => {
     if (err) {
       callback(err, null);
     } else if (doc) {

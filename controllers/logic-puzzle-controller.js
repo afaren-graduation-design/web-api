@@ -4,7 +4,6 @@ var logicPuzzle = require('../models/logic-puzzle');
 var constant = require('../mixin/constant');
 var async = require('async');
 var apiRequest = require('../services/api-request');
-var paperId, programId;
 
 function LogicPuzzleController() {
 }
@@ -24,10 +23,11 @@ LogicPuzzleController.prototype.saveAnswer = (req, res) => {
   var orderId = req.body.orderId;
   var userAnswer = req.body.userAnswer;
   var userId = req.session.user.id;
+  var sectionId = req.body.sectionId;
 
   async.waterfall([
     (done) => {
-      logicPuzzle.findOne({userId: userId}, done);
+      logicPuzzle.findOne({userId: userId, _id: sectionId}, done);
     }, (data, done) => {
       if (orderId > data.quizExamples.length - 1) {
         data.quizItems[orderId - data.quizExamples.length].userAnswer = userAnswer;
@@ -54,17 +54,13 @@ LogicPuzzleController.prototype.submitPaper = (req, res) => {
   var startTime;
   var endTime = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
   // var sectionId = req.query.sectionId ? parseInt(req.query.sectionId) : 1;
-  var sectionId = req.query.sectionId;
-
+  var sectionId = req.body.sectionId;
   async.waterfall([
     (done) => {
       logicPuzzle.findOne({userId: examerId, _id: sectionId}, done);
     },
     (data, done) => {
       if (data) {
-        // var thisSection = data.sections.find((section) => {
-        //   return section.sectionId === sectionId;
-        // });
         var thisSection = data.sections[0];
         thisSection.endTime = endTime;
         startTime = thisSection.startTime;
@@ -86,7 +82,7 @@ LogicPuzzleController.prototype.submitPaper = (req, res) => {
     if (err) {
       res.status(constant.httpCode.INTERNAL_SERVER_ERROR).send(err.stack);
     } else {
-      res.status(constant.httpCode.OK).send({paperId, programId});
+      res.sendStatus(constant.httpCode.OK);
     }
   });
 };
@@ -95,9 +91,8 @@ LogicPuzzleController.setScoreSheet = (scoreSheetData, done) => {
   var scoreSheetUri = 'scoresheets';
   var itemPosts = [];
   var data = scoreSheetData.data;
-  paperId = data.paperId;
-  programId = data.programId;
-
+  var paperId = data.paperId;
+  // var programId = data.programId;
   data.quizItems.forEach((quizItem) => {
     itemPosts.push({answer: quizItem.userAnswer, quizItemId: quizItem.id});
   });
@@ -105,6 +100,7 @@ LogicPuzzleController.setScoreSheet = (scoreSheetData, done) => {
   var body = {
     examerId: data.userId,
     paperId: paperId,
+    // programId: programId,
     blankQuizSubmits: [{
       startTime: scoreSheetData.startTime,
       endTime: scoreSheetData.endTime,
@@ -112,7 +108,6 @@ LogicPuzzleController.setScoreSheet = (scoreSheetData, done) => {
       itemPosts: itemPosts
     }]
   };
-
   apiRequest.post(scoreSheetUri, body, done);
 };
 

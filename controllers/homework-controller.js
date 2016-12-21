@@ -103,11 +103,12 @@ HomeworkController.prototype.updateStatus = (req, res, next) => {
 HomeworkController.prototype.getOneQuiz = (req, res, next) => {
   var userId = req.session.user.id;
   var orderId = parseInt(req.query.orderId, 10) || 1;
+  var id = req.query.id;
   var result = {};
   var histories;
   async.waterfall([
     (done) => {
-      userHomeworkQuizzes.findOne({userId: userId}, done);
+      userHomeworkQuizzes.findOne({userId: userId, _id: id}, done);
     },
     (data, done) => {
       orderId = Math.max(orderId, 1);
