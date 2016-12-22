@@ -1,8 +1,7 @@
 export default class MessageService {
   operateMessage(data, callback) {
 
-
-    callback(null);
+    callback(null,null);
   }
 
 }
