@@ -17,10 +17,9 @@ function checkDetail(userDetatil) {
 }
 
 DashboardController.prototype.isCommited = (req, res) => {
+  var sections = JSON.parse(req.query.sections);
   var userId = req.session.user.id;
-  var paperId = req.params.paperId;
-  var programId = req.params.programId;
-  var data = {};
+  var data = {sections};
   async.waterfall([
     (done) => {
       apiRequest.get('users/' + userId + '/detail', (err, res, next) => {
@@ -32,10 +31,21 @@ DashboardController.prototype.isCommited = (req, res) => {
       });
     },
     (data, done) => {
-      dashboardService.getLogicPuzzleStatus(userId, programId, paperId, data, done);
-    },
-    (data, done) => {
-      dashboardService.getHomeworkQuizStatus(userId, programId, paperId, data, done);
+      async.eachSeries(data.sections, (item, callback) => {
+        let index = data.sections.indexOf(item);
+        if (item.type === 'logicQuizzes') {
+          dashboardService.getLogicPuzzleStatus(item.id, data.sections, index, callback);
+        }
+        if (item.type === 'homeworkQuizzes') {
+          dashboardService.getHomeworkQuizStatus(item.id, data.sections, index, callback);
+        }
+      }, (err) => {
+        if (err) {
+          throw err;
+        } else {
+          done(null, data);
+        }
+      });
     }
   ], (err, data) => {
     if (err) {

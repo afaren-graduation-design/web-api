@@ -3,15 +3,15 @@ var userHomeworkQuizzes = require('../../models/user-homework-quizzes');
 var constant = require('../../mixin/constant');
 var async = require('async');
 var deadline = 7;
-function getLogicPuzzleStatus(userId, programId, paperId, data, done) {
-  logicPuzzle.isPaperCommited(userId, programId, paperId, data, done);
+function getLogicPuzzleStatus(id, allData, index, callback) {
+  logicPuzzle.isPaperCommited(id, allData, index, callback);
 }
 
-function getHomeworkQuizStatus(userId, programId, paperId, allData, done) {
+function getHomeworkQuizStatus(id, allData, index, callback) {
   var status = false;
   async.waterfall([
     (done) => {
-      userHomeworkQuizzes.findOne({userId, programId, paperId}).exec((err, data) => {
+      userHomeworkQuizzes.findOne({_id: id}).exec((err, data) => {
         if (err) {
           throw err;
         } else {
@@ -23,13 +23,22 @@ function getHomeworkQuizStatus(userId, programId, paperId, allData, done) {
       });
     },
     (data, done) => {
-      logicPuzzle.findOne({userId, programId, paperId}).exec((err, logicData) => {
-        if (err) {
-          throw err;
-        } else {
-          done(null, data, logicData.toJSON().isCommited);
-        }
-      });
+      if (allData[index - 1].type === 'logicQuizzes') {
+        done(null, data, allData[index - 1].status);
+      }
+      if (allData[index - 1].type === 'homeworkQuizzes') {
+        userHomeworkQuizzes.findOne({_id: allData[index - 1].id}, (err, doc) => {
+          if (err) {
+            throw err;
+          }
+          let quizzes = doc.toJSON().quizzes;
+          if (quizzes[quizzes.length - 1] === 4) {
+            done(null, data, false);
+          } else {
+            done(null, data, true);
+          }
+        });
+      }
     },
     (data, isCommited, done) => {
       var quizzes = data.toJSON().quizzes;
@@ -37,7 +46,7 @@ function getHomeworkQuizStatus(userId, programId, paperId, allData, done) {
         return item.status === 4;
       }) || quizzes.filter((item, index) => {
         return index > 0;
-      }).every(item => (item.status === 1)) && !quizzes[0].startTime && !isCommited;
+      }).every(item => (item.status === 1)) && !quizzes[0].startTime && isCommited;
       done(status, data);
     },
     (data, done) => {
@@ -58,11 +67,11 @@ function getHomeworkQuizStatus(userId, programId, paperId, allData, done) {
     }
   ], (err) => {
     if (err) {
-      Object.assign(allData, {homeworkQuizzesEnabled: false});
-      done(null, allData);
+      allData[index].status = false;
+      callback(null);
     } else {
-      Object.assign(allData, {homeworkQuizzesEnabled: true});
-      done(null, allData);
+      allData[index].status = true;
+      callback(null);
     }
   });
 }

@@ -37,9 +37,9 @@ var logicPuzzleSchema = new Schema({
   isCommited: Boolean
 });
 
-logicPuzzleSchema.statics.isPaperCommited = function(userId, programId, paperId, data, done) {
+logicPuzzleSchema.statics.isPaperCommited = function(id, allData, index, callback) {
   var isPaperCommited;
-  this.findOne({userId, programId, paperId}, (err, logicPuzzle) => {
+  this.findOne({_id: id}, (err, logicPuzzle) => {
     if (err || !logicPuzzle) {
       isPaperCommited = false;
     } else {
@@ -51,8 +51,8 @@ logicPuzzleSchema.statics.isPaperCommited = function(userId, programId, paperId,
       var usedTime = now - startTime;
 
       isPaperCommited = logicPuzzle.isCommited || parseInt(TOTAL_TIME - usedTime) <= 0;
-      Object.assign(data, {logicPuzzleEnabled: !isPaperCommited});
-      done(null, data);
+      allData[index].status = !isPaperCommited;
+      callback(null);
     }
   });
 };
