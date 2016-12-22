@@ -6,7 +6,6 @@ var yamlConfig = require('node-yaml-config');
 var apiServer = yamlConfig.load('./config/config.yml').apiServer;
 
 describe('apiRequest', function () {
-
   describe('get', function () {
 
     var testData = {};
