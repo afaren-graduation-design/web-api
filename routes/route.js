@@ -32,4 +32,5 @@ exports.setRoutes = (app) => {
   app.use('/homeworks', require('./routers/homework-program'));
   app.use('/homeworkQuizzes', require('./routers/homework-quizzes'));
   app.use('/homeworkDefinitions', require('./routers/homework-definition'));
+  app.use('/messages',require('./routers/messages'));
 };
