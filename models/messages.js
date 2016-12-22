@@ -1,8 +1,5 @@
-'use strict';
-
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
 var messageSchema = new Schema({
   from: Number,
   to: Number,
@@ -12,7 +9,7 @@ var messageSchema = new Schema({
     type: Number,
     default: 0
   }
-
 });
 
 module.exports = mongoose.model('Message', messageSchema);
+
