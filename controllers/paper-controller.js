@@ -89,6 +89,7 @@ function obtain(req, res, next) {
     if (err) {
       return next(err);
     }
+    return res.sendStatus(200);
   });
 }
 
