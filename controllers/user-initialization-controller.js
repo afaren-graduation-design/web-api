@@ -20,7 +20,6 @@ UserInitializationController.prototype.initializeQuizzes = (req, res) => {
   var result = [];
   var logicQuizArray = [];
   var homeworkQuizArray = [];
-
   async.waterfall([
     (done) => {
       UserPaperForm.findOne({

@@ -23,14 +23,15 @@ describe('/homework/scoring', ()=> {
     var sendPostRequest = (done)=> {
       userSession
           .post('/homework/scoring')
-          .expect(201)
           .send({
             quizId: 1,
+            programId: 1,
             homeworkQuizUri: 'homeworkQuizzes/1',
             userAnswerRepo: 'http://test.git',
             paperId: 1
           })
-          .end(done)
+        .expect(201)
+        .end(done)
     };
 
     var verifyHomeworkScoring = (data, done)=> {

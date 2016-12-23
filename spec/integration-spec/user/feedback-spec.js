@@ -5,10 +5,10 @@ describe('/user/feedback', ()=> {
     userSession
         .get('/user/feedback-result')
         .expect(200)
-        .expect((res)=> {
-//todo 这个测试应该没有完善
-
-        })
+//         .expect((res)=> {
+// //todo 这个测试应该没有完善
+//           res.sta
+//         })
         .end(done)
   });
 });
