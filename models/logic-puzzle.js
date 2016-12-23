@@ -51,7 +51,8 @@ logicPuzzleSchema.statics.isPaperCommited = function(id, allData, index, callbac
       var usedTime = now - startTime;
 
       isPaperCommited = logicPuzzle.isCommited || parseInt(TOTAL_TIME - usedTime) <= 0;
-      allData[index].status = !isPaperCommited;
+
+      getData(index, allData, isPaperCommited);
       callback(null);
     }
   });
@@ -103,5 +104,13 @@ logicPuzzleSchema.statics.isDealAgree = function(userId, callback) {
     callback(isDealAgree);
   });
 };
+
+function getData(index, allData, isPaperCommited) {
+  if (index < 1) {
+    allData[index].status = !isPaperCommited;
+  } else {
+    allData[index].status = isPaperCommited && allData[index - 1].status || !isPaperCommited && !allData[index - 1].status;
+  }
+}
 
 module.exports = mongoose.model('LogicPuzzle', logicPuzzleSchema);
