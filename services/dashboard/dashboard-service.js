@@ -32,7 +32,7 @@ function getHomeworkQuizStatus(id, allData, index, callback) {
             throw err;
           }
           let quizzes = doc.toJSON().quizzes;
-          if (quizzes[quizzes.length - 1] === 4) {
+          if (quizzes[quizzes.length - 1].status === 4) {
             done(null, data, false);
           } else {
             done(null, data, true);
@@ -42,11 +42,13 @@ function getHomeworkQuizStatus(id, allData, index, callback) {
     },
     (data, isCommited, done) => {
       var quizzes = data.toJSON().quizzes;
-      status = quizzes.every((item) => {
-        return item.status === 4;
-      }) || quizzes.filter((item, index) => {
+      var filteredQuizzes = quizzes.filter((item, index) => {
         return index > 0;
-      }).every(item => (item.status === 1)) && !quizzes[0].startTime && isCommited;
+      });
+      var filterAnswer = filteredQuizzes.length === 1? true : filteredQuizzes.every(item => (item.status === 1))
+      status = quizzes.every((item) => {
+            return item.status === 4;
+          }) || filterAnswer && !quizzes[0].startTime && isCommited;
       done(status, data);
     },
     (data, done) => {
