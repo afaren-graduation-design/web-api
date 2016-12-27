@@ -1,4 +1,5 @@
 'use strict';
+import time from './init-moment'
 
 var apiRequest = require('../services/api-request');
 var constant = require('../mixin/constant');
@@ -26,7 +27,7 @@ PaperDefinitionController.prototype.getPaperDefinition = (req, res, next) => {
 PaperDefinitionController.prototype.savePaperDefinition = (req, res, next) => {
   var programId = req.params.programId;
   var makerId = req.session.user.id;
-  var createTime = new Date().toDateString();
+  var createTime = time;
   var updateTime = createTime;
   var {paperName, description, sections} = req.body.data;
   new PaperDefinition({
@@ -54,7 +55,7 @@ PaperDefinitionController.prototype.savePaperDefinition = (req, res, next) => {
 PaperDefinitionController.prototype.updatePaperDefinition = (req, res) => {
   var programId = req.params.programId;
   var paperId = req.params.paperId;
-  var updateTime = new Date().toDateString();
+  var updateTime = time;
 
   var {paperName, description, sections} = req.body.data;
   PaperDefinition.update({programId, _id: paperId},
