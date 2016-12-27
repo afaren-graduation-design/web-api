@@ -19,3 +19,12 @@ describe("POST /messages", ()=> {
 
   });
 });
+
+describe("POST /messages/:messageId/:operation", ()=> {
+  it('should be return 200:POST /messages/:messageId/agreement', function (done) {
+    userSession
+      .post("/messages/585bc4e613c65e2f61fede25/agreement")
+      .expect(200)
+      .end(done);
+  });
+});

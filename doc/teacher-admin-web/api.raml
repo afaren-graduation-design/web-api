@@ -11,14 +11,25 @@ baseUri: http://api.bronzesword.com/teacher-admin-web/
       queryParameters:
         privilege: string
         email: string
+        page: integer
+        pageSize: integer
       responses:
         200:
           body:
             application/json:
               properties:
-                usersUri:
-                properties:
-                   string[]
+                usersDetail:
+                  properties:
+                    []:
+                    userId: integer
+                    school: string
+                    name: string
+                    gender: string
+                    major: string
+                    degree: string
+                    birthday: integer
+                    email: string
+                    mobilePhone: string
         404:
           description: 没有这个字段
 
