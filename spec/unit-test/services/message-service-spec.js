@@ -1,5 +1,5 @@
 import 'should';
-import MessageService from '../../../services/message-service';
+import ToggleToReadHandler from '../../../services/message-service/ToggleToReadHandler';
 import DisagreementRequestAnswerHandler from '../../../services/message-service/DisagreementRequestAnswerHandler';
 import Message from '../../../models/messages';
 import '../base';
@@ -63,7 +63,11 @@ describe.only('IgnoreRequestAnswerHanlerService', () => {
         done(err);
       });
     });
-describe('DisagreementRequestAnswerHandler', ()=> {
+
+  });
+});
+
+describe.only('DisagreementRequestAnswerHandler', ()=> {
 
   it('check should return false when input operation is not disagreement', () => {
     const msgObj = {
