@@ -3,6 +3,8 @@
     "_id": "585bc4e613c65e2f61fede25",
     "from": 1,
     "to": 2,
+    "type" :"requestAnswer",
+    "deeplink":"papers/1/sections/1/homeworks/1",
     "state": 0
   }
 ]
