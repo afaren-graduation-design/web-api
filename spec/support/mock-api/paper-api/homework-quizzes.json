@@ -18,6 +18,7 @@
             "makerId": 1,
             "makerName": "测试一",
             "type": "JavaScript",
+            "answerPath": "/homework-answer/check-readme",
             "uri": "homeworkQuizzes/1"
           },
           {
@@ -30,6 +31,7 @@
             "makerId": 2,
             "makerName": "测试二",
             "type": "Java",
+            "answerPath": "/homework-answer/calculate_median",
             "uri": "homeworkQuizzes/2"
           },
           {
@@ -42,6 +44,7 @@
             "makerId": 2,
             "makerName": "测试二",
             "type": "C#",
+            "answerPath": "/homework-answer/calculate_median",
             "uri": "homeworkQuizzes/3"
           },
           {
@@ -54,6 +57,7 @@
             "makerId": 1,
             "makerName": "测试一",
             "type": "C++",
+            "answerPath": "/homework-answer/configure",
             "uri": "homeworkQuizzes/4"
           },
           {
@@ -66,6 +70,7 @@
             "makerId": 1,
             "makerName": "测试一",
             "type": "JavaScript",
+            "answerPath": "/homework-answer/collection-calculate-camp",
             "uri": "homeworkQuizzes/5"
           },
           {
@@ -78,6 +83,7 @@
             "makerId": 1,
             "makerName": "测试一",
             "type": "Ruby",
+            "answerPath": "/homework-answer/prepos",
             "uri": "homeworkQuizzes/6"
           },
           {
@@ -90,6 +96,7 @@
             "makerId": 1,
             "makerName": "测试一",
             "type": "JavaScript",
+            "answerPath": "/homework-answer/fibonacci_series",
             "uri": "homeworkQuizzes/7"
           },
           {
@@ -102,6 +109,7 @@
             "makerId": 1,
             "makerName": "测试一",
             "type": "JavaScript",
+            "answerPath": "/homework-answer/collection",
             "uri": "homeworkQuizzes/8"
           }
         ]
@@ -120,6 +128,7 @@
         "makerId": 1,
         "createTime": 1111111,
         "type": "JavaScript",
+        "answerPath": "/homework-answer/prepos",
         "homeworkName": "homework name"
       }
     },
