@@ -12,5 +12,32 @@ export default class MessagesController {
       res.status(201).send({uri: `messages/${data._id}`});
     });
   }
+
+  createNewMessage(req, res) {
+    const id = req.params.messagesId;
+    Message.findById(id, (err, data) => {
+      if (err) {
+        res.send(err);
+      } else {
+        let messageData = data;
+        messageData._id = undefined;
+        delete messageData._id;
+        const from = req.session.user.id;
+        if (req.params.operation === "agreement") {
+          messageData.state = 2;
+        } else {
+          messageData.state = 3;
+        }
+        console.log(messageData);
+        const newMessage = Object.assign({}, {from}, messageData);
+        new Message(newMessage).save((err, newMessage) => {
+          if (err) {
+            res.send(err);
+          }
+          res.status(200).send({uri: `messages/${newMessage._id}/:operation`});
+        });
+      }
+    });
+  }
 }
 
