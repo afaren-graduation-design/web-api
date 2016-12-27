@@ -45,10 +45,10 @@ function getHomeworkQuizStatus(id, allData, index, callback) {
       var filteredQuizzes = quizzes.filter((item, index) => {
         return index > 0;
       });
-      var filterAnswer = filteredQuizzes.length === 1? true : filteredQuizzes.every(item => (item.status === 1))
+      var filterAnswer = filteredQuizzes.length === 1 ? true : filteredQuizzes.every(item => (item.status === 1));
       status = quizzes.every((item) => {
-            return item.status === 4;
-          }) || filterAnswer && !quizzes[0].startTime && isCommited;
+        return item.status === 4;
+      }) || filterAnswer && !quizzes[0].startTime && isCommited;
       done(status, data);
     },
     (data, done) => {

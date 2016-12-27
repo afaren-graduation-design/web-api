@@ -1,5 +1,5 @@
 'use strict';
-import time from './init-moment'
+import time from './init-moment';
 
 var apiRequest = require('../services/api-request');
 var constant = require('../mixin/constant');

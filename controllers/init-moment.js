@@ -1,9 +1,9 @@
-import moment from 'moment'
+import moment from 'moment';
 
 moment.locale('en', {
   longDateFormat: {
-    l: "YYYY-MM-DD",
+    l: 'YYYY-MM-DD'
   }
 });
 
-export default moment().format('l')
+export default moment().format('l');//eslint-disable-line
