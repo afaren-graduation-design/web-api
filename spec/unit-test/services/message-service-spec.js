@@ -1,4 +1,6 @@
 import 'should';
+import MessageService from '../../../services/message-service';
+import DisagreementRequestAnswerHandler from '../../../services/message-service/DisagreementRequestAnswerHandler';
 import ToggleToReadHandler from  '../../../services/message-service/ToggleToReadHandler';
 import Message from '../../../models/messages';
 import '../base';
@@ -62,5 +64,26 @@ describe.only('IgnoreRequestAnswerHanlerService', () => {
         done(err);
       });
     });
+describe('DisagreementRequestAnswerHandler', ()=> {
+  it.only('should return false when input operation is not disagreement', () => {
+    const msgObj = {
+      type: 'requestAnswer',
+      operation: 'agreement'
+    };
+
+    const disagreementRequestAnswerHandler = new DisagreementRequestAnswerHandler();
+    const result = disagreementRequestAnswerHandler.check(msgObj);
+    result.should.equal(false);
+  });
+
+  it.only('should return true when input operation is disagreement', () => {
+    const msgObj = {
+      type: 'requestAnswer',
+      operation: 'disagreement'
+    };
+
+    const disagreementRequestAnswerHandler = new DisagreementRequestAnswerHandler();
+    const result = disagreementRequestAnswerHandler.check(msgObj);
+    result.should.equal(true);
   });
 });
