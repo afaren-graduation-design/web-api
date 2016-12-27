@@ -23,12 +23,11 @@ export default class MessagesController {
         messageData._id = undefined;
         delete messageData._id;
         const from = req.session.user.id;
-        if (req.params.operation === "agreement") {
+        if (req.params.operation === 'agreement') {
           messageData.state = 2;
         } else {
           messageData.state = 3;
         }
-        console.log(messageData);
         const newMessage = Object.assign({}, {from}, messageData);
         new Message(newMessage).save((err, newMessage) => {
           if (err) {
