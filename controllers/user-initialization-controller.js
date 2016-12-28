@@ -46,6 +46,7 @@ UserInitializationController.prototype.initializeQuizzes = (req, res) => {
               done(err);
             }
             quizItems = respond.body.quizItems;
+
             quizExamples = respond.body.exampleItems;
             new LogicPuzzle({
               userId: userId,

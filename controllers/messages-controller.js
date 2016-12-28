@@ -1,15 +1,52 @@
 import Message from '../models/messages';
+var async = require('async');
+var apiRequest = require('../services/api-request');
+var httpStatus = require('../mixin/constant').httpCode;
 
 export default class MessagesController {
 
   find(req, res) {
     const from = req.session.user.id;
-    Message.find({from: from}, (err, data) => {
-      if (err) {
-        res.send(err);
-      }
-      res.status(200).send(data);
-    });
+    async.waterfall([
+      (done) => {
+        Message.find({from: from}, done);
+      }, (data, done) => {
+        if (!data) {
+          var error = httpStatus.NOT_FOUND;
+          done(error, null);
+        } else {
+          done(null, data);
+        }
+      },
+      (data, done) => {
+        var mentorOfStudent = data.map(message => {
+          return {mentorId: message.to, state: message.state};
+        });
+        done(null, mentorOfStudent);
+      },
+      (data, done) => {
+        async.map(data, (mentor, callback) => {
+          apiRequest.get(`users/${mentor.mentorId}/detail`, (err, res) => {
+            if (err) {
+              callback(err, null);
+            }
+            callback(null, Object.assign({}, {name: res.body.name}, {state: mentor.state}));
+          });
+        }, (err, result) => {
+          done(err, result);
+        });
+      }],
+        (err, result, next) => {
+          if (result) {
+            res.send(result);
+          } else if (err === httpStatus.NOT_FOUND) {
+            res.send({
+              status: httpStatus.NOT_FOUND
+            });
+          } else {
+            next(err);
+          }
+        });
   }
 
   create(req, res) {

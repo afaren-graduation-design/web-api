@@ -12,6 +12,7 @@ var scoringService = require('../services/homework/scoring-service');
 var quizService = require('../services/homework/quiz-service');
 var userHomeworkQuizzes = require('../models/user-homework-quizzes');
 var homeworkScoring = require('../models/homework-scoring');
+var messages = require('../models/messages');
 
 function getDesc(status, realDesc) {
   if (status === constant.homeworkQuizzesStatus.LOCKED) {
@@ -105,6 +106,8 @@ HomeworkController.prototype.getOneQuiz = (req, res, next) => {
   var orderId = parseInt(req.query.orderId, 10) || 1;
   var id = req.query.id;
   var result = {};
+  var requestAnswerDesc = {};
+  var answerPath;
   var histories;
   async.waterfall([
     (done) => {
@@ -113,12 +116,15 @@ HomeworkController.prototype.getOneQuiz = (req, res, next) => {
     (data, done) => {
       orderId = Math.max(orderId, 1);
       orderId = Math.min(orderId, data.quizzes.length);
+      requestAnswerDesc.to = 1;
+      requestAnswerDesc.deeplink = `papers/${data.paperId}`;
       done(null, data);
     },
     (doc, done) => {
       var index = orderId - 1;
       var data = doc.quizzes[index];
       result.uri = data.uri;
+      requestAnswerDesc.deeplink += `/sections/1/homeworks/${data.uri.split('/')[1]}`;
       result.status = data.status;
       result.id = data.id;
       histories = data.homeworkSubmitPostHistory;
@@ -146,15 +152,30 @@ HomeworkController.prototype.getOneQuiz = (req, res, next) => {
     (data, done) => {
       result.desc = getDesc(result.status, data.body.homeworkItem.description);
       result.templateRepo = data.body.homeworkItem.templateRepository;
+      answerPath = data.body.homeworkItem.answerPath || 'answerPath';
       done(null, result);
+    },
+    (data, done) => {
+      messages.findOne(requestAnswerDesc, (err, doc) => {
+        if (err) {
+          return next(err);
+        }
+        if (doc.type === 'disagreementRequestAnswer') {
+          answerPath = null;
+        }
+      });
+
+      done(null, data);
     }
   ], (err, data) => {
     if (err) {
       return next(err);
     }
+
     res.send({
       status: constant.httpCode.OK,
-      quiz: result
+      quiz: result,
+      answerPath
     });
   });
 };
@@ -249,10 +270,10 @@ HomeworkController.prototype.getEstimatedTime = (req, res, next) => {
   async.waterfall([
     (done) => {
       userHomeworkQuizzes.aggregate([
-        {'$unwind': '$quizzes'}
+          {'$unwind': '$quizzes'}
       ])
-        .match({'quizzes.id': Number(quizId)})
-        .exec(done);
+      .match({'quizzes.id': Number(quizId)})
+      .exec(done);
     },
     (doc, done) => {
       var recordIds = [];

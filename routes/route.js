@@ -27,11 +27,12 @@ exports.setRoutes = (app) => {
   app.use('/test', require('./routers/test'));
   app.use('/paper-draft', require('./routers/paper-draft'));
   app.use('/teacher-login', require('./routers/teacher-login'));
-  app.use('/programs', require('./routers/paper-definition'));
+  app.use('/programs', require('./routers/programs'));
   app.use('/username', require('./routers/username'));
   app.use('/homeworks', require('./routers/homework-program'));
   app.use('/homeworkQuizzes', require('./routers/homework-quizzes'));
   app.use('/homeworkDefinitions', require('./routers/homework-definition'));
   app.use('/messages', require('./routers/messages'));
   app.use('/mentors', require('./routers/mentors'));
+  
 };

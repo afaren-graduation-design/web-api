@@ -9,4 +9,6 @@ var testController = new TestController();
 router.get('/detail', testController.isDetailed);
 router.get('/isPaperCommitted', testController.isPaperCommitted);
 
+// router.get('/testNewPaper', testController.addPaper);
+
 module.exports = router;

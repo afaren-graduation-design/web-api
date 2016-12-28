@@ -135,7 +135,8 @@ describe('HomeworkController', function () {
           body: {
             id: 1,
             description: '这是一道简单的题',
-            templateRepository: 'www.github.com'
+            templateRepository: 'www.github.com',
+            answerPath:"answerPath"
           }
         };
         callback(null, data);
@@ -154,7 +155,8 @@ describe('HomeworkController', function () {
               templateRepo: 'www.github.com',
               userAnswerRepo: 'w',
               branch: 'dev'
-            }
+            },
+            answerPath:"answerPath"
           });
           done();
         },
