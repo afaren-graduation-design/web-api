@@ -3,7 +3,7 @@ import AgreementRequestAnswerHandler from './AgreementRequestAnswerHandler';
 import DisagreementRequestAnswerHandler from './DisagreementRequestAnswerHandler';
 import ToggleToReadHandler from './ToggleToReadHandler';
 
-function MessageService(msgObj, callback) {
+function messageService(msgObj, callback) {
   async.waterfall([
     (done) => {
       let toggleToReadHandler = new ToggleToReadHandler();
@@ -20,4 +20,4 @@ function MessageService(msgObj, callback) {
   ], callback);
 }
 
-export default MessageService;
+export default messageService;

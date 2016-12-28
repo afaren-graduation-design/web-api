@@ -2,19 +2,19 @@ import 'should';
 import ToggleToReadHandler from '../../../services/message-service/ToggleToReadHandler';
 import DisagreementRequestAnswerHandler from '../../../services/message-service/DisagreementRequestAnswerHandler';
 import AgreementRequestAnswerHandler from '../../../services/message-service/AgreementRequestAnswerHandler';
-import MessagService from '../../../services/message-service/index';
+import messagService from '../../../services/message-service/index';
 import Message from '../../../models/messages';
 import '../base';
 
 describe('MessageService', () => {
-  it.only('should ', () => {
+  it('should change state to 1 ', () => {
     const msgObj = {
       '_id': '585bc4e613c65e2f61fede25',
       type: 'requestAnswer',
       operation: 'disagreement',
       state: 0
     };
-    MessagService(msgObj, (err, data) => {
+    messagService(msgObj, (err, data) => {
 
       Message.findById(msgObj._id, (err, doc) => {
         let data = doc.toJSON();
@@ -32,7 +32,7 @@ describe('MessageService', () => {
   });
 });
 
-describe('IgnoreRequestAnswerHanlerService', () => {
+describe('ToggleToReadHandler', () => {
   it('check whether state is 0', () => {
     const msgObj = {
       messageId: '585bc4e613c65e2f61fede25',
