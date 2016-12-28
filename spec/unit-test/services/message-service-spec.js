@@ -4,7 +4,7 @@ import Message from '../../../models/messages';
 import '../base';
 
 describe('MessageService', ()=> {
-  it.only('operateMessage should make the state to 1', function(done) {
+  it('operateMessage should make the state to 1', function(done) {
 
     const msgObj = {
       messageId: '585bc4e613c65e2f61fede25',
