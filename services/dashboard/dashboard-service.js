@@ -56,14 +56,14 @@ function getHomeworkQuizStatus(id, allData, index, callback) {
         return item.status !== 1 && item.status !== 4;
       })[0];
       var currentTime = parseInt(new Date().getTime()) /
-        (constant.time.SECONDS_PER_MINUTE *
-        constant.time.MINUTE_PER_HOUR *
-        constant.time.HOURS_PER_DAY *
-        constant.time.MILLISECOND_PER_SECONDS);
+          (constant.time.SECONDS_PER_MINUTE *
+          constant.time.MINUTE_PER_HOUR *
+          constant.time.HOURS_PER_DAY *
+          constant.time.MILLISECOND_PER_SECONDS);
       var startTime = parseInt(currentQuiz.startTime) /
-        (constant.time.SECONDS_PER_MINUTE *
-        constant.time.MINUTE_PER_HOUR *
-        constant.time.HOURS_PER_DAY);
+          (constant.time.SECONDS_PER_MINUTE *
+          constant.time.MINUTE_PER_HOUR *
+          constant.time.HOURS_PER_DAY);
       status = currentTime - startTime > deadline;
       done(status, data);
     }
