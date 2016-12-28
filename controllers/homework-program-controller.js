@@ -23,9 +23,10 @@ HomeworkProgramController.prototype.getHomeworkListByMysql = (req, res) => {
 
 HomeworkProgramController.prototype.matchHomeworkByMysql = (req, res, next) => {
   let pageCount = Number(req.query.pageCount) || 10;
+  let query = req.query.type;
   let page = Number(req.query.page) || 1;
   let name = req.query.name;
-  apiRequest.get('homeworkQuizzes', {pageSize: pageCount, page, homeworkName: name}, (err, resp) => {
+  apiRequest.get('homeworkQuizzes', {pageSize: pageCount, page, homeworkName: name,query}, (err, resp) => {
     if (err && !resp) {
       res.sendStatus(404);
       return next(err);
