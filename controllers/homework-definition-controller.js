@@ -124,6 +124,7 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
   var id = req.params.dataId;
   var {description, status, result} = req.body;
   var createTime = parseInt(time.split('-').join(''));
+  var answerPath = 'test path';    //Fixme
   var evaluateScript = req.file ? `./${req.file.path}` : '';
   if (status === '2') {
     async.waterfall([
@@ -138,6 +139,7 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
           'evaluateScript': evaluateScript,
           'templateRepository': '',
           'makerId': 1,
+          'answerPath': answerPath,
           'createTime': createTime,
           'type': doc.toJSON().type.toString(),
           'homeworkName': doc.toJSON().name.toString()
@@ -153,6 +155,7 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
             description,
             isDeleted: false,
             uri: resp.body.uri,
+            answerPath,
             createTime,
             evaluateScript,
             templateUrl: '',
@@ -182,6 +185,7 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
             description,
             isDeleted: false,
             uri: '',
+            answerPath,
             createTime,
             evaluateScript,
             templateUrl: '',
