@@ -1,9 +1,9 @@
 import async from 'async';
 import Message from '../../models/messages';
 
-export default class AgreementRequestAnswerHandler {
+export default class DisAgreementRequestAnswerHandler {
   check(msgObj) {
-    if (msgObj.operation === 'agreement' && msgObj.type === 'requestAnswer') {
+    if (msgObj.operation === 'disagreement' && msgObj.type === 'requestAnswer') {
       return true;
     } else {
       return false;
@@ -17,14 +17,15 @@ export default class AgreementRequestAnswerHandler {
       },
 
       (data, done) => {
-        let newMessage = {
+        delete data._id;
+        let newData = Object.assign({}, data, {
+          deeplink: data.deeplink,
           from: data.to,
           to: data.from,
-          deeplink: data.deeplink,
-          type: 'agreeRequestAnswer',
+          type: 'disagreeRequestAnswer',
           state: 1
-        };
-        new Message(newMessage).save(done);
+        });
+        new Message(newData).save(done);
       }
     ], callback);
   }
