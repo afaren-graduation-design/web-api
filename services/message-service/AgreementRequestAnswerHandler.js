@@ -12,11 +12,11 @@ export default class AgreementRequestAnswerHandler {
 
   handle(msgId, callback) {
     async.waterfall([
-      (done)=> {
+      (done) => {
         Message.findById(msgId, done);
       },
 
-      (data, done)=> {
+      (data, done) => {
         let newMessage = {
           from: data.to,
           to: data.from,
