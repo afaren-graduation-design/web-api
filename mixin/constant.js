@@ -35,6 +35,11 @@ var constant = {
     FORBIDDEN: 403,
     FAILING_STATUS: 404,
     SERVER_ERROR: 500
+  },
+  sectionStatus: {
+    INCOMPLETE: 0,
+    COMPLETE: 1,
+    TIMEOUT: 2
   }
 };
 

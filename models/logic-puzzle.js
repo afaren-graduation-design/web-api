@@ -58,6 +58,10 @@ logicPuzzleSchema.statics.isPaperCommited = function(id, allData, index, callbac
   });
 };
 
+logicPuzzleSchema.getModuleName = function() {
+  return 'logicQuizzes';
+};
+
 logicPuzzleSchema.statics.getLogicPuzzle = (orderId, userId, id) => {
   var userAnswer;
   var itemsCount;
