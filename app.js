@@ -5,14 +5,9 @@ var bodyParser = require('body-parser');
 var route = require('./routes/route');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-// var checkSession = require('./middleware/check-session');
-// var util = require('util');
 var mongoConn = require('./services/mongo-conn');
 var MongoStore = require('connect-mongo')(session);
-// var constant = require('./mixin/constant');
 var yamlConfig = require('node-yaml-config');
-// var md5 = require('js-md5');
-// var verifyToken = require('./middleware/verify-token');
 var captcha = require('./middleware/captcha');
 
 var path = require('path');
@@ -52,9 +47,6 @@ if (env === 'test') {
 app.use(captcha(params));
 
 app.use(bodyParser.json());
-
-// app.use(verifyToken);
-// app.use(checkSession);
 route.setRoutes(app);
 
 app.use((err, req, res, next) => {

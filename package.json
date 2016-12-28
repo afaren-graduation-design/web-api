@@ -13,8 +13,9 @@
     "mock-server": "java -jar spec/support/moco-runner-0.10.2-standalone.jar http -p 12306 -g spec/support/paper-api.json -s 9527",
     "eslint": "eslint .",
     "refreshMongo": "node ./mongoRefreshment.js",
-    "start": "./start.sh",
-    "startService": "export NODE_ENV=test &&  babel-node ./app.js"
+    "babel-node": "babel-node --presets=es2015",
+    "start": "export NODE_ENV=test && babel-node ./app.js",
+    "startService": "export NODE_ENV=test && babel-node ./app.js"
   },
   "repository": {
     "type": "git",

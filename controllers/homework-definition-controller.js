@@ -103,7 +103,7 @@ HomeworkDefinitionController.prototype.deleteHomework = (req, res) => {
 };
 
 HomeworkDefinitionController.prototype.insertEvaluateScript = (req, res) => {
-  res.send(req.file);
+    res.send(req.file);
 };
 
 HomeworkDefinitionController.prototype.deleteSomeHomeworks = (req, res) => {
