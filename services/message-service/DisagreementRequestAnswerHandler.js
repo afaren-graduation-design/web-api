@@ -3,28 +3,26 @@ import Message from '../../models/messages';
 
 export default class DisAgreementRequestAnswerHandler {
   check(msgObj) {
-    if (msgObj.operation === 'disagreement' && msgObj.type === 'requestAnswer') {
-      return true;
-    } else {
-      return false;
-    }
+    return (msgObj.operation === 'disagreement' && msgObj.type === 'requestAnswer');
   }
 
-  handle(msgId, callback) {
+  handle(msgObj, callback) {
+    if (!this.check(msgObj)) {
+      callback();
+    }
     async.waterfall([
       (done) => {
-        Message.findById(msgId, done);
+        Message.findById(msgObj._id, done);
       },
 
       (data, done) => {
-        delete data._id;
-        let newData = Object.assign({}, data, {
+        let newData = {
           deeplink: data.deeplink,
           from: data.to,
           to: data.from,
           type: 'disagreeRequestAnswer',
           state: 1
-        });
+        };
         new Message(newData).save(done);
       }
     ], callback);
