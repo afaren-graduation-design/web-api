@@ -124,7 +124,7 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
   var id = req.params.dataId;
   var {description, status, result} = req.body;
   var createTime = parseInt(time.split('-').join(''));
-  var answerPath = 'test path';    //Fixme
+  var answerPath = 'test path'; // Fixme
   var evaluateScript = req.file ? `./${req.file.path}` : '';
   if (status === '2') {
     async.waterfall([
