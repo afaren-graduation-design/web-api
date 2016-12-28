@@ -2,8 +2,35 @@ import 'should';
 import ToggleToReadHandler from '../../../services/message-service/ToggleToReadHandler';
 import DisagreementRequestAnswerHandler from '../../../services/message-service/DisagreementRequestAnswerHandler';
 import AgreementRequestAnswerHandler from '../../../services/message-service/AgreementRequestAnswerHandler';
+import MessagService from '../../../services/message-service/index';
 import Message from '../../../models/messages';
 import '../base';
+
+describe('MessageService', () => {
+  it.only('should ', () => {
+    const msgObj = {
+      '_id': '585bc4e613c65e2f61fede25',
+      type: 'requestAnswer',
+      operation: 'disagreement',
+      state: 0
+    };
+    MessagService(msgObj, (err, data) => {
+
+      Message.findById(msgObj._id, (err, doc) => {
+        let data = doc.toJSON();
+        let newData = {from: data.to, to: data.from, type: 'disagreeRequestAnswer'};
+        Message.findOne(newData, (err, doc)=> {
+          const {from, to, type, state} = doc.toJSON();
+          from.should.equal(data.to);
+          to.should.equal(data.from);
+          type.should.equal('disagreeRequestAnswer');
+          state.should.equal(1);
+          done(err);
+        });
+      });
+    });
+  });
+});
 
 describe('IgnoreRequestAnswerHanlerService', () => {
   it('check whether state is 0', () => {
