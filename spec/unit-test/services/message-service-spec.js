@@ -1,6 +1,7 @@
 import 'should';
 import ToggleToReadHandler from '../../../services/message-service/ToggleToReadHandler';
 import DisagreementRequestAnswerHandler from '../../../services/message-service/DisagreementRequestAnswerHandler';
+import AgreementRequestAnswerHandler from '../../../services/message-service/AgreementRequestAnswerHandler';
 import Message from '../../../models/messages';
 import '../base';
 
@@ -110,4 +111,52 @@ describe.only('DisagreementRequestAnswerHandler', ()=> {
 
   });
 
+});
+
+describe.only('AgreementRequestAnswerHandler', ()=> {
+  it('check should return true when input operation is not agreement', ()=> {
+    const msgObj = {
+      operation: 'agreement',
+      type: 'requestAnswer'
+    };
+    let agreementRequestAnswerHandler = new AgreementRequestAnswerHandler();
+    const checkAnswer = agreementRequestAnswerHandler.check(msgObj);
+    checkAnswer.should.equal(true);
+  });
+
+  it('check should return false when input operaion is not agreement', ()=> {
+    "use strict";
+    const msgObj = {
+      operation: 'disagreement',
+      type: 'requestAnswer'
+    };
+    let agreementRequestAnswerHandler = new AgreementRequestAnswerHandler();
+    const checkAnswer = agreementRequestAnswerHandler.check(msgObj);
+    checkAnswer.should.equal(false);
+  });
+
+  it('handle should make type to agreementRequestAnser and state to 1', ()=> {
+    const msgId = '585bc4e613c65e2f61fede25';
+    let agreementRequestAnswerHandler = new AgreementRequestAnswerHandler();
+    agreementRequestAnswerHandler.handle(msgId, (err, data)=> {
+      Message.findById(msgId, (err, doc)=> {
+        let data = doc.toJSON();
+        let newMessage = {
+          from: data.to,
+          to: data.from,
+          deeplink: data.deeplink,
+          type: 'agreeRequestAnswer',
+          state: 1
+        };
+        Message.findOne(newMessage, (err, doc)=> {
+          const {from, to, type, state} = doc.toJSON();
+          from.should.equal(data.to);
+          to.should.equal(data.from);
+          type.should.equal('agreeRequestAnswer');
+          state.should.equal(1);
+          done(err);
+        });
+      });
+    });
+  });
 });
