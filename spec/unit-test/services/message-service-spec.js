@@ -14,7 +14,7 @@ describe('MessageService', () => {
       operation: 'disagreement',
       state: 0
     };
-    new MessagService().msgOperation(msgObj, (err, data) => {
+    new MessagService().operate(msgObj, (err, data) => {
 
       Message.findById(msgObj._id, (err, doc) => {
         let data = doc.toJSON();

@@ -135,7 +135,7 @@ export default class MessagesController {
     const messageId = req.params.messageId;
     const operation = req.params.operation;
     const messageService = new MessageService();
-    messageService.msgOperation({messageId, operation}, (err, data) => {
+    messageService.operate({messageId, operation}, (err, data) => {
       if (err) {
         return next(err);
       }

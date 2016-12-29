@@ -11,7 +11,7 @@ export default class MessageService {
     this.disagreementRequestAnswerHandler = new DisagreementRequestAnswerHandler();
   }
 
-  msgOperation({messageId, operation}, callback) {
+  operate({messageId, operation}, callback) {
     let msgObj;
     async.waterfall([
       (done) => {
