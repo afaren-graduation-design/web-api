@@ -11,7 +11,7 @@
     "_id": "585bc4e613c65e2f61fede22",
     "from": 2,
     "to": 1,
-    "type" :"agreementRequestAnswer",
+    "type" :"agreeRequestAnswer",
     "deeplink":"papers/1/sections/1/homeworks/1",
     "state": 1
   },
@@ -43,7 +43,7 @@
     "_id": "585bc4e613c65e2f61fede21",
     "from": 1,
     "to": 2,
-    "type" :"disagreementRequestAnswer",
+    "type" :"disagreeRequestAnswer",
     "deeplink":"papers/1/sections/1/homeworks/2",
     "state": 1
   }
