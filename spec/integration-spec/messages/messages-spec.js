@@ -28,3 +28,12 @@ describe("POST /messages/:messageId/:operation", ()=> {
       .end(done);
   });
 });
+
+describe("GET /messages", ()=> {
+  it('should be return 200: GET /messages', function (done) {
+    userSession
+        .get("/messages")
+        .expect(200)
+        .end(done)
+  });
+});

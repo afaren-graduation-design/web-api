@@ -36,15 +36,11 @@ export default class MessagesController {
           done(err, result);
         });
       }],
-        (err, result, next) => {
-          if (result) {
-            res.send(result);
-          } else if (err === httpStatus.NOT_FOUND) {
-            res.send({
-              status: httpStatus.NOT_FOUND
-            });
+        (err, result) => {
+          if (err) {
+            res.send(err);
           } else {
-            next(err);
+            res.status(200).send(result);
           }
         });
   }
