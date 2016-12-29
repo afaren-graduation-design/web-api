@@ -70,20 +70,27 @@ export default class MessagesController {
               callback(err, null);
             }
             callback(null, Object.assign({},
-                    {_id: message._id, from: message.from, to: message.to, type: message.type, deeplink: message.deeplink, state: message.state},
-                    {name: res.body.name}));
+              {
+                _id: message._id,
+                from: message.from,
+                to: message.to,
+                type: message.type,
+                deeplink: message.deeplink,
+                state: message.state
+              },
+              {name: res.body.name}));
           });
         }, (err, result) => {
           done(err, result);
         });
       }],
-        (err, result) => {
-          if (err) {
-            res.send(err);
-          } else {
-            res.status(200).send(result);
-          }
-        });
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.status(200).send(result);
+      }
+    });
   }
 
   create(req, res) {
@@ -124,13 +131,13 @@ export default class MessagesController {
     });
   }
 
-  operateMessage(req, res) {
+  update(req, res, next) {
     const messageId = req.params.messageId;
     const operation = req.params.operation;
     const messageService = new MessageService();
     messageService.msgOperation({messageId, operation}, (err, data) => {
       if (err) {
-        throw err;
+        return next(err);
       }
       res.sendStatus(201);
     });

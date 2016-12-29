@@ -8,6 +8,6 @@ var router = express.Router();
 router.post('/', msgController.create);
 router.get('/', msgController.search);
 router.get('/unread', msgController.findUnread);
-router.post('/:messageId/:operation', msgController.operateMessage);
+router.put('/:messageId/:operation', msgController.update);
 
 module.exports = router;
