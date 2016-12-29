@@ -40,7 +40,7 @@ describe('ToggleToReadHandler', () => {
     };
 
     const ToggleToRead = new ToggleToReadHandler();
-    const result = ToggleToRead.check(msgObj.state);
+    const result = ToggleToRead.check(msgObj);
     result.should.equal(true);
   });
 

@@ -36,6 +36,12 @@ export default class MessageService {
           done(err, doc);
         });
       },
+      (obj, done) => {
+        Message.findById(messageId, (err, doc) => {
+          msgObj = Object.assign({}, doc.toJSON(), {operation});
+          done(err, msgObj);
+        });
+      },
       (msgObj, done) => {
         this.disagreementRequestAnswerHandler.handle(msgObj, done);
       }
