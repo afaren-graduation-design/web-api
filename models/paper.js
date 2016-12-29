@@ -12,7 +12,7 @@ var paperSchema = new Schema({
   programId: Number,
   paperId: Number,
   userId: Number,
-  uri: String,
+  paperUri: String,
   sections: [{
     type: {
       $type: String,
@@ -32,12 +32,14 @@ paperSchema.statics.findOrCreate = (condition, data, done) => {
     data = condition;
   }
   model.findOne(condition, (err, doc) => {
-    console.log(condition);
+    if (err) {
+      throw err;
+    }
     if (doc) {
-      return done(null, doc)
+      return done(null, doc);
     }
     model.create(data, done);
-  })
+  });
 };
 
-module.exports = mongoose.model('Paper', paperSchema);
+module.exports = mongoose.model('Paper', paperSchema); //eslint-disable-line

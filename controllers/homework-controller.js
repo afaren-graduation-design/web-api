@@ -174,12 +174,6 @@ HomeworkController.prototype.getOneQuiz = (req, res, next) => {
       return next(err);
     }
 
-    console.log({
-      status: constant.httpCode.OK,
-      quiz: result,
-      answerPath
-    });
-
     res.send({
       status: constant.httpCode.OK,
       quiz: result,
