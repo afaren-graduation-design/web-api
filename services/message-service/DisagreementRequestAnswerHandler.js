@@ -7,7 +7,7 @@ export default class DisAgreementRequestAnswerHandler extends OperateHandler {
     return (msgObj.operation === 'disagreement' && msgObj.type === 'requestAnswer');
   }
 
-  realHandle(msgObj, callback) {
+  subHandle(msgObj, callback) {
     async.waterfall([
       (done) => {
         Message.findById(msgObj._id, done);

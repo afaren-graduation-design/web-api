@@ -7,7 +7,7 @@ export default class AgreementRequestAnswerHandler extends OperateHandler {
     return (msgObj.operation === 'agreement' && msgObj.type === 'requestAnswer');
   }
 
-  realHandle(msgObj, callback) {
+  subHandle(msgObj, callback) {
     async.waterfall([
       (done) => {
         Message.findById(msgObj._id, done);

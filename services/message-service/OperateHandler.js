@@ -3,6 +3,6 @@ export default class OperateHandle {
     if (!this.check(msgObj)) {
       return callback();
     }
-    this.realHandle(msgObj, callback);
+    this.subHandle(msgObj, callback);
   }
 }
