@@ -1,23 +1,44 @@
 import async from 'async';
+import Message from '../../models/messages';
 import AgreementRequestAnswerHandler from './AgreementRequestAnswerHandler';
 import DisagreementRequestAnswerHandler from './DisagreementRequestAnswerHandler';
 import ToggleToReadHandler from './ToggleToReadHandler';
 
-function messageService(msgObj, callback) {
-  async.waterfall([
-    (done) => {
-      let toggleToReadHandler = new ToggleToReadHandler();
-      toggleToReadHandler.handle(msgObj, done);
-    },
-    (data, done) => {
-      let agreementRequestAnswerHandler = new AgreementRequestAnswerHandler();
-      agreementRequestAnswerHandler.handle(msgObj, done);
-    },
-    (data, done) => {
-      let disagreementRequestAnswerHandler = new DisagreementRequestAnswerHandler();
-      disagreementRequestAnswerHandler.handle(msgObj, done);
-    }
-  ], callback);
-}
+export default class MessageService {
+  constructor() {
+    this.toggleToReadHandler = new ToggleToReadHandler();
+    this.agreementRequestAnswerHandler = new AgreementRequestAnswerHandler();
+    this.disagreementRequestAnswerHandler = new DisagreementRequestAnswerHandler();
+  }
 
-export default messageService;
+  msgOperation({messageId, operation}, callback) {
+    let msgObj;
+    async.waterfall([
+      (done) => {
+        Message.findById(messageId, (err, doc) => {
+          msgObj = Object.assign({}, doc.toJSON(), {operation});
+          done(err, msgObj);
+        });
+      },
+      (msgObj, done) => {
+        this.toggleToReadHandler.handle(msgObj, (err, doc) => {
+          done(err, doc);
+        });
+      },
+      (obj, done) => {
+        Message.findById(messageId, (err, doc) => {
+          msgObj = Object.assign({}, doc.toJSON(), {operation});
+          done(err, msgObj);
+        });
+      },
+      (msgObj, done) => {
+        this.agreementRequestAnswerHandler.handle(msgObj, (err, doc) => {
+          done(err, doc);
+        });
+      },
+      (msgObj, done) => {
+        this.disagreementRequestAnswerHandler.handle(msgObj, done);
+      }
+    ], callback);
+  }
+};

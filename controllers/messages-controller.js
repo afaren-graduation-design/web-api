@@ -1,5 +1,6 @@
 import Message from '../models/messages';
 var async = require('async');
+import MessageService from '../services/message-service';
 var apiRequest = require('../services/api-request');
 var httpStatus = require('../mixin/constant').httpCode;
 
@@ -36,13 +37,17 @@ export default class MessagesController {
           done(err, result);
         });
       }],
-        (err, result) => {
-          if (err) {
-            res.send(err);
-          } else {
-            res.status(200).send(result);
-          }
+    (err, result, next) => {
+      if (result) {
+        res.send(result);
+      } else if (err === httpStatus.NOT_FOUND) {
+        res.send({
+          status: httpStatus.NOT_FOUND
         });
+      } else {
+        next(err);
+      }
+    });
   }
 
   findUnread(req, res) {
@@ -120,6 +125,18 @@ export default class MessagesController {
           res.status(200).send({uri: `messages/${newMessage._id}/:operation`});
         });
       }
+    });
+  }
+
+  operateMessage(req, res) {
+    const messageId = req.params.messageId;
+    const operation = req.params.operation;
+    const messageService = new MessageService();
+    messageService.msgOperation({messageId, operation}, (err, data) => {
+      if (err) {
+        throw err;
+      }
+      res.sendStatus(201);
     });
   }
 }
