@@ -12,12 +12,16 @@ var paperSchema = new Schema({
   programId: Number,
   paperId: Number,
   userId: Number,
+  uri: String,
   sections: [{
     type: {
       $type: String,
       enum: typeEnum
     },
-    items: []
+    items: [{
+      id: String,
+      submits: [String]
+    }]
   }]
 }, {typeKey: '$type'});
 
