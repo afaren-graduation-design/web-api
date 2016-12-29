@@ -2,7 +2,7 @@ import 'should';
 import ToggleToReadHandler from '../../../services/message-service/ToggleToReadHandler';
 import DisagreementRequestAnswerHandler from '../../../services/message-service/DisagreementRequestAnswerHandler';
 import AgreementRequestAnswerHandler from '../../../services/message-service/AgreementRequestAnswerHandler';
-import messagService from '../../../services/message-service/index';
+import MessagService from '../../../services/message-service';
 import Message from '../../../models/messages';
 import '../base';
 
@@ -14,7 +14,7 @@ describe('MessageService', () => {
       operation: 'disagreement',
       state: 0
     };
-    messagService(msgObj, (err, data) => {
+    new MessagService().msgOperation(msgObj, (err, data) => {
 
       Message.findById(msgObj._id, (err, doc) => {
         let data = doc.toJSON();

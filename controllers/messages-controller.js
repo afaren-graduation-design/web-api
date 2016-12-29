@@ -1,6 +1,6 @@
 import Message from '../models/messages';
 var async = require('async');
-import messageService from '../services/message-service';
+import MessageService from '../services/message-service';
 var apiRequest = require('../services/api-request');
 var httpStatus = require('../mixin/constant').httpCode;
 
@@ -91,7 +91,8 @@ export default class MessagesController {
   operateMessage(req, res) {
     const messageId = req.params.messageId;
     const operation = req.params.operation;
-    messageService({messageId, operation}, (err, data) => {
+    const messageService = new MessageService();
+    messageService.msgOperation({messageId, operation}, (err, data) => {
       if (err) {
         throw err;
       }
