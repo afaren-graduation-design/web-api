@@ -8,7 +8,6 @@ export default class AgreementRequestAnswerHandler extends OperateHandler {
   }
 
   realHandle(msgObj, callback) {
-
     async.waterfall([
       (done) => {
         Message.findById(msgObj._id, done);

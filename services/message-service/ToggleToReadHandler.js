@@ -8,7 +8,6 @@ export default class ToggleToReadHandler extends OperateHandler {
   }
 
   realHandle(msgObj, callback) {
-
     async.waterfall([
       (done) => {
         Message.update({'_id': msgObj._id}, {state: 1}, done);
