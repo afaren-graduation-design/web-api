@@ -8,12 +8,13 @@ export default class ToggleToReadHandler {
 
   handle(msgObj, callback) {
     if (!this.check(msgObj.state)) {
-      callback();
+      return callback();
+    } else {
+      async.waterfall([
+        (done) => {
+          Message.update({'_id': msgObj._id}, {state: 1}, done);
+        }
+      ], callback);
     }
-    async.waterfall([
-      (done) => {
-        Message.update({'_id': msgObj._id}, {state: 1}, done);
-      }
-    ], callback);
   }
 }

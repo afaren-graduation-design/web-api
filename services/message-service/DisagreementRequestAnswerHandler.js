@@ -8,7 +8,7 @@ export default class DisAgreementRequestAnswerHandler {
 
   handle(msgObj, callback) {
     if (!this.check(msgObj)) {
-      callback();
+      return callback();
     }
     async.waterfall([
       (done) => {
