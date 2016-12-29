@@ -117,7 +117,9 @@ HomeworkController.prototype.getOneQuiz = (req, res, next) => {
       orderId = Math.max(orderId, 1);
       orderId = Math.min(orderId, data.quizzes.length);
       requestAnswerDesc.to = 1;
+
       requestAnswerDesc.deeplink = `papers/${data.paperId}`;
+
       done(null, data);
     },
     (doc, done) => {
@@ -171,6 +173,12 @@ HomeworkController.prototype.getOneQuiz = (req, res, next) => {
     if (err) {
       return next(err);
     }
+
+    console.log({
+      status: constant.httpCode.OK,
+      quiz: result,
+      answerPath
+    });
 
     res.send({
       status: constant.httpCode.OK,

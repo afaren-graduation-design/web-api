@@ -3,17 +3,16 @@ import Message from '../../models/messages';
 
 export default class AgreementRequestAnswerHandler {
   check(msgObj) {
-    if (msgObj.operation === 'agreement' && msgObj.type === 'requestAnswer') {
-      return true;
-    } else {
-      return false;
-    }
+    return (msgObj.operation === 'agreement' && msgObj.type === 'requestAnswer');
   }
 
-  handle(msgId, callback) {
+  handle(msgObj, callback) {
+    if (!this.check(msgObj)) {
+      callback();
+    }
     async.waterfall([
       (done) => {
-        Message.findById(msgId, done);
+        Message.findById(msgObj._id, done);
       },
 
       (data, done) => {

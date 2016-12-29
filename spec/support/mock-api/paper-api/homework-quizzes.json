@@ -30,7 +30,7 @@
             "id": 2,
             "makerId": 2,
             "makerName": "测试二",
-            "type": "Java",
+            "type": "JavaScript",
             "answerPath": "/homework-answer/calculate_median",
             "uri": "homeworkQuizzes/2"
           },
@@ -43,7 +43,7 @@
             "id": 3,
             "makerId": 2,
             "makerName": "测试二",
-            "type": "C#",
+            "type": "Java",
             "answerPath": "/homework-answer/calculate_median",
             "uri": "homeworkQuizzes/3"
           },
@@ -56,7 +56,7 @@
             "id": 4,
             "makerId": 1,
             "makerName": "测试一",
-            "type": "C++",
+            "type": "Java",
             "answerPath": "/homework-answer/configure",
             "uri": "homeworkQuizzes/4"
           },
@@ -69,7 +69,7 @@
             "id": 5,
             "makerId": 1,
             "makerName": "测试一",
-            "type": "JavaScript",
+            "type": "C语言",
             "answerPath": "/homework-answer/collection-calculate-camp",
             "uri": "homeworkQuizzes/5"
           },
@@ -82,7 +82,7 @@
             "id": 6,
             "makerId": 1,
             "makerName": "测试一",
-            "type": "Ruby",
+            "type": "C语言",
             "answerPath": "/homework-answer/prepos",
             "uri": "homeworkQuizzes/6"
           },
@@ -95,7 +95,7 @@
             "id": 7,
             "makerId": 1,
             "makerName": "测试一",
-            "type": "JavaScript",
+            "type": "Ruby",
             "answerPath": "/homework-answer/fibonacci_series",
             "uri": "homeworkQuizzes/7"
           },
@@ -108,7 +108,7 @@
             "id": 8,
             "makerId": 1,
             "makerName": "测试一",
-            "type": "JavaScript",
+            "type": "Ruby",
             "answerPath": "/homework-answer/collection",
             "uri": "homeworkQuizzes/8"
           }

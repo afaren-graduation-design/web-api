@@ -2,18 +2,17 @@ import async from 'async';
 import Message from '../../models/messages';
 
 export default class ToggleToReadHandler {
-  check({state}) {
-    if (state === 0) {
-      return true;
-    } else {
-      return false;
-    }
+  check(state) {
+    return state === 0;
   }
 
-  handle({messageId, state}, callback) {
+  handle(msgObj, callback) {
+    if (!this.check(msgObj.state)) {
+      callback();
+    }
     async.waterfall([
       (done) => {
-        Message.update({'_id': messageId}, {state: 1}, done);
+        Message.update({'_id': msgObj._id}, {state: 1}, done);
       }
     ], callback);
   }
