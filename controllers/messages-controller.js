@@ -70,7 +70,7 @@ export default class MessagesController {
               callback(err, null);
             }
             callback(null, Object.assign({},
-                    {from: message.from, to: message.to, type: message.type, deeplink: message.deeplink, state: message.state},
+                    {_id: message._id, from: message.from, to: message.to, type: message.type, deeplink: message.deeplink, state: message.state},
                     {name: res.body.name}));
           });
         }, (err, result) => {

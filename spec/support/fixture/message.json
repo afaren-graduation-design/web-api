@@ -24,6 +24,30 @@
     "state": 0
   },
   {
+    "_id": "585bc4e613c65e2f61fede23",
+    "from": 2,
+    "to": 1,
+    "type" :"agreementinvitation",
+    "deeplink":"",
+    "state": 0
+  },
+  {
+    "_id": "585bc4e613c65e2f61fede26",
+    "from": 2,
+    "to": 1,
+    "type" :"agreementrequestAnswer",
+    "deeplink":"papers/1/sections/1/homeworks/1",
+    "state": 0
+  },
+  {
+    "_id": "585bc4e613c65e2f61fede27",
+    "from": 2,
+    "to": 1,
+    "type" :"disagreementrequestAnswer",
+    "deeplink":"papers/1/sections/1/homeworks/1",
+    "state": 0
+  },
+  {
     "_id": "585bc4e613c65e2f61fede24",
     "from": 2,
     "to": 1,
