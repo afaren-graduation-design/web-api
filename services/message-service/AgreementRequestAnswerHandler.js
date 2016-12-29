@@ -1,15 +1,14 @@
 import async from 'async';
 import Message from '../../models/messages';
+import OperateHandler from './OperateHandler';
 
-export default class AgreementRequestAnswerHandler {
+export default class AgreementRequestAnswerHandler extends OperateHandler {
   check(msgObj) {
     return (msgObj.operation === 'agreement' && msgObj.type === 'requestAnswer');
   }
 
-  handle(msgObj, callback) {
-    if (!this.check(msgObj)) {
-      return callback();
-    }
+  realHandle(msgObj, callback) {
+
     async.waterfall([
       (done) => {
         Message.findById(msgObj._id, done);
