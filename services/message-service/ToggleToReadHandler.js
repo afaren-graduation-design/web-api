@@ -3,8 +3,6 @@ import OperateHandler from './OperateHandler';
 
 export default class ToggleToReadHandler extends OperateHandler {
   check({state}) {
-    console.log(state)
-    console.log(state === 0)
     return state === 0;
   }
 
