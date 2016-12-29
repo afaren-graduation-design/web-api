@@ -5,7 +5,7 @@ var httpStatus = require('../mixin/constant').httpCode;
 
 export default class MessagesController {
 
-  find(req, res) {
+  search(req, res) {
     const from = req.session.user.id;
     async.waterfall([
       (done) => {
@@ -45,6 +45,46 @@ export default class MessagesController {
         });
   }
 
+  findUnread(req, res) {
+    const to = req.session.user.id;
+    async.waterfall([
+          (done) => {
+            Message.find({to: to, state: 0}, done);
+          }, (data, done) => {
+            if (!data) {
+              var error = httpStatus.NOT_FOUND;
+              done(error, null);
+            } else {
+              done(null, data);
+            }
+          },
+          (data, done) => {
+            console.log('find out-----');
+            console.log(data);
+            async.map(data, (message, callback) => {
+              apiRequest.get(`users/${message.from}/detail`, (err, res) => {
+                if (err) {
+                  callback(err, null);
+                }
+                callback(null, Object.assign({},
+                    {from: message.from, to: message.to, type: message.type, deeplink: message.deeplink, state: message.state},
+                    {name: res.body.name}));
+              });
+            }, (err, result) => {
+              done(err, result);
+            });
+          }],
+        (err, result) => {
+          console.log('paper---');
+          console.log(result);
+          if (err) {
+            res.send(err);
+          } else {
+            res.status(200).send(result);
+          }
+        });
+
+  }
   create(req, res) {
     const from = req.session.user.id;
     const data = Object.assign({}, req.body, {from});

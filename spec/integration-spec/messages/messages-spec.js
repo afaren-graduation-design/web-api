@@ -37,3 +37,12 @@ describe("GET /messages", ()=> {
         .end(done)
   });
 });
+
+describe("GET /messages/unread", () => {
+  it('should be return 200: GET /messages/unread',function (done) {
+    userSession
+        .get("/message/unread")
+        .expect(200)
+        .end(done)
+  })
+});

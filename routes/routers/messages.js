@@ -6,7 +6,8 @@ var msgController = new MessagesController();
 var router = express.Router();
 
 router.post('/', msgController.create);
-router.get('/', msgController.find);
+router.get('/', msgController.search);
+router.get('/unread', msgController.findUnread);
 router.post('/:messagesId/:operation', msgController.createNewMessage);
 
 module.exports = router;
