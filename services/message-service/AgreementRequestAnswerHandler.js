@@ -4,7 +4,7 @@ import OperateHandler from './OperateHandler';
 
 export default class AgreementRequestAnswerHandler extends OperateHandler {
   check(msgObj) {
-    return (msgObj.operation === 'agreement' && msgObj.type === 'requestAnswer');
+    return (msgObj.operation === 'agreement' && msgObj.type === 'REQUEST_ANSWER');
   }
 
   subHandle(msgObj, callback) {
@@ -21,7 +21,7 @@ export default class AgreementRequestAnswerHandler extends OperateHandler {
           from: data.to,
           to: data.from,
           deeplink: data.deeplink,
-          type: 'agreeRequestAnswer',
+          type: 'AGREE_REQUEST_ANSWER',
           state: 0
         };
         new Message(newMessage).save(done);

@@ -4,7 +4,7 @@ import OperateHandler from './OperateHandler';
 
 export default class DisAgreementRequestAnswerHandler extends OperateHandler {
   check(msgObj) {
-    return (msgObj.operation === 'disagreement' && msgObj.type === 'requestAnswer');
+    return (msgObj.operation === 'disagreement' && msgObj.type === 'REQUEST_ANSWER');
   }
 
   subHandle(msgObj, callback) {
@@ -21,7 +21,7 @@ export default class DisAgreementRequestAnswerHandler extends OperateHandler {
           deeplink: data.deeplink,
           from: data.to,
           to: data.from,
-          type: 'disagreeRequestAnswer',
+          type: 'DISAGREE_REQUEST_ANSWER',
           state: 0
         };
         new Message(newData).save(done);
