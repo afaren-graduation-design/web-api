@@ -148,7 +148,7 @@ describe('AgreementRequestAnswerHandler', () => {
   });
 
   it('handle should make type to agreementRequestAnser and state to 1', () => {
-    const msgId = '585bc4e613c65e2f61fede25';
+    const msgId = '585bc4e613c65e2f61fede26';
     let agreementRequestAnswerHandler = new AgreementRequestAnswerHandler();
     agreementRequestAnswerHandler.handle(msgId, (err, data) => {
       Message.findById(msgId, (err, doc) => {

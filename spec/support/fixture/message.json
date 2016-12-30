@@ -3,72 +3,80 @@
     "_id": "585bc4e613c65e2f61fede25",
     "from": 1,
     "to": 2,
-    "type" :"requestAnswer",
-    "deeplink":"papers/1/sections/1/homeworks/1",
+    "type": "requestAnswer",
+    "deeplink": "papers/1/sections/1/homeworks/1",
+    "state": 0
+  },
+  {
+    "_id": "585bc4e613c65e2f61fede26",
+    "from": 1,
+    "to": 2,
+    "type": "requestAnswer",
+    "deeplink": "papers/1/sections/1/homeworks/1",
     "state": 0
   },
   {
     "_id": "585bc4e613c65e2f61fede22",
     "from": 2,
     "to": 1,
-    "type" :"agreeRequestAnswer",
-    "deeplink":"papers/1/sections/1/homeworks/1",
+    "type": "agreeRequestAnswer",
+    "deeplink": "papers/1/sections/1/homeworks/1",
     "state": 1
   },
   {
     "_id": "585bc4e613c65e2f61fede23",
     "from": 2,
     "to": 1,
-    "type" :"requestAnswer",
-    "deeplink":"papers/1/sections/1/homeworks/1",
+    "type": "requestAnswer",
+    "deeplink": "papers/1/sections/1/homeworks/1",
     "state": 0
   },
   {
     "_id": "585bc4e613c65e2f61fede28",
     "from": 2,
     "to": 1,
-    "type" :"agreementinvitation",
-    "deeplink":"",
+    "type": "agreementinvitation",
+    "deeplink": "",
     "state": 0
   },
   {
     "_id": "585bc4e613c65e2f61fede26",
     "from": 2,
     "to": 1,
-    "type" :"agreementrequestAnswer",
-    "deeplink":"papers/1/sections/1/homeworks/1",
+    "type": "agreementrequestAnswer",
+    "deeplink": "papers/1/sections/1/homeworks/1",
     "state": 0
   },
   {
     "_id": "585bc4e613c65e2f61fede27",
     "from": 2,
     "to": 1,
-    "type" :"disagreementrequestAnswer",
-    "deeplink":"papers/1/sections/1/homeworks/1",
+    "type": "disagreementrequestAnswer",
+    "deeplink": "papers/1/sections/1/homeworks/1",
     "state": 0
   },
   {
     "_id": "585bc4e613c65e2f61fede24",
     "from": 2,
     "to": 1,
-    "type" :"invitation",
-    "deeplink":"",
+    "type": "invitation",
+    "deeplink": "",
     "state": 0
   },
   {
     "_id": "585bc4e613c65e2f61fede20",
     "from": 2,
     "to": 1,
-    "type" :"invitation",
-    "deeplink":"",
+    "type": "invitation",
+    "deeplink": "",
     "state": 0
   },
   {
     "_id": "585bc4e613c65e2f61fede21",
     "from": 1,
     "to": 2,
-    "type" :"disagreeRequestAnswer",
-    "deeplink":"papers/1/sections/1/homeworks/2",
+    "type": "disagreeRequestAnswer",
+    "deeplink": "papers/1/sections/1/homeworks/2",
     "state": 1
   }
 ]
