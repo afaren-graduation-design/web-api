@@ -76,7 +76,7 @@ describe('ToggleToReadHandler', () => {
   });
 });
 
-describe('DisagreementRequestAnswerHandler', () => {
+describe.only('DisagreementRequestAnswerHandler', () => {
 
   it('check should return false when input operation is not disagreement', () => {
     const msgObj = {
@@ -98,7 +98,7 @@ describe('DisagreementRequestAnswerHandler', () => {
     result.should.equal(true);
   });
 
-  it('handle should make type to requestAnser & state to 1', (done) => {
+  it('handle should make type to requestAnser & state to 0', (done) => {
     const msgObj = {
       '_id': '585bc4e613c65e2f61fede25',
       type: 'requestAnswer',
@@ -109,13 +109,13 @@ describe('DisagreementRequestAnswerHandler', () => {
 
       Message.findById(msgObj._id, (err, doc) => {
         let data = doc.toJSON();
-        let newData = {from: data.to, to: data.from, type: 'disagreeRequestAnswer', state: 1};
+        let newData = {from: data.to, to: data.from, type: 'disagreeRequestAnswer', state: 0};
         Message.findOne(newData, (err, doc) => {
           const {from, to, type, state} = doc.toJSON();
           from.should.equal(data.to);
           to.should.equal(data.from);
           type.should.equal('disagreeRequestAnswer');
-          state.should.equal(1);
+          state.should.equal(0);
           done(err);
         });
       });
@@ -147,7 +147,7 @@ describe('AgreementRequestAnswerHandler', () => {
     checkAnswer.should.equal(false);
   });
 
-  it('handle should make type to agreementRequestAnser and state to 1', () => {
+  it('handle should make type to agreementRequestAnser and state to 0', () => {
     const msgId = '585bc4e613c65e2f61fede26';
     let agreementRequestAnswerHandler = new AgreementRequestAnswerHandler();
     agreementRequestAnswerHandler.handle(msgId, (err, data) => {
@@ -158,14 +158,14 @@ describe('AgreementRequestAnswerHandler', () => {
           to: data.from,
           deeplink: data.deeplink,
           type: 'agreeRequestAnswer',
-          state: 1
+          state: 0
         };
         Message.findOne(newMessage, (err, doc) => {
           const {from, to, type, state} = doc.toJSON();
           from.should.equal(data.to);
           to.should.equal(data.from);
           type.should.equal('agreeRequestAnswer');
-          state.should.equal(1);
+          state.should.equal(0);
           done(err);
         });
       });

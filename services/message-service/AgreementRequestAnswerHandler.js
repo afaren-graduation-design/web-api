@@ -22,7 +22,7 @@ export default class AgreementRequestAnswerHandler extends OperateHandler {
           to: data.from,
           deeplink: data.deeplink,
           type: 'agreeRequestAnswer',
-          state: 1
+          state: 0
         };
         new Message(newMessage).save(done);
       }

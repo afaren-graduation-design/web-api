@@ -22,7 +22,7 @@ export default class DisAgreementRequestAnswerHandler extends OperateHandler {
           from: data.to,
           to: data.from,
           type: 'disagreeRequestAnswer',
-          state: 1
+          state: 0
         };
         new Message(newData).save(done);
       }
