@@ -12,7 +12,7 @@ export default class DisAgreementRequestAnswerHandler extends OperateHandler {
       (done) => {
         Message.update({'_id': msgObj._id}, {state: 1}, done);
       },
-      (err, done) => {
+      (data, done) => {
         Message.findById(msgObj._id, done);
       },
 

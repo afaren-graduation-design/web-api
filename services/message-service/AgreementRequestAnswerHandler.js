@@ -10,6 +10,9 @@ export default class AgreementRequestAnswerHandler extends OperateHandler {
   subHandle(msgObj, callback) {
     async.waterfall([
       (done) => {
+        Message.update({'_id': msgObj._id}, {state: 1}, done);
+      },
+      (data, done) => {
         Message.findById(msgObj._id, done);
       },
 
