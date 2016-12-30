@@ -10,6 +10,9 @@ export default class DisAgreementRequestAnswerHandler extends OperateHandler {
   subHandle(msgObj, callback) {
     async.waterfall([
       (done) => {
+        Message.update({'_id': msgObj._id}, {state: 1}, done);
+      },
+      (err, done) => {
         Message.findById(msgObj._id, done);
       },
 
