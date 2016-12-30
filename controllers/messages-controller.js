@@ -83,7 +83,7 @@ export default class MessagesController {
       if (err) {
         return next(err);
       }
-      res.sendStatus(201);
+      res.sendStatus(204);
     });
   }
 }

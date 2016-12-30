@@ -36,6 +36,7 @@ describe('ToggleToReadHandler', () => {
   it('check whether state is 0', () => {
     const msgObj = {
       messageId: '585bc4e613c65e2f61fede25',
+      operation: 'read',
       state: 0
     };
 
@@ -47,6 +48,7 @@ describe('ToggleToReadHandler', () => {
   it('check whether state is not 0', () => {
     const msgObj = {
       messageId: '585bc4e613c65e2f61fede25',
+      operation: 'agreement',
       state: 1
     };
 
@@ -58,6 +60,7 @@ describe('ToggleToReadHandler', () => {
   it('change state from 0 to 1', () => {
     const msgObj = {
       messageId: '585bc4e613c65e2f61fede25',
+      operation: 'read',
       state: 0
     };
 
