@@ -3,7 +3,7 @@
     "_id": "585bc4e613c65e2f61fede25",
     "from": 1,
     "to": 2,
-    "type": "requestAnswer",
+    "type": "REQUEST_ANSWER",
     "deeplink": "papers/1/sections/1/homeworks/1",
     "state": 0
   },
@@ -11,7 +11,7 @@
     "_id": "585bc4e613c65e2f61fede26",
     "from": 1,
     "to": 2,
-    "type": "requestAnswer",
+    "type": "REQUEST_ANSWER",
     "deeplink": "papers/1/sections/1/homeworks/1",
     "state": 0
   },
@@ -19,7 +19,7 @@
     "_id": "585bc4e613c65e2f61fede22",
     "from": 2,
     "to": 1,
-    "type": "agreeRequestAnswer",
+    "type": "AGREE_REQUEST_ANSWER",
     "deeplink": "papers/1/sections/1/homeworks/1",
     "state": 1
   },
@@ -27,7 +27,7 @@
     "_id": "585bc4e613c65e2f61fede23",
     "from": 2,
     "to": 1,
-    "type": "requestAnswer",
+    "type": "REQUEST_ANSWER",
     "deeplink": "papers/1/sections/1/homeworks/1",
     "state": 0
   },
@@ -35,7 +35,7 @@
     "_id": "585bc4e613c65e2f61fede28",
     "from": 2,
     "to": 1,
-    "type": "agreementinvitation",
+    "type": "AGREE_INVITATION",
     "deeplink": "",
     "state": 0
   },
@@ -43,7 +43,7 @@
     "_id": "585bc4e613c65e2f61fede26",
     "from": 2,
     "to": 1,
-    "type": "agreementrequestAnswer",
+    "type": "AGREE_REQUEST_ANSWER",
     "deeplink": "papers/1/sections/1/homeworks/1",
     "state": 0
   },
@@ -51,7 +51,7 @@
     "_id": "585bc4e613c65e2f61fede27",
     "from": 2,
     "to": 1,
-    "type": "disagreementrequestAnswer",
+    "type": "DISAGREE_REQUEST_ANSWER",
     "deeplink": "papers/1/sections/1/homeworks/1",
     "state": 0
   },
@@ -59,7 +59,7 @@
     "_id": "585bc4e613c65e2f61fede24",
     "from": 2,
     "to": 1,
-    "type": "invitation",
+    "type": "INVITATION",
     "deeplink": "",
     "state": 0
   },
@@ -67,7 +67,7 @@
     "_id": "585bc4e613c65e2f61fede20",
     "from": 2,
     "to": 1,
-    "type": "invitation",
+    "type": "INVITATION",
     "deeplink": "",
     "state": 0
   },
@@ -75,7 +75,7 @@
     "_id": "585bc4e613c65e2f61fede21",
     "from": 1,
     "to": 2,
-    "type": "disagreeRequestAnswer",
+    "type": "DISAGREE_REQUEST_ANSWER",
     "deeplink": "papers/1/sections/1/homeworks/2",
     "state": 1
   }
