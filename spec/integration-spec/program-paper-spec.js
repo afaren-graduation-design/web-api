@@ -13,14 +13,11 @@ describe('GET programs/:programId/papers', ()=> {
   })
 });
 
-describe('GET programs/:programId/papers/:paperId', ()=> {
-  it('should be return a paper: GET  programs/:programId/papers/:paperId', (done)=> {
+describe('POST programs/:programId/papers/:paperId', ()=> {
+  it.only('should be save a paper in mongodb: post  programs/:programId/papers', (done)=> {
     userSession
       .get('/programs/1/papers/1')
       .expect(200)
-      .expect((res) => {
-        res.body.data.paperName.should.equal('简单的试卷');
-      })
       .end(done);
   })
 });

@@ -13,8 +13,9 @@ describe('paperSrv', () => {
     paperSrv = new PaperService();
   });
 
-  it.only('retrieve() should return one paper', function (done) {
+  it('retrieve() should return one paper', function (done) {
     paperSrv.retrieve({userId: 1, programId: 1, paperId: 1}, (err, data) => {
+      data.status.should.equal(200);
       done();
     })
   });

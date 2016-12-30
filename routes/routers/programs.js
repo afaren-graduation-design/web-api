@@ -16,5 +16,5 @@ router.post('/:programId/paperDefinitions/distribution', paperDefinitionControll
 router.put('/:programId/paperDefinitions/:paperId/distribution', paperDefinitionController.distributePaperDefinitionById);
 
 router.get('/:programId/papers', programPaperController.getPaperList);
-router.get('/:programId/papers/:paperId', programPaperController.retrievePaper);
+router.post('/:programId/papers/:paperId', programPaperController.retrievePaper);
 module.exports = router;

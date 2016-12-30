@@ -51,7 +51,6 @@ before(function(done) {
     loginAsUser,
     loginAsAdmin
   ], function(err, data) {
-
     done(err);
   })
 });
@@ -61,5 +60,6 @@ after(function(done) {
 });
 
 beforeEach(function(done) {
+  console.log('before')
   mongoTools.refresh(done);
 });

@@ -28,5 +28,5 @@ paperLogicPuzzleSchema.statics.findOrCreate = (condition, data, done) => {
   });
 };
 
-
 module.exports = mongoose.model('PaperLogicPuzzle', paperLogicPuzzleSchema);
+

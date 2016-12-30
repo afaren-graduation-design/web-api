@@ -1,143 +1,41 @@
-const Paper = require('../../models/paper');
-const PaperLogicPuzzle = require('../../models/paper-logic-puzzle');
-const async = require('async');
-const request = require('superagent');
-const apiRequest = require('../api-request');
-const PaperHomeworkQuiz = require('../../models/paper-homework-quiz');
-const PaperLogicPuzzleHandler = require('./paper-logic-puzzle-handler');
-const saveBlankQuiz = (quiz, callback) => {
-  async.waterfall([
-    (done) => {
-      PaperLogicPuzzle.findOne({id: quiz.id}, done);
-    },
-    (data, done) => {
-      if (data) {
-        done(null, data);
-      }
-
-      let puzzle = new PaperLogicPuzzle(quiz);
-
-      puzzle.save((err) => {
-        let obj = Object.assign({}, puzzle.toJSON(), {
-          type: 'logicPuzzle'
-        });
-        done(err, obj);
-      });
-    }
-  ], callback);
-};
-
-const addBlankQuiz = (section, callback) => {
-  let {items_uri} = section.quizzes[0];
-  async.waterfall([
-    (done) => {
-      request(`http://localhost:8080/paper-api/${items_uri}`) //eslint-disable-line
-        .end((err, res) => {
-          done(err, res.body.quizItems);
-        });
-    },
-    (quizzes, done) => {
-      async.map(quizzes, saveBlankQuiz, done);
-    }
-  ], (err, data) => {
-    callback(err, {
-      type: 'logicPuzzle',
-      items: data.map((item) => item._id)
-    });
-  });
-};
-
-const defaultHandler = (section, cb) => {
-  cb(null);
-};
-
+import apiRequest from '../../services/api-request';
+import async from 'async';
+import Paper from '../../models/Paper';
+import LogicPuzzleHandler from './paper-logic-puzzle-handler';
+import HomeworkQuizHandler from './paper-homework-quiz-handler';
 const handlerMap = {
-  blankQuizzes: new PaperLogicPuzzleHandler(),
-  homeworkQuizzes: defaultHandler
+  'blankQuizzes': new LogicPuzzleHandler(),
+  'homeworkQuizzes': new HomeworkQuizHandler()
 };
 
-class PaperService {
-
-
-  retrieve({programId, paperId, userId}, cb) {
-    let paperUri = `programs/${programId}/papers/${paperId}`;
-
+export default class PaperService {
+  retrieve(condition, cb) {
     async.waterfall([
       (done) => {
-        Paper.findOne({programId, paperId, userId}, done);
+        Paper.findOne(condition, done);
       },
       (doc, done) => {
-        if (!doc) {
-          apiRequest.get(paperUri, done)
-        } else {
-          done({msg: 'paper exist'});
-        }
+        done(doc);
       },
-      (data,done)=>{
-        async.map(data.body.sections, (section, callback) => {
-          handlerMap[section.sectionType].bulkFindOrCreate(section, callback)
-        },done)
+      (done) => {
+        let pathUri = `programs/${condition.programId}/papers/${condition.paperId}`;
+        apiRequest.get(pathUri, done);
       },
-      (sections, done) => {
-        new Paper({programId, paperId, userId, sections}).save(done);
+      (resp, done) => {
+        async.map(resp.body.sections, (section, callback) => {
+          handlerMap[section.sectionType].bulkFindOrCreate(section, callback);
+        }, done);
+      },
+      (result, done) => {
+        let data = Object.assign({}, {sections: result}, condition, {paperUri: `programs/${condition.programId}/papers/${condition.paperId}`});
+        new Paper(data).save(done);
       }
     ], (err) => {
-      if (err) {
-        if (err.msg === 'paper exist') {
-          cb(null, {msg: err.msg})
-        }
-        throw err;
+      if (!err || err._id) {
+        cb(null, {status: 200});
       } else {
-        cb(null, {msg: 'success'})
+        throw err;
       }
-
-
-    })
-
-  }
-
-  addPaperForUser({paperName, id, programId, userId, sections}, cb) {
-    async.waterfall([
-      (done) => {
-        let paperData = {
-          programId,
-          paperId: id,
-          userId
-        };
-        Paper.findOrCreate(paperData, done);
-      },
-
-      (paper, done) => {
-        async.map(sections, this.addSection, (err, results) => {
-          if (err) {
-            throw err;
-          }
-          paper.sections = paper.sections || [];
-
-          results.forEach((item) => {
-            if (!item) {
-              return;
-            }
-            paper.sections.push(item);
-          });
-          done(null, paper);
-        });
-      },
-
-      (paper, done) => {
-        paper.save((err) => {
-          done(err, paper);
-        });
-      }
-    ], cb);
-  }
-
-  addSection(section, cb) {
-    const handleFunc = handlerMap[section.sectionType] || defaultHandler;
-    handleFunc(section, (err, results) => {
-      cb(err, results);
     });
   }
 }
-
-module.exports = PaperService; //eslint-disable-line
