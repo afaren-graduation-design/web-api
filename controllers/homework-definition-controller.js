@@ -1,5 +1,4 @@
 'use strict';
-import time from './init-moment';
 
 var HomeworkDefinition = require('../models/homework-definition');
 var apiRequest = require('../services/api-request');
@@ -8,6 +7,7 @@ var addMakerName = require('../tool/addMakerName');
 var os = require('os');
 var request = require('superagent');
 var async = require('async');
+var constant = require('../mixin/constant');
 
 function HomeworkDefinitionController() {
 };
@@ -54,30 +54,30 @@ HomeworkDefinitionController.prototype.matchHomework = (req, res) => {
   let name = req.query.name;
   let homeworks;
   HomeworkDefinition.find({name, isDeleted: false}).limit(Number(pageCount))
-      .skip(skipCount).exec((err, data) => {
-        HomeworkDefinition.count({isDeleted: false}, (error, count) => {
-          if (!err && !error && count && data) {
-            let totalPage = Math.ceil(count / pageCount);
-            let ids = data.map((homework) => {
-              return homework.makerId;
-            });
-            let id = unique(ids);
-            apiRequest.get('users/' + id + '/detail', (err, resp) => {
-              if (!err && resp) {
-                homeworks = addMakerName(resp, data);
-                if (page === totalPage) {
-                  return res.status(202).send({data: homeworks, totalPage});
-                }
-                return res.status(200).send({data: homeworks, totalPage});
-              } else {
-                res.sendStatus(404);
+    .skip(skipCount).exec((err, data) => {
+      HomeworkDefinition.count({isDeleted: false}, (error, count) => {
+        if (!err && !error && count && data) {
+          let totalPage = Math.ceil(count / pageCount);
+          let ids = data.map((homework) => {
+            return homework.makerId;
+          });
+          let id = unique(ids);
+          apiRequest.get('users/' + id + '/detail', (err, resp) => {
+            if (!err && resp) {
+              homeworks = addMakerName(resp, data);
+              if (page === totalPage) {
+                return res.status(202).send({data: homeworks, totalPage});
               }
-            });
-          } else {
-            res.sendStatus(404);
-          }
-        });
+              return res.status(200).send({data: homeworks, totalPage});
+            } else {
+              res.sendStatus(404);
+            }
+          });
+        } else {
+          res.sendStatus(404);
+        }
       });
+    });
 };
 
 HomeworkDefinitionController.prototype.getOneHomework = (req, res) => {
@@ -123,7 +123,11 @@ HomeworkDefinitionController.prototype.deleteSomeHomeworks = (req, res) => {
 HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
   var id = req.params.dataId;
   var {description, status, result} = req.body;
-  var createTime = parseInt(time.split('-').join(''));
+  var createTime = parseInt(new Date().getTime()) /
+    (constant.time.SECONDS_PER_MINUTE *
+    constant.time.MINUTE_PER_HOUR *
+    constant.time.HOURS_PER_DAY *
+    constant.time.MILLISECOND_PER_SECONDS);
   var answerPath = 'test path'; // Fixme
   var evaluateScript = req.file ? `./${req.file.path}` : '';
   if (status === '2') {
@@ -232,14 +236,14 @@ HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
       res.sendStatus(204);
       let callbackUrl = `${getIp()}/api/homeworkDefinitions/${homeworkId}/status`;
       request
-          .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
-          .send({git: definitionRepo, callback_url: callbackUrl})
-          .type('form')
-          .end((err, resp) => {
-            if (err) {
-              done(err, resp);
-            }
-          });
+        .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
+        .send({git: definitionRepo, callback_url: callbackUrl})
+        .type('form')
+        .end((err, resp) => {
+          if (err) {
+            done(err, resp);
+          }
+        });
     }
   ], (err, data) => {
     HomeworkDefinition.update({_id: homeworkId}, {$set: {status: 0}}).exec((err) => {
@@ -275,20 +279,20 @@ HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
     }, (data, done) => {
       const callbackUrl = `${getIp()}/api/homeworkDefinitions/${data._id}/status`;
       request
-          .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
-          .send({
-            git: definitionRepo,
-            callback_url: callbackUrl
-          })
-          .type('form')
-          .end((err, resp) => {
-            if (err || !resp) {
-              error.status = 1;
-              error.err = err;
-              done(error, data);
-            }
-            res.status(200).send({id: data._id});
-          });
+        .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
+        .send({
+          git: definitionRepo,
+          callback_url: callbackUrl
+        })
+        .type('form')
+        .end((err, resp) => {
+          if (err || !resp) {
+            error.status = 1;
+            error.err = err;
+            done(error, data);
+          }
+          res.status(200).send({id: data._id});
+        });
     }], (error, data) => {
     if (error.status === 1) {
       HomeworkDefinition.update({_id: data._id}, {$set: {status: 0}}).exec((err, data) => {

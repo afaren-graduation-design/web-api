@@ -1,5 +1,5 @@
 require('../spec-base');
-userSession = global.userSession;
+var userSession = global.userSession;
 
 describe('/user/feedback', ()=> {
 

@@ -167,6 +167,7 @@ describe("POST /programs/1/paperDefinitions/distribution", ()=> {
     userSession
         .post('/programs/1/paperDefinitions/distribution')
         .send({data: {
+          createTime: 111111,
           paperName: "new title",
           description: "描述",
           sections: [
@@ -195,6 +196,7 @@ describe("PUT /programs/1/paperDefinitions/:paperId/distribution", ()=> {
     userSession
         .put('/programs/1/paperDefinitions/5829958a7007c23870a1d68a/distribution')
         .send({data: {
+          updateTime: 111111,
           paperName: "new title",
           description: "描述",
           sections: [

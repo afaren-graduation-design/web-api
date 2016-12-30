@@ -28,9 +28,9 @@ describe("GET /homeworks/homeworkList/selection", ()=> {
         pageCount: 3,
         name: 'homework1'
       })
-      .expect(202)
+      .expect(200)
       .expect((res)=> {
-        res.body.homeworkList.length.should.equal(1)
+        res.body.length.should.equal(8)
       })
       .end(done)
   })

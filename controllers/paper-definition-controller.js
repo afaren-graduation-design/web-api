@@ -1,6 +1,4 @@
 'use strict';
-import time from './init-moment';
-
 var apiRequest = require('../services/api-request');
 var constant = require('../mixin/constant');
 var PaperDefinition = require('../models/paper-definition');
@@ -27,7 +25,11 @@ PaperDefinitionController.prototype.getPaperDefinition = (req, res, next) => {
 PaperDefinitionController.prototype.savePaperDefinition = (req, res, next) => {
   var programId = req.params.programId;
   var makerId = req.session.user.id;
-  var createTime = time;
+  var createTime = parseInt(new Date().getTime()) /
+    (constant.time.SECONDS_PER_MINUTE *
+    constant.time.MINUTE_PER_HOUR *
+    constant.time.HOURS_PER_DAY *
+    constant.time.MILLISECOND_PER_SECONDS);
   var updateTime = createTime;
   var {paperName, description, sections} = req.body.data;
   new PaperDefinition({
@@ -55,7 +57,12 @@ PaperDefinitionController.prototype.savePaperDefinition = (req, res, next) => {
 PaperDefinitionController.prototype.updatePaperDefinition = (req, res) => {
   var programId = req.params.programId;
   var paperId = req.params.paperId;
-  var updateTime = time;
+  var updateTime = parseInt(new Date().getTime()) /
+    (constant.time.SECONDS_PER_MINUTE *
+    constant.time.MINUTE_PER_HOUR *
+    constant.time.HOURS_PER_DAY *
+    constant.time.MILLISECOND_PER_SECONDS);
+  ;
 
   var {paperName, description, sections} = req.body.data;
   PaperDefinition.update({programId, _id: paperId},
@@ -169,8 +176,12 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
   var {paperName, description, sections} = req.body.data;
   var programId = Number(req.params.programId);
   var makerId = req.session.user.id;
-  var createTime = time;
-  var updateTime = time;
+  var createTime = req.body.data.createTime ? req.body.data.createTime : parseInt(new Date().getTime()) /
+    (constant.time.SECONDS_PER_MINUTE *
+    constant.time.MINUTE_PER_HOUR *
+    constant.time.HOURS_PER_DAY *
+    constant.time.MILLISECOND_PER_SECONDS);
+  var updateTime = createTime;
   var data;
   new PaperDefinition({
     programId,
@@ -212,7 +223,12 @@ PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) =
   var programId = Number(req.params.programId);
   var paperId = req.params.paperId;
   var makerId = req.session.user.id;
-  var updateTime = time;
+  var updateTime = req.body.data.updateTime ? req.body.data.updateTime : (parseInt(new Date().getTime()) /
+      (constant.time.SECONDS_PER_MINUTE *
+      constant.time.MINUTE_PER_HOUR *
+      constant.time.HOURS_PER_DAY *
+      constant.time.MILLISECOND_PER_SECONDS)
+    );
   var data;
   PaperDefinition.update({_id: paperId, programId, isDeleted: false},
     {paperName, description, sections, updateTime}, (err) => {
@@ -221,7 +237,7 @@ PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) =
       }
       var formattedSections = formatSections(sections);
       data = {
-        makerId, createTime: 111111, programId, paperName, description, sections: formattedSections
+        makerId, createTime: updateTime, programId, paperName, description, sections: formattedSections
       };
 
       apiRequest.post('programs/1/papers', data, (error, resp) => {
