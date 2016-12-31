@@ -1,8 +1,8 @@
-const apiRequest = require('../services/api-request');
-import  PaperService from '../services/paper-service/index';
+import apiRequest from '../services/api-request';
+import PaperService from '../services/paper-service/index';
 class ProgramPaperController {
   constructor() {
-    this.paperService = new PaperService()
+    this.paperService = new PaperService();
   };
 
   getPaperList(req, res) {
