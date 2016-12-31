@@ -5,7 +5,6 @@ var path = require("path");
 var fs = require('fs');
 var async = require('async');
 var session = require('supertest-session');
-
 var mongoTools = require('../support/fixture/mongo-tools');
 var mockServer = require('../support/mock-server');
 var app = require('../../app');

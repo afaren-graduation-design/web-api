@@ -14,7 +14,8 @@ describe('GET programs/:programId/papers', ()=> {
 });
 
 describe('POST programs/:programId/papers/:paperId', ()=> {
-  it.only('should be save a paper in mongodb: post  programs/:programId/papers', (done)=> {
+  it('should be save a paper in mongodb: post  programs/:programId/papers', (done)=> {
+    console.log('ppp')
     userSession
       .get('/programs/1/papers/1')
       .expect(200)

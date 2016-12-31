@@ -1,5 +1,6 @@
 var PaperService = require('./services/paper-service');
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/twars');
 
 const data = {

@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var mongoStatus = 'unconnected';
 var start = function(mongoURL) {
   var conn = mongoose.connection;
+  mongoose.Promise = global.Promise;
 
   mongoose.connect(mongoURL);
 
