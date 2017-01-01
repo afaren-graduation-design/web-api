@@ -19,10 +19,6 @@ export default class AgreementRequestAnswerHandler extends OperateHandler {
           from: msgObj.to,
           to: msgObj.from,
           deeplink: msgObj.deeplink,
-          type: 'agreeRequestAnswer',
-          from: data.to,
-          to: data.from,
-          deeplink: data.deeplink,
           type: 'AGREE_REQUEST_ANSWER',
           state: 0
         };

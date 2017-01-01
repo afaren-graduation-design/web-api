@@ -17,10 +17,6 @@ export default class DisAgreementRequestAnswerHandler extends OperateHandler {
           deeplink: msgObj.deeplink,
           from: msgObj.to,
           to: msgObj.from,
-          type: 'disagreeRequestAnswer',
-          deeplink: data.deeplink,
-          from: data.to,
-          to: data.from,
           type: 'DISAGREE_REQUEST_ANSWER',
           state: 0
         };
