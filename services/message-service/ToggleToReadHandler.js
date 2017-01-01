@@ -10,13 +10,9 @@ export default class ToggleToReadHandler extends OperateHandler {
   subHandle(msgObj, callback) {
     async.waterfall([
       (done) => {
-        Message.update({'_id': msgObj._id}, {state: 1}, (data) => {
-          done(null, msgObj);
+        Message.update({'_id': msgObj._id}, {state: 1}, () => {
+          done(null, null);
         });
-      },
-      (msgObj, done) => {
-        Message.findById(msgObj._id, done);
-      }
-    ], callback);
+      }], callback);
   }
 }

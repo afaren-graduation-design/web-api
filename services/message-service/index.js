@@ -20,18 +20,14 @@ export default class MessageService {
           done(err, msgObj);
         });
       },
-      (msgObj, done) => {
-        this.toggleToReadHandler.handle(msgObj, (err, doc) => {
-          done(err, doc);
-        });
+      (data, done) => {
+        this.toggleToReadHandler.handle(msgObj, done);
       },
-      (msgObj, done) => {
-        this.agreementRequestAnswerHandler.handle(msgObj, (err, doc) => {
-          done(err, doc);
-        });
-      },
-      (msgObj, done) => {
+      (data, done) => {
         this.disagreementRequestAnswerHandler.handle(msgObj, done);
+      },
+      (data, done) => {
+        this.agreementRequestAnswerHandler.handle(msgObj, done);
       }
     ], callback);
   }

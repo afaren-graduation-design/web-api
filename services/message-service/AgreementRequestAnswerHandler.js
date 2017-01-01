@@ -10,14 +10,16 @@ export default class AgreementRequestAnswerHandler extends OperateHandler {
   subHandle(msgObj, callback) {
     async.waterfall([
       (done) => {
-        Message.update({'_id': msgObj._id}, {state: 1}, done);
+        Message.update({'_id': msgObj._id}, {state: 1}, () => {
+          done(null, null);
+        });
       },
-      (data, done) => {
-        Message.findById(msgObj._id, done);
-      },
-
       (data, done) => {
         let newMessage = {
+          from: msgObj.to,
+          to: msgObj.from,
+          deeplink: msgObj.deeplink,
+          type: 'agreeRequestAnswer',
           from: data.to,
           to: data.from,
           deeplink: data.deeplink,
@@ -26,6 +28,8 @@ export default class AgreementRequestAnswerHandler extends OperateHandler {
         };
         new Message(newMessage).save(done);
       }
-    ], callback);
+    ], (err, data) => {
+      callback(err, data);
+    });
   }
 }

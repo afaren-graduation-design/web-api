@@ -13,11 +13,11 @@ export default class DisAgreementRequestAnswerHandler extends OperateHandler {
         Message.update({'_id': msgObj._id}, {state: 1}, done);
       },
       (data, done) => {
-        Message.findById(msgObj._id, done);
-      },
-
-      (data, done) => {
         let newData = {
+          deeplink: msgObj.deeplink,
+          from: msgObj.to,
+          to: msgObj.from,
+          type: 'disagreeRequestAnswer',
           deeplink: data.deeplink,
           from: data.to,
           to: data.from,
@@ -26,6 +26,8 @@ export default class DisAgreementRequestAnswerHandler extends OperateHandler {
         };
         new Message(newData).save(done);
       }
-    ], callback);
+    ], (err, data) => {
+      callback(err, data);
+    });
   }
 }
