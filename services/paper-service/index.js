@@ -1,6 +1,6 @@
 import apiRequest from '../../services/api-request';
 import async from 'async';
-import Paper from '../../models/Paper';
+import Paper from '../../models/paper';
 import LogicPuzzleHandler from './paper-logic-puzzle-handler';
 import HomeworkQuizHandler from './paper-homework-quiz-handler';
 const handlerMap = {
