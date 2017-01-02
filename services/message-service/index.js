@@ -3,12 +3,14 @@ import Message from '../../models/messages';
 import AgreementRequestAnswerHandler from './AgreementRequestAnswerHandler';
 import DisagreementRequestAnswerHandler from './DisagreementRequestAnswerHandler';
 import ToggleToReadHandler from './ToggleToReadHandler';
+import DisagreementRequestInvitationHandler from './DisagreementRequestInvitationHandler';
 
 export default class MessageService {
   constructor() {
     this.toggleToReadHandler = new ToggleToReadHandler();
     this.agreementRequestAnswerHandler = new AgreementRequestAnswerHandler();
     this.disagreementRequestAnswerHandler = new DisagreementRequestAnswerHandler();
+    this.disagreementRequestInvitationHandler = new DisagreementRequestInvitationHandler();
   }
 
   operate({messageId, operation}, callback) {
@@ -28,6 +30,9 @@ export default class MessageService {
       },
       (data, done) => {
         this.agreementRequestAnswerHandler.handle(msgObj, done);
+      },
+      (data, done) => {
+        this.disagreementRequestInvitationHandler.handle(msgObj, done);
       }
     ], callback);
   }

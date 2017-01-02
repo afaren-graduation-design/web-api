@@ -2,9 +2,9 @@ import async from 'async';
 import Message from '../../models/messages';
 import OperateHandler from './OperateHandler';
 
-export default class DisAgreementRequestAnswerHandler extends OperateHandler {
+export default class DisAgreementRequestInvitationHandler extends OperateHandler {
   check(msgObj) {
-    return (msgObj.operation === 'disagreement' && msgObj.type === 'REQUEST_ANSWER');
+    return (msgObj.operation === 'disagreement' && msgObj.type === 'INVITATION');
   }
 
   subHandle(msgObj, callback) {
@@ -14,10 +14,9 @@ export default class DisAgreementRequestAnswerHandler extends OperateHandler {
       },
       (data, done) => {
         let newData = {
-          deeplink: msgObj.deeplink,
           from: msgObj.to,
           to: msgObj.from,
-          type: 'DISAGREE_REQUEST_ANSWER',
+          type: 'DISAGREE_INVITATION',
           state: 0
         };
         new Message(newData).save(done);
