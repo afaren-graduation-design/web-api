@@ -4,6 +4,9 @@ import MessageService from '../services/message-service';
 var apiRequest = require('../services/api-request');
 
 export default class MessagesController {
+  constructor() {
+    this.messageService = new MessageService();
+  }
   search(req, res, next) {
     const from = req.session.user.id;
     async.waterfall([
@@ -83,8 +86,7 @@ export default class MessagesController {
   update(req, res, next) {
     const messageId = req.params.messageId;
     const operation = req.params.operation;
-    const messageService = new MessageService();
-    messageService.operate({messageId, operation}, (err, data) => {
+    this.messageService.operate({messageId, operation}, (err, data) => {
       if (err) {
         return next(err);
       }
