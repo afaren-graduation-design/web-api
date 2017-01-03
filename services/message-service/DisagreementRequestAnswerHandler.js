@@ -2,7 +2,7 @@ import async from 'async';
 import Message from '../../models/messages';
 import OperateHandler from './OperateHandler';
 
-export default class DisAgreementRequestAnswerHandler extends OperateHandler {
+export default class DisagreementRequestAnswerHandler extends OperateHandler {
   check(msgObj) {
     return (msgObj.operation === 'disagreement' && msgObj.type === 'REQUEST_ANSWER');
   }
