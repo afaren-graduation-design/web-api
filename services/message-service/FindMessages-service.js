@@ -9,8 +9,9 @@ export default class FindMessagesService {
       (done) => {
         if (state === 0) {
           Message.find({to: id, state: state}, done);
+        } else {
+          Message.find({to: id}, done);
         }
-        Message.find({to: id}, done);
       },
       (data, done) => {
         async.map(data, (message, callback) => {
