@@ -38,7 +38,7 @@ describe("GET /messages", ()=> {
   });
 });
 
-describe("GET /messages/unread", () => {
+describe.only("GET /messages/unread", () => {
   it('should be return 200: GET /messages/unread',function (done) {
     userSession
         .get("/message/unread")

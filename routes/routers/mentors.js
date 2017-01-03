@@ -6,5 +6,6 @@ var mentorsController = new MentorsController();
 var router = express.Router();
 
 router.get('/', mentorsController.search);
+router.get('/search', mentorsController.findMentorOfStudent);
 
 module.exports = router;
