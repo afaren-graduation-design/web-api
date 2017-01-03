@@ -14,35 +14,34 @@ export default class MentorsController {
   }
 
   findMentorOfStudent(req, res, next) {
-    const from = req.session.user.id;
+    const to = req.session.user.id;
     async.waterfall([
       (done) => {
-        Message.find({from: from}, done);
+        Message.find({to: to}, done);
       },
       (data, done) => {
-        var mentorOfStudent = data.map(message => {
-          return {mentorId: message.to, state: message.state};
+        var mentorOfStudent = data.filter(message => {
+          return message.type.indexOf('INVITATION') !== -1;
         });
         done(null, mentorOfStudent);
       },
       (data, done) => {
         async.map(data, (mentor, callback) => {
-          apiRequest.get(`users/${mentor.mentorId}/detail`, (err, res) => {
+          apiRequest.get(`users/${mentor.to}/detail`, (err, res) => {
             if (err) {
               callback(err, null);
             }
-            callback(null, Object.assign({}, {name: res.body.name}, {state: mentor.state}));
+            callback(null, Object.assign({}, {name: res.body.name}, {state: mentor.state}, {type: mentor.type}));
           });
         }, done);
       }],
-      (err, data) => {
-        if (err) {
-          return next(err);
-        } else {
-          res.status(200).send(data);
-        }
-      });
+    (err, data) => {
+      if (err) {
+        return next(err);
+      } else {
+        res.status(200).send(data);
+      }
+    });
   }
-
 }
 
