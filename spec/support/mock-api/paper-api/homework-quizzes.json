@@ -19,7 +19,9 @@
             "makerName": "测试一",
             "type": "JavaScript",
             "answerPath": "/homework-answer/check-readme",
-            "uri": "homeworkQuizzes/1"
+            "uri": "homeworkQuizzes/1",
+             "stackId": 1
+
           },
           {
             "homeworkName": "homework2",
@@ -32,7 +34,9 @@
             "makerName": "测试二",
             "type": "JavaScript",
             "answerPath": "/homework-answer/calculate_median",
-            "uri": "homeworkQuizzes/2"
+            "uri": "homeworkQuizzes/2",
+            "stackId": 2
+
           },
           {
             "homeworkName": "homework3",
@@ -45,7 +49,9 @@
             "makerName": "测试二",
             "type": "Java",
             "answerPath": "/homework-answer/calculate_median",
-            "uri": "homeworkQuizzes/3"
+            "uri": "homeworkQuizzes/3",
+            "stackId": 2
+
           },
           {
             "homeworkName": "homework4",
@@ -58,7 +64,9 @@
             "makerName": "测试一",
             "type": "Java",
             "answerPath": "/homework-answer/configure",
-            "uri": "homeworkQuizzes/4"
+            "uri": "homeworkQuizzes/4",
+            "stackId": 1
+
           },
           {
             "homeworkName": "homework5",
@@ -71,7 +79,9 @@
             "makerName": "测试一",
             "type": "C语言",
             "answerPath": "/homework-answer/collection-calculate-camp",
-            "uri": "homeworkQuizzes/5"
+            "uri": "homeworkQuizzes/5",
+            "stackId": 1
+
           },
           {
             "homeworkName": "homework6",
@@ -84,7 +94,9 @@
             "makerName": "测试一",
             "type": "C语言",
             "answerPath": "/homework-answer/prepos",
-            "uri": "homeworkQuizzes/6"
+            "uri": "homeworkQuizzes/6",
+            "stackId": 3
+
           },
           {
             "homeworkName": "homework7",
@@ -97,7 +109,9 @@
             "makerName": "测试一",
             "type": "Ruby",
             "answerPath": "/homework-answer/fibonacci_series",
-            "uri": "homeworkQuizzes/7"
+            "uri": "homeworkQuizzes/7",
+            "stackId": 3
+
           },
           {
             "homeworkName": "homework8",
@@ -110,7 +124,8 @@
             "makerName": "测试一",
             "type": "Ruby",
             "answerPath": "/homework-answer/collection",
-            "uri": "homeworkQuizzes/8"
+            "uri": "homeworkQuizzes/8",
+            "stackId": 3
           }
         ]
       }
