@@ -21,7 +21,6 @@ class ProgramPaperController {
     var programId = req.params.programId;
     var paperId = req.params.paperId;
     var userId = req.session.user.id;
-    console.log(programId + paperId + userId);
     this.paperService.retrieve({programId, paperId, userId}, (err, data) => {
       if (err) {
         return next(err);
