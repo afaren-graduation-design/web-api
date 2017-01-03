@@ -7,7 +7,7 @@ export default class FindMessagesService {
   findMessage({id, state}, callback) {
     async.waterfall([
       (done) => {
-        if (state) {
+        if (state === 0) {
           Message.find({to: id, state: state}, done);
         }
         Message.find({to: id}, done);
