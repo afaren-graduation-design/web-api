@@ -18,7 +18,7 @@ export default class AgreementInvitationHandler extends OperateHandler {
       (data, done) => {
         const from = msgObj.from;
         const to = msgObj.to;
-        apiRequest.post(`relationshipCreating/${to}/users/${from}`, {}, (err, resp) => {
+        apiRequest.post(`relationshipCreating/${to}/students/${from}`, {}, (err, resp) => {
           if (err) {
             return done(err, null);
           }
