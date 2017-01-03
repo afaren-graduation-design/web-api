@@ -159,9 +159,6 @@ HomeworkController.prototype.getOneQuiz = (req, res, next) => {
       if (err) {
         return next(err);
       }
-
-      console.log("kkkkkkkkk")
-      console.log(data);
       res.send({
         status: constant.httpCode.OK,
         quiz: result,
