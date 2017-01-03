@@ -5,6 +5,19 @@ class ProgramPaperController {
     this.paperService = new PaperService();
   };
 
+  getSection(req, res, next) {
+    var programId = req.params.programId;
+    var paperId = req.params.paperId;
+    var userId = req.session.userId;
+
+    this.paperService.getSection({programId, paperId, userId}, (err, data) => {
+      if (err) {
+        return next(err);
+      }
+      res.sendStatus(200);
+    });
+  }
+
   getPaperList(req, res) {
     var programId = req.params.programId;
     apiRequest.get(`programs/${programId}/papers`, (err, resp) => {
@@ -25,7 +38,7 @@ class ProgramPaperController {
       if (err) {
         return next(err);
       }
-      res.sendStatus(200);
+      res.send({data});
     });
   };
 }
