@@ -51,7 +51,7 @@
     "_id": "585bc4e613c65e2f61fede24",
     "from": 2,
     "to": 1,
-    "type" :"INVITATION",
+    "type" :"DISAGREE_INVITATION",
     "deeplink":"",
     "state": 0
   },
