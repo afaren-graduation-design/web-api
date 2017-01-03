@@ -3,6 +3,7 @@ var async = require('async');
 import MessageService from '../services/message-service';
 var apiRequest = require('../services/api-request');
 
+const messageService = new MessageService();
 export default class MessagesController {
   search(req, res, next) {
     const from = req.session.user.id;
@@ -83,7 +84,6 @@ export default class MessagesController {
   update(req, res, next) {
     const messageId = req.params.messageId;
     const operation = req.params.operation;
-    const messageService = new MessageService();
     messageService.operate({messageId, operation}, (err, data) => {
       if (err) {
         return next(err);
