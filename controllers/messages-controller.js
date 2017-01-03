@@ -1,16 +1,13 @@
 import Message from '../models/messages';
 import MessageService from '../services/message-service';
-import FindMessageService from '../services/message-service/FindMessages-service'
+import FindMessageService from '../services/message-service/FindMessages-service';
 
 const messageService = new MessageService();
+const findMessageService = new FindMessageService();
 export default class MessagesController {
-  constructor() {
-    this.findMessageService = new FindMessageService();
-  }
-
   findAll(req, res, next) {
-    console.log('=====findAll=====');
-    this.findMessageService.findMessage({}, (err, data) => {
+    const id = req.session.user.id;
+    findMessageService.findMessage({id}, (err, data) => {
       if (err) {
         return next(err);
       }
@@ -19,14 +16,13 @@ export default class MessagesController {
   }
 
   findUnread(req, res, next) {
-    console.log('=====findUnread=====');
+    const id = req.session.user.id;
     const state = 0;
-    this.findMessageService.findMessage({state}, (err, data) => {
+    findMessageService.findMessage({id, state}, (err, data) => {
       if (err) {
         return next(err);
       }
-      console.log(data);
-        res.status(200).send(data);
+      res.status(200).send(data);
     });
   }
 

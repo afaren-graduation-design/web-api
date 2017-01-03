@@ -16,32 +16,32 @@ export default class MentorsController {
   findMentorOfStudent(req, res, next) {
     const from = req.session.user.id;
     async.waterfall([
-          (done) => {
-            Message.find({from: from}, done);
-          },
-          (data, done) => {
-            var mentorOfStudent = data.map(message => {
-              return {mentorId: message.to, state: message.state};
-            });
-            done(null, mentorOfStudent);
-          },
-          (data, done) => {
-            async.map(data, (mentor, callback) => {
-              apiRequest.get(`users/${mentor.mentorId}/detail`, (err, res) => {
-                if (err) {
-                  callback(err, null);
-                }
-                callback(null, Object.assign({}, {name: res.body.name}, {state: mentor.state}));
-              });
-            }, done);
-          }],
-        (err, data) => {
-          if (err) {
-            return next(err);
-          } else {
-            res.status(200).send(data);
-          }
+      (done) => {
+        Message.find({from: from}, done);
+      },
+      (data, done) => {
+        var mentorOfStudent = data.map(message => {
+          return {mentorId: message.to, state: message.state};
         });
+        done(null, mentorOfStudent);
+      },
+      (data, done) => {
+        async.map(data, (mentor, callback) => {
+          apiRequest.get(`users/${mentor.mentorId}/detail`, (err, res) => {
+            if (err) {
+              callback(err, null);
+            }
+            callback(null, Object.assign({}, {name: res.body.name}, {state: mentor.state}));
+          });
+        }, done);
+      }],
+      (err, data) => {
+        if (err) {
+          return next(err);
+        } else {
+          res.status(200).send(data);
+        }
+      });
   }
 
 }
