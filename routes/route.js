@@ -34,4 +34,5 @@ exports.setRoutes = (app) => {
   app.use('/homeworkDefinitions', require('./routers/homework-definition'));
   app.use('/messages', require('./routers/messages'));
   app.use('/mentors', require('./routers/mentors'));
+  app.use('/stacks', require('./routers/homework-quizzes'));
 };
