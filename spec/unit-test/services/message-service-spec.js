@@ -2,6 +2,7 @@ import 'should';
 import ToggleToReadHandler from '../../../services/message-service/ToggleToReadHandler';
 import DisagreementRequestAnswerHandler from '../../../services/message-service/DisagreementRequestAnswerHandler';
 import AgreementRequestAnswerHandler from '../../../services/message-service/AgreementRequestAnswerHandler';
+import AgreementInvitationHandler from '../../../services/message-service/AgreementInvitationHandler';
 import MessagService from '../../../services/message-service';
 import Message from '../../../models/messages';
 import '../base';
@@ -125,7 +126,7 @@ describe('DisagreementRequestAnswerHandler', () => {
 
 });
 
-describe.only('AgreementRequestAnswerHandler', () => {
+describe('AgreementRequestAnswerHandler', () => {
   it('check should return true when input operation is not agreement', () => {
     const msgObj = {
       operation: 'agreement',
@@ -171,4 +172,54 @@ describe.only('AgreementRequestAnswerHandler', () => {
       });
     });
   });
+});
+
+describe('AgreementInvitationHandler',()=>{
+  it('check should return false when input operation is not agreement', () => {
+    const msgObj = {
+      type: 'INVITATION',
+      operation: 'disagreement'
+    };
+    let agreementInvitationHandler = new AgreementInvitationHandler();
+    const result = agreementInvitationHandler.check(msgObj);
+    result.should.equal(false);
+  });
+
+  it('check should return true when input operation is agreement', () => {
+    const msgObj = {
+      type: 'INVITATION',
+      operation: 'agreement'
+    };
+    let agreementInvitationHandler = new AgreementInvitationHandler();
+    const result = agreementInvitationHandler.check(msgObj);
+    result.should.equal(true);
+  });
+
+  it('handle should make type to invitation & state to 0', (done) => {
+    const msgObj = {
+      '_id': '585bc4e613c65e2f61fede43',
+      type: 'INVITATION',
+      operation: 'agreement',
+      from:3,
+      to:4
+    };
+    let agreementInvitationHandler = new AgreementInvitationHandler();
+    agreementInvitationHandler.handle(msgObj, (err, data) => {
+
+      Message.findById(msgObj._id, (err, doc) => {
+        let data = doc.toJSON();
+        let newData = {from: data.to, to: data.from, type: 'AGREE_INVITATION', state: 0};
+        Message.findOne(newData, (err, doc) => {
+          const {from, to, type, state} = doc;
+          from.should.equal(data.to);
+          to.should.equal(data.from);
+          type.should.equal('AGREE_INVITATION');
+          state.should.equal(0);
+          done(err);
+        });
+      });
+    });
+
+  });
+
 });

@@ -1,0 +1,12 @@
+[
+  {
+    "description": "should_register_a_user",
+    "request": {
+      "uri": "/relationshipCreating/4/students/3",
+      "method": "post"
+    },
+    "response": {
+      "status":201
+    }
+  }
+]

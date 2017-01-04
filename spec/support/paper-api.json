@@ -58,6 +58,9 @@
   },
   {
     "include": "spec/support/mock-api/paper-api/homework-quizzes/homeworkStacks.json"
+  },
+  {
+    "include": "spec/support/mock-api/paper-api/relationshipCreating.json"
   }
 ]
 
