@@ -1,7 +1,7 @@
 import constant from '../../mixin/constant';
 
 const deadline = 7;
-import AbstractSection from './abstract-section';
+import AbstractSection from '../paper-service/abstract-section';
 
 export default class HomeworkQuizSection extends AbstractSection {
   getStatus() {

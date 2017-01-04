@@ -11,8 +11,8 @@ const handlerMap = {
 };
 
 const handleSection = {
-  'blankQuizzes': new LogicPuzzleSectionService(),
-  'homeworkQuizzes': new HomeWorkQuizSectionService()
+  'logicPuzzle': new LogicPuzzleSectionService(),
+  'homeworkQuiz': new HomeWorkQuizSectionService()
 };
 
 export default class PaperService {

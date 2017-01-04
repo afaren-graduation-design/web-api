@@ -8,7 +8,7 @@ class ProgramPaperController {
   getSection(req, res, next) {
     var programId = req.params.programId;
     var paperId = req.params.paperId;
-    var userId = req.session.userId;
+    var userId = req.session.user.id;
 
     this.paperService.getSection({programId, paperId, userId}, (err, data) => {
       if (err) {

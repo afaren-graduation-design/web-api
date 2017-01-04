@@ -1,6 +1,6 @@
 const _timeBase = 90;
 import constant from '../../mixin/constant';
-import AbstractSection from './abstract-section';
+import AbstractSection from '../paper-service/abstract-section';
 
 export default class LogicPuzzleSection extends AbstractSection {
   getStatus() {
