@@ -3,8 +3,8 @@ import async from 'async';
 import Paper from '../../models/paper';
 import LogicPuzzleHandler from './paper-logic-puzzle-handler';
 import HomeworkQuizHandler from './paper-homework-quiz-handler';
-import LogicPuzzleSectionService from '../logic-puzzle-section-service';
-import HomeWorkQuizSectionService from '../homework-quiz-section-service';
+import LogicPuzzleSectionService from './logic-puzzle-section-service';
+import HomeWorkQuizSectionService from './homework-quiz-section-service';
 const handlerMap = {
   'blankQuizzes': new LogicPuzzleHandler(),
   'homeworkQuizzes': new HomeworkQuizHandler()
@@ -49,19 +49,16 @@ export default class PaperService {
   getSection(condition, cb) {
     async.waterfall([
       (done) => {
-        Paper.findone(condition, done);
+        Paper.findOne(condition, done);
       },
-      (doc, done) => {
-        async.map(doc.sections, (section, callback) => {
+      (docs, done) => {
+        let sections = docs.toJSON().sections;
+        async.map(sections, (section, callback) => {
           handleSection[section.type].getStatus(section, callback);
         }, done);
       }
     ], (err, result) => {
-      if (!err || err._id) {
-        cb(null, result);
-      } else {
-        throw err;
-      }
+      cb(err, result);
     });
   }
 }

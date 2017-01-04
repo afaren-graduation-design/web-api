@@ -14,6 +14,8 @@ var paperSchema = new Schema({
   userId: Number,
   paperUri: String,
   sections: [{
+    startTime: Number,
+    endTime: Number,
     type: {
       $type: String,
       enum: typeEnum

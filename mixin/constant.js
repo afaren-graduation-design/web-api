@@ -37,7 +37,7 @@ var constant = {
     SERVER_ERROR: 500
   },
   sectionStatus: {
-    NOTSTART:3,
+    NOTSTART: 3,
     INCOMPLETE: 0,
     COMPLETE: 1,
     TIMEOUT: 2
