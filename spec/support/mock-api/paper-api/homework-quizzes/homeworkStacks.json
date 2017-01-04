@@ -1,22 +1,31 @@
 [
   {
-    "items": [
-      {
-        "stackId": 1,
-        "title": "JS"
-      },
-      {
-        "stackId": 2,
-        "title": "Java"
-      },
-      {
-        "stackId": 3,
-        "title": "C语言"
-      },
-      {
-        "stackId": 4,
-        "title": "Ruby"
+    "description": "should_return_homework_stacks_when_request_stacks",
+    "request": {
+      "uri": "/stacks",
+      "method": "get"
+    },
+    "response": {
+      "json": {
+        "items": [
+          {
+            "stackId": 1,
+            "title": "JS"
+          },
+          {
+            "stackId": 2,
+            "title": "Java"
+          },
+          {
+            "stackId": 3,
+            "title": "C语言"
+          },
+          {
+            "stackId": 4,
+            "title": "Ruby"
+          }
+        ]
       }
-    ]
+    }
   }
 ]

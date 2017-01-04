@@ -8,7 +8,9 @@ describe("GET /stacks", ()=> {
       .get("/stacks")
       .expect(200)
       .expect(function (res) {
-        res.body.items[0].should.equal({ "stackId": 1, "title": "JS"});
+        console.log(res.body.items[0].stackId)
+        res.body.items[0].stackId.should.equal(1);
+        res.body.items[0].title.should.equal('JS');
       })
       .end(done)
   });

@@ -5,6 +5,6 @@ var HomeworkQuizzesController = require('../../controllers/homework-quizzes-cont
 var homeworkQuizzesController = new HomeworkQuizzesController();
 
 router.get('/:id', homeworkQuizzesController.getOneHomework);
-router.get('/', homeworkQuizzesController.getHomeworkStacks);
+router.get('/', homeworkQuizzesController.getStacks);
 
 module.exports = router;

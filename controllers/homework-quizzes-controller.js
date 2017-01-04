@@ -15,12 +15,12 @@ HomeworkQuizzesController.prototype.getOneHomework = (req, res) => {
   });
 };
 
-HomeworkQuizzesController.prototype.getHomeworkStacks = (req, res) => {
+HomeworkQuizzesController.prototype.getStacks = (req, res) => {
   apiRequest.get('stacks', (err, data) => {
     if (err) {
       return res.sendStatus(400);
     }
-    return res.send(data);
+    return res.send(data.body);
   });
 };
 
