@@ -20,8 +20,9 @@ describe('paperSrv', () => {
     })
   });
 
-  it('getSection() should return sections status object', function (done) {
+  it.only('getSection() should return sections status object', function (done) {
     paperSrv.getSection({userId: 1, programId: 1, paperId: 1}, (err, data) => {
+      console.log(data)
       done();
     })
   });
