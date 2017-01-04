@@ -9,19 +9,15 @@
       "json": {
         "items": [
           {
-            "stackId": 1,
-            "title": "JS"
+            "stackId": 2,
+            "title": "C#"
           },
           {
-            "stackId": 2,
+            "stackId": 1,
             "title": "Java"
           },
           {
             "stackId": 3,
-            "title": "C语言"
-          },
-          {
-            "stackId": 4,
             "title": "Ruby"
           }
         ]
