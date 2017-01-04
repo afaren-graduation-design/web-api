@@ -1,6 +1,4 @@
 var apiRequest = require('../services/api-request');
-var async = require('async');
-import Message from '../models/messages';
 import MentorService from '../services/mentor-service/MentorService';
 
 export default class MentorsController {
@@ -22,7 +20,6 @@ export default class MentorsController {
         return next(err);
       }
       res.status(200).send(data);
-    })
-
+    });
   }
 }
