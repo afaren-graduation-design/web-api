@@ -11,11 +11,11 @@ class ProgramPaperController {
     var paperId = req.params.paperId;
     var userId = req.session.user.id;
 
-    paperService.getSection({programId, paperId, userId}, (err, data) => {
+    paperService.getSection({programId, _id: paperId, userId}, (err, data) => {
       if (err) {
         return next(err);
       }
-      res.sendStatus(200);
+      res.send({data});
     });
   }
 

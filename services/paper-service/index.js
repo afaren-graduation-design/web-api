@@ -22,7 +22,7 @@ export default class PaperService {
         Paper.findOne(condition, done);
       },
       (doc, done) => {
-        done(doc);
+        doc ? done(!!doc, doc) : done(doc);
       },
       (done) => {
         let pathUri = `programs/${condition.programId}/papers/${condition.paperId}`;
@@ -37,11 +37,11 @@ export default class PaperService {
         let data = Object.assign({}, {sections: result}, condition, {paperUri: `programs/${condition.programId}/papers/${condition.paperId}`});
         new Paper(data).save(done);
       }
-    ], (err) => {
-      if (!err || err._id) {
-        cb(null, {status: 200});
+    ], (err, doc) => {
+      if (!err || doc._id) {
+        cb(null, {status: 200, id: doc._id});
       } else {
-        throw err;
+        cb(null, null);
       }
     });
   }

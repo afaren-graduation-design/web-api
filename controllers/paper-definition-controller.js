@@ -176,11 +176,11 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
   var {paperName, description, sections} = req.body.data;
   var programId = Number(req.params.programId);
   var makerId = req.session.user.id;
-  var createTime = req.body.data.createTime ? req.body.data.createTime : parseInt(new Date().getTime()) /
+  var createTime = req.body.data.createTime ? req.body.data.createTime : parseInt(new Date().getTime() /
     (constant.time.SECONDS_PER_MINUTE *
     constant.time.MINUTE_PER_HOUR *
     constant.time.HOURS_PER_DAY *
-    constant.time.MILLISECOND_PER_SECONDS);
+    constant.time.MILLISECOND_PER_SECONDS));
   var updateTime = createTime;
   var data;
   new PaperDefinition({
