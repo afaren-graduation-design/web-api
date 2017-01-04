@@ -27,6 +27,9 @@ export default class AnswerService {
     var requestAnswerReply = {};
     var status;
     userHomeworkQuizzes.findOne({userId: userId, _id: id}, (err, doc) => {
+      if (err) {
+        throw err;
+      }
       var homeworkId = uri.split('/')[1];
       requestAnswerReply.deeplink = `papers/${doc.paperId}/sections/1/homeworks/${homeworkId}`;
       requestAnswerReply.to = userId;

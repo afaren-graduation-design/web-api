@@ -3,7 +3,7 @@ var userSession = global.userSession;
 require('should');
 
 describe("GET /stacks", ()=> {
-  it('should be return 200: GET /stacks', function (done) {
+  it.skip('should be return 200: GET /stacks', function (done) {
     userSession
       .get("/stacks")
       .expect(200)

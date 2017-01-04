@@ -1,16 +1,17 @@
 import apiRequest from '../services/api-request';
 import PaperService from '../services/paper-service/index';
+const paperService = new PaperService();
 class ProgramPaperController {
-  constructor() {
-    this.paperService = new PaperService();
-  };
+  // constructor() {
+  //   this.paperService = new PaperService();
+  // };
 
   getSection(req, res, next) {
     var programId = req.params.programId;
     var paperId = req.params.paperId;
     var userId = req.session.user.id;
 
-    this.paperService.getSection({programId, paperId, userId}, (err, data) => {
+    paperService.getSection({programId, paperId, userId}, (err, data) => {
       if (err) {
         return next(err);
       }
@@ -34,7 +35,7 @@ class ProgramPaperController {
     var programId = req.params.programId;
     var paperId = req.params.paperId;
     var userId = req.session.user.id;
-    this.paperService.retrieve({programId, paperId, userId}, (err, data) => {
+    paperService.retrieve({programId, paperId, userId}, (err, data) => {
       if (err) {
         return next(err);
       }

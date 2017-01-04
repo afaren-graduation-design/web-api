@@ -40,7 +40,9 @@ export default class HomeWorkQuizSectionService {
       }
     ], (err, result) => {
       if (err && typeof err === number) {
-        callback(null,{type: section.type, status: err})
+        callback(null,{type: section.type, status: err});
+      } else {
+        callback(null, {type: section.type, status: result});
       }
     });
   }

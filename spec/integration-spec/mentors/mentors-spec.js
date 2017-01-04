@@ -3,7 +3,7 @@ require('should');
 var userSession = global.userSession;
 
 describe("GET /mentors", ()=> {
-  iit('should be return 200: GET /mentors', function (done) {
+  it('should be return 200: GET /mentors', function (done) {
     userSession
         .get("/mentors")
         .send({email: 'test@163.com'})
