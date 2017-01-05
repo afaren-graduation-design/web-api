@@ -29,8 +29,11 @@ export default class AgreementInvitationHandler extends OperateHandler {
             type: 'AGREE_INVITATION',
             state: 0
           };
-          new Message(newMessage).save(done);
+          done(null, newMessage);
         });
+      },
+      (data, done) => {
+        new Message(data).save(done);
       }
     ], (err, data) => {
       callback(err, data);

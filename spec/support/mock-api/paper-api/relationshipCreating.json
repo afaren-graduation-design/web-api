@@ -2,7 +2,7 @@
   {
     "description": "should_create_relationship_between_student_and_mentor",
     "request": {
-      "uri": "/relationshipCreating/5/students/6",
+      "uri": "/relationshipCreating/4/students/3",
       "method": "post"
     },
     "response": {
