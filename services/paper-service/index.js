@@ -3,8 +3,8 @@ import async from 'async';
 import Paper from '../../models/paper';
 import LogicPuzzleHandler from './paper-logic-puzzle-handler';
 import HomeworkQuizHandler from './paper-homework-quiz-handler';
-import LogicPuzzleSectionService from './logic-puzzle-section-service';
-import HomeWorkQuizSectionService from './homework-quiz-section-service';
+import LogicPuzzleSectionService from './logic-puzzle-section';
+import HomeWorkQuizSectionService from './homework-quiz-section';
 const handlerMap = {
   'blankQuizzes': new LogicPuzzleHandler(),
   'homeworkQuizzes': new HomeworkQuizHandler()
