@@ -3,7 +3,7 @@ import Message from '../../models/messages';
 import AgreementRequestAnswerHandler from './AgreementRequestAnswerHandler';
 import DisagreementRequestAnswerHandler from './DisagreementRequestAnswerHandler';
 import ToggleToReadHandler from './ToggleToReadHandler';
-import DisagreementRequestInvitationHandler from './DisagreementInvitationHandler';
+import DisagreementInvitationHandler from './DisagreementInvitationHandler';
 import AgreementInvitationHandler from './AgreementInvitationHandler';
 
 export default class MessageService {
@@ -11,7 +11,7 @@ export default class MessageService {
     this.toggleToReadHandler = new ToggleToReadHandler();
     this.agreementRequestAnswerHandler = new AgreementRequestAnswerHandler();
     this.disagreementRequestAnswerHandler = new DisagreementRequestAnswerHandler();
-    this.disagreementRequestInvitationHandler = new DisagreementRequestInvitationHandler();
+    this.disagreementInvitationHandler = new DisagreementInvitationHandler();
     this.agreementInvitationHandler = new AgreementInvitationHandler();
   }
 
@@ -37,7 +37,7 @@ export default class MessageService {
         this.agreementInvitationHandler.handle(msgObj, done);
       },
       (data, done) => {
-        this.disagreementRequestInvitationHandler.handle(msgObj, done);
+        this.disagreementInvitationHandler.handle(msgObj, done);
       }
     ], callback);
   }
