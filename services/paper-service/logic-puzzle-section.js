@@ -4,7 +4,7 @@ import constant from '../../mixin/constant';
 export default class LogicPuzzleSectionService {
 
   getStatus(section, callback) {
-    let result = {type: section.type, sectionId: section._id};
+    let result = {type: section.type, sectionId: section._id, firstQuizId: section.items[0].id};
     if (!section.startTime) {
       return callback(null, Object.assign({}, result, {status: constant.sectionStatus.NOTSTART}));
     }

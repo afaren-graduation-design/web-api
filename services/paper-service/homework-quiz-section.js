@@ -4,22 +4,22 @@ const deadline = 49;
 export default class HomeWorkQuizSectionService {
 
   getStatus(section, callback) {
-    let result = {sectionId: section._id, type: section.type};
+    let result = {type: section.type, sectionId: section._id, firstQuizId: section.items[0].id};
     if (!section.startTime) {
       return callback(null, Object.assign({}, result, {status: constant.sectionStatus.NOTSTART}));
     }
 
     let currentTime = parseInt(new Date().getTime()) /
-      (constant.time.SECONDS_PER_MINUTE *
-      constant.time.MINUTE_PER_HOUR *
-      constant.time.HOURS_PER_DAY *
-      constant.time.MILLISECOND_PER_SECONDS);
+        (constant.time.SECONDS_PER_MINUTE *
+        constant.time.MINUTE_PER_HOUR *
+        constant.time.HOURS_PER_DAY *
+        constant.time.MILLISECOND_PER_SECONDS);
 
     let startTime = parseInt(section.startTime) /
-      (constant.time.SECONDS_PER_MINUTE *
-      constant.time.MINUTE_PER_HOUR *
-      constant.time.HOURS_PER_DAY *
-      constant.time.MILLISECOND_PER_SECONDS);
+        (constant.time.SECONDS_PER_MINUTE *
+        constant.time.MINUTE_PER_HOUR *
+        constant.time.HOURS_PER_DAY *
+        constant.time.MILLISECOND_PER_SECONDS);
     let isTimeout = currentTime - startTime > deadline;
     if (isTimeout) {
       return callback(null, Object.assign({}, result, {status: constant.sectionStatus.TIMEOUT}));
