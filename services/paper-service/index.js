@@ -3,16 +3,15 @@ import async from 'async';
 import Paper from '../../models/paper';
 import LogicPuzzleHandler from './paper-logic-puzzle-handler';
 import HomeworkQuizHandler from './paper-homework-quiz-handler';
-import LogicPuzzleSectionService from './logic-puzzle-section';
-import HomeWorkQuizSectionService from './homework-quiz-section';
+
 const handlerMap = {
   'blankQuizzes': new LogicPuzzleHandler(),
   'homeworkQuizzes': new HomeworkQuizHandler()
 };
 
 const handleSection = {
-  'logicPuzzle': new LogicPuzzleSectionService(),
-  'homeworkQuiz': new HomeWorkQuizSectionService()
+  'logicPuzzle': new LogicPuzzleHandler(),
+  'homeworkQuiz': new HomeworkQuizHandler()
 };
 
 export default class PaperService {
@@ -38,11 +37,13 @@ export default class PaperService {
         new Paper(data).save(done);
       }
     ], (err, doc) => {
-      if (!err || doc._id) {
-        cb(null, {status: 200, id: doc._id});
-      } else {
-        cb(null, null);
+      if (err === true) {
+        cb(null, {id: doc._id});
       }
+      if (!err && doc) {
+        cb(null, {id: doc._id});
+      }
+      cb(err, null);
     });
   }
 
@@ -56,16 +57,6 @@ export default class PaperService {
         async.map(sections, (section, callback) => {
           handleSection[section.type].getStatus(section, callback);
         }, done);
-      },
-      (result, done) => {
-        done(null, result.map((item, index) => {
-          let preSection = result[index - 1] || {status: 1};
-          let preStatus = preSection.status;
-
-          let status = (item.status === 0 || item.status === 3) && (preStatus === 1 || preStatus === 2);
-          return Object.assign({}, item, {status});
-        })
-        );
       }
     ], (err, result) => {
       cb(err, result);
