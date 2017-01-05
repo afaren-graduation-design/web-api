@@ -1,9 +1,9 @@
-var express = require('express');
+import {Router} from 'express';
 
 import MentorsController from '../../controllers/mentors-controller';
 
-var mentorsController = new MentorsController();
-var router = express.Router();
+const mentorsController = new MentorsController();
+const router = Router();
 
 router.get('/', mentorsController.search);
 router.get('/search', mentorsController.findMentorOfStudent);

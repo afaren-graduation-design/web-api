@@ -3,7 +3,7 @@ import Message from '../../models/messages';
 import apiRequest from '../api-request';
 
 export default class MentorService {
-  handle({to}, callback) {
+  findMentorOfStudent({to}, callback) {
     let mentors = [];
     async.waterfall([
       (done) => {

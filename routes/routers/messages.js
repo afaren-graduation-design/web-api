@@ -1,9 +1,10 @@
-var express = require('express');
+import {Router} from 'express';
 
 import MessagesController from '../../controllers/messages-controller';
 
-var msgController = new MessagesController();
-var router = express.Router();
+const msgController = new MessagesController();
+const router = Router();
+
 router.post('/', msgController.create);
 router.get('/', msgController.findAll);
 router.get('/unread', msgController.findUnread);

@@ -4,6 +4,7 @@ import FindMessageService from '../services/message-service/FindMessages-service
 
 const messageService = new MessageService();
 const findMessageService = new FindMessageService();
+
 export default class MessagesController {
   findAll(req, res, next) {
     const id = req.session.user.id;
