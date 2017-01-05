@@ -11,7 +11,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz1",
-    "definitionRepo": "git address",
+    "definitionRepo": "https://github.com/java-demo.git",
     "type": "Java",
     "stackId": 1
   },
@@ -27,7 +27,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz2",
-    "definitionRepo": "git address",
+    "definitionRepo": "https://github.com/java-demo.git",
     "type": "Java",
     "stackId": 1
   },
@@ -43,7 +43,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz3",
-    "definitionRepo": "git address",
+    "definitionRepo": "https://github.com/java-demo.git",
     "type": "Java",
     "stackId": 1
   },
@@ -59,7 +59,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz4",
-    "definitionRepo": "git address",
+    "definitionRepo": "https://github.com/java-demo.git",
     "type": "Java",
     "stackId": 1
   },
@@ -75,7 +75,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz5",
-    "definitionRepo": "git address",
+    "definitionRepo": "https://github.com/C#-demo.git",
     "type": "C#",
     "stackId": 2
   },
@@ -91,7 +91,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz6",
-    "definitionRepo": "git address",
+    "definitionRepo": "https://github.com/ruby-demo.git",
     "type": "Ruby",
     "stackId": 3
   },
@@ -107,7 +107,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz7",
-    "definitionRepo": "git address",
+    "definitionRepo": "https://github.com/java-demo.git",
     "type": "Java",
     "stackId": 3
   },
@@ -123,7 +123,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz8",
-    "definitionRepo": "git address",
+    "definitionRepo": "https://github.com/java-demo.git",
     "type": "Java",
     "stackId": 2
   }
