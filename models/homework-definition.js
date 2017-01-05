@@ -13,7 +13,8 @@ var homeworkDefinition = new Schema({
   result: String,
   name: {type: String, unique: true},
   definitionRepo: String,
-  type: String
+  type: String,
+  stackId: Number
 });
 
 module.exports = mongoose.model('HomeworkDefinition', homeworkDefinition);

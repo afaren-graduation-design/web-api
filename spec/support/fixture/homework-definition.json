@@ -12,7 +12,8 @@
     "result": "这是一个result",
     "name": "juanz1",
     "definitionRepo": "git address",
-    "type": "Java"
+    "type": "Java",
+    "stackId": 1
   },
   {
     "_id": "5829958a7007c23870a1d681",
@@ -27,7 +28,8 @@
     "result": "这是一个result",
     "name": "juanz2",
     "definitionRepo": "git address",
-    "type": "Java"
+    "type": "Java",
+    "stackId": 1
   },
   {
     "_id": "5829958a7007c23870a1d682",
@@ -42,7 +44,8 @@
     "result": "这是一个result",
     "name": "juanz3",
     "definitionRepo": "git address",
-    "type": "Java"
+    "type": "Java",
+    "stackId": 1
   },
   {
     "_id": "5829958a7007c23870a1d683",
@@ -57,7 +60,8 @@
     "result": "这是一个result",
     "name": "juanz4",
     "definitionRepo": "git address",
-    "type": "Java"
+    "type": "Java",
+    "stackId": 1
   },
   {
     "_id": "5829958a7007c23870a1d684",
@@ -72,7 +76,8 @@
     "result": "这是一个result",
     "name": "juanz5",
     "definitionRepo": "git address",
-    "type": "Java"
+    "type": "C#",
+    "stackId": 2
   },
   {
     "_id": "5829958a7007c23870a1d685",
@@ -87,7 +92,8 @@
     "result": "这是一个result",
     "name": "juanz6",
     "definitionRepo": "git address",
-    "type": "Java"
+    "type": "Ruby",
+    "stackId": 3
   },
   {
     "_id": "5829958a7007c23870a1d686",
@@ -102,7 +108,8 @@
     "result": "这是一个result",
     "name": "juanz7",
     "definitionRepo": "git address",
-    "type": "Java"
+    "type": "Java",
+    "stackId": 3
   },
   {
     "_id": "5829958a7007c23870a1d687",
@@ -117,6 +124,7 @@
     "result": "这是一个result",
     "name": "juanz8",
     "definitionRepo": "git address",
-    "type": "Java"
+    "type": "Java",
+    "stackId": 2
   }
 ]

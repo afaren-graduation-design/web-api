@@ -9,12 +9,12 @@
       "json": {
         "items": [
           {
-            "stackId": 2,
-            "title": "C#"
-          },
-          {
             "stackId": 1,
             "title": "Java"
+          },
+          {
+            "stackId": 2,
+            "title": "C#"
           },
           {
             "stackId": 3,
