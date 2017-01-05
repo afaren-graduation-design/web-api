@@ -11,7 +11,7 @@
     "_id": "585bc4e613c65e2f61fede22",
     "from": 2,
     "to": 1,
-    "type" :"AGREE_REQUEST_ANSWER",
+    "type" :"REQUEST_ANSWER",
     "deeplink":"papers/1/sections/1/homeworks/1",
     "state": 1
   },
@@ -43,7 +43,7 @@
     "_id": "585bc4e613c65e2f61fede28",
     "from": 2,
     "to": 1,
-    "type" :"AGREE_INVITATION",
+    "type" :"INVITATION",
     "deeplink":"papers/1/sections/1/homeworks/1",
     "state": 1
   },
@@ -51,7 +51,7 @@
     "_id": "585bc4e613c65e2f61fede29",
     "from": 2,
     "to": 1,
-    "type" :"AGREE_REQUEST_ANSWER",
+    "type" :"REQUEST_ANSWER",
     "deeplink":"papers/1/sections/1/homeworks/1",
     "state": 1
   },
@@ -59,7 +59,7 @@
     "_id": "585bc4e613c65e2f61fede27",
     "from": 2,
     "to": 1,
-    "type" :"DISAGREE_REQUEST_ANSWER",
+    "type" :"REQUEST_ANSWER",
     "deeplink":"papers/1/sections/1/homeworks/1",
     "state": 0
   },
@@ -67,7 +67,7 @@
     "_id": "585bc4e613c65e2f61fede24",
     "from": 2,
     "to": 1,
-    "type" :"DISAGREE_INVITATION",
+    "type" :"INVITATION",
     "deeplink":"",
     "state": 0
   },
