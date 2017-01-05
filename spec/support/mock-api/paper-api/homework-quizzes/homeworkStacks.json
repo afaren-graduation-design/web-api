@@ -9,14 +9,20 @@
       "json": {
         "items": [
           {
+            "definitionFile": "./aa/bb/cc",
+            "description": "这是Java",
             "stackId": 1,
             "title": "Java"
           },
           {
+            "definitionFile": "./xx/yy/zz",
+            "description": "这是C#",
             "stackId": 2,
             "title": "C#"
           },
           {
+            "definitionFile": "./pp/qq/tt",
+            "description": "这是Ruby",
             "stackId": 3,
             "title": "Ruby"
           }
