@@ -13,7 +13,6 @@ var homeworkDefinition = new Schema({
   result: String,
   name: {type: String, unique: true},
   definitionRepo: String,
-  type: String,
   stackId: Number
 });
 
