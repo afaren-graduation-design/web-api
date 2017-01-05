@@ -5,7 +5,7 @@ var homeworkDefinition = new Schema({
   description: String,
   makerId: Number,
   status: Number,
-  createTime: String,
+  createTime: Number,
   isDeleted: Boolean,
   uri: String,
   evaluateScript: String,

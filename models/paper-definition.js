@@ -9,7 +9,7 @@ var paperDefinitionSchema = new Schema({
   description: String,
   programId: Number,
   makerId: Number,
-  createTime: String,
+  createTime: Number,
   updateTime: String,
   isDeleted: Boolean,
   uri: String,
