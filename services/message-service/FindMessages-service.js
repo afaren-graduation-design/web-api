@@ -25,7 +25,7 @@ export default class FindMessagesService {
                 deeplink: message.deeplink,
                 state: message.state
               },
-              {name: res.body.name}));
+              {fromDetail: res.body.name}));
           });
         }, done);
       }], callback);
