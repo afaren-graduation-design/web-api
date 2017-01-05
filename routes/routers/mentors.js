@@ -5,7 +5,7 @@ import MentorsController from '../../controllers/mentors-controller';
 const mentorsController = new MentorsController();
 const router = Router();
 
-router.get('/', mentorsController.search);
-router.get('/search', mentorsController.findMentorOfStudent);
+router.get('/search', mentorsController.search);
+router.get('/', mentorsController.findMentorOfStudent);
 
 module.exports = router;
