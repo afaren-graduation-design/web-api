@@ -9,8 +9,8 @@ describe("GET /stacks", ()=> {
       .expect(200)
       .expect(function (res) {
         console.log(res.body.items[0].stackId)
-        res.body.items[0].stackId.should.equal(1);
-        res.body.items[0].title.should.equal('JS');
+        res.body.items[0].stackId.should.equal(2);
+        res.body.items[0].title.should.equal('C#');
       })
       .end(done)
   });

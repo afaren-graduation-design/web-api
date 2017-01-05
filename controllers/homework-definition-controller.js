@@ -223,12 +223,12 @@ HomeworkDefinitionController.prototype.searchStatus = (req, res) => {
 };
 
 HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
-  const {name, type, definitionRepo} = req.body;
+  const {name, stackId, definitionRepo} = req.body;
   const homeworkId = req.params.homeworkId;
 
   async.waterfall([
     (done) => {
-      HomeworkDefinition.update({_id: homeworkId}, {$set: {name, type, definitionRepo, status: 1}}, (err, data) => {
+      HomeworkDefinition.update({_id: homeworkId}, {$set: {name, stackId, definitionRepo, status: 1}}, (err, data) => {
         done(err, data);
       });
     },
@@ -259,13 +259,13 @@ HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
 };
 
 HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
-  const {name, type, definitionRepo} = req.body;
+  const {name, stackId, definitionRepo} = req.body;
   let error = {};
   async.waterfall([
     (done) => {
       new HomeworkDefinition({
         name,
-        type,
+        stackId,
         definitionRepo,
         status: 1
       }).save((err, data) => {
