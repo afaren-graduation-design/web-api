@@ -223,12 +223,11 @@ PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) =
   var programId = Number(req.params.programId);
   var paperId = req.params.paperId;
   var makerId = req.session.user.id;
-  var updateTime = req.body.data.updateTime ? req.body.data.updateTime : (parseInt(new Date().getTime()) /
+  var updateTime = req.body.data.updateTime ? req.body.data.updateTime : parseInt(new Date().getTime()) /
       (constant.time.SECONDS_PER_MINUTE *
       constant.time.MINUTE_PER_HOUR *
       constant.time.HOURS_PER_DAY *
-      constant.time.MILLISECOND_PER_SECONDS)
-    );
+      constant.time.MILLISECOND_PER_SECONDS);
   var data;
   PaperDefinition.update({_id: paperId, programId, isDeleted: false},
     {paperName, description, sections, updateTime}, (err) => {
