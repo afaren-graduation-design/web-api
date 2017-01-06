@@ -19,13 +19,12 @@ export default class FindMessagesService {
             callback(err, Object.assign({},
               {
                 _id: message._id,
-                from: message.from,
                 to: message.to,
                 type: message.type,
                 deeplink: message.deeplink,
                 state: message.state
               },
-              {fromDetail: res.body.name}));
+              {fromDetail: res.body}));
           });
         }, done);
       }], callback);

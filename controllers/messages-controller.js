@@ -12,7 +12,7 @@ export default class MessagesController {
       if (err) {
         return next(err);
       }
-      res.status(200).send({item: data, totalCount: data.length});
+      res.status(200).send({items: data, totalCount: data.length});
     });
   }
 
@@ -23,7 +23,7 @@ export default class MessagesController {
       if (err) {
         return next(err);
       }
-      res.status(200).send({item: data, totalCount: data.length});
+      res.status(200).send({items: data, totalCount: data.length});
     });
   }
 
