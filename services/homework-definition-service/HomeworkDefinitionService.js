@@ -57,6 +57,5 @@ export default class HomeworkDefinitionService {
     ], (err, data) => {
       callback(err, data);
     });
-
   }
 }

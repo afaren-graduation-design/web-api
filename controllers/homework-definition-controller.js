@@ -15,7 +15,6 @@ const homeworkDefinitionService = new HomeworkDefinitionService();
 function HomeworkDefinitionController() {
 };
 
-
 HomeworkDefinitionController.prototype.getHomeworkList = (req, res, next) => {
   let pageCount = req.query.pageCount || 10;
   let page = req.query.page || 1;
@@ -29,10 +28,9 @@ HomeworkDefinitionController.prototype.getHomeworkList = (req, res, next) => {
     if (page === data.totalPage) {
       res.status(202).send(data);
     }
-    res.status(200).send(data)
-  })
-
-}
+    res.status(200).send(data);
+  });
+};
 
 HomeworkDefinitionController.prototype.matchHomework = (req, res) => {
   let pageCount = req.query.pageCount || 10;
@@ -42,29 +40,29 @@ HomeworkDefinitionController.prototype.matchHomework = (req, res) => {
   let homeworks;
   HomeworkDefinition.find({name, isDeleted: false}).limit(Number(pageCount))
     .skip(skipCount).exec((err, data) => {
-    HomeworkDefinition.count({isDeleted: false}, (error, count) => {
-      if (!err && !error && count && data) {
-        let totalPage = Math.ceil(count / pageCount);
-        let ids = data.map((homework) => {
-          return homework.makerId;
-        });
-        let id = unique(ids);
-        apiRequest.get('users/' + id + '/detail', (err, resp) => {
-          if (!err && resp) {
-            homeworks = addMakerName(resp, data);
-            if (page === totalPage) {
-              return res.status(202).send({data: homeworks, totalPage});
+      HomeworkDefinition.count({isDeleted: false}, (error, count) => {
+        if (!err && !error && count && data) {
+          let totalPage = Math.ceil(count / pageCount);
+          let ids = data.map((homework) => {
+            return homework.makerId;
+          });
+          let id = unique(ids);
+          apiRequest.get('users/' + id + '/detail', (err, resp) => {
+            if (!err && resp) {
+              homeworks = addMakerName(resp, data);
+              if (page === totalPage) {
+                return res.status(202).send({data: homeworks, totalPage});
+              }
+              return res.status(200).send({data: homeworks, totalPage});
+            } else {
+              res.sendStatus(404);
             }
-            return res.status(200).send({data: homeworks, totalPage});
-          } else {
-            res.sendStatus(404);
-          }
-        });
-      } else {
-        res.sendStatus(404);
-      }
+          });
+        } else {
+          res.sendStatus(404);
+        }
+      });
     });
-  });
 };
 
 HomeworkDefinitionController.prototype.getOneHomework = (req, res) => {
