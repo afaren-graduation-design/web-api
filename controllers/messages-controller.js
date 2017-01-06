@@ -1,6 +1,7 @@
 import Message from '../models/messages';
 import MessageService from '../services/message-service';
 import FindMessageService from '../services/message-service/FindMessages-service';
+import constant from '../mixin/constant';
 
 const messageService = new MessageService();
 const findMessageService = new FindMessageService();
@@ -12,7 +13,7 @@ export default class MessagesController {
       if (err) {
         return next(err);
       }
-      res.status(200).send({items: data, totalCount: data.length});
+      res.status(constant.httpCode.OK).send({items: data, totalCount: data.length});
     });
   }
 
@@ -23,7 +24,7 @@ export default class MessagesController {
       if (err) {
         return next(err);
       }
-      res.status(200).send({items: data, totalCount: data.length});
+      res.status(constant.httpCode.OK).send({items: data, totalCount: data.length});
     });
   }
 
@@ -35,7 +36,7 @@ export default class MessagesController {
       if (err) {
         return next(err);
       }
-      res.status(201).send({uri: `messages/${data._id}`});
+      res.status(constant.httpCode.CREATED).send({uri: `messages/${data._id}`});
     });
   }
 
@@ -46,7 +47,7 @@ export default class MessagesController {
       if (err) {
         return next(err);
       }
-      res.sendStatus(204);
+      res.sendStatus(constant.httpCode.NO_CONTENT);
     });
   }
 }

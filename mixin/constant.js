@@ -5,6 +5,7 @@ var constant = {
     OK: 200,
     CREATED: 201,
     ACCEPTED: 202,
+    NO_CONTENT: 204,
     REDIRECTED: 301,
     NOT_FOUND: 404,
     UNAUTHORIZED: 401,
