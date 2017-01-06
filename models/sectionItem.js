@@ -2,8 +2,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var sectionItemSchema = new Schema({
-  startTime: Number,
-  endTime: Number
 });
 
 sectionItemSchema.statics.findOrCreateLogic = (condition, data, done) => {

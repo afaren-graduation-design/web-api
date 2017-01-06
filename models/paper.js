@@ -14,9 +14,18 @@ var paperSchema = new Schema({
   paperId: Number,
   userId: Number,
   paperUri: String,
-  sectionItems: [{
-    type: Schema.Types.ObjectId,
-    ref: 'SectionItem'
+  sections: [{
+    startTime: {
+      type: Number,
+      default: 1234
+    },
+    endTime: Number,
+    sectionItem: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'SectionItem'
+      }
+    ]
   }]
 });
 

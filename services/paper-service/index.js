@@ -35,7 +35,10 @@ export default class PaperService {
       (result, done) => {
         condition.paperUri = `programs/${condition.programId}/papers/${condition.paperId}`;
         let paper = new Paper(condition);
-        paper.sectionItems = result.map((item) => item.toString()).join().split(',');
+        let a = result.map((item) => {
+          return {sectionItem: item};
+        });
+        paper.sections = a;
         paper.save(done);
       }
     ], (err, doc) => {
