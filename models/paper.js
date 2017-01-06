@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var {SectionItem} = require('./sectionItem');
 
 var typeEnum = {
   values: ['logicPuzzle', 'homeworkQuiz', 'shortcutsPractise'],
@@ -13,19 +14,11 @@ var paperSchema = new Schema({
   paperId: Number,
   userId: Number,
   paperUri: String,
-  sections: [{
-    startTime: Number,
-    endTime: Number,
-    type: {
-      $type: String,
-      enum: typeEnum
-    },
-    items: [{
-      id: String,
-      submits: [String]
-    }]
+  sectionItems: [{
+    type: Schema.Types.ObjectId,
+    ref: 'SectionItem'
   }]
-}, {typeKey: '$type'});
+});
 
 paperSchema.statics.findOrCreate = (condition, data, done) => {
   const model = mongoose.model('Paper');

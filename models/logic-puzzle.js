@@ -117,4 +117,4 @@ function getData(index, allData, isPaperCommited) {
   }
 }
 
-module.exports = mongoose.model('LogicPuzzle', logicPuzzleSchema);
+module.exports = mongoose.model('LogicPuzzles', logicPuzzleSchema);

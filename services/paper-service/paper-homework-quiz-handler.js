@@ -1,4 +1,4 @@
-import PaperHomeworkQuiz from '../../models/paper-homework-quiz';
+import {SectionItem} from '../../models/sectionItem';
 import async from 'async';
 import request from 'superagent';
 import constant from '../../mixin/constant';
@@ -14,8 +14,8 @@ export default class PaperHomeworkQuizHandler {
             if (err) {
               throw err;
             }
-            let {homeworkName, evaluateScript, templateRepository, createTime, description, id, type, uri, homeworkItem} = resp.body;
-            PaperHomeworkQuiz.findOrCreate({id: homeworkItem.id}, {
+            let {homeworkName, evaluateScript, templateRepository, createTime, description, id, type, uri} = resp.body.homeworkItem;
+            SectionItem.findOrCreateHomework({id: id}, {
               homeworkName,
               evaluateScript,
               templateRepository,
@@ -25,7 +25,7 @@ export default class PaperHomeworkQuizHandler {
               type,
               uri
             }, (err, doc) => {
-              cb(err, {id: doc.toJSON()._id, submit: []});
+              cb(err, doc.toJSON()._id);
             });
           });
         }, done);
@@ -34,7 +34,7 @@ export default class PaperHomeworkQuizHandler {
       if (err) {
         throw err;
       } else {
-        callback(null, {type: 'homeworkQuiz', items: result});
+        callback(null, result);
       }
     });
   }
@@ -68,10 +68,10 @@ export default class PaperHomeworkQuizHandler {
 
 function convertMillsecondToDay(millsecond) {
   return millsecond /
-      (constant.time.SECONDS_PER_MINUTE *
-      constant.time.MINUTE_PER_HOUR *
-      constant.time.HOURS_PER_DAY *
-      constant.time.MILLISECOND_PER_SECONDS);
+    (constant.time.SECONDS_PER_MINUTE *
+    constant.time.MINUTE_PER_HOUR *
+    constant.time.HOURS_PER_DAY *
+    constant.time.MILLISECOND_PER_SECONDS);
 }
 
 function findHomeworkStatus(_id, callback) {

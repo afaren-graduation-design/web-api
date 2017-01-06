@@ -1,4 +1,4 @@
-import PaperLogicPuzzle from '../../models/paper-logic-puzzle';
+import {SectionItem} from '../../models/sectionItem';
 import async from 'async';
 import request from 'superagent';
 import constant from '../../mixin/constant';
@@ -12,8 +12,8 @@ export default class PaperLogicHandler {
       },
       (resp, done) => {
         async.map(resp.body.quizItems, (quiz, cb) => {
-          PaperLogicPuzzle.findOrCreate({id: quiz.id}, quiz, (err, doc) => {
-            cb(err, {id: doc.toJSON()._id, submit: []});
+          SectionItem.findOrCreateLogic({id: quiz.id}, quiz, (err, doc) => {
+            cb(err, doc.toJSON()._id);
           });
         }, done);
       }
@@ -21,7 +21,7 @@ export default class PaperLogicHandler {
       if (err) {
         throw err;
       } else {
-        callback(null, {type: 'logicPuzzle', items: result});
+        callback(null, result);
       }
     });
   }

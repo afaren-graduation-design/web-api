@@ -33,12 +33,14 @@ export default class PaperService {
         }, done);
       },
       (result, done) => {
-        let data = Object.assign({}, {sections: result}, condition, {paperUri: `programs/${condition.programId}/papers/${condition.paperId}`});
-        new Paper(data).save(done);
+        condition.paperUri = `programs/${condition.programId}/papers/${condition.paperId}`;
+        let paper = new Paper(condition);
+        paper.sectionItems = result.map((item) => item.toString()).join().split(',');
+        paper.save(done);
       }
     ], (err, doc) => {
       if (err === true) {
-        cb(null, {id: doc._id});
+        cb(null, {id: doc._id + ''});
       }
       if (!err && doc) {
         cb(null, {id: doc._id});
