@@ -9,8 +9,8 @@ var messageSchema = new Schema({
     type: Number,
     default: 0
   }
-},{
-  timestamps:true
+}, {
+  timestamps: true
 });
 
 module.exports = mongoose.model('Message', messageSchema);
