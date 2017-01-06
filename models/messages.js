@@ -5,11 +5,12 @@ var messageSchema = new Schema({
   to: Number,
   deeplink: String,
   type: String,
-  createTime: Number,
   state: {
     type: Number,
     default: 0
   }
+},{
+  timestamps:true
 });
 
 module.exports = mongoose.model('Message', messageSchema);
