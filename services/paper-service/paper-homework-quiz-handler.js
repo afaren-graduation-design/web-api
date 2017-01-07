@@ -40,8 +40,7 @@ export default class PaperHomeworkQuizHandler {
   }
 
   getStatus(section, callback) {
-    let result = {type: section.type, sectionId: section._id, firstQuizId: section.items[0].id};
-
+    let result = {type: 'HomeworkQuiz', sectionId: section._id, firstQuizId: section.sectionItems[0]._id};
     if (!section.startTime) {
       return callback(null, Object.assign({}, result, {status: constant.sectionStatus.NOTSTART}));
     }

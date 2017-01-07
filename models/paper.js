@@ -15,12 +15,9 @@ var paperSchema = new Schema({
   userId: Number,
   paperUri: String,
   sections: [{
-    startTime: {
-      type: Number,
-      default: 1234
-    },
+    startTime: Number,
     endTime: Number,
-    sectionItem: [
+    sectionItems: [
       {
         type: Schema.Types.ObjectId,
         ref: 'SectionItem'

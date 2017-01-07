@@ -10,8 +10,8 @@ const handlerMap = {
 };
 
 const handleSection = {
-  'logicPuzzle': new LogicPuzzleHandler(),
-  'homeworkQuiz': new HomeworkQuizHandler()
+  'LogicPuzzle': new LogicPuzzleHandler(),
+  'HomeworkQuiz': new HomeworkQuizHandler()
 };
 
 export default class PaperService {
@@ -35,10 +35,9 @@ export default class PaperService {
       (result, done) => {
         condition.paperUri = `programs/${condition.programId}/papers/${condition.paperId}`;
         let paper = new Paper(condition);
-        let a = result.map((item) => {
-          return {sectionItem: item};
+        paper.sections = result.map((item) => {
+          return {sectionItems: item};
         });
-        paper.sections = a;
         paper.save(done);
       }
     ], (err, doc) => {
@@ -55,12 +54,15 @@ export default class PaperService {
   getSection(condition, cb) {
     async.waterfall([
       (done) => {
-        Paper.findOne(condition, done);
+        Paper
+          .findOne(condition)
+          .populate('sections.sectionItems')
+          .exec(done);
       },
       (docs, done) => {
         let sections = docs.toJSON().sections;
         async.map(sections, (section, callback) => {
-          handleSection[section.type].getStatus(section, callback);
+          handleSection[section.sectionItems[0].__t].getStatus(section, callback);
         }, done);
       }
     ], (err, result) => {
