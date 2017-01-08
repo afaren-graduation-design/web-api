@@ -17,7 +17,7 @@ export default class MentorsController {
 
   findMentorOfStudent(req, res, next) {
     const to = req.session.user.id;
-    mentorService.findMentorOfStudent({to}, (err, data) => {
+    mentorService.findAllMentors({to}, (err, data) => {
       if (err) {
         return next(err);
       }

@@ -3,64 +3,53 @@ import Message from '../../models/messages';
 import apiRequest from '../api-request';
 
 export default class MentorService {
-  findMentorOfStudent({to}, callback) {
+  findAllMentors({to}, callback) {
     let mentors = [];
     async.waterfall([
       (done) => {
-        Message.find({to: to}, done);
-      },
-      (data, done) => {
-        var mentorOfStudent = data.filter(message => {
-          return message.type.indexOf('INVITATION') !== -1;
+        apiRequest.get(`users/${to}/mentors`, (err, res) => {
+          done(err, res.body.mentorIds);
         });
-        done(null, mentorOfStudent);
       },
       (data, done) => {
-        async.map(data, (item, callback) => {
-          apiRequest.get(`users/${item.from}/detail`, (err, res) => {
-            if (err) {
-              callback(err, null);
-            } else {
-              callback(null, Object.assign({}, {name: res.body.name, type: item.type, '_id': item._id}));
+        apiRequest.get(`users/${data.toString()}/detail`, (err, res) => {
+          const userList = res.body.userList ? res.body.userList : [].concat(res.body);
+          done(err, userList);
+        });
+      },
+      (data, done) => {
+        mentors = data.map(({userId, name}) => {
+          return {userId, name, type: 'AGREE_INVITATION'};
+        });
+        Message.find({from: to, type: 'INVITATION'}, done);
+      },
+      (data, done) => {
+        if (!data.length) {
+          done(null, null);
+        } else {
+          let mentorIds = [];
+          data.forEach((item) => {
+            let exit = mentorIds.find(id => {
+              return id === item.to;
+            });
+            if (!exit) {
+              mentorIds.push(item.to);
             }
           });
-        }, done);
-      },
-      (data, done) => {
-        mentors = data;
-        Message.find({from: to}, done);
-      },
-      (data, done) => {
-        var mentorOfStudent = data.filter(message => {
-          return message.type.indexOf('INVITATION') !== -1;
-        });
-        done(null, mentorOfStudent);
-      },
-      (data, done) => {
-        async.map(data, (item, callback) => {
-          apiRequest.get(`users/${item.to}/detail`, (err, res) => {
-            if (err) {
-              callback(err, null);
-            } else {
-              callback(null, Object.assign({}, {name: res.body.name, type: item.type, '_id': item._id}));
-            }
+          apiRequest.get(`users/${mentorIds.toString()}/detail`, (err, res) => {
+            const userList = res.body.userList ? res.body.userList : [].concat(res.body);
+            let mentorObj = userList.map(({userId, name}) => {
+              return {userId, name, type: 'INVITATION'};
+            });
+            done(err, mentorObj);
           });
-        }, done);
-      },
-      (data, done) => {
-        mentors = mentors.concat(data);
-        let msgObj = [];
-        mentors.forEach((item) => {
-          let exit = msgObj.find((msg) => {
-            return item._id.equals(msg._id);
-          });
-          if (!exit) {
-            msgObj.push(item);
-          }
-        });
-        done(null, msgObj);
+
+        }
       }], (err, data) => {
-      callback(err, data);
+      if (data) {
+        mentors = mentors.concat(data);
+      }
+      callback(err, mentors);
     });
   }
 }
