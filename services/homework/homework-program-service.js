@@ -4,7 +4,8 @@ import async from 'async';
 export default class HomeworkProgramService {
   getHomeworkListByMysql({pageCount, skipCount}, callback) {
     let totalPage;
-    let homeworkList;
+    let homeworkList = [];
+    let arr = [];
     async.waterfall([
       (done) => {
         apiRequest.get('homeworkQuizzes', (err, resp) => {
@@ -20,11 +21,13 @@ export default class HomeworkProgramService {
           apiRequest.get(homework.makerDetailUri, (err, resp) => {
             const makerName = resp.body.name;
             const homeworkList = Object.assign({}, homework, {makerName});
-            callback(null, {homeworkList, totalPage});
+            callback(null, homeworkList);
           });
         }, done);
+      },
+      (homeworkList, done) => {
+        done(null, {homeworkList, totalPage});
       }
-
     ], (err, data) => {
       callback(err, data);
     });
