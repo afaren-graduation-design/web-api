@@ -11,7 +11,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz1",
-    "definitionRepo": "https://github.com/java-demo.git",
+    "definitionRepo": "https://github.com/simpletrain/easy-calculate.git",
     "stackId": 2
   },
   {
@@ -26,7 +26,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz2",
-    "definitionRepo": "https://github.com/java-demo.git",
+    "definitionRepo": "https://github.com/simpletrain/easy-calculate.git",
     "stackId": 1
   },
   {
@@ -41,7 +41,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz3",
-    "definitionRepo": "https://github.com/java-demo.git",
+    "definitionRepo": "https://github.com/simpletrain/easy-calculate.git",
     "stackId": 1
   },
   {
@@ -56,7 +56,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz4",
-    "definitionRepo": "https://github.com/java-demo.git",
+    "definitionRepo": "https://github.com/simpletrain/easy-calculate.git",
     "stackId": 1
   },
   {
@@ -71,7 +71,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz5",
-    "definitionRepo": "https://github.com/C#-demo.git",
+    "definitionRepo": "https://github.com/simpletrain/easy-calculate.git",
     "stackId": 2
   },
   {
@@ -86,7 +86,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz6",
-    "definitionRepo": "https://github.com/ruby-demo.git",
+    "definitionRepo": "https://github.com/simpletrain/easy-calculate.git",
     "stackId": 3
   },
   {
@@ -101,7 +101,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz7",
-    "definitionRepo": "https://github.com/java-demo.git",
+    "definitionRepo": "https://github.com/simpletrain/easy-calculate.git",
     "stackId": 3
   },
   {
@@ -116,7 +116,7 @@
     "templateRepository": "address",
     "result": "这是一个result",
     "name": "juanz8",
-    "definitionRepo": "https://github.com/java-demo.git",
+    "definitionRepo": "https://github.com/simpletrain/easy-calculate.git",
     "stackId": 2
   }
 ]
