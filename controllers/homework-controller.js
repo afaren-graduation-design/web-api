@@ -146,8 +146,9 @@ HomeworkController.prototype.getOneQuiz = (req, res, next) => {
       apiRequest.get(result.uri, done);
     },
     (data, done) => {
-      result.desc = getDesc(result.status, data.body.homeworkItem.description);
-      result.templateRepo = data.body.homeworkItem.templateRepository;
+      console.log(data.body);
+      result.desc = getDesc(result.status, data.body.description);
+      result.templateRepo = data.body.templateRepository;
       done(null, result);
     }
   ], (err, data) => {
