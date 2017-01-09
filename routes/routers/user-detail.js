@@ -16,7 +16,6 @@ router.get('/', function(req, res) {
   if (req.session.user) {
     var userId = req.session.user.id;
     var result;
-
     async.waterfall([
       (done) => {
         apiRequest.get('users/' + userId, done);
