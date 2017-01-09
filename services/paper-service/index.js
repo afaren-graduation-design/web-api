@@ -56,13 +56,13 @@ export default class PaperService {
       (done) => {
         Paper
           .findOne(condition)
-          .populate('sections.sectionItems')
+          .populate('sections.quizzes.quizId')
           .exec(done);
       },
       (docs, done) => {
         let sections = docs.toJSON().sections;
         async.map(sections, (section, callback) => {
-          handleSection[section.sectionItems[0].__t].getStatus(section, callback);
+          handleSection[section.quizzes[0].__t].getStatus(section, callback);
         }, done);
       }
     ], (err, result) => {

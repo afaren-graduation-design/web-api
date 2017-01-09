@@ -65,5 +65,4 @@ var PaperHomeworkQuiz = QuizItem.discriminator('HomeworkQuiz', new Schema({
   answerPath: String
 }));
 
-export default mongoose.model('QuizItem', quizItemSchema);
-module.exports = {PaperLogicPuzzle, PaperHomeworkQuiz};
+module.exports = {QuizItem, PaperLogicPuzzle, PaperHomeworkQuiz};

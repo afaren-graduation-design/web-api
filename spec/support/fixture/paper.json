@@ -6,16 +6,16 @@
   "paperUri": "programs/1/papers/1",
   "sections": [
     {
-      "sectionItems": [
+      "quizzes": [
         {
-          "item": "5866007d7274f8b8a786d2e0",
+          "quizId": "5866007d7274f8b8a786d2e0",
           "submits": [
             "5866007d7274f8b8a786d2e0",
             "5866007d7274f8b8a786d2e0"
           ]
         },
         {
-          "item": "5866007d7274f8b8a786d2e0",
+          "quizId": "5866007d7274f8b8a786d2e0",
           "submits": [
             "5866007d7274f8b8a786d2e0",
             "5866007d7274f8b8a786d2e0"

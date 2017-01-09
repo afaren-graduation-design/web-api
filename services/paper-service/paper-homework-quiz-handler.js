@@ -1,4 +1,4 @@
-import {SectionItem} from '../../models/quizItem';
+import {QuizItem} from '../../models/quizItem';
 import async from 'async';
 import request from 'superagent';
 import constant from '../../mixin/constant';
@@ -15,7 +15,7 @@ export default class PaperHomeworkQuizHandler {
               throw err;
             }
             let {homeworkName, evaluateScript, templateRepository, createTime, description, id, type, uri, answerPath} = resp.body.homeworkItem;
-            SectionItem.findOrCreateHomework({id: id}, {
+            QuizItem.findOrCreateHomework({id: id}, {
               homeworkName,
               evaluateScript,
               templateRepository,

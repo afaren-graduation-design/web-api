@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var QuizItem = require('./quizItem');
+var {QuizItem} = require('./quizItem');
 
 var typeEnum = {
   values: ['logicPuzzle', 'homeworkQuiz', 'shortcutsPractise'],
