@@ -12,10 +12,14 @@ export default class MentorService {
         });
       },
       (data, done) => {
-        apiRequest.get(`users/${data.toString()}/detail`, (err, res) => {
-          const userList = res.body.userList ? res.body.userList : [].concat(res.body);
-          done(err, userList);
-        });
+        if (!data.length) {
+          done(null, data);
+        } else {
+          apiRequest.get(`users/${data.toString()}/detail`, (err, res) => {
+            const userList = res.body.userList ? res.body.userList : [].concat(res.body);
+            done(err, userList);
+          });
+        }
       },
       (data, done) => {
         mentors = data.map(({userId, name}) => {
