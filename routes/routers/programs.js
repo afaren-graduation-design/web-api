@@ -19,4 +19,5 @@ router.put('/:programId/paperDefinitions/:paperId/distribution', paperDefinition
 router.get('/:programId/papers', programPaperController.getPaperList);
 router.post('/:programId/papers/:paperId', programPaperController.retrievePaper);
 router.get('/:programId/papers/:paperId/sections', programPaperController.getSection);
+router.get('/:programId/papers/:paperId/sections/:sectionId/questionIds', programPaperController.getQuestionIds);
 module.exports = router;

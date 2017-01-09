@@ -1,7 +1,26 @@
 import apiRequest from '../services/api-request';
 import PaperService from '../services/paper-service/index';
+import Paper from '../models/paper';
 const paperService = new PaperService();
 class ProgramPaperController {
+  getQuestionIds(req, res, next) {
+    let sectionId = req.params.sectionId;
+    Paper.findOne({'sections._id': sectionId}).populate('sections.quizzes.quizId')
+        .exec((err, doc)=> {
+          const section = doc.sections.find(section => section._id === sectionId);
+          switch (section.quizzes[0].quizId.__t) {
+            case 'HomeworkQuiz':
+              res.send(section.quizzes.map(quiz => {
+                return {id:quiz._id,homeworkName:quiz.quizId.homeworkName};
+              }));
+              break;
+            default:
+              res.send(section.quizzes.map(quiz => {
+                return{id:quiz._id}
+              }));
+          }
+        })
+  }
 
   getSection(req, res, next) {
     let programId = req.params.programId;
