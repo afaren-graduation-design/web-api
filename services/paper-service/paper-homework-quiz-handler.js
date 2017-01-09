@@ -26,7 +26,7 @@ export default class PaperHomeworkQuizHandler {
               uri,
               answerPath
             }, (err, doc) => {
-              cb(err, doc.toJSON()._id);
+              cb(err, {quizId: doc.toJSON()._id, submits: ['test submit']});
             });
           });
         }, done);
@@ -41,7 +41,7 @@ export default class PaperHomeworkQuizHandler {
   }
 
   getStatus(section, callback) {
-    let result = {type: 'HomeworkQuiz', sectionId: section._id, firstQuizId: section.sectionItems[0]._id};
+    let result = {type: 'HomeworkQuiz', sectionId: section._id, firstQuizId: section.quizzes[0]._id};
     if (!section.startTime) {
       return callback(null, Object.assign({}, result, {status: constant.sectionStatus.NOTSTART}));
     }
@@ -68,10 +68,10 @@ export default class PaperHomeworkQuizHandler {
 
 function convertMillsecondToDay(millsecond) {
   return millsecond /
-    (constant.time.SECONDS_PER_MINUTE *
-    constant.time.MINUTE_PER_HOUR *
-    constant.time.HOURS_PER_DAY *
-    constant.time.MILLISECOND_PER_SECONDS);
+      (constant.time.SECONDS_PER_MINUTE *
+      constant.time.MINUTE_PER_HOUR *
+      constant.time.HOURS_PER_DAY *
+      constant.time.MILLISECOND_PER_SECONDS);
 }
 
 function findHomeworkStatus(_id, callback) {

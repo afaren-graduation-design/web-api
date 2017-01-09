@@ -36,7 +36,7 @@ export default class PaperService {
         condition.paperUri = `programs/${condition.programId}/papers/${condition.paperId}`;
         let paper = new Paper(condition);
         paper.sections = result.map((item) => {
-          return {sectionItems: item};
+          return {quizzes: item};
         });
         paper.save(done);
       }
@@ -55,9 +55,9 @@ export default class PaperService {
     async.waterfall([
       (done) => {
         Paper
-          .findOne(condition)
-          .populate('sections.quizzes.quizId')
-          .exec(done);
+            .findOne(condition)
+            .populate('sections.quizzes.quizId')
+            .exec(done);
       },
       (docs, done) => {
         let sections = docs.toJSON().sections;
