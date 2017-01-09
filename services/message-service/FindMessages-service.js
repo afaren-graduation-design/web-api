@@ -14,6 +14,9 @@ export default class FindMessagesService {
         }
       },
       (data, done) => {
+        if (data.length === 0) {
+          return done(null, data);
+        }
         const fromIds = data.map((item) => {
           return item.from;
         });
