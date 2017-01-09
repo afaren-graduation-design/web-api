@@ -43,7 +43,6 @@ export default class MentorService {
             });
             done(err, mentorObj);
           });
-
         }
       }], (err, data) => {
       if (data) {
