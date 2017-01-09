@@ -42,14 +42,13 @@ export default class HomeworkDefinitionService {
       },
       (data, done) => {
         apiRequest.get('stacks', (err, resp) => {
-          data.map((homework) => {
+          var homeworks = data.map((homework) => {
             const item = resp.body.items.find(item => homework.stackId === item.stackId);
             const stack = {
               stackId: item.stackId,
               title: item.title
             };
-            homework = Object.assign({}, homework, {stack});
-            homeworks.push(homework);
+            return Object.assign({}, homework, {stack});
           });
           done(err, {data: homeworks, totalPage});
         });
