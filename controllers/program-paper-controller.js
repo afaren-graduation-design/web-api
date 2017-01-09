@@ -16,11 +16,11 @@ class ProgramPaperController {
     });
   }
 
-  getPaperList(req, res) {
+  getPaperList(req, res, next) {
     let programId = req.params.programId;
     apiRequest.get(`programs/${programId}/papers`, (err, resp) => {
       if (err) {
-        return res.sendStatus(400);
+        return next(err);
       }
       return res.send({
         data: resp.body.paperList
