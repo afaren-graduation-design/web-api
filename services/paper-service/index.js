@@ -21,9 +21,9 @@ export default class PaperService {
         Paper.findOne(condition, done);
       },
       (doc, done) => {
-        doc ? done(!!doc, doc) : done(doc);
+        doc ? done(!!doc, doc) : done(null, doc);
       },
-      (done) => {
+      (doc, done) => {
         let pathUri = `programs/${condition.programId}/papers/${condition.paperId}`;
         apiRequest.get(pathUri, done);
       },
