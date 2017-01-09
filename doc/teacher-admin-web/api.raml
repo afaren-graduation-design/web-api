@@ -32,6 +32,33 @@ baseUri: http://api.bronzesword.com/teacher-admin-web/
                     mobilePhone: string
         404:
           description: 没有这个字段
+  /{studentId}:
+     /mentors:
+         get:
+           description: 根据student的id获取对应的所有mentor
+           responses:
+             200:
+               body:
+                 application/json:
+                   properties:
+                     mentorIds:
+                           properties:
+                             []:
+                             type: number
+  /{mentorId}:
+      /mentees:
+          get:
+            description: 根据mentor的id获取对应的所有mentee
+            responses:
+              200:
+                body:
+                  application/json:
+                    properties:
+                      studentIds:
+                            properties:
+                              []:
+                              type: number
+
 
 /relationshipCreating:
    /{mentorId}/students/{studentId}:
@@ -41,31 +68,3 @@ baseUri: http://api.bronzesword.com/teacher-admin-web/
              description: 成功建立关系
            403:
              description: 关系已存在，拒绝执行
-
-/{studentId}:
-   /mentors:
-       get:
-         description: 根据student的id获取对应的所有mentor
-         responses:
-           200:
-             body:
-               application/json:
-                 properties:
-                   mentorIds:
-                         properties:
-                           []:
-                           type: number
-
-/{mentorId}:
-    /mentees:
-        get:
-          description: 根据mentor的id获取对应的所有mentee
-          responses:
-            200:
-              body:
-                application/json:
-                  properties:
-                    studentIds:
-                          properties:
-                            []:
-                            type: number
