@@ -5,7 +5,6 @@ export default class HomeworkProgramService {
   getHomeworkListByMysql({pageCount, skipCount}, callback) {
     let totalPage;
     let homeworkList = [];
-    let arr = [];
     async.waterfall([
       (done) => {
         apiRequest.get('homeworkQuizzes', (err, resp) => {
