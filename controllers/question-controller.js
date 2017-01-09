@@ -1,4 +1,4 @@
-import {SectionItem} from '../models/sectionItem';
+import {SectionItem} from '../models/quizItem';
 var yamlConfig = require('node-yaml-config');
 var config = yamlConfig.load('./config/config.yml');
 

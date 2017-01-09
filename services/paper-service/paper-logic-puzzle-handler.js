@@ -1,4 +1,4 @@
-import {SectionItem} from '../../models/sectionItem';
+import {SectionItem} from '../../models/quizItem';
 import async from 'async';
 import request from 'superagent';
 import constant from '../../mixin/constant';

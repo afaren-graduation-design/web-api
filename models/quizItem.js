@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var sectionItemSchema = new Schema({
+var quizItemSchema = new Schema({
 });
 
-sectionItemSchema.statics.findOrCreateLogic = (condition, data, done) => {
-  const model = mongoose.model('SectionItem');
+quizItemSchema.statics.findOrCreateLogic = (condition, data, done) => {
+  const model = mongoose.model('QuizItem');
   if (typeof data === 'function') {
     done = data;
     data = condition;
@@ -23,8 +23,8 @@ sectionItemSchema.statics.findOrCreateLogic = (condition, data, done) => {
   });
 };
 
-sectionItemSchema.statics.findOrCreateHomework = (condition, data, done) => {
-  const model = mongoose.model('SectionItem');
+quizItemSchema.statics.findOrCreateHomework = (condition, data, done) => {
+  const model = mongoose.model('QuizItem');
   if (typeof data === 'function') {
     done = data;
     data = condition;
@@ -43,21 +43,17 @@ sectionItemSchema.statics.findOrCreateHomework = (condition, data, done) => {
   });
 };
 
-var SectionItem = mongoose.model('SectionItem', sectionItemSchema);
+var QuizItem = mongoose.model('QuizItem', quizItemSchema);
 
-var PaperLogicPuzzle = SectionItem.discriminator('LogicPuzzle', new Schema({
+var PaperLogicPuzzle = QuizItem.discriminator('LogicPuzzle', new Schema({
   question: String,
   description: String,
   id: Number,
   chartPath: String,
-  initializedBox: String,
-  submits: {
-    type: [String],
-    default: []
-  }
+  initializedBox: String
 }));
 
-var PaperHomeworkQuiz = SectionItem.discriminator('HomeworkQuiz', new Schema({
+var PaperHomeworkQuiz = QuizItem.discriminator('HomeworkQuiz', new Schema({
   homeworkName: String,
   evaluateScript: String,
   templateRepository: String,
@@ -66,11 +62,8 @@ var PaperHomeworkQuiz = SectionItem.discriminator('HomeworkQuiz', new Schema({
   id: Number,
   type: String,
   uri: String,
-  answerPath: String,
-  submits: {
-    type: [String],
-    default: []
-  }
+  answerPath: String
 }));
 
-module.exports = {SectionItem, PaperLogicPuzzle, PaperHomeworkQuiz};
+export default mongoose.model('QuizItem', quizItemSchema);
+module.exports = {PaperLogicPuzzle, PaperHomeworkQuiz};

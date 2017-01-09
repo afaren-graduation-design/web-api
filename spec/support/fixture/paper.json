@@ -6,30 +6,19 @@
   "paperUri": "programs/1/papers/1",
   "sections": [
     {
-      "type": "logicPuzzle",
-      "items": [
+      "sectionItems": [
         {
-          "id": "5866007d7274f8b8a786d2e0",
-          "submits": []
-        }
-      ]
-    },
-    {
-      "startTime":1483513037250,
-      "endTime":1483513039880,
-      "type": "homeworkQuiz",
-      "items": [
-        {
-          "id": "586605f1a0097dbaca58cc03",
+          "item": "5866007d7274f8b8a786d2e0",
           "submits": [
-            "572dcf6f041ccfa51fb3f9dd"
+            "5866007d7274f8b8a786d2e0",
+            "5866007d7274f8b8a786d2e0"
           ]
         },
         {
-
-          "id": "586605f1a0097dbaca58cc02",
+          "item": "5866007d7274f8b8a786d2e0",
           "submits": [
-            "572dcf6f041ccfa51fb3f9cb"
+            "5866007d7274f8b8a786d2e0",
+            "5866007d7274f8b8a786d2e0"
           ]
         }
       ]
