@@ -66,6 +66,7 @@ var PaperHomeworkQuiz = SectionItem.discriminator('HomeworkQuiz', new Schema({
   id: Number,
   type: String,
   uri: String,
+  answerPath: String,
   submits: {
     type: [String],
     default: []
