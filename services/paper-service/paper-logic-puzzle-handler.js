@@ -27,7 +27,7 @@ export default class PaperLogicHandler {
   }
 
   getStatus(section, callback) {
-    let result = {type: 'LogicPuzzle', sectionId: section._id, firstQuizId: section.sectionItems[0]._id};
+    let result = {type: 'LogicPuzzle', sectionId: section._id, firstQuizId: section.quizzes[0]._id};
     if (!section.startTime) {
       return callback(null, Object.assign({}, result, {status: constant.sectionStatus.NOTSTART}));
     }

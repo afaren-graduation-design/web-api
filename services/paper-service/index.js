@@ -62,7 +62,7 @@ export default class PaperService {
       (docs, done) => {
         let sections = docs.toJSON().sections;
         async.map(sections, (section, callback) => {
-          handleSection[section.quizzes[0].__t].getStatus(section, callback);
+          handleSection[section.quizzes[0].quizId.__t].getStatus(section, callback);
         }, done);
       }
     ], (err, result) => {

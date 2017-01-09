@@ -53,11 +53,11 @@ export default class PaperHomeworkQuizHandler {
     if (isTimeout) {
       return callback(null, Object.assign({}, result, {status: constant.sectionStatus.TIMEOUT}));
     }
-    if (section.items.some(item => item.submits.length === 0)) {
+    if (section.quizzes.some(item => item.submits.length === 0)) {
       return callback(null, Object.assign({}, result, {status: constant.sectionStatus.INCOMPLETE}));
     }
 
-    const items = section.items;
+    const items = section.quizzes;
     const submitId = items[items.length - 1].submits[items[items.length - 1].submits.length - 1];
 
     findHomeworkStatus(submitId, (err, status) => {
@@ -68,10 +68,10 @@ export default class PaperHomeworkQuizHandler {
 
 function convertMillsecondToDay(millsecond) {
   return millsecond /
-      (constant.time.SECONDS_PER_MINUTE *
-      constant.time.MINUTE_PER_HOUR *
-      constant.time.HOURS_PER_DAY *
-      constant.time.MILLISECOND_PER_SECONDS);
+    (constant.time.SECONDS_PER_MINUTE *
+    constant.time.MINUTE_PER_HOUR *
+    constant.time.HOURS_PER_DAY *
+    constant.time.MILLISECOND_PER_SECONDS);
 }
 
 function findHomeworkStatus(_id, callback) {
