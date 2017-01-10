@@ -36,4 +36,5 @@ exports.setRoutes = (app) => {
   app.use('/mentors', require('./routers/mentors'));
   app.use('/stacks', require('./routers/stacks'));
   app.use('/questions', require('./routers/questions'));
+  app.use('/section', require('./routers/logic-puzzle'));
 };

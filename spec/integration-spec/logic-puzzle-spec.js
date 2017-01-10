@@ -2,7 +2,7 @@ require('./spec-base');
 var userSession = global.userSession;
 
 describe("GET /logic-puzzle", ()=> {
-  it("shoule be return 200: GET /logic-puzzle", function (done) {
+  it.skip("shoule be return 200: GET /logic-puzzle", function (done) {
     userSession
         .get("/logic-puzzle")
         .query({orderId: 3, id: '584f527cb63ad230d43c5fa1'})

@@ -20,7 +20,7 @@ router.get('/remain-time', (req, res) => {
       } else {
         Paper.findOne({'sections._id': sectionId}).exec((err, doc) => {
           if (err) {
-            done(err, null);
+            return done(err, null);
           }
           startTime = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
           thisSection = doc.sections.find(section => section._id + '' === sectionId);

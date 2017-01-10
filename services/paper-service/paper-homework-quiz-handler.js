@@ -14,7 +14,7 @@ export default class PaperHomeworkQuizHandler {
             if (err) {
               cb(err, null);
             }
-            let {homeworkName, evaluateScript, templateRepository, createTime, description, id, type, uri, answerPath} = resp.body.homeworkItem;
+            let {homeworkName, evaluateScript, templateRepository, createTime, description, id, type, uri, answerPath} = resp.body;
             QuizItem.findOrCreateHomework({id: id}, {
               homeworkName,
               evaluateScript,
@@ -26,7 +26,7 @@ export default class PaperHomeworkQuizHandler {
               uri,
               answerPath
             }, (err, doc) => {
-              cb(err, {quizId: doc.toJSON()._id, submits: ['test submit']});
+              cb(err, {quizId: doc.toJSON()._id});
             });
           });
         }, done);

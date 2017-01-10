@@ -13,7 +13,7 @@ export default class PaperLogicHandler {
       (resp, done) => {
         async.map(resp.body.quizItems, (quiz, cb) => {
           QuizItem.findOrCreateLogic({id: quiz.id}, quiz, (err, doc) => {
-            cb(err, {quizId: doc.toJSON()._id, submits: ['test submit']});
+            cb(err, {quizId: doc.toJSON()._id});
           });
         }, done);
       }
