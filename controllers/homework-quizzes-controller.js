@@ -1,17 +1,19 @@
 'use strict';
+import HomeworkQuizzesService from '../services/homework/homework-quizzes-service';
 
 var apiRequest = require('../services/api-request');
+var homeworkQuizzesService = new HomeworkQuizzesService();
 
 function HomeworkQuizzesController() {
 };
 
-HomeworkQuizzesController.prototype.getOneHomework = (req, res) => {
+HomeworkQuizzesController.prototype.getOneHomework = (req, res, next) => {
   var id = req.params.id;
-  apiRequest.get('homeworkQuizzes/' + id, (err, data) => {
+  homeworkQuizzesService.getOneHomework({id}, (err, data) => {
     if (err) {
-      return res.sendStatus(400);
+      return next(err);
     }
-    return res.send(data.body.homeworkItem);
+    res.status(200).send(data);
   });
 };
 
