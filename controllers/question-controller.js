@@ -13,7 +13,7 @@ class QuestionController {
             return next(err);
           }
           let quiz, itemCount;
-          doc.sections.forEach((section) => {
+          doc.toJSON().sections.forEach((section) => {
             let isExistQuiz = section.quizzes.find((item) =>
                item._id.toString() === questionId.toString()
             );
