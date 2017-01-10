@@ -18,7 +18,8 @@ var fixtureModelMap = {
   'homework-definition': require('../../../models/homework-definition'),
   'user-paper-form': require('../../../models/user-paper-form'),
   'message': require('../../../models/messages'),
-  'paper': require('../../../models/paper')
+  'paper': require('../../../models/paper'),
+  'quizItem': require('../../../models/quizItem').QuizItem
 };
 
 function cacheData(done) {

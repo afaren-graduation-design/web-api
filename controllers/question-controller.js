@@ -5,7 +5,7 @@ var config = yamlConfig.load('./config/config.yml');
 class QuestionController {
   getQuestion(req, res, next) {
     const questionId = req.params.questionId;
-    SectionItem.findOne({_id: questionId})
+    SectionItem.findOne({'sections.quizzes._id': questionId})
       .exec((err, doc) => {
         if (err) {
           return next(err);

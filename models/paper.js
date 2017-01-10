@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var {QuizItem} = require('./quizItem');
+var {QuizSubmit} = require('./quiz-submit');
 
 var typeEnum = {
   values: ['logicPuzzle', 'homeworkQuiz', 'shortcutsPractise'],
@@ -23,7 +24,10 @@ var paperSchema = new Schema({
           type: Schema.Types.ObjectId,
           ref: 'QuizItem'
         },
-        submits: [String]
+        submits: [{
+          type: Schema.Types.ObjectId,
+          ref: 'QuizSubmit'
+        }]
       }
     ]
   }]
