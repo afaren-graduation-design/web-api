@@ -25,7 +25,6 @@ export default class AgreementInvitationHandler extends OperateHandler {
           if (err) {
             return done(err, null);
           }
-
         });
         let newMessage = {
           from: data.to,
