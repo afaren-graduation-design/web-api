@@ -13,7 +13,7 @@ export default class MentorService {
       },
       (data, done) => {
         if (!data.length) {
-          return done(null, data);
+          return done(null, []);
         }
         apiRequest.get(`users/${data.toString()}/detail`, (err, res) => {
           const userList = res.body.userList ? res.body.userList : [].concat(res.body);
@@ -27,9 +27,6 @@ export default class MentorService {
         Message.find({from: to, type: 'INVITATION', state: 0}, done);
       },
       (data, done) => {
-        if (!data.length) {
-          return done(null, null);
-        }
         let mentorIds = [];
         data.forEach((item) => {
           let exit = mentorIds.find(id => {
@@ -42,6 +39,9 @@ export default class MentorService {
         done(null, mentorIds);
       },
       (data, done) => {
+        if (!data.length) {
+          return done(null, []);
+        }
         apiRequest.get(`users/${data.toString()}/detail`, (err, res) => {
           const userList = res.body.userList ? res.body.userList : [].concat(res.body);
           let mentorObj = userList.map(({userId, name}) => {
