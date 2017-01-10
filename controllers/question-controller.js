@@ -14,9 +14,9 @@ class QuestionController {
           }
           let quiz, itemCount;
           doc.sections.forEach((section) => {
-            let isExistQuiz = section.quizzes.find((item) => {
-              return JSON.stringify(item._id) === JSON.stringify(questionId);
-            });
+            let isExistQuiz = section.quizzes.find((item) =>
+               item._id.toString() === questionId.toString()
+            );
             quiz = isExistQuiz || quiz;
             itemCount = isExistQuiz ? section.quizzes.length : itemCount;
           });

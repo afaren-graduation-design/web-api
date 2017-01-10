@@ -1,5 +1,3 @@
-// import  question  from '../../controllers/question-controller';
-import superAgent from 'superagent';
 require('./spec-base');
 var userSession = global.userSession;
 
