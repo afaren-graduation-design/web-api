@@ -16,21 +16,25 @@ export default class AgreementInvitationHandler extends OperateHandler {
         });
       },
       (data, done) => {
-        const from = msgObj.from;
-        const to = msgObj.to;
+        Message.findById(msgObj._id, done);
+      },
+      (data, done) => {
+        const from = data.from;
+        const to = data.to;
         apiRequest.post(`relationshipCreating/${to}/students/${from}`, {}, (err, resp) => {
           if (err) {
             return done(err, null);
           }
-          let newMessage = {
-            from: msgObj.to,
-            to: msgObj.from,
-            deeplink: msgObj.deeplink,
-            type: 'AGREE_INVITATION',
-            state: 0
-          };
-          done(null, newMessage);
+
         });
+        let newMessage = {
+          from: data.to,
+          to: data.from,
+          deeplink: data.deeplink,
+          type: 'AGREE_INVITATION',
+          state: 0
+        };
+        done(null, newMessage);
       },
       (data, done) => {
         new Message(data).save(done);

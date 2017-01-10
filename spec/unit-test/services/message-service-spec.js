@@ -210,7 +210,7 @@ describe('AgreementInvitationHandler',()=>{
         let data = doc.toJSON();
         let newData = {from: data.to, to: data.from, type: 'AGREE_INVITATION', state: 0};
         Message.findOne(newData, (err, doc) => {
-          const {from, to, type, state} = doc;
+          const {from, to, type, state} = doc.toJSON();
           from.should.equal(data.to);
           to.should.equal(data.from);
           type.should.equal('AGREE_INVITATION');
