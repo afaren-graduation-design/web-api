@@ -12,7 +12,7 @@ export default class PaperHomeworkQuizHandler {
         async.map(section.quizzes, (quiz, cb) => {
           request.get(`http://localhost:8080/paper-api/${quiz.definition_uri}`, (err, resp) => {
             if (err) {
-              throw err;
+              cb(err, null);
             }
             let {homeworkName, evaluateScript, templateRepository, createTime, description, id, type, uri, answerPath} = resp.body.homeworkItem;
             QuizItem.findOrCreateHomework({id: id}, {
@@ -33,7 +33,7 @@ export default class PaperHomeworkQuizHandler {
       }
     ], (err, result) => {
       if (err) {
-        throw err;
+        callback(err, null);
       } else {
         callback(null, result);
       }

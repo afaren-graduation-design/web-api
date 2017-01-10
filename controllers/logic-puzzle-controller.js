@@ -1,6 +1,6 @@
 'use strict';
 
-var logicPuzzle = require('../models/logic-puzzle');
+var logicPuzzles = require('../models/logic-puzzle');
 var constant = require('../mixin/constant');
 var async = require('async');
 var apiRequest = require('../services/api-request');
@@ -13,7 +13,7 @@ LogicPuzzleController.prototype.getLogicPuzzle = (req, res) => {
   var id = req.query.id;
   var userId = req.session.user.id;
 
-  logicPuzzle.getLogicPuzzle(orderId, userId, id)
+  logicPuzzles.getLogicPuzzle(orderId, userId, id)
     .then((data) => {
       res.send(data);
     });
@@ -27,7 +27,7 @@ LogicPuzzleController.prototype.saveAnswer = (req, res) => {
 
   async.waterfall([
     (done) => {
-      logicPuzzle.findOne({userId: userId, _id: sectionId}, done);
+      logicPuzzles.findOne({userId: userId, _id: sectionId}, done);
     }, (data, done) => {
       if (orderId > data.quizExamples.length - 1) {
         data.quizItems[orderId - data.quizExamples.length].userAnswer = userAnswer;
@@ -57,7 +57,7 @@ LogicPuzzleController.prototype.submitPaper = (req, res) => {
   var sectionId = req.body.sectionId;
   async.waterfall([
     (done) => {
-      logicPuzzle.findOne({userId: examerId, _id: sectionId}, done);
+      logicPuzzles.findOne({userId: examerId, _id: sectionId}, done);
     },
     (data, done) => {
       if (data) {

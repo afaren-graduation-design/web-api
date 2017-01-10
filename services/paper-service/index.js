@@ -45,7 +45,7 @@ export default class PaperService {
         cb(null, {id: doc._id + ''});
       }
       if (!err && doc) {
-        cb(null, {id: doc._id});
+        cb(null, {id: doc._id + ''});
       }
       cb(err, null);
     });
@@ -55,9 +55,9 @@ export default class PaperService {
     async.waterfall([
       (done) => {
         Paper
-            .findOne(condition)
-            .populate('sections.quizzes.quizId')
-            .exec(done);
+          .findOne(condition)
+          .populate('sections.quizzes.quizId')
+          .exec(done);
       },
       (docs, done) => {
         let sections = docs.toJSON().sections;

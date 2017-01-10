@@ -66,7 +66,7 @@ logicPuzzleSchema.statics.getLogicPuzzle = (orderId, userId, id) => {
   var userAnswer;
   var itemsCount;
 
-  var model = mongoose.model('LogicPuzzle');
+  var model = mongoose.model('LogicPuzzles');
   return model.findOne({userId: userId, _id: id})
     .then(function(data) {
       data.quizExamples.forEach(function(example) {

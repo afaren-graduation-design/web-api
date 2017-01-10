@@ -32,7 +32,7 @@ quizItemSchema.statics.findOrCreateHomework = (condition, data, done) => {
   condition.__t = 'HomeworkQuiz';
   model.findOne(condition, (err, doc) => {
     if (err) {
-      throw err;
+      done(err, null);
     }
     if (doc) {
       return done(null, doc);

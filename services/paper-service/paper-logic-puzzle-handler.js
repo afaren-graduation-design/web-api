@@ -19,7 +19,7 @@ export default class PaperLogicHandler {
       }
     ], (err, result) => {
       if (err) {
-        throw err;
+        callback(err, null);
       } else {
         callback(null, result);
       }
