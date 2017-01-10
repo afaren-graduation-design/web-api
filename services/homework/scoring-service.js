@@ -57,7 +57,7 @@ function createScoring(options, callback) {
         });
     },
     (homeworkQuiz, done) => {
-      homeworkQuizDefinition = homeworkQuiz.homeworkItem.evaluateScript;
+      homeworkQuizDefinition = homeworkQuiz.evaluateScript;
       if (homeworkQuizDefinition[0] === '.') {
         homeworkQuizDefinition = homeworkQuizDefinition.substr(1, homeworkQuizDefinition.length);
       }
