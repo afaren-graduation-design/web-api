@@ -3,7 +3,7 @@
 require('./spec-base');
 var userSession = global.userSession;
 
-describe("GET /homeworks/homeworkList", ()=> {
+describe("GET /homeworks", ()=> {
   it("should return mysql homeworkList", (done)=> {
     userSession
       .get('/homeworks')

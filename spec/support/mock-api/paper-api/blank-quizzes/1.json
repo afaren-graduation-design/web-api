@@ -3,7 +3,7 @@
     "description": "should_return_blank_quizzes_by_section",
     "request": {
       "uri":"/blankQuizzes/1",
-      "methond": "get"
+      "method": "get"
     },
     "response": {
       "json": [

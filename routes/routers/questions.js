@@ -6,3 +6,4 @@ const questionController = new QuestionController();
 router.get('/:questionId', questionController.getQuestion);
 
 module.exports = router;
+
