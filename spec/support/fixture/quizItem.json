@@ -9,9 +9,7 @@
     "id": 2,
     "type": "JavaScript",
     "uri": "homeworkQuizzes/2",
-    "answerPath": "/homework-answer/calculate_median",
-    "__t": "HomeworkQuiz",
-    "__v": 0
+    "answerPath": "/homework-answer/calculate_median"
   },
   {
     "_id": "58734a1bbf258418d4c5435b",
@@ -23,8 +21,6 @@
     "id": 1,
     "type": "JavaScript",
     "uri": "homeworkQuizzes/1",
-    "answerPath": "/homework-answer/check-readme",
-    "__t": "HomeworkQuiz",
-    "__v": 0
+    "answerPath": "/homework-answer/check-readme"
   }
 ]

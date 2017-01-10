@@ -19,7 +19,7 @@ var fixtureModelMap = {
   'user-paper-form': require('../../../models/user-paper-form'),
   'message': require('../../../models/messages'),
   'paper': require('../../../models/paper'),
-  'quizItem': require('../../../models/quizItem').QuizItem
+  'quizItem': require('../../../models/quizItem').PaperHomeworkQuiz
 };
 
 function cacheData(done) {
@@ -57,6 +57,9 @@ function refreshMongo(mongoData, callBack) {
     funList.push(function(data, done) {
       var records = this.content;
       var model = fixtureModelMap[this.name];
+      if(this.name === 'quizItem'){
+        console.log(records);
+      }
       model.create(records, done);
     }.bind(item));
   });
