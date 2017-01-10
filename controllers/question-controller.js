@@ -1,30 +1,49 @@
-import {SectionItem} from '../models/quizItem';
-var yamlConfig = require('node-yaml-config');
-var config = yamlConfig.load('./config/config.yml');
+const Paper = require('../models/paper');
 
 class QuestionController {
-  getQuestion(req, res, next) {
+  getQuestion(req, res) {
+    let logicPuzzle = {};
+    let homeworkQuiz = {};
     const questionId = req.params.questionId;
-    SectionItem.findOne({'sections.quizzes._id': questionId})
-      .exec((err, doc) => {
-        if (err) {
-          return next(err);
-        }
-        let userAnswer = doc.userAnswer || doc.answer || null;
-
-        let data = {
-          item: {
-            id: doc.id,
-            initializedBox: JSON.parse(doc.initializedBox),
-            question: doc.question,
-            description: JSON.parse(doc.description),
-            chartPath: config.staticFileServer + doc.chartPath
-          },
-          userAnswer
-        };
-        res.send(data);
-      });
-  };
+    Paper
+        .findOne({'sections.quizzes._id': questionId})
+        .populate('sections.quizzes.quizId')
+        .exec((err, doc) => {
+          if (err) {
+            res.sendStatus(404);
+          }
+          let quiz, itemCount;
+          doc.sections.forEach((section) => {
+            let isExistQuiz = section.quizzes.find((item) => {
+              return JSON.stringify(item._id) === JSON.stringify(questionId);
+            });
+            quiz = isExistQuiz || quiz;
+            itemCount = isExistQuiz ? section.quizzes.length : itemCount;
+          });
+          const quizType = quiz.quizId.__t;
+          if (quizType === 'LogicPuzzle') {
+            logicPuzzle = {
+              item: {
+                id: quiz.quizId.id,
+                initializedBox: quiz.quizId.initializedBox,
+                question: quiz.quizId.question,
+                description: quiz.quizId.description,
+                chartPath: quiz.quizId.chartPath
+              },
+              itemCount
+            };
+            res.status(200).send(logicPuzzle);
+          } else if (quizType === 'HomeworkQuiz') {
+            homeworkQuiz = {
+              uri: quiz.quizId.uri,
+              id: quiz.quizId.id,
+              desc: quiz.quizId.description,
+              templateRepo: quiz.quizId.templateRepository
+            };
+            res.status(200).send(homeworkQuiz);
+          }
+        });
+  }
 }
 
 module.exports = QuestionController;
