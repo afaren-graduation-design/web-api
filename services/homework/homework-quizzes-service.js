@@ -12,7 +12,6 @@ export default class HomeworkQuizzesService {
       (data, done) => {
         apiRequest.get(data.makerDetailUri, (err, resp) => {
           const makerName = resp.body.name;
-          delete data.makerDetailUri;
           const homeworkQuiz = Object.assign({}, data, {makerName});
           done(err, homeworkQuiz);
         });
