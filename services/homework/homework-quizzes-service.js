@@ -14,7 +14,7 @@ export default class HomeworkQuizzesService {
           const makerName = resp.body.name;
           delete data.makerDetailUri;
           const homeworkQuiz = Object.assign({}, data, {makerName});
-          done(null, homeworkQuiz);
+          done(err, homeworkQuiz);
         });
       }
     ], (err, data) => {

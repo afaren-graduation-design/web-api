@@ -20,7 +20,7 @@ export default class HomeworkProgramService {
           apiRequest.get(homework.makerDetailUri, (err, resp) => {
             const makerName = resp.body.name;
             const homeworkList = Object.assign({}, homework, {makerName});
-            callback(null, homeworkList);
+            callback(err, homeworkList);
           });
         }, done);
       },
