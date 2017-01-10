@@ -36,6 +36,7 @@ export default class FindMessagesService {
                     _id: message._id,
                     to: message.to,
                     type: message.type,
+                    updatedAt: message.updatedAt,
                     deeplink: message.deeplink,
                     state: message.state
                   },
