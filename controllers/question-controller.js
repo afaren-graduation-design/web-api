@@ -1,7 +1,7 @@
 const Paper = require('../models/paper');
 
 class QuestionController {
-  getQuestion(req, res) {
+  getQuestion(req, res, next) {
     let logicPuzzle = {};
     let homeworkQuiz = {};
     const questionId = req.params.questionId;
@@ -10,7 +10,7 @@ class QuestionController {
         .populate('sections.quizzes.quizId')
         .exec((err, doc) => {
           if (err) {
-            res.sendStatus(404);
+            return next(err);
           }
           let quiz, itemCount;
           doc.sections.forEach((section) => {
