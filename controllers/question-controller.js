@@ -1,3 +1,4 @@
+var mongoose = require('mongoose');
 const Paper = require('../models/paper');
 
 class QuestionController {
@@ -5,44 +6,44 @@ class QuestionController {
     let logicPuzzle = {};
     let homeworkQuiz = {};
     const questionId = req.params.questionId;
-    Paper
-        .findOne({'sections.quizzes._id': questionId})
-        .populate('sections.quizzes.quizId')
-        .exec((err, doc) => {
+    var id = mongoose.Types.ObjectId(questionId);
+    Paper.aggregate()
+      .unwind('$sections')
+      .unwind('$sections.quizzes')
+      .match({'sections.quizzes._id': id})
+      .exec((err, doc) => {
+        if (err) {
+          return next(err);
+        }
+        Paper.populate(doc, {path: 'sections.quizzes.quizId'}, (err, docs) => {
           if (err) {
             return next(err);
           }
-          let quiz, itemCount;
-          doc.toJSON().sections.forEach((section) => {
-            let isExistQuiz = section.quizzes.find((item) =>
-               item._id.toString() === questionId.toString()
-            );
-            quiz = isExistQuiz || quiz;
-            itemCount = isExistQuiz ? section.quizzes.length : itemCount;
-          });
-          const quizType = quiz.quizId.__t;
+          const quiz = docs[0].sections.quizzes.quizId;
+          const quizType = quiz.__t;
           if (quizType === 'LogicPuzzle') {
             logicPuzzle = {
               item: {
-                id: quiz.quizId.id,
-                initializedBox: quiz.quizId.initializedBox,
-                question: quiz.quizId.question,
-                description: quiz.quizId.description,
-                chartPath: quiz.quizId.chartPath
+                id: quiz.id,
+                initializedBox: quiz.initializedBox,
+                question: quiz.question,
+                description: quiz.description,
+                chartPath: quiz.chartPath
               },
-              itemCount
+              itemCount: 3
             };
             res.status(200).send(logicPuzzle);
           } else if (quizType === 'HomeworkQuiz') {
             homeworkQuiz = {
-              uri: quiz.quizId.uri,
-              id: quiz.quizId.id,
-              desc: quiz.quizId.description,
-              templateRepo: quiz.quizId.templateRepository
+              uri: quiz.uri,
+              id: quiz.id,
+              desc: quiz.description,
+              templateRepo: quiz.templateRepository
             };
             res.status(200).send(homeworkQuiz);
           }
         });
+      });
   }
 }
 
