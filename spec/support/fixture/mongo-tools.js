@@ -19,7 +19,8 @@ var fixtureModelMap = {
   'user-paper-form': require('../../../models/user-paper-form'),
   'message': require('../../../models/messages'),
   'paper': require('../../../models/paper'),
-  'quizItem': require('../../../models/quizItem').PaperHomeworkQuiz
+  'paper-homework-quiz': require('../../../models/quizItem').PaperHomeworkQuiz,
+  'paper-logic-puzzle':require('../../../models/quizItem').PaperLogicPuzzle
 };
 
 function cacheData(done) {
