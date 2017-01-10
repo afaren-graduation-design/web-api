@@ -7,6 +7,9 @@ class ProgramPaperController {
     let sectionId = req.params.sectionId;
     Paper.findOne({'sections._id': sectionId}).populate('sections.quizzes.quizId')
         .exec((err, doc) => {
+          if (err) {
+            throw err;
+          }
           const section = doc.sections.find((section) => section._id + '' === sectionId);
           switch (section.quizzes[0].quizId.__t) {
             case 'HomeworkQuiz':

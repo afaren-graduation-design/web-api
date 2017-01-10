@@ -80,6 +80,10 @@
         "after": true
       }
     ],
+    "handle-callback-err": [
+      2,
+      "^(err|error)$"
+    ],
     "indent": [
       2,
       2,

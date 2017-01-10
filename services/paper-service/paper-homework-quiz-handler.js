@@ -61,6 +61,9 @@ export default class PaperHomeworkQuizHandler {
     const submitId = items[items.length - 1].submits[items[items.length - 1].submits.length - 1];
 
     findHomeworkStatus(submitId, (err, status) => {
+      if (err) {
+        callback(null, null);
+      }
       return callback(null, Object.assign({}, result, {status}));
     });
   }
@@ -68,14 +71,17 @@ export default class PaperHomeworkQuizHandler {
 
 function convertMillsecondToDay(millsecond) {
   return millsecond /
-    (constant.time.SECONDS_PER_MINUTE *
-    constant.time.MINUTE_PER_HOUR *
-    constant.time.HOURS_PER_DAY *
-    constant.time.MILLISECOND_PER_SECONDS);
+      (constant.time.SECONDS_PER_MINUTE *
+      constant.time.MINUTE_PER_HOUR *
+      constant.time.HOURS_PER_DAY *
+      constant.time.MILLISECOND_PER_SECONDS);
 }
 
 function findHomeworkStatus(_id, callback) {
   HomeWorkScoring.findById(_id).exec((err, doc) => {
+    if (err) {
+      callback(null, null);
+    }
     if (doc.status === 4) {
       callback(null, constant.sectionStatus.COMPLETE);
     } else {
