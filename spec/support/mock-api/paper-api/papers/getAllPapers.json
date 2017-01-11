@@ -14,7 +14,9 @@
             "description": "simple",
             "isDistribution": true,
             "uri": "papers/1",
-            "makerId": 1
+            "makerId": 1,
+            "id": 1,
+            "programId": 1
           },
           {
             "createTime": 2016,
@@ -22,7 +24,9 @@
             "description": "standard",
             "isDistribution": false,
             "uri": "papers/2",
-            "makerId": 2
+            "makerId": 2,
+            "id": 2,
+            "programId": 3
           },
           {
             "createTime": 2016,
@@ -30,7 +34,9 @@
             "description": "hard",
             "isDistribution": true,
             "uri": "papers/3",
-            "makerId": 2
+            "makerId": 2,
+            "id": 3,
+            "programId": 2
           },
           {
             "createTime": 2016,
@@ -38,7 +44,9 @@
             "description": "f",
             "isDistribution": false,
             "uri": "papers/4",
-            "makerId": 2
+            "makerId": 2,
+            "id": 4,
+            "programId": 6
           },
           {
             "createTime": 2017,
@@ -46,7 +54,9 @@
             "description": "a",
             "isDistribution": false,
             "uri": "papers/5",
-            "makerId": 3
+            "makerId": 3,
+            "id":5,
+            "programId":6
           },
           {
             "createTime": 2014,
@@ -54,7 +64,9 @@
             "description": "b",
             "isDistribution": false,
             "uri": "papers/6",
-            "makerId": 2
+            "makerId": 2,
+            "id": 6,
+            "programId": 6
           },
           {
             "createTime": 2013,
@@ -62,7 +74,9 @@
             "description": "c",
             "isDistribution": false,
             "uri": "papers/7",
-            "makerId": 2
+            "makerId": 2,
+            "id": 7,
+            "programId": 6
           },
           {
             "createTime": 2016,
@@ -70,7 +84,9 @@
             "description": "d",
             "isDistribution": false,
             "uri": "papers/8",
-            "makerId": 5
+            "makerId": 5,
+            "id":8,
+            "programId":6
           },
           {
             "createTime": 2015,
@@ -78,7 +94,9 @@
             "description": "e",
             "isDistribution": true,
             "uri": "papers/9",
-            "makerId": 2
+            "makerId": 2,
+            "id": 9,
+            "programId": 6
           },
           {
             "createTime": 2015,
@@ -86,7 +104,10 @@
             "description": "e",
             "isDistribution": true,
             "uri": "papers/10",
-            "makerId": 3
+            "makerId": 3,
+            "id":10,
+            "programId":6
+
           },
           {
             "createTime": 2015,
@@ -94,7 +115,9 @@
             "description": "e",
             "isDistribution": true,
             "uri": "papers/11",
-            "makerId": 7
+            "makerId": 7,
+            "id":11,
+            "programId":6
           }
         ],
         "paperCount": 11

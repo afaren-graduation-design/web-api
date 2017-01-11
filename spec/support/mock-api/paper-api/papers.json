@@ -14,7 +14,9 @@
             "description": "simple",
             "isDistribution": true,
             "uri": "papers/1",
-            "makerId": 1
+            "makerId": 1,
+            "programId": 1,
+            "id": 1
           },
           {
             "createTime": 2016,
@@ -22,7 +24,10 @@
             "description": "standard",
             "isDistribution": false,
             "uri": "papers/2",
-            "makerId": 2
+            "makerId": 2,
+            "programId":3,
+            "id":2
+
           },
           {
             "createTime": 2016,
@@ -30,23 +35,29 @@
             "description": "hard",
             "isDistribution": true,
             "uri": "papers/3",
-            "makerId": 2
+            "makerId": 2,
+            "programId":2,
+            "id":3
           },
           {
             "createTime": 2016,
             "paperName": "测试试卷",
             "description": "f",
-            "isDistribution": false,
+            "isDistribution":false,
             "uri": "papers/4",
-            "makerId": 2
+            "makerId": 2,
+            "programId":6,
+            "id":4
           },
           {
             "createTime": 2017,
             "paperName": "java",
             "description": "a",
-            "isDistribution": false,
+            "isDistribution":false,
             "uri": "papers/5",
-            "makerId": 3
+            "makerId": 3,
+            "programId":6,
+            "id":5
           },
           {
             "createTime": 2014,
@@ -54,7 +65,9 @@
             "description": "b",
             "isDistribution": false,
             "uri": "papers/6",
-            "makerId": 2
+            "makerId": 2,
+            "programId":6,
+            "id":6
           },
           {
             "createTime": 2013,
@@ -62,7 +75,9 @@
             "description": "c",
             "isDistribution": false,
             "uri": "papers/7",
-            "makerId": 2
+            "makerId": 2,
+            "programId":6,
+            "id":7
           },
           {
             "createTime": 2016,
@@ -70,7 +85,9 @@
             "description": "d",
             "isDistribution": false,
             "uri": "papers/8",
-            "makerId": 5
+            "makerId": 5,
+            "programId":6,
+            "id":8
           },
           {
             "createTime": 2015,
@@ -78,7 +95,9 @@
             "description": "e",
             "isDistribution": true,
             "uri": "papers/9",
-            "makerId": 2
+            "makerId": 2,
+            "programId":6,
+            "id":9
           },
           {
             "createTime": 2015,
@@ -86,7 +105,9 @@
             "description": "e",
             "isDistribution": true,
             "uri": "papers/10",
-            "makerId": 3
+            "makerId": 3,
+            "programId":6,
+            "id":10
           },
           {
             "createTime": 2015,
@@ -94,7 +115,9 @@
             "description": "e",
             "isDistribution": true,
             "uri": "papers/11",
-            "makerId": 7
+            "makerId": 7,
+            "programId":6,
+            "id":11
           }
         ],
         "paperCount": 11
