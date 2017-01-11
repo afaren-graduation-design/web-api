@@ -13,48 +13,18 @@ var apiRequest = require('../api-request');
 var fs = require('fs');
 var os = require('os');
 var taskApi = config.taskApi;
+var {HomeworkQuizSubmit} = require('../../models/quiz-submit');
+var Paper = require('../../models/paper');
 
 function createScoring(options, callback) {
   var homeworkQuizDefinition;
   var result;
+  var homeworkSubmitId = '';
   async.waterfall([
     (done) => {
-      apiRequest.get(options.homeworkQuizUri, function(err, data) {
-        done(err, data.body);
+      apiRequest.get(options.homeworkQuizUri, function(err, resp) {
+        done(err, resp.body);
       });
-    },
-    // 更新时间
-    (homeworkQuiz, done) => {
-      var condition = {
-        userId: options.user.id,
-        paperId: parseInt(options.paperId),
-        programId: parseInt(options.programId),
-        'quizzes.id': options.quizId
-      };
-      userHomeworkQuizzes
-        .aggregate({
-          '$unwind': '$quizzes'
-        })
-        .match(condition)
-        .exec((err, docs) => {
-          var histories = docs[0].quizzes.homeworkSubmitPostHistory;
-          var len = histories.length;
-          if (err) {
-            done(err, null);
-          } else if (len) {
-            homeworkScoring.findById(histories[len - 1], (err, doc) => {
-              if (err) {
-                done(err, null);
-              } else {
-                options.startTime = doc.commitTime;
-                done(null, homeworkQuiz);
-              }
-            });
-          } else {
-            options.startTime = docs[0].quizzes.startTime;
-            done(null, homeworkQuiz);
-          }
-        });
     },
     (homeworkQuiz, done) => {
       homeworkQuizDefinition = homeworkQuiz.evaluateScript;
@@ -66,26 +36,22 @@ function createScoring(options, callback) {
     },
     (data, done) => {
       result = data;
-      userHomeworkQuizzes.findOne({
-        userId: options.user.id,
-        paperId: parseInt(options.paperId),
-        programId: parseInt(options.programId)
-      }, (err, doc) => {
-        if (err) {
-          done(err, null);
-        } else {
-          var theQuiz = doc.quizzes.find((quiz) => {
-            return quiz.id === options.quizId;
-          });
-        }
-        theQuiz.status = data.status;
-        theQuiz.homeworkSubmitPostHistory.push(data._id);
-        doc.save(() => {
-          done(null, theQuiz);
-        });
-      });
+      HomeworkQuizSubmit.create(result._id, done);
     },
-    (data, done) => {
+    (doc, done) => {
+      homeworkSubmitId = doc._id;
+      Paper.findOne({'sections.quizzes._id': options.quizId}, done);
+    },
+    (doc, done) => {
+      doc.sections.forEach(section => {
+        let dot = section.quizzes.find(quiz => quiz._id.toString() === options.quizId.toString());
+        if (dot) {
+          dot.submits.push(homeworkSubmitId);
+        }
+      });
+      Paper.findByIdAndUpdate(doc._id, doc, done);
+    },
+    (doc, done) => {
       var scriptPath = scriptBasePath + homeworkQuizDefinition;
       fs.exists(scriptPath, function(fileOk) {
         if (fileOk) {
@@ -117,7 +83,7 @@ function createScoring(options, callback) {
         .send(info)
         .end(done);
     }
-  ], (err, data) => {
+  ], (err, result) => {
     callback(err, result);
   });
 }
@@ -129,12 +95,6 @@ function updateScoring(options, callback) {
       homeworkScoring.update({
         _id: options.historyId
       }, options, done);
-    },
-    (data, done) => {
-      userHomeworkQuizzes.updateStatus({
-        historyId: options.historyId,
-        status: options.status
-      }, done);
     },
     (data, done) => {
       var id = new mongoose.Types.ObjectId(options.historyId);
