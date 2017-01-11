@@ -52,7 +52,6 @@ LogicPuzzleController.prototype.saveAnswer = (req, res) => {
 };
 
 LogicPuzzleController.prototype.submitPaper = (req, res) => {
-  // var examerId = req.session.user.id || 1;
   var startTime;
   var endTime = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
   var sectionId = req.params.sectionId;
@@ -104,7 +103,7 @@ LogicPuzzleController.setScoreSheet = (scoreSheetData, done) => {
   var scoreSheetUri = 'scoresheets';
   var itemPosts = [];
   var data = scoreSheetData.data;
-  var paperId = data.paperId;
+  var paperId = data[0].paperId;
   // var programId = data.programId;
   data[0].sections.quizzes.forEach((quiz) => {
     itemPosts.push({answer: quiz.submits[quiz.submits.length - 1].userAnswer, quizItemId: quiz.quizId.id});
