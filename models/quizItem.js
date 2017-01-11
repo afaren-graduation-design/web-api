@@ -1,8 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var quizItemSchema = new Schema({
-});
+var quizItemSchema = new Schema({});
 
 quizItemSchema.statics.findOrCreateLogic = (condition, data, done) => {
   const model = mongoose.model('QuizItem');
@@ -50,7 +49,8 @@ var PaperLogicPuzzle = QuizItem.discriminator('LogicPuzzle', new Schema({
   description: String,
   id: Number,
   chartPath: String,
-  initializedBox: String
+  initializedBox: String,
+  answer: String
 }));
 
 var PaperHomeworkQuiz = QuizItem.discriminator('HomeworkQuiz', new Schema({
