@@ -25,6 +25,7 @@ router.get('/remain-time', (req, res) => {
           startTime = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
           thisSection = doc.sections.find(section => section._id + '' === sectionId);
           if (thisSection.hasOwnProperty(startTime)) {
+            startTime = thisSection.startTime;
             done(null, doc);
           } else {
             var sectionIndex = doc.sections.indexOf(thisSection);
