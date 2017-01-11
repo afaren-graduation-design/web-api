@@ -11,7 +11,7 @@ export default class PaperLogicHandler {
         request.get('http://localhost:8080/paper-api/quizItems/examples', done);
       },
       (resp, done) => {
-        async.map(resp.body.examples, (example, cb) => {
+        async.map(resp.body.items, (example, cb) => {
           QuizItem.findOrCreateLogic({id: example.id}, {
             question: example.questionZh,
             description: example.descriptionZh,
