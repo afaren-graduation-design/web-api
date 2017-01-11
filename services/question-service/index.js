@@ -1,5 +1,5 @@
 import async from 'async';
-import Paper  from '../../models/paper';
+import Paper from '../../models/paper';
 import LogicPuzzleHandler from './LogicPuzzleHandler';
 import HomeworkQuizHandler from './HomeworkQuizHandler';
 
@@ -17,6 +17,9 @@ export default class QuestionService {
             .unwind('$sections.quizzes')
             .match({'sections.quizzes._id': id})
             .exec((err, doc) => {
+              if (err) {
+                return callback(err, null);
+              }
               Paper.populate(doc, {path: 'sections.quizzes.quizId'}, (err, docs) => {
                 const quiz = docs[0].sections.quizzes.quizId;
                 done(err, quiz);
@@ -24,11 +27,11 @@ export default class QuestionService {
             });
       },
       (data, done) => {
-          this.logicPuzzleHandler.handle(data,done);
+        this.logicPuzzleHandler.handle(data, done);
       },
       (data, done) => {
-       this.homeworkQuizHandler.handle(data,done);
+        this.homeworkQuizHandler.handle(data, done);
       }
-    ], callback)
+    ], callback);
   }
 }

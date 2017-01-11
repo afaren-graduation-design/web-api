@@ -1,8 +1,8 @@
 export default class OperateHandler {
-  handle(quiz, callback){
-    if(!this.check(quiz)){
+  handle(quiz, callback) {
+    if (!this.check(quiz)) {
       return callback(null, quiz);
     }
-    this.subHandle(quiz , callback);
+    this.subHandle(quiz, callback);
   }
 }

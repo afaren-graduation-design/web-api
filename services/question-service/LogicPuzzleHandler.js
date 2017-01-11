@@ -1,6 +1,6 @@
 import async from 'async';
-import  OperateHandler from './OperateHandler';
-import  Paper from '../../models/paper';
+import OperateHandler from './OperateHandler';
+import Paper from '../../models/paper';
 
 export default class LogicPuzzleHandler extends OperateHandler {
   check(quiz) {
@@ -9,15 +9,21 @@ export default class LogicPuzzleHandler extends OperateHandler {
 
   subHandle(quiz, callback) {
     async.waterfall([
-      (done)=> {
+      (done) => {
         Paper.aggregate()
             .unwind('$sections')
             .unwind('$sections.quizzes')
             .exec((err, doc) => {
+              if (err) {
+                return done(err, null);
+              }
               Paper.populate(doc, {path: 'sections.quizzes.quizId'}, (err, docs) => {
-               const itemCount = docs.filter((item)=> item.sections.quizzes.quizId.__t === 'LogicPuzzle').length;
+                if (err) {
+                  return done(err, null);
+                }
+                const itemCount = docs.filter((item) => item.sections.quizzes.quizId.__t === 'LogicPuzzle').length;
                 done(null, itemCount);
-              })
+              });
             });
       },
       (data, done) => {
@@ -29,10 +35,10 @@ export default class LogicPuzzleHandler extends OperateHandler {
             description: quiz.description,
             chartPath: quiz.chartPath
           },
-          itemCount:data
+          itemCount: data
         };
-        done(null,logicPuzzle);
+        done(null, logicPuzzle);
       }
-    ],callback);
+    ], callback);
   }
 }
