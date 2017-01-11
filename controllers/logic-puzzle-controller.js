@@ -6,6 +6,7 @@ var constant = require('../mixin/constant');
 var async = require('async');
 var apiRequest = require('../services/api-request');
 var mongoose = require('mongoose');
+var {LogicPuzzleSubmit} = require('../models/quiz-submit');
 
 function LogicPuzzleController() {
 }
@@ -22,25 +23,36 @@ LogicPuzzleController.prototype.getLogicPuzzle = (req, res) => {
 };
 
 LogicPuzzleController.prototype.saveAnswer = (req, res) => {
-  var orderId = req.body.orderId;
-  var userAnswer = req.body.userAnswer;
-  var userId = req.session.user.id;
-  var sectionId = req.body.sectionId;
+  let userAnswer = req.body.userAnswer;
+  let quizId = req.params.quizId;
+  let logicPuzzleDocId = '';
 
   async.waterfall([
     (done) => {
-      logicPuzzles.findOne({userId: userId, _id: sectionId}, done);
-    }, (data, done) => {
-      if (orderId > data.quizExamples.length - 1) {
-        data.quizItems[orderId - data.quizExamples.length].userAnswer = userAnswer;
-        data.save((err, doc) => {
-          done(err, doc);
-        });
-      } else {
-        done(null, 'doc');
-      }
-    }, (doc, done) => {
-      done();
+      let logicPuzzleSubmitDocument = new LogicPuzzleSubmit({userAnswer});
+      logicPuzzleSubmitDocument.save((err, doc) => {
+        logicPuzzleDocId = doc._id;
+        done(err, doc);
+      });
+    },
+    (doc, done) => {
+      Paper.findOne({'sections.quizzes._id': quizId.toString()}, (err, doc) => {
+        done(err, doc);
+      });
+    },
+    (doc, done) => {
+      doc.sections.forEach(section => {
+        let dot = section.quizzes.find(quiz => quiz._id.toString() === quizId.toString());
+        if (dot) {
+          dot.submits.push(logicPuzzleDocId);
+        }
+      });
+      done(null, doc);
+    },
+    (doc, done) => {
+      Paper.findByIdAndUpdate(doc._id, doc).exec((err, doc) => {
+        done(err);
+      });
     }
   ], (err) => {
     if (!err) {

@@ -10,7 +10,7 @@ router.get('/', logicPuzzleController.getLogicPuzzle);
 
 // router.post('/', logicPuzzleController.submitPaper);
 
-router.post('/save', logicPuzzleController.saveAnswer);
+router.post('/quiz/:quizId/submit', logicPuzzleController.saveAnswer);
 
 router.post('/:sectionId/submition', logicPuzzleController.submitPaper);
 

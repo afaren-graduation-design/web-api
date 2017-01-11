@@ -6,7 +6,7 @@ var quizSubmitSchema = new Schema({
 
 var QuizSubmit = mongoose.model('QuizSubmit', quizSubmitSchema);
 
-var homeworkQuizSubmit = QuizSubmit.discriminator('homework', new Schema({
+var HomeworkQuizSubmit = QuizSubmit.discriminator('homework', new Schema({
   userAnswerRepo: String,
   status: { type: Number, default: 3 },
   result: { type: String, default: '排队中,请稍候...' },
@@ -18,8 +18,8 @@ var homeworkQuizSubmit = QuizSubmit.discriminator('homework', new Schema({
   callbackURL: String
 }));
 
-var logicPuzzleSubmit = QuizSubmit.discriminator('logicPuzzle', new Schema({
+var LogicPuzzleSubmit = QuizSubmit.discriminator('logicPuzzle', new Schema({
   userAnswer: Number
 }));
 
-module.exports = {QuizSubmit, homeworkQuizSubmit, logicPuzzleSubmit};
+module.exports = {QuizSubmit, HomeworkQuizSubmit, LogicPuzzleSubmit};
