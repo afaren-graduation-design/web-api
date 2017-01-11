@@ -21,10 +21,16 @@ export default class QuestionService {
                 return callback(err, null);
               }
               Paper.populate(doc, {path: 'sections.quizzes.quizId'}, (err, docs) => {
-                const quiz = docs[0].sections.quizzes.quizId;
-                done(err, quiz);
+                done(err, docs);
               });
             });
+      }, (quizInfo, done) => {
+        const quiz = quizInfo[0].sections.quizzes.quizId;
+        const info = {};
+        info.programId = quizInfo[0].programId;
+        info.paperId = quizInfo[0].paperId;
+        const quizInfoObj = Object.assign({info}, {quiz});
+        done(null, quizInfoObj);
       },
       (data, done) => {
         this.logicPuzzleHandler.handle(data, done);

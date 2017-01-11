@@ -1,17 +1,21 @@
 import OperateHandler from './OperateHandler';
 
 export default class HomeworkQuizHandler extends OperateHandler {
-  check(quiz) {
-    return (quiz.__t === 'HomeworkQuiz');
+  check(quizInfo) {
+    if (!quizInfo.quiz) {
+      return false;
+    }
+    return (quizInfo.quiz.__t === 'HomeworkQuiz');
   }
 
-  subHandle(quiz, callback) {
+  subHandle(quizInfo, callback) {
     const homeworkQuiz = {
-      uri: quiz.uri,
-      id: quiz.id,
-      desc: quiz.description,
-      templateRepo: quiz.templateRepository
+      uri: quizInfo.quiz.uri,
+      id: quizInfo.quiz.id,
+      desc: quizInfo.quiz.description,
+      templateRepo: quizInfo.quiz.templateRepository,
+      info: quizInfo.info
     };
-    callback(null, homeworkQuiz);
+    return callback(null, homeworkQuiz);
   }
 }

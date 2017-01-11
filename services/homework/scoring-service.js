@@ -64,8 +64,7 @@ function createScoring(options, callback) {
           });
         } else {
           done(true, 'file not found');
-        }
-        ;
+        };
       });
     },
     (script, done) => {

@@ -2,7 +2,7 @@ var userSession = global.userSession;
 
 
 describe('QuestionController', () => {
-  it('should return Homework when receive request', (done) => {
+  it ('should return Homework when receive request', (done) => {
     userSession.get('/questions/5866007d7274f8b8a786d2e0')
       .expect(200)
       .expect((res) => {
