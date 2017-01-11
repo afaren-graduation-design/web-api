@@ -218,7 +218,12 @@
         "args": "none"
       }
     ],
-	"no-magic-numbers": 2,
+	"no-magic-numbers": [
+		2,
+		{
+			"ignoreArrayIndexes": true
+		}
+	],
     "no-useless-call": 2,
     "no-useless-computed-key": 2,
     "no-useless-constructor": 2,
