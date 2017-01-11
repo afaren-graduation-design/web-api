@@ -34,8 +34,5 @@ export default class LogicPuzzleHandler extends OperateHandler {
         done(null,logicPuzzle);
       }
     ],callback);
-
-
-    // return callback(null, logicPuzzle);
   }
 }
