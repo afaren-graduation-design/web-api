@@ -30,9 +30,9 @@ export default class LogicPuzzleHandler extends OperateHandler {
         const logicPuzzle = {
           item: {
             id: quiz.id,
-            initializedBox: quiz.initializedBox,
+            initializedBox: JSON.parse(quiz.initializedBox),
             question: quiz.question,
-            description: quiz.description,
+            description: JSON.parse(quiz.description),
             chartPath: quiz.chartPath
           },
           itemCount: data
