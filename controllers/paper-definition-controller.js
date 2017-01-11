@@ -25,7 +25,11 @@ PaperDefinitionController.prototype.getPaperDefinition = (req, res, next) => {
 PaperDefinitionController.prototype.savePaperDefinition = (req, res, next) => {
   var programId = req.params.programId;
   var makerId = req.session.user.id;
-  var createTime = parseInt(new Date().getTime() / constant.time.MILLISECOND_PER_SECONDS);
+  var createTime = parseInt(new Date().getTime()) /
+    (constant.time.SECONDS_PER_MINUTE *
+    constant.time.MINUTE_PER_HOUR *
+    constant.time.HOURS_PER_DAY *
+    constant.time.MILLISECOND_PER_SECONDS);
   var updateTime = createTime;
   var {paperName, description, sections} = req.body;
   new PaperDefinition({
@@ -54,21 +58,21 @@ PaperDefinitionController.prototype.updatePaperDefinition = (req, res) => {
   var programId = req.params.programId;
   var paperId = req.params.paperId;
   var updateTime = parseInt(new Date().getTime()) /
-      (constant.time.SECONDS_PER_MINUTE *
-      constant.time.MINUTE_PER_HOUR *
-      constant.time.HOURS_PER_DAY *
-      constant.time.MILLISECOND_PER_SECONDS);
+    (constant.time.SECONDS_PER_MINUTE *
+    constant.time.MINUTE_PER_HOUR *
+    constant.time.HOURS_PER_DAY *
+    constant.time.MILLISECOND_PER_SECONDS);
   ;
 
   var {paperName, description, sections} = req.body.data;
   PaperDefinition.update({programId, _id: paperId},
-      {$set: {programId, updateTime, paperName, description, sections}}, (err) => {
-        if (!err) {
-          res.sendStatus(204);
-        } else {
-          res.sendStatus(400);
-        }
-      });
+    {$set: {programId, updateTime, paperName, description, sections}}, (err) => {
+      if (!err) {
+        res.sendStatus(204);
+      } else {
+        res.sendStatus(400);
+      }
+    });
 };
 
 PaperDefinitionController.prototype.deletePaperDefinition = (req, res) => {
@@ -172,8 +176,8 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
   var {paperName, description, sections} = req.body.data;
   var programId = Number(req.params.programId);
   var makerId = req.session.user.id;
-  var createTime = req.body.data.createTime ? req.body.data.createTime : parseInt(new Date().getTime() /
-      constant.time.MILLISECOND_PER_SECONDS);
+  var createTime = parseInt(req.body.data.createTime ? req.body.data.createTime : parseInt(new Date().getTime() /
+    constant.time.MILLISECOND_PER_SECONDS));
   var updateTime = createTime;
   var data;
   new PaperDefinition({
@@ -195,6 +199,7 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
     data = {
       makerId, createTime, programId, paperName, description, sections: formattedSections
     };
+
     apiRequest.post('programs/1/papers', data, (error, resp) => {
       if (!error && resp) {
         PaperDefinition.update({_id: paper._id}, {uri: resp.body.uri, isDistribution: true}, (err) => {
@@ -216,33 +221,32 @@ PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) =
   var programId = Number(req.params.programId);
   var paperId = req.params.paperId;
   var makerId = req.session.user.id;
-  var updateTime = req.body.data.updateTime ? req.body.data.updateTime : parseInt(new Date().getTime() /
-      constant.time.MILLISECOND_PER_SECONDS);
+  var updateTime = parseInt(req.body.data.updateTime ? req.body.data.updateTime : parseInt(new Date().getTime() /
+      constant.time.MILLISECOND_PER_SECONDS));
   var data;
   PaperDefinition.update({_id: paperId, programId, isDeleted: false},
-      {paperName, description, sections, updateTime}, (err) => {
-        if (err) {
+    {paperName, description, sections, updateTime}, (err) => {
+      if (err) {
+        return res.sendStatus(400);
+      }
+      var formattedSections = formatSections(sections);
+      data = {
+        makerId, createTime: updateTime, programId, paperName, description, sections: formattedSections
+      };
+      apiRequest.post('programs/1/papers', data, (error, resp) => {
+        if (!error && resp) {
+          PaperDefinition.update({_id: paperId}, {uri: resp.body.uri, isDistribution: true}, (err) => {
+            if (!err) {
+              var uri = resp.body.uri;
+              return res.status(204).send(uri);
+            }
+            return res.sendStatus(400);
+          });
+        } else {
           return res.sendStatus(400);
         }
-        var formattedSections = formatSections(sections);
-        data = {
-          makerId, createTime: updateTime, programId, paperName, description, sections: formattedSections
-        };
-
-        apiRequest.post('programs/1/papers', data, (error, resp) => {
-          if (!error && resp) {
-            PaperDefinition.update({_id: paperId}, {uri: resp.body.uri, isDistribution: true}, (err) => {
-              if (!err) {
-                var uri = resp.body.uri;
-                return res.status(204).send(uri);
-              }
-              return res.sendStatus(400);
-            });
-          } else {
-            return res.sendStatus(400);
-          }
-        });
       });
+    });
 };
 
 module.exports = PaperDefinitionController;

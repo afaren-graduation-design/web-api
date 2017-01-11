@@ -108,10 +108,7 @@ HomeworkDefinitionController.prototype.deleteSomeHomeworks = (req, res) => {
 HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
   var id = req.params.dataId;
   var {description, status, result} = req.body;
-  var createTime = parseInt(new Date().getTime()) /
-    (constant.time.SECONDS_PER_MINUTE *
-    constant.time.MINUTE_PER_HOUR *
-    constant.time.HOURS_PER_DAY *
+  var createTime = parseInt(new Date().getTime() /
     constant.time.MILLISECOND_PER_SECONDS);
   var answerPath = 'test path'; // Fixme
   var evaluateScript = req.file ? `./${req.file.path}` : '';
