@@ -31,7 +31,7 @@ PaperDefinitionController.prototype.savePaperDefinition = (req, res, next) => {
     constant.time.HOURS_PER_DAY *
     constant.time.MILLISECOND_PER_SECONDS);
   var updateTime = createTime;
-  var {paperName, description, sections} = req.body.data;
+  var {paperName, description, sections} = req.body;
   new PaperDefinition({
     programId,
     isDistribution: false,
