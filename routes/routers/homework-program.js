@@ -5,6 +5,5 @@ var HomeworkProgramController = require('../../controllers/homework-program-cont
 var homeworkProgramController = new HomeworkProgramController();
 
 router.get('/', homeworkProgramController.getHomeworkListByMysql);
-router.get('/selection', homeworkProgramController.matchHomeworkByMysql);
 
 module.exports = router;

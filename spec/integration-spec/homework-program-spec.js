@@ -13,25 +13,8 @@ describe("GET /homeworks", ()=> {
       })
       .expect(200)
       .expect((res) => {
-        res.body.homeworkList.length.should.equal(3)
+        res.body.homeworkList.length.should.equal(8)
       })
       .end(done)
   })
 });
-
-describe("GET /homeworks/homeworkList/selection", ()=> {
-  it("should return matched homeworkList by mysql", (done)=> {
-    userSession
-      .get('/homeworks/selection')
-      .query({
-        page: 1,
-        pageCount: 3,
-        name: 'homework1'
-      })
-      .expect(200)
-      .expect((res)=> {
-        res.body.length.should.equal(8)
-      })
-      .end(done)
-  })
-})

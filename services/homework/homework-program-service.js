@@ -2,17 +2,14 @@ import apiRequest from '../api-request';
 import async from 'async';
 
 export default class HomeworkProgramService {
-  getHomeworkListByMysql({pageCount, skipCount}, callback) {
-    let totalPage;
-    let homeworkList = [];
+  getHomeworkListByMysql({homeworkName, type}, callback) {
     async.waterfall([
       (done) => {
-        apiRequest.get('homeworkQuizzes', (err, resp) => {
-          if (!err && resp) {
-            totalPage = Math.ceil(resp.body.homeworkQuizzes.length / pageCount);
-            homeworkList = resp.body.homeworkQuizzes.slice(skipCount, skipCount + pageCount);
+        apiRequest.get('homeworkQuizzes', {homeworkName, type}, (err, resp) => {
+          if (err) {
+            done(err, null);
           }
-          done(err, homeworkList);
+          done(err, resp.body.homeworkQuizzes);
         });
       },
       (data, done) => {
@@ -25,10 +22,8 @@ export default class HomeworkProgramService {
         }, done);
       },
       (homeworkList, done) => {
-        done(null, {homeworkList, totalPage});
+        done(null, {homeworkList});
       }
-    ], (err, data) => {
-      callback(err, data);
-    });
+    ], callback);
   }
 }
