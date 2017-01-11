@@ -24,7 +24,7 @@ router.get('/remain-time', (req, res) => {
           }
           startTime = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
           thisSection = doc.sections.find(section => section._id + '' === sectionId);
-          if (thisSection.hasOwnProperty(startTime)) {
+          if (thisSection.startTime) {
             startTime = thisSection.startTime;
             done(null, doc);
           } else {
@@ -42,7 +42,7 @@ router.get('/remain-time', (req, res) => {
     },
     (doc, done) => {
       var now = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
-      var usedTime = now - (startTime || thisSection.startTime);
+      var usedTime = now - startTime;
       done(null, parseInt((TOTAL_TIME - usedTime)));
     }
   ], (err, remainTime) => {
