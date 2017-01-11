@@ -37,7 +37,7 @@ export default class LogicPuzzleHandler extends OperateHandler {
             description: JSON.parse(quiz.description),
             chartPath: config.staticFileServer + quiz.chartPath
           },
-          itemCount: data
+          itemsCount: data
         };
         done(null, logicPuzzle);
       }
