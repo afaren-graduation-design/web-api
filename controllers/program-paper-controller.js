@@ -13,9 +13,27 @@ class ProgramPaperController {
           const section = doc.sections.find((section) => section._id + '' === sectionId);
           switch (section.quizzes[0].quizId.__t) {
             case 'HomeworkQuiz':
-              res.send(section.quizzes.map(quiz => {
+              let result = section.quizzes.map(quiz => {
                 return {id: quiz._id, homeworkName: quiz.quizId.homeworkName};
-              }));
+              });
+
+              Paper.findOne({'sections._id': sectionId}).populate('sections.quizzes.submits')
+                  .exec((err, doc) => {
+                    if (err) {
+                      throw err;
+                    }
+                    const thisSection = doc.sections.find((section) => section._id + '' === sectionId);
+
+                    thisSection.quizzes.map((quiz, index) => {
+                      if (quiz.submits.length === 0) {
+                        Object.assign(result[index], {status: 0});
+                      } else {
+                        const status = quiz.submits[quiz.submits.length - 1].status;
+                        Object.assign({}, result[index], {status: status});
+                      }
+                    });
+                    res.send(result);
+                  });
               break;
             default:
               res.send(section.quizzes.map(quiz => {
