@@ -32,3 +32,4 @@ homework-script/*
 !homework-script/collection.sh
 !homework-script/configure.sh
 !homework-script/prepos.sh
+.vscode/
