@@ -17,7 +17,6 @@
             "id": 1,
             "makerId": 1,
             "makerDetailUri": "users/1/detail",
-            "type": "JavaScript",
             "answerPath": "/homework-answer/check-readme",
             "uri": "homeworkQuizzes/1",
              "stackId": 1
@@ -32,7 +31,6 @@
             "id": 2,
             "makerId": 2,
             "makerDetailUri": "users/2/detail",
-            "type": "JavaScript",
             "answerPath": "/homework-answer/calculate_median",
             "uri": "homeworkQuizzes/2",
             "stackId": 2
@@ -47,7 +45,6 @@
             "id": 3,
             "makerId": 2,
             "makerDetailUri": "users/2/detail",
-            "type": "Java",
             "answerPath": "/homework-answer/calculate_median",
             "uri": "homeworkQuizzes/3",
             "stackId": 2
@@ -62,7 +59,6 @@
             "id": 4,
             "makerId": 1,
             "makerDetailUri": "users/1/detail",
-            "type": "Java",
             "answerPath": "/homework-answer/configure",
             "uri": "homeworkQuizzes/4",
             "stackId": 1
@@ -77,7 +73,6 @@
             "id": 5,
             "makerId": 1,
             "makerDetailUri": "users/1/detail",
-            "type": "C语言",
             "answerPath": "/homework-answer/collection-calculate-camp",
             "uri": "homeworkQuizzes/5",
             "stackId": 1
@@ -92,7 +87,6 @@
             "id": 6,
             "makerId": 1,
             "makerDetailUri": "users/1/detail",
-            "type": "C语言",
             "answerPath": "/homework-answer/prepos",
             "uri": "homeworkQuizzes/6",
             "stackId": 3
@@ -107,7 +101,6 @@
             "id": 7,
             "makerId": 1,
             "makerDetailUri": "users/1/detail",
-            "type": "Ruby",
             "answerPath": "/homework-answer/fibonacci_series",
             "uri": "homeworkQuizzes/7",
             "stackId": 3
@@ -122,7 +115,6 @@
             "id": 8,
             "makerId": 1,
             "makerDetailUri": "users/1/detail",
-            "type": "Ruby",
             "answerPath": "/homework-answer/collection",
             "uri": "homeworkQuizzes/8",
             "stackId": 3
@@ -142,7 +134,6 @@
         "templateRepository": "https://github.com/sialvsic/thousands_separators.git",
         "makerId": 1,
         "createTime": 17171.15301943287,
-        "type": "JavaScript",
         "answerPath": "/homework-answer/prepos",
         "homeworkName": "homework name"
       }
