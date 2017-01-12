@@ -37,17 +37,15 @@ class HomeworkQuizHandler extends OperateHandler {
         if (quizzes.submits.length) {
           HomeworkScoring.findOne({_id: quizzes.submits[quizzes.submits.length - 1].homeworkScoringId})
             .exec((err, doc) => {
-
               submits = doc;
               status = submits.status;
               done(err, doc);
             })
-
         } else {
-          if (previousQuiz.submits[previousQuiz.submits.length - 1].homeworkScoringId) {
+          if (previousQuiz.submits[previousQuiz.submits.length - 1]) {
             HomeworkScoring.findOne({_id: previousQuiz.submits[previousQuiz.submits.length - 1].homeworkScoringId})
               .exec((err, doc) => {
-                if (err) {
+                if (err || !doc) {
                   done(err, null);
                 } else {
                   status = doc.status === constant.homeworkQuizzesStatus.SUCCESS
@@ -56,7 +54,7 @@ class HomeworkQuizHandler extends OperateHandler {
                 done(err, doc);
               });
           } else {
-            status = constant.homeworkQuizzesStatus.ACTIVE;
+            status = constant.homeworkQuizzesStatus.LOCKED;
             done(null, status);
           }
         }
