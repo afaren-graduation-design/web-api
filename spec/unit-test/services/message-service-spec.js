@@ -1,11 +1,11 @@
-import 'should';
-import ToggleToReadHandler from '../../../services/message-service/ToggleToReadHandler';
-import DisagreementRequestAnswerHandler from '../../../services/message-service/DisagreementRequestAnswerHandler';
-import AgreementRequestAnswerHandler from '../../../services/message-service/AgreementRequestAnswerHandler';
-import AgreementInvitationHandler from '../../../services/message-service/AgreementInvitationHandler';
-import MessagService from '../../../services/message-service';
-import Message from '../../../models/messages';
-import '../base';
+require ('should');
+var ToggleToReadHandler = require('../../../services/message-service/ToggleToReadHandler');
+var DisagreementRequestAnswerHandler = require('../../../services/message-service/DisagreementRequestAnswerHandler');
+var AgreementRequestAnswerHandler = require('../../../services/message-service/AgreementRequestAnswerHandler');
+var AgreementInvitationHandler = require('../../../services/message-service/AgreementInvitationHandler');
+var MessagService = require('../../../services/message-service');
+var Message = require('../../../models/messages');
+require ('../base');
 
 describe('MessageService', () => {
   it('should change state to 1 ', () => {

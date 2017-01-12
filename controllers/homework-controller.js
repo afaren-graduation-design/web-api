@@ -12,7 +12,7 @@ var scoringService = require('../services/homework/scoring-service');
 var quizService = require('../services/homework/quiz-service');
 var userHomeworkQuizzes = require('../models/user-homework-quizzes');
 var homeworkScoring = require('../models/homework-scoring');
-import AnswerService from '../services/answer/answer-service';
+var AnswerService = require('../services/answer/answer-service');
 
 function getDesc(status, realDesc) {
   if (status === constant.homeworkQuizzesStatus.LOCKED) {

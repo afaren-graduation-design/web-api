@@ -1,8 +1,9 @@
-import apiRequest from '../api-request';
-import Message from '../../models/messages';
-import userHomeworkQuizzes from '../../models/user-homework-quizzes';
+var apiRequest = require('../api-request');
+var Message = require('../../models/messages');
+var userHomeworkQuizzes = require('../../models/user-homework-quizzes');
 
-export default class AnswerService {
+
+class AnswerService {
   getAnswer({uri, id, userId}, callback) {
     var answer = {};
     var path = '';
@@ -40,3 +41,5 @@ export default class AnswerService {
     });
   }
 }
+
+module.exports = AnswerService;

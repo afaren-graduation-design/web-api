@@ -1,8 +1,8 @@
 const _timeBase = 90;
-import constant from '../../mixin/constant';
-import AbstractSection from '../paper-service/abstract-section';
+var constant = require('../../mixin/constant');
+var AbstractSection = require('../paper-service/abstract-section');
 
-export default class LogicPuzzleSection extends AbstractSection {
+class LogicPuzzleSection extends AbstractSection {
   getStatus() {
     var TOTAL_TIME = _timeBase * constant.time.MINUTE_PER_HOUR;
 
@@ -22,3 +22,4 @@ export default class LogicPuzzleSection extends AbstractSection {
   }
 }
 
+module.exports = LogicPuzzleSection;

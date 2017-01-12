@@ -1,6 +1,6 @@
-import {Router} from 'express';
+var {Router} = require('express');
 
-import MessagesController from '../../controllers/messages-controller';
+var MessagesController = require('../../controllers/messages-controller');
 
 const msgController = new MessagesController();
 const router = Router();

@@ -1,10 +1,10 @@
-import {QuizItem} from '../../models/quizItem';
-import async from 'async';
-import request from 'superagent';
-import constant from '../../mixin/constant';
+var {QuizItem} = require('../../models/quizItem');
+var async = require('async');
+var request = require('superagent');
+var constant = require('../../mixin/constant');
 const _timeBase = 90;
 
-export default class PaperLogicHandler {
+class PaperLogicHandler {
   bulkFindOrCreate(section, callback) {
     async.waterfall([
       (done) => {
@@ -73,3 +73,5 @@ export default class PaperLogicHandler {
     return callback(null, Object.assign({}, result, {status: constant.sectionStatus.INCOMPLETE}));
   }
 }
+
+module.exports = PaperLogicHandler;

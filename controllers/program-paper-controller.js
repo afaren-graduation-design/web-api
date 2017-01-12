@@ -1,6 +1,6 @@
-import apiRequest from '../services/api-request';
-import PaperService from '../services/paper-service/index';
-import Paper from '../models/paper';
+var apiRequest = require('../services/api-request');
+var PaperService = require('../services/paper-service/index');
+var Paper = require('../models/paper');
 const paperService = new PaperService();
 class ProgramPaperController {
   getQuestionIds(req, res, next) {

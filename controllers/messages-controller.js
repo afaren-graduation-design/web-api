@@ -1,12 +1,12 @@
-import Message from '../models/messages';
-import MessageService from '../services/message-service';
-import FindMessageService from '../services/message-service/FindMessages-service';
-import constant from '../mixin/constant';
+var Message = require('../models/messages');
+var MessageService = require('../services/message-service');
+var FindMessageService = require('../services/message-service/FindMessages-service');
+var constant = require('../mixin/constant');
 
 const messageService = new MessageService();
 const findMessageService = new FindMessageService();
 
-export default class MessagesController {
+class MessagesController {
   findAll(req, res, next) {
     const id = req.session.user.id;
     findMessageService.findMessage({id}, (err, data) => {
@@ -52,3 +52,4 @@ export default class MessagesController {
   }
 }
 
+module.exports = MessagesController;

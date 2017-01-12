@@ -1,4 +1,4 @@
-export default class OperateHandler {
+class OperateHandler {
   handle(quiz, callback) {
     if (!this.check(quiz)) {
       return callback(null, quiz);
@@ -6,3 +6,5 @@ export default class OperateHandler {
     this.subHandle(quiz, callback);
   }
 }
+
+module.exports = OperateHandler;

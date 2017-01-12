@@ -1,4 +1,4 @@
-import moment from 'moment';
+var moment =  require('moment');
 
 moment.locale('en', {
   longDateFormat: {
@@ -6,4 +6,4 @@ moment.locale('en', {
   }
 });
 
-export default moment().format('l');//eslint-disable-line
+module.exports = moment().format('l');//eslint-disable-line

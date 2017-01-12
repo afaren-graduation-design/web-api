@@ -1,9 +1,9 @@
-import async from 'async';
-import Paper from '../../models/paper';
-import LogicPuzzleHandler from './LogicPuzzleHandler';
-import HomeworkQuizHandler from './HomeworkQuizHandler';
+var async = require('async');
+var Paper = require('../../models/paper');
+var LogicPuzzleHandler = require('./LogicPuzzleHandler');
+var HomeworkQuizHandler = require('./HomeworkQuizHandler');
 
-export default class QuestionService {
+class QuestionService {
   constructor() {
     this.logicPuzzleHandler = new LogicPuzzleHandler();
     this.homeworkQuizHandler = new HomeworkQuizHandler();
@@ -39,3 +39,5 @@ export default class QuestionService {
     ], callback);
   }
 }
+
+module.exports = QuestionService;

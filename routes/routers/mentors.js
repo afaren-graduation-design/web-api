@@ -1,6 +1,6 @@
-import {Router} from 'express';
+var {Router} = require('express');
 
-import MentorsController from '../../controllers/mentors-controller';
+var MentorsController = require('../../controllers/mentors-controller');
 
 const mentorsController = new MentorsController();
 const router = Router();

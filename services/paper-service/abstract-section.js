@@ -1,4 +1,4 @@
-export default class AbstractSection {
+class AbstractSection {
   constructor(data) {
     this.data = data;
   }
@@ -11,3 +11,4 @@ export default class AbstractSection {
   }
 }
 
+module.exports = AbstractSection;

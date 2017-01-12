@@ -1,6 +1,6 @@
-import  'should';
-import '../base';
-import answerService from '../../../services/answer/answer-service';
+require ('should');
+require ('../base');
+var answerService = require('../../../services/answer/answer-service');
 
 describe('answerService',()=>{
   it("should get 204 if current homework  haven't answer",()=>{

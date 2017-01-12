@@ -1,8 +1,8 @@
-import apiRequest from '../../services/api-request';
-import async from 'async';
-import Paper from '../../models/paper';
-import LogicPuzzleHandler from './paper-logic-puzzle-handler';
-import HomeworkQuizHandler from './paper-homework-quiz-handler';
+var apiRequest = require('../../services/api-request');
+var async = require('async');
+var Paper = require('../../models/paper');
+var LogicPuzzleHandler = require('./paper-logic-puzzle-handler');
+var HomeworkQuizHandler = require('./paper-homework-quiz-handler');
 
 const handlerMap = {
   'blankQuizzes': new LogicPuzzleHandler(),
@@ -14,7 +14,7 @@ const handleSection = {
   'HomeworkQuiz': new HomeworkQuizHandler()
 };
 
-export default class PaperService {
+class PaperService {
   retrieve(condition, cb) {
     async.waterfall([
       (done) => {
@@ -70,3 +70,5 @@ export default class PaperService {
     });
   }
 }
+
+module.exports = PaperService;

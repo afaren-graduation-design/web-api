@@ -1,9 +1,4 @@
-/**
- * Created by zhangpei on 16/11/2.
- */
-
 var apiRequest = require('../services/api-request');
-// var async = require('async');
 var constant = require('../mixin/constant');
 var md5 = require('js-md5');
 var validate = require('validate.js');
@@ -85,12 +80,6 @@ TeacherLoginController.prototype.login = (req, res, next) => {
               });
             }
           });
-            // req.session.user = {
-            //     email
-            // };
-            // res.status(constant.httpCode.OK).send({
-            //     msg: '用户登录成功!'
-            // });
         } else {
           res.status(401).send({
             errMsg: resp.body.errMsg

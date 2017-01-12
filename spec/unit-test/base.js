@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
-import yamlConfig from 'node-yaml-config';
-import path from 'path';
+var mongoose = require('mongoose');
+var yamlConfig = require('node-yaml-config');
+var path = require('path');
 
 mongoose.Promise = global.Promise;
 

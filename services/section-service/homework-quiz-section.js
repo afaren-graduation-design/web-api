@@ -1,9 +1,9 @@
-import constant from '../../mixin/constant';
+var constant = require('../../mixin/constant');
 
 const deadline = 7;
-import AbstractSection from '../paper-service/abstract-section';
+var AbstractSection = require('../paper-service/abstract-section');
 
-export default class HomeworkQuizSection extends AbstractSection {
+class HomeworkQuizSection extends AbstractSection {
   getStatus() {
     const quizzes = this.data.toJSON().quizzes;
     let isFinished = quizzes.every((item) => {
@@ -32,3 +32,4 @@ export default class HomeworkQuizSection extends AbstractSection {
   }
 }
 
+module.exports = HomeworkQuizSection;

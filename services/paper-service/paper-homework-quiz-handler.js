@@ -1,11 +1,11 @@
-import {QuizItem} from '../../models/quizItem';
-import async from 'async';
-import request from 'superagent';
-import constant from '../../mixin/constant';
-import HomeWorkScoring from '../../models/homework-scoring';
+var {QuizItem} = require('../../models/quizItem');
+var async = require('async');
+var request = require('superagent');
+var constant = require('../../mixin/constant');
+var HomeWorkScoring = require('../../models/homework-scoring');
 const deadline = 49;
 
-export default class PaperHomeworkQuizHandler {
+class PaperHomeworkQuizHandler {
   bulkFindOrCreate(section, callback) {
     async.waterfall([
       (done) => {
@@ -89,3 +89,5 @@ function findHomeworkStatus(_id, callback) {
     }
   });
 }
+
+module.exports = PaperHomeworkQuizHandler;

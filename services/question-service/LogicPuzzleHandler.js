@@ -1,8 +1,8 @@
-import yamlConfig from 'node-yaml-config';
+var yamlConfig = require('node-yaml-config');
 const config = yamlConfig.load('./config/config.yml');
-import OperateHandler from './OperateHandler';
+var OperateHandler = require('./OperateHandler');
 
-export default class LogicPuzzleHandler extends OperateHandler {
+class LogicPuzzleHandler extends OperateHandler {
   check(quizzes) {
     return (quizzes.quizId.__t === 'LogicPuzzle');
   }
@@ -25,3 +25,5 @@ export default class LogicPuzzleHandler extends OperateHandler {
     callback(null, logicPuzzle);
   }
 }
+
+module.exports = LogicPuzzleHandler;

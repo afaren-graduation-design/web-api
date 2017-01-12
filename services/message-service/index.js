@@ -1,12 +1,12 @@
-import async from 'async';
-import Message from '../../models/messages';
-import AgreementRequestAnswerHandler from './AgreementRequestAnswerHandler';
-import DisagreementRequestAnswerHandler from './DisagreementRequestAnswerHandler';
-import ToggleToReadHandler from './ToggleToReadHandler';
-import DisagreementInvitationHandler from './DisagreementInvitationHandler';
-import AgreementInvitationHandler from './AgreementInvitationHandler';
+var async = require('async');
+var Message = require('../../models/messages');
+var AgreementRequestAnswerHandler = require('./AgreementRequestAnswerHandler');
+var DisagreementRequestAnswerHandler = require('./DisagreementRequestAnswerHandler');
+var ToggleToReadHandler = require('./ToggleToReadHandler');
+var DisagreementInvitationHandler = require('./DisagreementInvitationHandler');
+var AgreementInvitationHandler = require('./AgreementInvitationHandler');
 
-export default class MessageService {
+class MessageService {
   constructor() {
     this.toggleToReadHandler = new ToggleToReadHandler();
     this.agreementRequestAnswerHandler = new AgreementRequestAnswerHandler();
@@ -42,3 +42,5 @@ export default class MessageService {
     ], callback);
   }
 };
+
+module.exports = MessageService;

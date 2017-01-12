@@ -1,9 +1,9 @@
-import apiRequest from '../services/api-request';
-import MentorService from '../services/mentor-service/MentorService';
+var apiRequest = require('../services/api-request');
+var MentorService = require('../services/mentor-service/MentorService');
 
 const mentorService = new MentorService();
 
-export default class MentorsController {
+class MentorsController {
 
   search(req, res, next) {
     const email = req.query.email;
@@ -25,3 +25,5 @@ export default class MentorsController {
     });
   }
 }
+
+module.exports = MentorsController;

@@ -1,10 +1,10 @@
-import apiRequest from '../api-request';
-import async from 'async';
-import HomeworkDefinition from '../../models/homework-definition';
+var apiRequest = require('../api-request');
+var async = require('async');
+var HomeworkDefinition = require('../../models/homework-definition');
 var unique = require('../../tool/unique');
 var addMakerName = require('../../tool/addMakerName');
 
-export default class HomeworkDefinitionService {
+class HomeworkDefinitionService {
   getHomeworkList({pageCount, page, order, sort}, callback) {
     let homeworks;
     let totalPage = 0;
@@ -58,3 +58,5 @@ export default class HomeworkDefinitionService {
     });
   }
 }
+
+module.exports = HomeworkDefinitionService;

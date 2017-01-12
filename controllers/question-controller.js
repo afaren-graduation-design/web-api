@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-import QuestionService from '../services/question-service';
+var QuestionService = require('../services/question-service');
 const questionService = new QuestionService();
 
 class QuestionController {

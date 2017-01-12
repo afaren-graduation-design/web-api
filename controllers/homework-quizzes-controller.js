@@ -1,5 +1,5 @@
 'use strict';
-import HomeworkQuizzesService from '../services/homework/homework-quizzes-service';
+var HomeworkQuizzesService = require('../services/homework/homework-quizzes-service');
 var homeworkQuizzesService = new HomeworkQuizzesService();
 
 function HomeworkQuizzesController() {

@@ -8,7 +8,7 @@ var os = require('os');
 var request = require('superagent');
 var async = require('async');
 var constant = require('../mixin/constant');
-import HomeworkDefinitionService from '../services/homework-definition-service/HomeworkDefinitionService';
+var HomeworkDefinitionService = require('../services/homework-definition-service/HomeworkDefinitionService');
 
 const homeworkDefinitionService = new HomeworkDefinitionService();
 

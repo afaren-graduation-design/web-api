@@ -1,8 +1,8 @@
-import async from 'async';
-import Message from '../../models/messages';
-import OperateHandler from './OperateHandler';
+var async = require('async');
+var Message = require('../../models/messages');
+var OperateHandler = require('./OperateHandler');
 
-export default class ToggleToReadHandler extends OperateHandler {
+class ToggleToReadHandler extends OperateHandler {
   check(msgObj) {
     return (msgObj.operation === 'read' || msgObj.state === 0);
   }
@@ -16,3 +16,5 @@ export default class ToggleToReadHandler extends OperateHandler {
       }], callback);
   }
 }
+
+module.exports = ToggleToReadHandler;

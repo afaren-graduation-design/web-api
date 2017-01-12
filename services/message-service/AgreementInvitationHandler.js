@@ -1,9 +1,9 @@
-import async from 'async';
-import Message from '../../models/messages';
-import OperateHandler from './OperateHandler';
-import apiRequest from '../api-request';
+var async = require('async');
+var Message = require('../../models/messages');
+var OperateHandler = require('./OperateHandler');
+var apiRequest = require('../api-request');
 
-export default class AgreementInvitationHandler extends OperateHandler {
+class AgreementInvitationHandler extends OperateHandler {
   check(msgObj) {
     return (msgObj.operation === 'agreement' && msgObj.type === 'INVITATION');
   };
@@ -43,3 +43,5 @@ export default class AgreementInvitationHandler extends OperateHandler {
     });
   }
 }
+
+module.exports = AgreementInvitationHandler;

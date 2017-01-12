@@ -1,8 +1,8 @@
-import logicPuzzles from '../../models/logic-puzzle';
-import homeworkQuizzes from '../../models/user-homework-quizzes';
-import Rx from 'rx';
-import HomeworkQuiz from './homework-quiz-section';
-import LogicPuzzle from './logic-puzzle-section';
+var logicPuzzles = require('../../models/logic-puzzle');
+var homeworkQuizzes = require('../../models/user-homework-quizzes');
+var HomeworkQuiz = require('./homework-quiz-section');
+var LogicPuzzle = require('./logic-puzzle-section');
+var Rx = require('rx');
 
 const classMap = {
   'LogicPuzzle': LogicPuzzle,

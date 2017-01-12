@@ -1,7 +1,7 @@
-import apiRequest from '../api-request';
-import async from 'async';
+var apiRequest = require('../api-request');
+var async = require('async');
 
-export default class HomeworkQuizzesService {
+class HomeworkQuizzesService {
   getOneHomework({id}, callback) {
     async.waterfall([
       (done) => {
@@ -21,3 +21,5 @@ export default class HomeworkQuizzesService {
     });
   }
 }
+
+module.exports = HomeworkQuizzesService;

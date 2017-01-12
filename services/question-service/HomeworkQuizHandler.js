@@ -1,9 +1,9 @@
-import OperateHandler from './OperateHandler';
-import async from 'async';
+var OperateHandler = require('./OperateHandler');
+var async = require('async');
 const constant = require('../../mixin/constant');
-import Paper from '../../models/paper';
+var Paper = require('../../models/paper');
 
-export default class HomeworkQuizHandler extends OperateHandler {
+class HomeworkQuizHandler extends OperateHandler {
   check(quizzes) {
     return quizzes.quizId;
   }
@@ -68,3 +68,5 @@ function getDesc(status, realDesc) {
     return realDesc;
   }
 }
+
+module.exports = HomeworkQuizHandler;

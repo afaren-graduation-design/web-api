@@ -1,8 +1,8 @@
-import async from 'async';
-import Message from '../../models/messages';
-import OperateHandler from './OperateHandler';
+var async = require('async');
+var Message = require('../../models/messages');
+var OperateHandler = require('./OperateHandler');
 
-export default class DisagreementInvitationHandler extends OperateHandler {
+class DisagreementInvitationHandler extends OperateHandler {
   check(msgObj) {
     return (msgObj.operation === 'disagreement' && msgObj.type === 'INVITATION');
   }
@@ -26,3 +26,5 @@ export default class DisagreementInvitationHandler extends OperateHandler {
     });
   }
 }
+
+module.exports = DisagreementInvitationHandler;

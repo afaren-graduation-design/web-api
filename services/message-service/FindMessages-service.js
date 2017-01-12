@@ -1,8 +1,8 @@
-import async from 'async';
-import apiRequest from '../api-request';
-import Message from '../../models/messages';
+var async = require('async');
+var apiRequest = require('../api-request');
+var Message = require('../../models/messages');
 
-export default class FindMessagesService {
+class FindMessagesService {
 
   findMessage({id, state}, callback) {
     async.waterfall([
@@ -62,3 +62,5 @@ export default class FindMessagesService {
     return result;
   }
 }
+
+module.exports = FindMessagesService;

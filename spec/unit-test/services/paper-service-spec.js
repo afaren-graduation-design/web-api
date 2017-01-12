@@ -1,8 +1,8 @@
-import 'should';
-import PaperService from '../../../services/paper-service';
-import '../base';
-import logicPuzzle from '../../../models/logic-puzzle';
-import userHomeworkQuizzes from '../../../models/user-homework-quizzes';
+require('should');
+var PaperService = require('../../../services/paper-service');
+require('../base');
+var logicPuzzle = require('../../../models/logic-puzzle');
+var userHomeworkQuizzes = require('../../../models/user-homework-quizzes');
 
 
 describe('paperSrv', () => {

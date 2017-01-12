@@ -1,8 +1,8 @@
-import async from 'async';
-import Message from '../../models/messages';
-import apiRequest from '../api-request';
+var async = require('async');
+var Message = require('../../models/messages');
+var apiRequest = require('../api-request');
 
-export default class MentorService {
+class MentorService {
   findAllMentors({to}, callback) {
     let mentors = [];
     async.waterfall([
@@ -57,3 +57,5 @@ export default class MentorService {
     });
   }
 }
+
+module.exports = MentorService;

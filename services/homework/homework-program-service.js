@@ -1,7 +1,7 @@
-import apiRequest from '../api-request';
-import async from 'async';
+var apiRequest = require('../api-request');
+var async = require('async');
 
-export default class HomeworkProgramService {
+class HomeworkProgramService {
   getHomeworkListByMysql({homeworkName, stackId}, callback) {
     async.waterfall([
       (done) => {
@@ -27,3 +27,5 @@ export default class HomeworkProgramService {
     ], callback);
   }
 }
+
+module.exports = HomeworkProgramService;

@@ -1,4 +1,4 @@
-import HomeworkProgramService from '../services/homework/homework-program-service';
+var HomeworkProgramService = require('../services/homework/homework-program-service');
 
 function HomeworkProgramController() {
 
