@@ -225,6 +225,7 @@ HomeworkController.prototype.createScoring = (req, res, next) => {
     if (err) {
       return next(err);
     }
+    console.log(data)
     res.status(201).send(data);
   });
 };

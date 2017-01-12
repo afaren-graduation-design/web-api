@@ -3,7 +3,6 @@
 var async = require('async');
 var request = require('superagent');
 var mongoose = require('mongoose');
-var userHomeworkQuizzes = require('../../models/user-homework-quizzes');
 var homeworkScoring = require('../../models/homework-scoring');
 var yamlConfig = require('node-yaml-config');
 var path = require('path');
@@ -15,6 +14,7 @@ var os = require('os');
 var taskApi = config.taskApi;
 var {HomeworkQuizSubmit} = require('../../models/quiz-submit');
 var Paper = require('../../models/paper');
+var {QuizSubmit} = require('../../models/quiz-submit');
 
 function createScoring(options, callback) {
   var homeworkQuizDefinition;
@@ -22,7 +22,7 @@ function createScoring(options, callback) {
   var homeworkSubmitId = '';
   async.waterfall([
     (done) => {
-      apiRequest.get(options.homeworkQuizUri, function(err, resp) {
+      apiRequest.get(options.homeworkQuizUri, function (err, resp) {
         done(err, resp.body);
       });
     },
@@ -36,7 +36,10 @@ function createScoring(options, callback) {
     },
     (data, done) => {
       result = data;
-      HomeworkQuizSubmit.create(result._id, done);
+      let homeworkQuizSubmit = new HomeworkQuizSubmit({homeworkScoringId: result._id});
+      homeworkQuizSubmit.save((err, doc) => {
+        done(err, doc);
+      });
     },
     (doc, done) => {
       homeworkSubmitId = doc._id;
@@ -53,9 +56,9 @@ function createScoring(options, callback) {
     },
     (doc, done) => {
       var scriptPath = scriptBasePath + homeworkQuizDefinition;
-      fs.exists(scriptPath, function(fileOk) {
+      fs.exists(scriptPath, function (fileOk) {
         if (fileOk) {
-          fs.readFile(scriptPath, 'utf-8', function(error, data) {
+          fs.readFile(scriptPath, 'utf-8', function (error, data) {
             if (error) {
               done(error, null);
             } else {
@@ -64,7 +67,8 @@ function createScoring(options, callback) {
           });
         } else {
           done(true, 'file not found');
-        };
+        }
+        ;
       });
     },
     (script, done) => {
@@ -80,7 +84,10 @@ function createScoring(options, callback) {
         .auth('twars', 'twars')
         .type('form')
         .send(info)
-        .end(done);
+        .end((err, data)=> {
+        console.log(data)
+          done(err, data)
+        });
     }
   ], (err, result) => {
     callback(err, result);
@@ -88,38 +95,30 @@ function createScoring(options, callback) {
 }
 
 function updateScoring(options, callback) {
+  let submitPostHistory;
   async.waterfall([
     (done) => {
       options.result = new Buffer(options.result || '', 'base64').toString('utf8');
-      homeworkScoring.update({
+      homeworkScoring.findByIdAndUpdate({
         _id: options.historyId
       }, options, done);
     },
-    (data, done) => {
-      var id = new mongoose.Types.ObjectId(options.historyId);
-      userHomeworkQuizzes
-        .aggregate([
-          {'$unwind': '$quizzes'},
-          {'$unwind': '$quizzes.homeworkSubmitPostHistory'}
-        ])
-        .match({'quizzes.homeworkSubmitPostHistory': id})
-        .exec((err, docs) => {
-          done(err, docs[0]);
-        });
+    (doc, done) => {
+    submitPostHistory = doc;
+      QuizSubmit.findOne({homeworkScoringId: options.historyId})
+        .exec(done)
     },
     (doc, done) => {
-      homeworkScoring.findById(doc.quizzes.homeworkSubmitPostHistory, function(err, history) {
-        doc.quizzes.homeworkSubmitPostHistory = history.toJSON();
-        done(err, doc);
-      });
+      Paper.findOne({'sections.quizzes.submits': doc._id})
+        .exec(done)
     },
     (data, done) => {
       var homeworkData = {
         'examerId': data.userId,
         'paperId': data.paperId,
         'homeworkQuizSubmits': [{
-          'homeworkQuizId': data.quizzes.id,
-          'homeworkSubmitPostHistory': [data.quizzes.homeworkSubmitPostHistory]
+          'homeworkQuizId': 1,
+          'homeworkSubmitPostHistory': [submitPostHistory]
         }]
       };
       done(null, homeworkData);

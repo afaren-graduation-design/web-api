@@ -2,6 +2,8 @@ var OperateHandler = require('./OperateHandler');
 var async = require('async');
 const constant = require('../../mixin/constant');
 var Paper = require('../../models/paper');
+import Paper from '../../models/paper';
+import HomeworkScoring from '../../models/homework-scoring';
 
 class HomeworkQuizHandler extends OperateHandler {
   check(quizzes) {
@@ -27,19 +29,40 @@ class HomeworkQuizHandler extends OperateHandler {
 
           if (quiz) {
             let currentIndex = section.quizzes.indexOf(quiz);
-            previousQuiz = section.quizzes[currentIndex - 1] ? section.quizzes[currentIndex - 1] : {submits: [{status: 4}]};
+            previousQuiz = currentIndex !== 0 ? section.quizzes[currentIndex - 1] : {submits: [{status: 4}]};
             done(null, previousQuiz);
           }
         });
       },
       (previousQuiz, done) => {
         if (quizzes.submits.length) {
-          submits = quizzes.submits[quizzes.submits.length - 1];
-          status = submits.status;
+          HomeworkScoring.findOne({_id: quizzes.submits[quizzes.submits.length - 1].homeworkScoringId})
+            .exec((err, doc) => {
+
+              submits = doc;
+              status = submits.status;
+              done(err, doc);
+            })
+
         } else {
-          status = previousQuiz.submits[previousQuiz.submits.length - 1].status === constant.homeworkQuizzesStatus.SUCCESS
-            ? constant.homeworkQuizzesStatus.ACTIVE : constant.homeworkQuizzesStatus.LOCKED;
+          if (previousQuiz.submits[previousQuiz.submits.length - 1].homeworkScoringId) {
+            HomeworkScoring.findOne({_id: previousQuiz.submits[previousQuiz.submits.length - 1].homeworkScoringId})
+              .exec((err, doc) => {
+                if (err) {
+                  done(err, null);
+                } else {
+                  status = doc.status === constant.homeworkQuizzesStatus.SUCCESS
+                    ? constant.homeworkQuizzesStatus.ACTIVE : constant.homeworkQuizzesStatus.LOCKED;
+                }
+                done(err, doc);
+              });
+          } else {
+            status = constant.homeworkQuizzesStatus.ACTIVE;
+            done(null, status);
+          }
         }
+      },
+      (data, done) => {
         desc = getDesc(status, quizzes.quizId.description);
         done(null, quizzes);
       },
