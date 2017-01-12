@@ -14,8 +14,11 @@ export default class LogicPuzzleHandler extends OperateHandler {
         initializedBox: JSON.parse(quizInfo.quiz.initializedBox),
         question: quizInfo.quiz.question,
         description: JSON.parse(quizInfo.quiz.description),
-        chartPath: config.staticFileServer + quizInfo.quiz.chartPath
+        chartPath: config.staticFileServer + quizInfo.quiz.chartPath,
+        answer:quizInfo.quiz.answer
       },
+      userAnswer: quizInfo.quiz.answer,
+      isExample: !!quizInfo.quiz.answer,
       info: quizInfo.info
     };
     return callback(null, logicPuzzle);
