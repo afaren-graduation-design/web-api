@@ -18,7 +18,7 @@ export default class LogicPuzzleHandler extends OperateHandler {
         chartPath: config.staticFileServer + quizzes.quizId.chartPath,
         answer: quizzes.quizId.answer
       },
-      userAnswer,
+      userAnswer:userAnswer || quizzes.quizId.answer,
       isExample: !!quizzes.quizId.answer,
       info: quizzes.info
     };
