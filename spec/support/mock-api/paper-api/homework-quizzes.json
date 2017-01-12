@@ -133,7 +133,7 @@
         "evaluateScript": "/homework-script/check-readme.sh",
         "templateRepository": "https://github.com/sialvsic/thousands_separators.git",
         "makerId": 1,
-        "createTime": 17171.15301943287,
+        "createTime": 17171,
         "answerPath": "/homework-answer/prepos",
         "homeworkName": "homework name"
       }
