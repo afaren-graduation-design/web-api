@@ -2,10 +2,10 @@ import apiRequest from '../api-request';
 import async from 'async';
 
 export default class HomeworkProgramService {
-  getHomeworkListByMysql({homeworkName, type}, callback) {
+  getHomeworkListByMysql({homeworkName, stackId}, callback) {
     async.waterfall([
       (done) => {
-        apiRequest.get('homeworkQuizzes', {homeworkName, type}, (err, resp) => {
+        apiRequest.get('homeworkQuizzes', {homeworkName, stackId}, (err, resp) => {
           if (err) {
             done(err, null);
           }
