@@ -26,7 +26,7 @@ class ProgramPaperController {
 
                     thisSection.quizzes.map((quiz, index) => {
                       if (quiz.submits.length === 0) {
-                        Object.assign(result[index], {status: 0});
+                        Object.assign(result[index], {status: 1});
                       } else {
                         const status = quiz.submits[quiz.submits.length - 1].status;
                         Object.assign({}, result[index], {status: status});
