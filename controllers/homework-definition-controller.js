@@ -123,11 +123,10 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
         apiRequest.post('homeworkQuizzes', {
           'description': description,
           'evaluateScript': evaluateScript,
-          'templateRepository': '',
+          'templateRepository': doc.toJSON().definitionRepo.toString(),
           'makerId': 1,
           'answerPath': answerPath,
           'createTime': createTime,
-          'type': doc.toJSON().type.toString(),
           'homeworkName': doc.toJSON().name.toString()
         }, (err, resp) => {
           done(err, resp);
