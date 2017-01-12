@@ -9,7 +9,7 @@ const homeworkProgramService = new HomeworkProgramService();
 HomeworkProgramController.prototype.getHomeworkListByMysql = (req, res, next) => {
   let page = Number(req.query.page) || 1;
   let homeworkName = req.query.homeworkName || '';
-  let stackId = req.query.stackId || {};
+  let stackId = req.query.stackId || null;
 
   homeworkProgramService.getHomeworkListByMysql({homeworkName, stackId}, (err, data) => {
     if (err) {
