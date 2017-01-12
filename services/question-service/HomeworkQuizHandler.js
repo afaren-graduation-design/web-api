@@ -2,8 +2,7 @@ var OperateHandler = require('./OperateHandler');
 var async = require('async');
 const constant = require('../../mixin/constant');
 var Paper = require('../../models/paper');
-import Paper from '../../models/paper';
-import HomeworkScoring from '../../models/homework-scoring';
+var HomeworkScoring = require('../../models/homework-scoring');
 
 class HomeworkQuizHandler extends OperateHandler {
   check(quizzes) {
