@@ -3,24 +3,25 @@ const config = yamlConfig.load('./config/config.yml');
 import OperateHandler from './OperateHandler';
 
 export default class LogicPuzzleHandler extends OperateHandler {
-  check(quizInfo) {
-    return (quizInfo.quiz.__t === 'LogicPuzzle');
+  check(quizzes) {
+    return (quizzes.quizId.__t === 'LogicPuzzle');
   }
 
-  subHandle(quizInfo, callback) {
+  subHandle(quizzes, callback) {
+    let userAnswer = quizzes.submits.length === 0 ? '' : quizzes.submits[quizzes.submits.length - 1].userAnswer;
     const logicPuzzle = {
       item: {
-        id: quizInfo.quiz.id,
-        initializedBox: JSON.parse(quizInfo.quiz.initializedBox),
-        question: quizInfo.quiz.question,
-        description: JSON.parse(quizInfo.quiz.description),
-        chartPath: config.staticFileServer + quizInfo.quiz.chartPath,
-        answer:quizInfo.quiz.answer
+        id: quizzes.quizId.id,
+        initializedBox: JSON.parse(quizzes.quizId.initializedBox),
+        question: quizzes.quizId.question,
+        description: JSON.parse(quizzes.quizId.description),
+        chartPath: config.staticFileServer + quizzes.quizId.chartPath,
+        answer: quizzes.quizId.answer
       },
-      userAnswer: quizInfo.quiz.answer,
-      isExample: !!quizInfo.quiz.answer,
-      info: quizInfo.info
+      userAnswer,
+      isExample: !!quizzes.quizId.answer,
+      info: quizzes.info
     };
-    return callback(null, logicPuzzle);
+    callback(null, logicPuzzle);
   }
 }

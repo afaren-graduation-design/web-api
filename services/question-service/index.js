@@ -13,24 +13,22 @@ export default class QuestionService {
     async.waterfall([
       (done) => {
         Paper.aggregate()
-            .unwind('$sections')
-            .unwind('$sections.quizzes')
-            .match({'sections.quizzes._id': id})
-            .exec((err, doc) => {
-              if (err) {
-                return callback(err, null);
-              }
-              Paper.populate(doc, {path: 'sections.quizzes.quizId'}, (err, docs) => {
-                done(err, docs);
-              });
-            });
-      }, (quizInfo, done) => {
-        const quiz = quizInfo[0].sections.quizzes.quizId;
+          .unwind('$sections')
+          .unwind('$sections.quizzes')
+          .match({'sections.quizzes._id': id})
+          .exec(done);
+      },
+      (doc, done) => {
+        Paper.populate(doc, ['sections.quizzes.quizId', 'sections.quizzes.submits'], done);
+      },
+      (docs, done) => {
+        done(null, docs[0]);
+      }, (quiz, done) => {
         const info = {};
-        info.programId = quizInfo[0].programId;
-        info.paperId = quizInfo[0].paperId;
-        const quizInfoObj = Object.assign({info}, {quiz});
-        done(null, quizInfoObj);
+        info.programId = quiz.programId;
+        info.paperId = quiz._id;
+        quiz.sections.quizzes.info = info;
+        done(null, quiz.sections.quizzes);
       },
       (data, done) => {
         this.logicPuzzleHandler.handle(data, done);
