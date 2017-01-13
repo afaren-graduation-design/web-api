@@ -63,8 +63,12 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(config.port, () => {
-  console.log('Current environment is: ' + env); // eslint-disable-line no-console
-  console.log('App started at http://localhost:' + config.port);   // eslint-disable-line no-console
+  const info = `
+Current environment is: ${env}
+App started at http://localhost:${config.port}  
+`.trim();
+
+  console.log(info); // eslint-disable-line no-console
   mongoConn.start(config.database);
 });
 

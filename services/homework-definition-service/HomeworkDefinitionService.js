@@ -57,6 +57,39 @@ class HomeworkDefinitionService {
       callback(err, data);
     });
   }
+
+  create(data, callback) {
+    const {name, stackId, definitionRepo} = data;
+    let error = {};
+
+    async.waterfall([
+      (done) => {
+        new HomeworkDefinition({
+          name,
+          stackId,
+          definitionRepo,
+          status: 1
+        }).save((err, data) => {
+          done(err, data);
+        });
+      }, (data, done) => {
+        const callbackUrl = `http://localhost/api/homeworkDefinitions/${data._id}/status`;
+        request
+            .post('http://localhost:8888/job/ADD-HOMEWORK/buildWithParameters')
+            .auth('admin', 'admin')
+            .type('form')
+            .send({
+              git: definitionRepo,
+              callback_url: callbackUrl
+            })
+            .end((err) => {
+              if (err) {
+                return done(err, null);
+              }
+              done(null, {id: data._id});
+            });
+      }], callback);
+  }
 }
 
 module.exports = HomeworkDefinitionService;

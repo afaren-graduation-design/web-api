@@ -10,7 +10,7 @@ var async = require('async');
 var constant = require('../mixin/constant');
 var HomeworkDefinitionService = require('../services/homework-definition-service/HomeworkDefinitionService');
 
-const homeworkDefinitionService = new HomeworkDefinitionService();
+const homeworkDefService = new HomeworkDefinitionService();
 
 function HomeworkDefinitionController() {
 };
@@ -21,7 +21,7 @@ HomeworkDefinitionController.prototype.getHomeworkList = (req, res, next) => {
   let order = req.query.order || '1';
   let sort = req.query.sort || 'createTime';
 
-  homeworkDefinitionService.getHomeworkList({pageCount, page, order, sort}, (err, data) => {
+  homeworkDefService.getHomeworkList({pageCount, page, order, sort}, (err, data) => {
     if (err) {
       return next(err);
     }
@@ -239,72 +239,11 @@ HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
   });
 };
 
-HomeworkDefinitionController.prototype.insertHomework = (req, res) => {
-  const {name, stackId, definitionRepo} = req.body;
-  let error = {};
-  async.waterfall([
-    (done) => {
-      new HomeworkDefinition({
-        name,
-        stackId,
-        definitionRepo,
-        status: 1
-      }).save((err, data) => {
-        if (err || !data) {
-          error.status = 0;
-          error.err = err;
-          done(error, data);
-        }
-        done(null, data);
-      });
-    }, (data, done) => {
-      const callbackUrl = `${getIp()}/api/homeworkDefinitions/${data._id}/status`;
-      request
-        .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
-        .send({
-          git: definitionRepo,
-          callback_url: callbackUrl
-        })
-        .type('form')
-        .end((err, resp) => {
-          if (err || !resp) {
-            error.status = 1;
-            error.err = err;
-            done(error, data);
-          }
-          res.status(200).send({id: data._id});
-        });
-    }], (error, data) => {
-    if (error.status === 1) {
-      HomeworkDefinition.update({_id: data._id}, {$set: {status: 0}}).exec((err, data) => {
-        if (err) {
-          throw err;
-        }
-      });
-    } else {
-      if (error.err.code === 11000) {
-        res.sendStatus(400);
-      } else if (error) {
-        res.status(403).send({status: 0});
-      }
-    }
-  });
+HomeworkDefinitionController.prototype.insertHomework = (req, res, next)=> {
+  homeworkDefService.create(req.body, (err, data)=> {
+    if(err) return next(err);
+    res.status(201).send(data);
+  })
 };
-
-function getIp() {
-  var interfaces = os.networkInterfaces();
-  var addresses = [];
-
-  for (var k in interfaces) {
-    for (var k2 in interfaces[k]) {
-      var address = interfaces[k][k2];
-      if (address.family === 'IPv4' && !address.internal) {
-        addresses.push(address.address);
-      }
-    }
-  }
-
-  return addresses[0];
-}
 
 module.exports = HomeworkDefinitionController;
