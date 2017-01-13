@@ -25,10 +25,8 @@ HomeworkDefinitionController.prototype.getHomeworkList = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    if (page === data.totalPage) {
-      res.status(202).send(data);
-    }
-    res.status(200).send(data);
+
+    res.status(constant.httpCode.OK).send(data);
   });
 };
 
@@ -39,30 +37,28 @@ HomeworkDefinitionController.prototype.matchHomework = (req, res) => {
   let name = req.query.name;
   let homeworks;
   HomeworkDefinition.find({name, isDeleted: false}).limit(Number(pageCount))
-    .skip(skipCount).exec((err, data) => {
-      HomeworkDefinition.count({isDeleted: false}, (error, count) => {
-        if (!err && !error && count && data) {
-          let totalPage = Math.ceil(count / pageCount);
-          let ids = data.map((homework) => {
-            return homework.makerId;
-          });
-          let id = unique(ids);
-          apiRequest.get('users/' + id + '/detail', (err, resp) => {
-            if (!err && resp) {
-              homeworks = addMakerName(resp, data);
-              if (page === totalPage) {
-                return res.status(202).send({data: homeworks, totalPage});
-              }
-              return res.status(200).send({data: homeworks, totalPage});
-            } else {
-              res.sendStatus(404);
-            }
-          });
-        } else {
-          res.sendStatus(404);
-        }
-      });
+      .skip(skipCount).exec((err, data) => {
+    HomeworkDefinition.count({isDeleted: false}, (error, count) => {
+      if (!err && !error && count && data) {
+        let totalPage = Math.ceil(count / pageCount);
+        let ids = data.map((homework) => {
+          return homework.makerId;
+        });
+        let id = unique(ids);
+        apiRequest.get('users/' + id + '/detail', (err, resp) => {
+          if (!err && resp) {
+            homeworks = addMakerName(resp, data);
+
+            return res.status(constant.httpCode.OK).send({data: homeworks, totalPage});
+          } else {
+            res.sendStatus(constant.httpCode.NOT_FOUND);
+          }
+        });
+      } else {
+        res.sendStatus(constant.httpCode.NOT_FOUND);
+      }
     });
+  });
 };
 
 HomeworkDefinitionController.prototype.getOneHomework = (req, res) => {
@@ -71,7 +67,7 @@ HomeworkDefinitionController.prototype.getOneHomework = (req, res) => {
     if (!err && homework) {
       res.send(homework);
     } else {
-      res.sendStatus(400);
+      res.sendStatus(constant.httpCode.BAD_REQUEST);
     }
   });
 };
@@ -80,9 +76,9 @@ HomeworkDefinitionController.prototype.deleteHomework = (req, res) => {
   const homeworkId = req.params.homeworkId;
   HomeworkDefinition.update({_id: homeworkId, isDeleted: false}, {$set: {isDeleted: true}}, (err) => {
     if (!err) {
-      res.sendStatus(204);
+      res.sendStatus(constant.httpCode.NO_CONTENT);
     } else {
-      res.sendStatus(400);
+      res.sendStatus(constant.httpCode.BAD_REQUEST);
     }
   });
 };
@@ -98,18 +94,18 @@ HomeworkDefinitionController.prototype.deleteSomeHomeworks = (req, res) => {
     isDeleted: false
   }, {isDeleted: true}, {multi: true}).exec((err, data) => {
     if (!err && data) {
-      res.status(204).end();
+      res.status(constant.httpCode.NO_CONTENT).end();
     } else {
-      res.status(400).end();
+      res.status(constant.httpCode.BAD_REQUEST).end();
     }
   });
 };
 
-HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
+HomeworkDefinitionController.prototype.saveHomework = (req, res, next) => {
   var id = req.params.dataId;
   var {description, status, result} = req.body;
   var createTime = parseInt(new Date().getTime() /
-    constant.time.MILLISECOND_PER_SECONDS);
+      constant.time.MILLISECOND_PER_SECONDS);
   var answerPath = 'test path'; // Fixme
   var evaluateScript = req.file ? `./${req.file.path}` : '';
   if (status === '2') {
@@ -151,12 +147,12 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
         });
       },
       (doc, done) => {
-        res.sendStatus(200);
+        res.sendStatus(constant.httpCode.OK);
         done(null, null);
       }
     ], (error, result) => {
       if (error) {
-        res.sendStatus(404);
+        res.sendStatus(constant.httpCode.NOT_FOUND);
         throw error;
       }
     });
@@ -179,15 +175,10 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res) => {
         }).exec((err, doc) => {
           done(err, doc);
         });
-      },
-      (doc, done) => {
-        res.sendStatus(200);
       }
-    ], (error, result) => {
-      if (error) {
-        res.sendStatus(403);
-        throw error;
-      }
+    ], (err, result) => {
+      if (err) return next(err);
+      res.sendStatus(constant.httpCode.OK);
     });
   }
 };
@@ -196,9 +187,9 @@ HomeworkDefinitionController.prototype.searchStatus = (req, res) => {
   let {id} = req.params;
   HomeworkDefinition.findOne({_id: id}).exec((err, data) => {
     if (!err && data) {
-      res.status(200).send({data: data.toJSON()});
+      res.status(constant.httpCode.OK).send({data: data.toJSON()});
     } else {
-      res.status(404).send({status: 0});
+      res.status(constant.httpCode.NOT_FOUND).send({status: 0});
     }
   });
 };
@@ -214,17 +205,17 @@ HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
       });
     },
     (data, done) => {
-      res.sendStatus(204);
+      res.sendStatus(constant.httpCode.NO_CONTENT);
       let callbackUrl = `${getIp()}/api/homeworkDefinitions/${homeworkId}/status`;
       request
-        .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
-        .send({git: definitionRepo, callback_url: callbackUrl})
-        .type('form')
-        .end((err, resp) => {
-          if (err) {
-            done(err, resp);
-          }
-        });
+          .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
+          .send({git: definitionRepo, callback_url: callbackUrl})
+          .type('form')
+          .end((err, resp) => {
+            if (err) {
+              done(err, resp);
+            }
+          });
     }
   ], (err, data) => {
     HomeworkDefinition.update({_id: homeworkId}, {$set: {status: 0}}).exec((err) => {
@@ -233,7 +224,7 @@ HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
       }
     });
     if (err) {
-      res.sendStatus(400);
+      res.sendStatus(constant.httpCode.BAD_REQUEST);
       throw err;
     }
   });
@@ -241,8 +232,8 @@ HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
 
 HomeworkDefinitionController.prototype.insertHomework = (req, res, next)=> {
   homeworkDefService.create(req.body, (err, data)=> {
-    if(err) return next(err);
-    res.status(201).send(data);
+    if (err) return next(err);
+    res.status(constant.httpCode.CREATED).send(data);
   })
 };
 
