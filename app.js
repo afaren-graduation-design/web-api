@@ -63,10 +63,9 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(config.port, () => {
-  console.log('server started at http://localhost:' + config.port);   // eslint-disable-line no-console
-  mongoConn.start(config.database);
   console.log('Current environment is: ' + env); // eslint-disable-line no-console
-  console.log('App listening at http://localhost:' + config.port); // eslint-disable-line no-console
+  console.log('App started at http://localhost:' + config.port);   // eslint-disable-line no-console
+  mongoConn.start(config.database);
 });
 
 module.exports = app;
