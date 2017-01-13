@@ -4,14 +4,20 @@ var Schema = mongoose.Schema;
 var homeworkDefinition = new Schema({
   description: String,
   makerId: Number,
-  status: Number,
+  status: {
+    type: Number,
+    default: 1
+  },
   createTime: Number,
   isDeleted: Boolean,
   uri: String,
   evaluateScript: String,
   templateRepository: String,
   result: String,
-  name: {type: String, unique: true},
+  name: {
+    type: String,
+    unique: true
+  },
   definitionRepo: String,
   stackId: Number
 });

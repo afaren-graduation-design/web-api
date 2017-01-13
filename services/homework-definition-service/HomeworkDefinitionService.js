@@ -1,8 +1,12 @@
-var apiRequest = require('../api-request');
 var async = require('async');
+var config = require('config');
+var request = require('superagent');
+
+var apiRequest = require('../api-request');
 var HomeworkDefinition = require('../../models/homework-definition');
 var unique = require('../../tool/unique');
 var addMakerName = require('../../tool/addMakerName');
+
 
 class HomeworkDefinitionService {
   getHomeworkList({pageCount, page, order, sort}, callback) {
@@ -59,34 +63,23 @@ class HomeworkDefinitionService {
   }
 
   create(data, callback) {
-    const {name, stackId, definitionRepo} = data;
-    let error = {};
+    const {definitionRepo} = data;
 
     async.waterfall([
       (done) => {
-        new HomeworkDefinition({
-          name,
-          stackId,
-          definitionRepo,
-          status: 1
-        }).save((err, data) => {
-          done(err, data);
-        });
+        HomeworkDefinition.create(data, done);
       }, (data, done) => {
-        const callbackUrl = `http://localhost/api/homeworkDefinitions/${data._id}/status`;
+        const id = data._id;
+        const callbackUrl = `${config.get('task.hookUrl')}/homeworkDefinitions/${id}/status`;
+
         request
-            .post('http://localhost:8888/job/ADD-HOMEWORK/buildWithParameters')
-            .auth('admin', 'admin')
+            .post(config.get('task.addHomework'))
+            .auth(config.get('task.user'), config.get('task.password'))
             .type('form')
-            .send({
-              git: definitionRepo,
-              callback_url: callbackUrl
-            })
+            .send({definitionRepo, callbackUrl})
             .end((err) => {
-              if (err) {
-                return done(err, null);
-              }
-              done(null, {id: data._id});
+              if (err) return done(err, null);
+              done(null, {id});
             });
       }], callback);
   }

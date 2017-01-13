@@ -13,7 +13,7 @@ var HomeworkDefinitionService = require('../services/homework-definition-service
 const homeworkDefService = new HomeworkDefinitionService();
 
 function HomeworkDefinitionController() {
-};
+}
 
 HomeworkDefinitionController.prototype.getHomeworkList = (req, res, next) => {
   let pageCount = req.query.pageCount || 10;
