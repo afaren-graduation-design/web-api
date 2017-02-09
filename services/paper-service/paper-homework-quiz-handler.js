@@ -1,4 +1,5 @@
 var {QuizItem} = require('../../models/quizItem');
+var {QuizSubmit} = require('../../models/quiz-submit');
 var async = require('async');
 var request = require('superagent');
 var constant = require('../../mixin/constant');
@@ -77,11 +78,11 @@ function convertMillsecondToDay(millsecond) {
 }
 
 function findHomeworkStatus(_id, callback) {
-  HomeWorkScoring.findById(_id).exec((err, doc) => {
+  QuizSubmit.findById(_id).populate('homeworkScoringId').exec((err, doc) => {
     if (err) {
       callback(null, null);
     }
-    if (doc.status === 4) {
+    if (doc.homeworkScoringId.status === 4) {
       callback(null, constant.sectionStatus.COMPLETE);
     } else {
       callback(null, constant.sectionStatus.INCOMPLETE);
