@@ -25,7 +25,6 @@ class HomeworkQuizHandler extends OperateHandler {
           let quiz = section.quizzes.find((quiz) => {
             return quiz._id + '' === quizzes._id + '';
           });
-
           if (quiz) {
             let currentIndex = section.quizzes.indexOf(quiz);
             previousQuiz = currentIndex !== 0 ? section.quizzes[currentIndex - 1] : {submits: [{status: 4}]};
@@ -43,16 +42,22 @@ class HomeworkQuizHandler extends OperateHandler {
             })
         } else {
           if (previousQuiz.submits[previousQuiz.submits.length - 1]) {
-            HomeworkScoring.findOne({_id: previousQuiz.submits[previousQuiz.submits.length - 1].homeworkScoringId})
-              .exec((err, doc) => {
-                if (err || !doc) {
-                  done(err, null);
-                } else {
-                  status = doc.status === constant.homeworkQuizzesStatus.SUCCESS
-                    ? constant.homeworkQuizzesStatus.ACTIVE : constant.homeworkQuizzesStatus.LOCKED;
-                }
-                done(err, doc);
-              });
+            if (previousQuiz.submits[previousQuiz.submits.length - 1].homeworkScoringId) {
+              HomeworkScoring.findOne({_id: previousQuiz.submits[previousQuiz.submits.length - 1].homeworkScoringId})
+                .exec((err, doc) => {
+                  if (err || !doc) {
+                    done(err, null);
+                  } else {
+                    status = doc.status === constant.homeworkQuizzesStatus.SUCCESS
+                      ? constant.homeworkQuizzesStatus.ACTIVE : constant.homeworkQuizzesStatus.LOCKED;
+                  }
+                  done(err, doc);
+                });
+            } else {
+              status = constant.homeworkQuizzesStatus.ACTIVE;
+              done(null, status);
+            }
+
           } else {
             status = constant.homeworkQuizzesStatus.LOCKED;
             done(null, status);

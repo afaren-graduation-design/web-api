@@ -37,7 +37,7 @@ HomeworkDefinitionController.prototype.matchHomework = (req, res) => {
   let name = req.query.name;
   let homeworks;
   HomeworkDefinition.find({name, isDeleted: false}).limit(Number(pageCount))
-      .skip(skipCount).exec((err, data) => {
+    .skip(skipCount).exec((err, data) => {
     HomeworkDefinition.count({isDeleted: false}, (error, count) => {
       if (!err && !error && count && data) {
         let totalPage = Math.ceil(count / pageCount);
@@ -105,7 +105,7 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res, next) => {
   var id = req.params.dataId;
   var {description, status, result} = req.body;
   var createTime = parseInt(new Date().getTime() /
-      constant.time.MILLISECOND_PER_SECONDS);
+    constant.time.MILLISECOND_PER_SECONDS);
   var answerPath = 'test path'; // Fixme
   var evaluateScript = req.file ? `./${req.file.path}` : '';
   if (status === '2') {
@@ -208,14 +208,14 @@ HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
       res.sendStatus(constant.httpCode.NO_CONTENT);
       let callbackUrl = `${getIp()}/api/homeworkDefinitions/${homeworkId}/status`;
       request
-          .post('http://192.168.10.54:9090/job/ADD_HOMEWORK/buildWithParameters')
-          .send({git: definitionRepo, callback_url: callbackUrl})
-          .type('form')
-          .end((err, resp) => {
-            if (err) {
-              done(err, resp);
-            }
-          });
+        .post('http://10.205.125.61:9090/job/ADD_HOMEWORK/buildWithParameters')
+        .send({git: definitionRepo, callback_url: callbackUrl})
+        .type('form')
+        .end((err, resp) => {
+          if (err) {
+            done(err, resp);
+          }
+        });
     }
   ], (err, data) => {
     HomeworkDefinition.update({_id: homeworkId}, {$set: {status: 0}}).exec((err) => {
@@ -230,8 +230,8 @@ HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
   });
 };
 
-HomeworkDefinitionController.prototype.insertHomework = (req, res, next)=> {
-  homeworkDefService.create(req.body, (err, data)=> {
+HomeworkDefinitionController.prototype.insertHomework = (req, res, next) => {
+  homeworkDefService.create(req.body, (err, data) => {
     if (err) return next(err);
     res.status(constant.httpCode.CREATED).send(data);
   })

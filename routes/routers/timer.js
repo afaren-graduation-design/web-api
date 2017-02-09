@@ -56,4 +56,29 @@ router.get('/remain-time', (req, res) => {
   });
 });
 
+router.get('/initSection/:sectionId', (req, res, next) => {
+  var sectionId = req.params.sectionId;
+  var startTime;
+  var thisSection;
+  Paper.findOne({'sections._id': sectionId}, (err, doc) => {
+    if (err || !doc) {
+      return next(err);
+    }
+    startTime = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
+    thisSection = doc.sections.find(section => section._id + '' === sectionId);
+    if (thisSection.startTime) {
+      return res.sendStatus(200);
+    } else {
+      var sectionIndex = doc.sections.indexOf(thisSection);
+      doc.sections[sectionIndex].startTime = startTime;
+      doc.save((err) => {
+        if (err) {
+          return next(err);
+        }
+        return res.sendStatus(201);
+      });
+    }
+  })
+});
+
 module.exports = router;
