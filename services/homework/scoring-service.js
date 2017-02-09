@@ -68,7 +68,6 @@ function createScoring(options, callback) {
         } else {
           done(true, 'file not found');
         }
-        ;
       });
     },
     (script, done) => {
@@ -85,7 +84,6 @@ function createScoring(options, callback) {
         .type('form')
         .send(info)
         .end((err, data)=> {
-        console.log(data)
           done(err, data)
         });
     }

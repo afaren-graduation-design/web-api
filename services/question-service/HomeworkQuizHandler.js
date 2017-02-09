@@ -57,7 +57,6 @@ class HomeworkQuizHandler extends OperateHandler {
               status = constant.homeworkQuizzesStatus.ACTIVE;
               done(null, status);
             }
-
           } else {
             status = constant.homeworkQuizzesStatus.LOCKED;
             done(null, status);
