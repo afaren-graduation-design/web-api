@@ -83,7 +83,7 @@ function createScoring(options, callback) {
         .auth('twars', 'twars')
         .type('form')
         .send(info)
-        .end((err, data)=> {
+        .end((err, data) => {
           done(err, data)
         });
     }
@@ -102,7 +102,7 @@ function updateScoring(options, callback) {
       }, options, done);
     },
     (doc, done) => {
-    submitPostHistory = doc;
+      submitPostHistory = doc;
       QuizSubmit.findOne({homeworkScoringId: options.historyId})
         .exec(done)
     },

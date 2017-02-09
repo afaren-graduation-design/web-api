@@ -3,7 +3,6 @@ var {QuizSubmit} = require('../../models/quiz-submit');
 var async = require('async');
 var request = require('superagent');
 var constant = require('../../mixin/constant');
-var HomeWorkScoring = require('../../models/homework-scoring');
 const deadline = 49;
 
 class PaperHomeworkQuizHandler {
@@ -78,7 +77,7 @@ function convertMillsecondToDay(millsecond) {
 }
 
 function findHomeworkStatus(_id, callback) {
-  QuizSubmit.findById(_id).populate('homeworkScoringId').exec((err, doc) => {
+  QuizSubmit.findById(_id).exec((err, doc) => {
     if (err) {
       callback(null, null);
     }
