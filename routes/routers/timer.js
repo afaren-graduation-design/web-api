@@ -22,7 +22,7 @@ router.get('/remain-time', (req, res) => {
           if (err) {
             return done(err, null);
           }
-          startTime = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
+          startTime = parseInt(new Date().getTime()  / constant.time.MILLISECOND_PER_SECONDS);
           thisSection = doc.sections.find(section => section._id + '' === sectionId);
           if (thisSection.startTime) {
             startTime = thisSection.startTime;
@@ -41,7 +41,7 @@ router.get('/remain-time', (req, res) => {
       }
     },
     (doc, done) => {
-      var now = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
+      var now = parseInt(new Date().getTime()) / constant.time.MILLISECOND_PER_SECONDS;
       var usedTime = now - startTime;
       done(null, parseInt((TOTAL_TIME - usedTime)));
     }
@@ -64,7 +64,7 @@ router.get('/initSection/:sectionId', (req, res, next) => {
     if (err || !doc) {
       return next(err);
     }
-    startTime = Date.parse(new Date()) / constant.time.MILLISECOND_PER_SECONDS;
+    startTime = parseInt(new Date().getTime() / constant.time.MILLISECOND_PER_SECONDS);
     thisSection = doc.sections.find(section => section._id + '' === sectionId);
     if (thisSection.startTime) {
       return res.sendStatus(200);

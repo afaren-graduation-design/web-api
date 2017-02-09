@@ -45,8 +45,8 @@ class PaperHomeworkQuizHandler {
     if (!section.startTime) {
       return callback(null, Object.assign({}, result, {status: constant.sectionStatus.NOTSTART}));
     }
-
-    let currentTime = convertMillsecondToDay(parseInt(new Date().getTime()));
+    let times = parseInt(new Date().getTime() / constant.time.MILLISECOND_PER_SECONDS);
+    let currentTime = convertMillsecondToDay(times);
     let startTime = convertMillsecondToDay(parseInt(section.startTime));
     let isTimeout = currentTime - startTime > deadline;
 
@@ -59,7 +59,6 @@ class PaperHomeworkQuizHandler {
 
     const items = section.quizzes;
     const submitId = items[items.length - 1].submits[items[items.length - 1].submits.length - 1];
-
     findHomeworkStatus(submitId, (err, status) => {
       if (err) {
         callback(null, null);
@@ -71,10 +70,10 @@ class PaperHomeworkQuizHandler {
 
 function convertMillsecondToDay(millsecond) {
   return millsecond /
-      (constant.time.SECONDS_PER_MINUTE *
-      constant.time.MINUTE_PER_HOUR *
-      constant.time.HOURS_PER_DAY *
-      constant.time.MILLISECOND_PER_SECONDS);
+    (constant.time.SECONDS_PER_MINUTE *
+    constant.time.MINUTE_PER_HOUR *
+    constant.time.HOURS_PER_DAY *
+    constant.time.MILLISECOND_PER_SECONDS);
 }
 
 function findHomeworkStatus(_id, callback) {
