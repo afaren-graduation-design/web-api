@@ -8,6 +8,7 @@ var homeworkDefinition = new Schema({
     type: Number,
     default: 1
   },
+  answerPath: String,
   createTime: Number,
   isDeleted: Boolean,
   uri: String,

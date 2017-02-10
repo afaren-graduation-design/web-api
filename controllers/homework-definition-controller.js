@@ -26,7 +26,6 @@ HomeworkDefinitionController.prototype.getHomeworkList = (req, res, next) => {
     if (err) {
       return next(err);
     }
-
     res.status(constant.httpCode.OK).send(data);
   });
 };
@@ -38,7 +37,7 @@ HomeworkDefinitionController.prototype.matchHomework = (req, res) => {
   let name = req.query.name;
   let homeworks;
   HomeworkDefinition.find({name, isDeleted: false}).limit(Number(pageCount))
-      .skip(skipCount).exec((err, data) => {
+    .skip(skipCount).exec((err, data) => {
     HomeworkDefinition.count({isDeleted: false}, (error, count) => {
       if (!err && !error && count && data) {
         let totalPage = Math.ceil(count / pageCount);
@@ -105,8 +104,8 @@ HomeworkDefinitionController.prototype.deleteSomeHomeworks = (req, res) => {
 HomeworkDefinitionController.prototype.saveHomework = (req, res, next) => {
   const id = req.params.dataId;
   const files = req.files;
-  const condition = Object.assign({},req.body,id,files,{status:parseInt(req.body.status)})
-  homeworkDefService.save(condition,(err) => {
+  const condition = Object.assign({}, req.body, {id: id}, files, {status: parseInt(req.body.status)});
+  homeworkDefService.save(condition, (err) => {
     return err ? next(err) : res.sendStatus(constant.httpCode.NO_CONTENT)
   });
 };

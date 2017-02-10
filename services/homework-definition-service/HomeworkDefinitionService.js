@@ -7,7 +7,7 @@ const HomeworkDefinition = require('../../models/homework-definition');
 const unique = require('../../tool/unique');
 const addMakerName = require('../../tool/addMakerName');
 const path = require('path');
-
+const mv = require('mv');
 
 class HomeworkDefinitionService {
   getHomeworkList({pageCount, page, order, sort}, callback) {
@@ -65,19 +65,16 @@ class HomeworkDefinitionService {
 
   create(data, callback) {
     const {definitionRepo} = data;
-
     async.waterfall([
       (done) => {
         HomeworkDefinition.create(data, done);
       }, (data, done) => {
         const id = data._id;
         const callbackUrl = `${config.get('task.hookUrl')}/homeworkDefinitions/${id}/status`;
-
         request
-          .post(config.get('task.addHomework'))
-          .auth(config.get('task.user'), config.get('task.password'))
+          .post('http://10.205.125.61:9090/job/ADD_HOMEWORK/buildWithParameters')
           .type('form')
-          .send({definitionRepo, callbackUrl})
+          .send({git: definitionRepo, callback_url: callbackUrl})
           .end((err) => {
             if (err) return done(err, null);
             done(null, {id});
@@ -86,12 +83,12 @@ class HomeworkDefinitionService {
   }
 
   save(condition, callback) {
-    const {description, status, result, files, id} = condition;
+    const {description, status, result, script, answer, id} = condition;
     const createTime = parseInt(new Date().getTime() /
       constant.time.MILLISECOND_PER_SECONDS);
-    const answerPath = '';
-    const evaluateScript = `./${files['script'][0].path}`; //Fixme 学生拿回题目答案路径
-    const answerFilename = files['answer'][0].filename;
+    const evaluateScript = `./${script[0].path}`; //Fixme 学生拿回题目答案路径
+    const answerFilename = answer[0].filename;
+    const answerPath = `./homework-answer/${answerFilename}`;
     let homeworkQuiz = {
       status,
       makerId: 1,
@@ -104,19 +101,19 @@ class HomeworkDefinitionService {
       templateUrl: '',
       result
     };
-    if(status === constant.createHomeworkStatus.SUCCESS){
+    if (status === constant.createHomeworkStatus.SUCCESS) {
       async.waterfall([
         (done) => {
-          path.resolve(__dirname,`../homework-script/${answerFilename}`), path.resolve(__dirname,`../homework-answer/${answerFilename}`), (err) => {
+          mv(path.resolve(__dirname, `../../homework-script/${answerFilename}`), path.resolve(__dirname, `../../homework-answer/${answerFilename}`), (err) => {
             done(err);
-          }
+          })
         },
-        (done)=>{
+        (done) => {
           HomeworkDefinition.findById(id, (err, doc) => {
             done(err, doc);
           })
         },
-        (doc,done)=>{
+        (doc, done) => {
           apiRequest.post('homeworkQuizzes', {
             'description': description,
             'evaluateScript': evaluateScript,
@@ -127,15 +124,17 @@ class HomeworkDefinitionService {
             'homeworkName': doc.toJSON().name.toString()
           }, done)
         },
-        (resp,done)=>{
-          homeworkQuiz.uri=resp.body.uri;
-          HomeworkDefinition.findByIdAndUpdate(id,homeworkQuiz,done);
+        (resp, done) => {
+          homeworkQuiz.uri = resp.body.uri;
+          HomeworkDefinition.findByIdAndUpdate(id, homeworkQuiz, done);
         }
-      ],(err)=>{
+      ], (err) => {
         return callback(err);
       })
     } else {
-      HomeworkDefinition.findByIdAndUpdate(id,homeworkQuiz,(err)=>{return callback(err)})
+      HomeworkDefinition.findByIdAndUpdate(id, homeworkQuiz, (err) => {
+        return callback(err)
+      })
     }
   }
 }
