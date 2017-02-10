@@ -42,6 +42,11 @@ var constant = {
     INCOMPLETE: 0,
     COMPLETE: 1,
     TIMEOUT: 2
+  },
+  createHomeworkStatus:{
+    ERROR: 0,
+    PEDDING: 1,
+    SUCCESS: 2
   }
 };
 

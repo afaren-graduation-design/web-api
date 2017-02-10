@@ -5,11 +5,12 @@ var apiRequest = require('../services/api-request');
 var unique = require('../tool/unique');
 var addMakerName = require('../tool/addMakerName');
 var os = require('os');
+var mv = require('mv');
+var path = require('path');
 var request = require('superagent');
 var async = require('async');
 var constant = require('../mixin/constant');
 var HomeworkDefinitionService = require('../services/homework-definition-service/HomeworkDefinitionService');
-
 const homeworkDefService = new HomeworkDefinitionService();
 
 function HomeworkDefinitionController() {
@@ -37,7 +38,7 @@ HomeworkDefinitionController.prototype.matchHomework = (req, res) => {
   let name = req.query.name;
   let homeworks;
   HomeworkDefinition.find({name, isDeleted: false}).limit(Number(pageCount))
-    .skip(skipCount).exec((err, data) => {
+      .skip(skipCount).exec((err, data) => {
     HomeworkDefinition.count({isDeleted: false}, (error, count) => {
       if (!err && !error && count && data) {
         let totalPage = Math.ceil(count / pageCount);
@@ -102,16 +103,22 @@ HomeworkDefinitionController.prototype.deleteSomeHomeworks = (req, res) => {
 };
 
 HomeworkDefinitionController.prototype.saveHomework = (req, res, next) => {
+  const initAnswerFile = req.files['answer'][0];
   var id = req.params.dataId;
   var {description, status, result} = req.body;
   var createTime = parseInt(new Date().getTime() /
     constant.time.MILLISECOND_PER_SECONDS);
-  var answerPath = 'test path'; // Fixme
-  var evaluateScript = req.file ? `./${req.file.path}` : '';
+  var answerPath = '';
+  var evaluateScript = req.files['script'][0] ? `./${req.files['script'][0].path}` : '';
   if (status === '2') {
     async.waterfall([
       (done) => {
-        HomeworkDefinition.findOne({_id: id}, (err, doc) => {
+        mv(path.resolve(__dirname,`../homework-script/${initAnswerFile.filename}`), path.resolve(__dirname,`../homework-answer/${initAnswerFile.filename}`), (err) => {
+          done(err);
+        });
+      },
+      (done) => {
+        HomeworkDefinition.findById(id, (err, doc) => {
           done(err, doc);
         });
       },
@@ -129,7 +136,7 @@ HomeworkDefinitionController.prototype.saveHomework = (req, res, next) => {
         });
       },
       (resp, done) => {
-        HomeworkDefinition.update({_id: id}, {
+        HomeworkDefinition.findByIdAndUpdate(id, {
           $set: {
             status,
             makerId: 1,

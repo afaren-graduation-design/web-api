@@ -35,3 +35,7 @@ homework-script/*
 !homework-script/configure.sh
 !homework-script/prepos.sh
 .vscode/
+homework-answer/*
+!homework-answer/calculate_median
+!homework-answer/fibonacci_series
+
