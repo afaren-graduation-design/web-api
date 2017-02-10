@@ -77,7 +77,7 @@ function convertMillsecondToDay(millsecond) {
 }
 
 function findHomeworkStatus(_id, callback) {
-  QuizSubmit.findById(_id).exec((err, doc) => {
+  QuizSubmit.findById(_id).populate('homeworkScoringId').exec((err, doc) => {
     if (err) {
       callback(null, null);
     }
