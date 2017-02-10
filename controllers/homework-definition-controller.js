@@ -103,91 +103,12 @@ HomeworkDefinitionController.prototype.deleteSomeHomeworks = (req, res) => {
 };
 
 HomeworkDefinitionController.prototype.saveHomework = (req, res, next) => {
-  const initAnswerFile = req.files['answer'][0];
-  var id = req.params.dataId;
-  var {description, status, result} = req.body;
-  var createTime = parseInt(new Date().getTime() /
-    constant.time.MILLISECOND_PER_SECONDS);
-  var answerPath = '';
-  var evaluateScript = req.files['script'][0] ? `./${req.files['script'][0].path}` : '';
-  if (status === '2') {
-    async.waterfall([
-      (done) => {
-        mv(path.resolve(__dirname,`../homework-script/${initAnswerFile.filename}`), path.resolve(__dirname,`../homework-answer/${initAnswerFile.filename}`), (err) => {
-          done(err);
-        });
-      },
-      (done) => {
-        HomeworkDefinition.findById(id, (err, doc) => {
-          done(err, doc);
-        });
-      },
-      (doc, done) => {
-        apiRequest.post('homeworkQuizzes', {
-          'description': description,
-          'evaluateScript': evaluateScript,
-          'templateRepository': doc.toJSON().definitionRepo.toString(),
-          'makerId': 1,
-          'answerPath': answerPath,
-          'createTime': createTime,
-          'homeworkName': doc.toJSON().name.toString()
-        }, (err, resp) => {
-          done(err, resp);
-        });
-      },
-      (resp, done) => {
-        HomeworkDefinition.findByIdAndUpdate(id, {
-          $set: {
-            status,
-            makerId: 1,
-            description,
-            isDeleted: false,
-            uri: resp.body.uri,
-            answerPath,
-            createTime,
-            evaluateScript,
-            templateUrl: '',
-            result
-          }
-        }).exec((err, doc) => {
-          done(err, doc);
-        });
-      },
-      (doc, done) => {
-        res.sendStatus(constant.httpCode.OK);
-        done(null, null);
-      }
-    ], (error, result) => {
-      if (error) {
-        res.sendStatus(constant.httpCode.NOT_FOUND);
-        throw error;
-      }
-    });
-  } else {
-    async.waterfall([
-      (done) => {
-        HomeworkDefinition.update({_id: id}, {
-          $set: {
-            status,
-            makerId: 1,
-            description,
-            isDeleted: false,
-            uri: '',
-            answerPath,
-            createTime,
-            evaluateScript,
-            templateUrl: '',
-            result
-          }
-        }).exec((err, doc) => {
-          done(err, doc);
-        });
-      }
-    ], (err, result) => {
-      if (err) return next(err);
-      res.sendStatus(constant.httpCode.OK);
-    });
-  }
+  const id = req.params.dataId;
+  const files = req.files;
+  const condition = Object.assign({},req.body,id,files,{status:parseInt(req.body.status)})
+  homeworkDefService.save(condition,(err) => {
+    return err ? next(err) : res.sendStatus(constant.httpCode.NO_CONTENT)
+  });
 };
 
 HomeworkDefinitionController.prototype.searchStatus = (req, res) => {
