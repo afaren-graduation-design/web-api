@@ -1,6 +1,8 @@
 {
   "task": {
     "addHomework": "http://10.205.125.61:9090/job/ADD-HOMEWORK/buildWithParameters",
+    "user": "admin",
+    "password": "admin",
     "hookUrl": "http://localhost/api"
   }
 }
