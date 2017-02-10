@@ -66,6 +66,29 @@ class PaperHomeworkQuizHandler {
       return callback(null, Object.assign({}, result, {status}));
     });
   }
+
+  getIds(section, callback) {
+    let result = section.quizzes.map(quiz => {
+      return {id: quiz._id, homeworkName: quiz.quizId.homeworkName};
+    });
+    async.map(section.quizzes, (quiz, cb) => {
+      let index = section.quizzes.indexOf(quiz);
+      if (quiz.submits.length === 0) {
+        cb(null, Object.assign(result[index], {status: 1}));
+      } else {
+        const homeworkScoringId = quiz.submits[quiz.submits.length - 1].homeworkScoringId;
+        QuizSubmit.findOne({homeworkScoringId}).populate('homeworkScoringId')
+          .exec((err, docs) => {
+            if (err) {
+              cb(err, null);
+            }
+            cb(null, Object.assign({}, result[index], {status: docs.homeworkScoringId.status}));
+          })
+      }
+    }, (err, result) => {
+      callback(err, result);
+    })
+  }
 }
 
 function convertMillsecondToDay(millsecond) {

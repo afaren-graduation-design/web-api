@@ -69,6 +69,23 @@ class PaperService {
       cb(err, result);
     });
   }
+
+  getQuestionIds(sectionId, cb) {
+    async.waterfall([
+      (done) => {
+        Paper
+          .findOne({'sections._id': sectionId})
+          .populate(['sections.quizzes.quizId', 'sections.quizzes.submits'])
+          .exec(done)
+      },
+      (docs, done) => {
+        const section = docs.sections.find((section) => section._id + '' === sectionId);
+        handleSection[section.quizzes[0].quizId.__t].getIds(section, done)
+      }
+    ], (err, result)=> {
+      cb(err, result);
+    })
+  }
 }
 
 module.exports = PaperService;

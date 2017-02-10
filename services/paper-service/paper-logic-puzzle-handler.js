@@ -72,6 +72,12 @@ class PaperLogicHandler {
     }
     return callback(null, Object.assign({}, result, {status: constant.sectionStatus.INCOMPLETE}));
   }
+
+  getIds(section, callback) {
+    callback(null, section.quizzes.map(quiz => {
+      return {id: quiz._id};
+    }))
+  }
 }
 
 module.exports = PaperLogicHandler;
