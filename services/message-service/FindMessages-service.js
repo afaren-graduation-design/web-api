@@ -8,9 +8,13 @@ class FindMessagesService {
     async.waterfall([
       (done) => {
         if (state === 0) {
-          Message.find({to: id, state: state}, done);
+          Message.find({to: id, state: state})
+            .sort({updatedAt: -1})
+            .exec(done);
         } else {
-          Message.find({to: id}, done);
+          Message.find({to: id})
+            .sort({updatedAt: -1})
+            .exec(done);
         }
       },
       (data, done) => {
