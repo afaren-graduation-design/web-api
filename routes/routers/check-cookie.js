@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var teacherSession = require('../../models/token');
+var Token = require('../../models/token');
 
 router.get('/', (req, res, next) => {
-  const session = req.cookies.teacher;
-  teacherSession.findOne({userHash: session}, (err, user) => {
+  const uuid = req.cookies.uuid;
+  Token.findOne({uuid}, (err, user) => {
     if (err) {
       return next(err);
     }
