@@ -87,7 +87,7 @@ function createScoring(options, callback) {
           done(err, data)
         });
     }
-  ], (err, result) => {
+  ], (err) => {
     callback(err, result);
   });
 }
