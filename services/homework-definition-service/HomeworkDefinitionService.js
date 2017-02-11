@@ -72,7 +72,7 @@ class HomeworkDefinitionService {
         const id = data._id;
         const callbackUrl = `${config.get('task.hookUrl')}/homeworkDefinitions/${id}/status`;
         request
-          .post('http://10.205.125.61:9090/job/ADD_HOMEWORK/buildWithParameters')
+          .post(config.get('task.addHomework'))
           .type('form')
           .send({git: definitionRepo, callback_url: callbackUrl})
           .end((err) => {

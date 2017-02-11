@@ -42,12 +42,12 @@ class PaperService {
       }
     ], (err, doc) => {
       if (err === true) {
-        cb(null, {id: doc._id + ''});
+        return cb(null, {id: doc._id + ''});
       }
       if (!err && doc) {
-        cb(null, {id: doc._id + ''});
+        return cb(null, {id: doc._id + ''});
       }
-      cb(err, null);
+      return cb(err, null);
     });
   }
 
@@ -82,7 +82,7 @@ class PaperService {
         const section = docs.sections.find((section) => section._id + '' === sectionId);
         handleSection[section.quizzes[0].quizId.__t].getIds(section, done)
       }
-    ], (err, result)=> {
+    ], (err, result) => {
       cb(err, result);
     })
   }
