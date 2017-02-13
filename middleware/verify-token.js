@@ -45,7 +45,7 @@ module.exports = (req, res, next) => {
     },
     (item, done) => {
       if (item) {
-        req.session.user.role === item.role ? done(null, null) : done('403', null);
+        return  item.role.indexOf(req.session.user.role) > -1 ? done(null, null) : done('403', null);
       }
       done(null, null);
     }
@@ -57,7 +57,6 @@ module.exports = (req, res, next) => {
     if (err === '403') {
       return res.sendStatus(403);
     }
-
     if (err) {
       return next(err);
     }

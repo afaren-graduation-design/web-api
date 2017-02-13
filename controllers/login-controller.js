@@ -71,6 +71,7 @@ LoginController.prototype.login = (req, res, next) => {
         const uuid = nodeUuid.v4();
         Token.update({id: result.body.id}, {$set: {uuid}}, {upsert: true}, (err) => {
           res.cookie('uuid', uuid, {path: '/'});
+          res.cookie('authState', 200);
           done(err, result);
         });
       } else {
