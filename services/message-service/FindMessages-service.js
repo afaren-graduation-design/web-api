@@ -14,9 +14,7 @@ class FindMessagesService {
         }
       },
       (doc, done) => {
-        doc.sort(function (a, b) {
-          return b.updatedAt - a.updatedAt;
-        });
+        doc.sort((a, b) => b.updatedAt - a.updatedAt);
         done(null, doc)
       },
       (data, done) => {
