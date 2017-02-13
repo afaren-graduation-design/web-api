@@ -64,30 +64,38 @@ class HomeworkDefinitionService {
   }
 
   create(data, callback) {
-    const {definitionRepo} = data;
+    const {definitionRepo, name, stackId} = data;
+    let result = {};
     async.waterfall([
-      (done) => {
-        HomeworkDefinition.create(data, done);
-      }, (data, done) => {
-        const id = data._id;
-        const callbackUrl = `${config.get('task.hookUrl')}/homeworkDefinitions/${id}/status`;
-        request
-          .post(config.get('task.addHomework'))
-          .type('form')
-          .send({git: definitionRepo, callback_url: callbackUrl})
-          .end((err) => {
-            if (err) return done(err, null);
-            done(null, {id});
+        (done) => {
+          HomeworkDefinition.create({definitionRepo, name, stackId}, (err, date) => {
+            if (err) return callback(err);
+            done(err, date);
           });
-      }], callback);
+        },
+        (data, done) => {
+          result = data.toJSON();
+          const callbackUrl = `${config.get('task.hookUrl')}/homeworkDefinitions/${result._id}/status`;
+          request
+            .post(config.get('task.addHomework'))
+            .type('form')
+            .send({git: definitionRepo, callback_url: callbackUrl})
+            .end(done);
+        }],
+      (err) => {
+        if (err) {
+          HomeworkDefinition.findByIdAndUpdate(id, {$set: {status: constant.createHomeworkStatus.ERROR}, callback})
+        }
+        callback(null, result);
+      });
   }
 
   save(condition, callback) {
     const {description, status, result, script, answer, id} = condition;
     const createTime = parseInt(new Date().getTime() /
       constant.time.MILLISECOND_PER_SECONDS);
-    const evaluateScript = `./${script[0].path}`; //Fixme 学生拿回题目答案路径
-    const answerFilename = answer[0].filename;
+    const evaluateScript = `./${script[0].path}` || ''; //Fixme 学生拿回题目答案路径
+    const answerFilename = answer[0].filename || '';
     const answerPath = `./homework-answer/${answerFilename}`;
     let homeworkQuiz = {
       status,
@@ -138,15 +146,33 @@ class HomeworkDefinitionService {
     }
   }
 
-  update(condition,callback){
+  update(condition, callback) {
     const {name, stackId, definitionRepo, homeworkId} = condition;
+    const callbackUrl = `${config.get('task.hookUrl')}/homeworkDefinitions/${homeworkId}/status`;
     async.waterfall([
-      (done)=>{
-
-      }
-    ],(err,result)=>{
-
-    });
+        (done) => {
+          HomeworkDefinition.update({_id: homeworkId}, {
+            $set: {
+              name,
+              stackId,
+              definitionRepo,
+              status: constant.createHomeworkStatus.PEDDING
+            }
+          }, done);
+        },
+        (data, done) => {
+          request
+            .post(config.get('task.addHomework'))
+            .type('form')
+            .send({git: definitionRepo, callback_url: callbackUrl})
+            .end(done)
+        }]
+      , (err, result) => {
+        if (err) {
+          return HomeworkDefinition.update({_id: homeworkId}, {$set: {status: constant.createHomeworkStatus.ERROR}}, callback)
+        }
+        return callback(err, result)
+      });
 
   }
 }

@@ -3,6 +3,6 @@
     "addHomework": "http://10.205.125.61:9090/job/ADD_HOMEWORK/buildWithParameters",
     "user": "admin",
     "password": "admin",
-    "hookUrl": "http://10.205.124.218/api"
+    "hookUrl": "http://10.205.124.117/api"
   }
 }

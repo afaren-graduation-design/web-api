@@ -124,36 +124,12 @@ HomeworkDefinitionController.prototype.searchStatus = (req, res) => {
 HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
   const {name, stackId, definitionRepo} = req.body;
   const homeworkId = req.params.homeworkId;
-
-  async.waterfall([
-    (done) => {
-      HomeworkDefinition.update({_id: homeworkId}, {$set: {name, stackId, definitionRepo, status: 1}}, (err, data) => {
-        done(err, data);
-      });
-    },
-    (data, done) => {
-      res.sendStatus(constant.httpCode.NO_CONTENT);
-      let callbackUrl = `${getIp()}/api/homeworkDefinitions/${homeworkId}/status`;
-      request
-        .post('http://10.205.125.61:9090/job/ADD_HOMEWORK/buildWithParameters')
-        .send({git: definitionRepo, callback_url: callbackUrl})
-        .type('form')
-        .end((err, resp) => {
-          if (err) {
-            done(err, resp);
-          }
-        });
-    }
-  ], (err, data) => {
-    HomeworkDefinition.update({_id: homeworkId}, {$set: {status: 0}}).exec((err) => {
-      if (err) {
-        throw err;
-      }
-    });
+  const condition = Object.assign({}, req.body, {homeworkId: homeworkId});
+  homeworkDefService.update(condition, (err, result) => {
     if (err) {
-      res.sendStatus(constant.httpCode.BAD_REQUEST);
-      throw err;
+      return next(err);
     }
+    return res.sendStatus(constant.httpCode.NO_CONTENT);
   });
 };
 

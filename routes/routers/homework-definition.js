@@ -12,7 +12,7 @@ router.delete('/:homeworkId', homeworkDefinationController.deleteHomework);
 
 var storage = multer.diskStorage({
   destination: './homework-script',
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, new Date().getTime() + Math.random().toString().slice(2, 8));
   }
 });
@@ -21,7 +21,10 @@ var upload = multer({storage: storage});
 
 router.post('/', homeworkDefinationController.insertHomework);
 router.get('/status/:id', homeworkDefinationController.searchStatus);
-router.put('/:dataId/status', upload.fields([{name:'script',maxCount:1},{name:'answer',maxCount:1}]), homeworkDefinationController.saveHomework);
+router.put('/:dataId/status', upload.fields([{name: 'script', maxCount: 1}, {
+  name: 'answer',
+  maxCount: 1
+}]), homeworkDefinationController.saveHomework);
 router.put('/:homeworkId', homeworkDefinationController.updateHomework);
 
 module.exports = router;
