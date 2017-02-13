@@ -68,7 +68,7 @@ class HomeworkDefinitionService {
     let result = {};
     async.waterfall([
         (done) => {
-          HomeworkDefinition.create({definitionRepo, name, stackId}, (err, date) => {
+          HomeworkDefinition.create({definitionRepo, name, stackId, templateRepository: definitionRepo}, (err, date) => {
             if (err) return callback(err);
             done(err, date);
           });
@@ -156,7 +156,8 @@ class HomeworkDefinitionService {
               name,
               stackId,
               definitionRepo,
-              status: constant.createHomeworkStatus.PEDDING
+              status: constant.createHomeworkStatus.PEDDING,
+              templateRepository:definitionRepo
             }
           }, done);
         },
