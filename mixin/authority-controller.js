@@ -4,7 +4,8 @@ function authorityCtrl() {
   return [
     {
       originPath: [
-        /^\/programs\/(.*)$/
+        /^\/programs\/(.*)$/,
+        /^\/messages\/(.*)&/
       ],
       role: 9
     }

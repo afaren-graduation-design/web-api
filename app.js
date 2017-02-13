@@ -9,7 +9,7 @@ var mongoConn = require('./services/mongo-conn');
 var MongoStore = require('connect-mongo')(session);
 var yamlConfig = require('node-yaml-config');
 var captcha = require('./middleware/captcha');
-var verfifyToken = require('./middleware/verify-token');
+var verifyToken = require('./middleware/verify-token');
 
 var path = require('path');
 var config = yamlConfig.load(path.join(__dirname, '/config/config.yml'));
@@ -48,7 +48,7 @@ if (env === 'test') {
 app.use(captcha(params));
 
 app.use(bodyParser.json());
-// app.use(verfifyToken);
+app.use(verifyToken);
 route.setRoutes(app);
 
 app.use((err, req, res, next) => {
