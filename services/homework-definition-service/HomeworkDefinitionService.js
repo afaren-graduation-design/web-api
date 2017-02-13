@@ -94,8 +94,8 @@ class HomeworkDefinitionService {
     const {description, status, result, script, answer, id} = condition;
     const createTime = parseInt(new Date().getTime() /
       constant.time.MILLISECOND_PER_SECONDS);
-    const evaluateScript = `./${script[0].path}` || ''; //Fixme 学生拿回题目答案路径
-    const answerFilename = answer[0].filename || '';
+    const evaluateScript = script ? `./${script[0].path}` : ''; //Fixme 学生拿回题目答案路径
+    const answerFilename = answer ? answer[0].filename : '';
     const answerPath = `./homework-answer/${answerFilename}`;
     let homeworkQuiz = {
       status,

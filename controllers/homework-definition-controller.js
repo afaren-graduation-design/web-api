@@ -136,7 +136,7 @@ HomeworkDefinitionController.prototype.updateHomework = (req, res) => {
 HomeworkDefinitionController.prototype.insertHomework = (req, res, next) => {
   homeworkDefService.create(req.body, (err, data) => {
     if (err) return next(err);
-    res.status(constant.httpCode.CREATED).send(data);
+    res.status(constant.httpCode.CREATED).send({id:data._id});
   })
 };
 
