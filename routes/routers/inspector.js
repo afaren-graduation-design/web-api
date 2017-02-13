@@ -10,7 +10,7 @@ var mongoConn = require('../../services/mongo-conn');
 // var config = yamlConfig.load('./config/config.yml');
 
 function getInfoFromApi(done) {
-  apiRequest.get('inspector', function(err, resp) {
+  apiRequest.get('inspector', function (err, resp) {
     var data;
     if (err) {
       data = {api: err};
@@ -40,17 +40,17 @@ function getMongoInfo(done) {
 //       });
 // }
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   var data = {app: 'connected'};
 
   async.parallel([
     getInfoFromApi,
     getMongoInfo
-  ], function(err, result) {
+  ], function (err, result) {
     if (err) {
       return next(err);
     }
-    result.forEach(function(v, k) {
+    result.forEach(function (v, k) {
       data = Object.assign(data, v);
     });
     res.send(data);

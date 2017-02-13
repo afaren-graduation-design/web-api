@@ -17,10 +17,10 @@ function AuthController() {
 
 AuthController.prototype.loginWithGitHub = (req, res) => {
   var authUrl = 'https://github.com/login/oauth/authorize?' +
-      'client_id=' + clientId +
-      '&redirect_uri=' + redirectUri +
-      '&scope=' + scope +
-      '&state' + state;
+    'client_id=' + clientId +
+    '&redirect_uri=' + redirectUri +
+    '&scope=' + scope +
+    '&state' + state;
   res.redirect(authUrl);
 };
 
@@ -36,22 +36,22 @@ AuthController.prototype.gitHubCallback = (req, res, next) => {
   async.waterfall([
     (done) => {
       request.post('https://github.com/login/oauth/access_token')
-          .set('Content-Type', 'application/json')
-          .send({
-            'client_id': clientId,
-            'client_secret': clientSecret,
-            'code': req.query.code,
-            'redirect_uri': redirectUri
-          })
-          .end((err, response) => {
-            done(err, response.body.access_token);
-          });
+        .set('Content-Type', 'application/json')
+        .send({
+          'client_id': clientId,
+          'client_secret': clientSecret,
+          'code': req.query.code,
+          'redirect_uri': redirectUri
+        })
+        .end((err, response) => {
+          done(err, response.body.access_token);
+        });
     },
     (data, done) => {
       request
-          .get('https://api.github.com/user?access_token=' + data)
-          .set('Content-Type', 'application/json')
-          .end(done);
+        .get('https://api.github.com/user?access_token=' + data)
+        .set('Content-Type', 'application/json')
+        .end(done);
     },
     (data, done) => {
       githubUserId = data.body.id;

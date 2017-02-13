@@ -22,7 +22,7 @@ router.get('/remain-time', (req, res) => {
           if (err) {
             return done(err, null);
           }
-          startTime = parseInt(new Date().getTime()  / constant.time.MILLISECOND_PER_SECONDS);
+          startTime = parseInt(new Date().getTime() / constant.time.MILLISECOND_PER_SECONDS);
           thisSection = doc.sections.find(section => section._id + '' === sectionId);
           if (thisSection.startTime) {
             startTime = thisSection.startTime;

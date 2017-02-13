@@ -23,9 +23,9 @@ QAController.prototype.updateQAInfo = (req, res, next) => {
   async.waterfall([
     (done) => {
       request
-          .get(qaInfoAddress)
-          .set('Content-Type', 'application/json')
-          .end(done);
+        .get(qaInfoAddress)
+        .set('Content-Type', 'application/json')
+        .end(done);
     },
 
     (result, done) => {

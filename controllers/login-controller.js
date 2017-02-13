@@ -90,7 +90,11 @@ LoginController.prototype.login = (req, res, next) => {
       res.send({status: constant.httpCode.UNAUTHORIZED});
       return;
     } else if (result.status === constant.httpCode.OK) {
-      res.send({status: constant.httpCode.OK, isSuperAdmin: result.body.role === '9', isFinishedDetail: result.body.isFinishedDetail});
+      res.send({
+        status: constant.httpCode.OK,
+        isSuperAdmin: result.body.role === '9',
+        isFinishedDetail: result.body.isFinishedDetail
+      });
       return;
     }
     return next(error);

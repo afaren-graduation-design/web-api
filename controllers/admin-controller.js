@@ -78,19 +78,19 @@ AdminController.prototype.changeRegisterableStatus = (req, res, next) => {
 
 AdminController.prototype.getUsersChannel = (req, res, next) => {
   UserChannel.find()
-      .populate('channelId')
-      .exec((err, data) => {
-        if (err) {
-          return next(err);
-        } else {
-          var usersChannel = data.map((item) => {
-            return {userId: item.userId, channelName: item.channelId.name};
-          });
-          res.send({
-            usersChannel: usersChannel
-          });
-        }
-      });
+    .populate('channelId')
+    .exec((err, data) => {
+      if (err) {
+        return next(err);
+      } else {
+        var usersChannel = data.map((item) => {
+          return {userId: item.userId, channelName: item.channelId.name};
+        });
+        res.send({
+          usersChannel: usersChannel
+        });
+      }
+    });
 };
 
 module.exports = AdminController;

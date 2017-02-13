@@ -258,10 +258,10 @@ HomeworkController.prototype.getEstimatedTime = (req, res, next) => {
   async.waterfall([
     (done) => {
       userHomeworkQuizzes.aggregate([
-          {'$unwind': '$quizzes'}
+        {'$unwind': '$quizzes'}
       ])
-      .match({'quizzes.id': Number(quizId)})
-      .exec(done);
+        .match({'quizzes.id': Number(quizId)})
+        .exec(done);
     },
     (doc, done) => {
       var recordIds = [];

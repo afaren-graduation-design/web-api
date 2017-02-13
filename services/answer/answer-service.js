@@ -1,44 +1,37 @@
 var apiRequest = require('../api-request');
+var mongoose = require('mongoose');
 var Message = require('../../models/messages');
-var userHomeworkQuizzes = require('../../models/user-homework-quizzes');
+var Paper = require('../../models/paper');
+var async = require('async');
 
 
 class AnswerService {
-  getAnswer({uri, id, userId}, callback) {
-    var answer = {};
-    var path = '';
-    apiRequest.get(uri, (err, doc) => {
-      if (!doc.body.homeworkItem.answerPath) {
-        answer.status = 204;
-        return callback(err, answer);
-      } else {
-        path = doc.body.homeworkItem.answerPath;
-      }
-      this.requestAnswerReplyMsgOperation({uri, id, userId}, (err, data) => {
-        if (data === 200) {
-          answer.status = data;
-          answer.path = path;
-        }
-        callback(err, answer);
-      });
-    });
-  }
 
-  requestAnswerReplyMsgOperation({uri, id, userId}, callback) {
-    var requestAnswerReply = {};
-    var status;
-    userHomeworkQuizzes.findOne({userId: userId, _id: id}, (err, doc) => {
-      if (err) {
-        return callback(err, null);
+  getAgreeRequestAnswerMessage({from, type, deeplink}, callback) {
+    async.waterfall([
+      (done) => {
+        Message.findOne({from, type, deeplink}, done)
+      },
+      (data, done) => {
+        let id = mongoose.Types.ObjectId(deeplink);
+        if (data) {
+          Paper.aggregate()
+            .unwind('$sections')
+            .unwind('$sections.quizzes')
+            .match({'sections.quizzes._id': id})
+            .exec(done);
+        } else {
+          done(null, null);
+        }
+      },
+      (doc, done) => {
+        Paper.populate(doc, 'sections.quizzes.quizId', done);
+      },
+      (data, done) => {
+        const answerPath = data[0].sections.quizzes.quizId.answerPath;
+        done(null, answerPath);
       }
-      var homeworkId = uri.split('/')[1];
-      requestAnswerReply.deeplink = `papers/${doc.paperId}/sections/1/homeworks/${homeworkId}`;
-      requestAnswerReply.to = userId;
-      Message.findOne(requestAnswerReply, (err, doc) => {
-        status = doc.type === 'agreementRequestAnswer' ? 200 : 403;
-        callback(err, status);
-      });
-    });
+    ], callback);
   }
 }
 

@@ -41,6 +41,7 @@ class MessageService {
       }
     ], callback);
   }
-};
+}
+;
 
 module.exports = MessageService;

@@ -223,7 +223,7 @@ PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) =
   var paperId = req.params.paperId;
   var makerId = req.session.user.id;
   var updateTime = parseInt(req.body.data.updateTime ? req.body.data.updateTime : parseInt(new Date().getTime() /
-      constant.time.MILLISECOND_PER_SECONDS));
+    constant.time.MILLISECOND_PER_SECONDS));
   var data;
   PaperDefinition.update({_id: paperId, programId, isDeleted: false},
     {paperName, description, sections, updateTime}, (err) => {

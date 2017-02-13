@@ -118,7 +118,7 @@ LogicPuzzleController.setScoreSheet = (scoreSheetData, done) => {
   var paperId = data[0].paperId;
   // var programId = data.programId;
   data[0].sections.quizzes.forEach((quiz) => {
-    itemPosts.push({answer: quiz.submits[quiz.submits.length - 1].userAnswer+'', quizItemId: quiz.quizId.id});
+    itemPosts.push({answer: quiz.submits[quiz.submits.length - 1].userAnswer + '', quizItemId: quiz.quizId.id});
   });
 
   var body = {

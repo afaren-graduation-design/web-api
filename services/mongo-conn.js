@@ -3,21 +3,21 @@
 var mongoose = require('mongoose');
 
 var mongoStatus = 'unconnected';
-var start = function(mongoURL) {
+var start = function (mongoURL) {
   var conn = mongoose.connection;
   mongoose.Promise = global.Promise;
 
   mongoose.connect(mongoURL);
 
-  conn.on('error', function(err) {
+  conn.on('error', function (err) {
     mongoStatus = err;
   });
 
-  conn.on('connected', function() {
+  conn.on('connected', function () {
     mongoStatus = 'connected';
   });
 
-  conn.on('disconnected', function() {
+  conn.on('disconnected', function () {
     mongoStatus = 'disconnected';
   });
 };
