@@ -137,6 +137,18 @@ class HomeworkDefinitionService {
       })
     }
   }
+
+  update(condition,callback){
+    const {name, stackId, definitionRepo, homeworkId} = condition;
+    async.waterfall([
+      (done)=>{
+
+      }
+    ],(err,result)=>{
+
+    });
+
+  }
 }
 
 module.exports = HomeworkDefinitionService;
