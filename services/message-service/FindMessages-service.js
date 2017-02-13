@@ -7,15 +7,14 @@ class FindMessagesService {
   findMessage({id, state}, callback) {
     async.waterfall([
       (done) => {
+        let condition = {to: id};
         if (state === 0) {
-          Message.find({to: id, state: state}, done)
-        } else {
-          Message.find({to: id}, done)
+          condition = Object.assign(condition, {state: state});
         }
-      },
-      (doc, done) => {
-        doc.sort((a, b) => b.updatedAt - a.updatedAt);
-        done(null, doc)
+        Message.find(condition)
+          .sort({updatedAt: -1})
+          .exec(done);
+
       },
       (data, done) => {
         if (data.length === 0) {

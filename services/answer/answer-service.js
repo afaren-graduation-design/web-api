@@ -7,7 +7,7 @@ var async = require('async');
 
 class AnswerService {
 
-  getAgreeRequestAnswerMessage({from, type, to, deeplink}, callback) {
+  getAnswerPath({from, type, to, deeplink}, callback) {
     async.waterfall([
       (done) => {
         Message.findOne({from, type, to, deeplink}, done)

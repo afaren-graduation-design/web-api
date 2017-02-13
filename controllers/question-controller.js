@@ -21,7 +21,7 @@ class QuestionController {
     const deeplink = req.params.questionId;
     const from = req.query.from;
     const type = req.query.type;
-    answerService.getAgreeRequestAnswerMessage({from, type, to, deeplink}, (err, data) => {
+    answerService.getAnswerPath({from, type, to, deeplink}, (err, data) => {
       if (err) {
         return next(err);
       }
