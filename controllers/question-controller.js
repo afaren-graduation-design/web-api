@@ -17,8 +17,11 @@ class QuestionController {
   }
 
   getAnswer(req, res, next) {
-    const {from, type, deeplink} = req.body;
-    answerService.getAgreeRequestAnswerMessage({from, type, deeplink}, (err, data) => {
+    const to = req.session.user.id;
+    const deeplink = req.params.questionId;
+    const from = req.query.from;
+    const type = req.query.type;
+    answerService.getAgreeRequestAnswerMessage({from, type, to, deeplink}, (err, data) => {
       if (err) {
         return next(err);
       }

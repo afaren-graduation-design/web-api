@@ -7,10 +7,10 @@ var async = require('async');
 
 class AnswerService {
 
-  getAgreeRequestAnswerMessage({from, type, deeplink}, callback) {
+  getAgreeRequestAnswerMessage({from, type, to, deeplink}, callback) {
     async.waterfall([
       (done) => {
-        Message.findOne({from, type, deeplink}, done)
+        Message.findOne({from, type, to, deeplink}, done)
       },
       (data, done) => {
         let id = mongoose.Types.ObjectId(deeplink);
@@ -21,7 +21,7 @@ class AnswerService {
             .match({'sections.quizzes._id': id})
             .exec(done);
         } else {
-          done(null, null);
+          done(true, null);
         }
       },
       (doc, done) => {
