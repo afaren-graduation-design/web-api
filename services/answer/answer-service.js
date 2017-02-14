@@ -28,8 +28,8 @@ class AnswerService {
         Paper.populate(doc, 'sections.quizzes.quizId', done);
       },
       (data, done) => {
-        const answerPath = data[0].sections.quizzes.quizId.answerPath;
-        done(null, answerPath);
+        const answerPath = data[0].sections.quizzes.quizId.answerPath.split('/');
+        done(null, answerPath[2]);
       }
     ], callback);
   }
