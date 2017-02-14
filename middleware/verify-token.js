@@ -1,6 +1,6 @@
 'use strict';
 var Token = require('../models/token');
-// var constant = require('../mixin/constant');
+var constant = require('../mixin/constant');
 var async = require('async');
 var authorityCtrl = require('../mixin/authority-controller');
 
@@ -28,8 +28,11 @@ module.exports = (req, res, next) => {
   async.waterfall([
     (done) => {
       Token.findOne({uuid}, (err, user) => {
-        if (err || !user) {
-          return done('401', null);
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return done(401, null);
         }
         done(null, null);
       });
@@ -45,17 +48,17 @@ module.exports = (req, res, next) => {
     },
     (item, done) => {
       if (item) {
-        return  item.role.indexOf(req.session.user.role) > -1 ? done(null, null) : done('403', null);
+        return item.role.indexOf(Number(req.session.user.role)) != -1 ? done(null, null) : done(403, null);
       }
       done(null, null);
     }
   ], (err) => {
-    if (err === '401') {
-      return res.sendStatus(401);
+    if (err === constant.httpCode.UNAUTHORIZED) {
+      return res.sendStatus(constant.httpCode.UNAUTHORIZED);
     }
 
-    if (err === '403') {
-      return res.sendStatus(403);
+    if (err === constant.httpCode.FORBIDDEN) {
+      return res.sendStatus(constant.httpCode.FORBIDDEN);
     }
     if (err) {
       return next(err);
