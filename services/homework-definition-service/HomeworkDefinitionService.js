@@ -68,7 +68,7 @@ class HomeworkDefinitionService {
     let result = {};
     async.waterfall([
         (done) => {
-          HomeworkDefinition.create({definitionRepo, name, stackId, templateRepository: definitionRepo}, (err, date) => {
+          HomeworkDefinition.create({definitionRepo, name, stackId}, (err, date) => {
             if (err) return callback(err);
             done(err, date);
           });
@@ -84,14 +84,14 @@ class HomeworkDefinitionService {
         }],
       (err) => {
         if (err) {
-          HomeworkDefinition.findByIdAndUpdate(id, {$set: {status: constant.createHomeworkStatus.ERROR}, callback})
+          return HomeworkDefinition.findByIdAndUpdate(id, {$set: {status: constant.createHomeworkStatus.ERROR}, callback})
         }
         callback(null, result);
       });
   }
 
   save(condition, callback) {
-    const {description, status, result, script, answer, id} = condition;
+    const {description, status, result, script, answer, id, templateRepository} = condition;
     const createTime = parseInt(new Date().getTime() /
       constant.time.MILLISECOND_PER_SECONDS);
     const evaluateScript = script ? `./${script[0].path}` : ''; //Fixme 学生拿回题目答案路径
@@ -107,7 +107,8 @@ class HomeworkDefinitionService {
       createTime,
       evaluateScript,
       templateUrl: '',
-      result
+      result,
+      templateRepository
     };
     if (status === constant.createHomeworkStatus.SUCCESS) {
       async.waterfall([
@@ -156,8 +157,7 @@ class HomeworkDefinitionService {
               name,
               stackId,
               definitionRepo,
-              status: constant.createHomeworkStatus.PEDDING,
-              templateRepository:definitionRepo
+              status: constant.createHomeworkStatus.PEDDING
             }
           }, done);
         },
