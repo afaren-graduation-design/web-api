@@ -96,14 +96,6 @@
     "state": 0
   },
   {
-    "_id": "585bc4e613c54e2f61fede11",
-    "from": 1,
-    "to": 9,
-    "type" :"AGREE_REQUEST_ANSWER",
-    "deeplink":"papers/1/sections/1/homeworks/1",
-    "state": 0
-  },
-  {
     "_id": "585bc4e613c65e2f61fede43",
     "from": 3,
     "to": 4,
