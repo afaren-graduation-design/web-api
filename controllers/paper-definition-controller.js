@@ -25,11 +25,9 @@ PaperDefinitionController.prototype.getPaperDefinition = (req, res, next) => {
 PaperDefinitionController.prototype.savePaperDefinition = (req, res, next) => {
   var programId = req.params.programId;
   var makerId = req.session.user.id;
-  var createTime = parseInt(new Date().getTime()) /
-    (constant.time.SECONDS_PER_MINUTE *
-    constant.time.MINUTE_PER_HOUR *
-    constant.time.HOURS_PER_DAY *
+  var createTime = parseInt(new Date().getTime() /
     constant.time.MILLISECOND_PER_SECONDS);
+  
   var updateTime = createTime;
   var {paperName, description, sections} = req.body.data;
 
@@ -58,12 +56,8 @@ PaperDefinitionController.prototype.savePaperDefinition = (req, res, next) => {
 PaperDefinitionController.prototype.updatePaperDefinition = (req, res) => {
   var programId = req.params.programId;
   var paperId = req.params.paperId;
-  var updateTime = parseInt(new Date().getTime()) /
-    (constant.time.SECONDS_PER_MINUTE *
-    constant.time.MINUTE_PER_HOUR *
-    constant.time.HOURS_PER_DAY *
+  var updateTime = parseInt(new Date().getTime() /
     constant.time.MILLISECOND_PER_SECONDS);
-  ;
 
   var {paperName, description, sections} = req.body.data;
   PaperDefinition.update({programId, _id: paperId},
