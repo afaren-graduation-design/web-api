@@ -7,7 +7,7 @@ function authorityCtrl() {
         /^\/programs\/(.*)$/,
         /^\/messages\/(.*)$/
       ],
-      role: [1, 9]
+      role: [0, 1, 9]
     }
   ]
 }
