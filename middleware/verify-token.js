@@ -20,14 +20,13 @@ function matchUrl(url, patterns) {
 }
 
 module.exports = (req, res, next) => {
-  let array = ['/register', '/login', /^\/homeworkDefinitions\/(.*)\/status$/];
-  array.forEach((item)=> {
-    if(req.url.match(item)){
-      return next();
-    }
-  });
   const uuid = req.cookies.uuid;
   const url = req.url;
+  let array = ['/register', '/login', '/register/registerable', /^\/homeworkDefinitions\/(.*)\/status$/];
+  if(matchUrl(url, array)){
+    return next();
+  }
+
   async.waterfall([
     (done) => {
       Token.findOne({uuid}, (err, user) => {
