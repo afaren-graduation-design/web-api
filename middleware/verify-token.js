@@ -20,9 +20,12 @@ function matchUrl(url, patterns) {
 }
 
 module.exports = (req, res, next) => {
-  if (['/register', '/login'].indexOf(req.url) !== -1) {
-    return next();
-  }
+  let array = ['/register', '/login', /^\/homeworkDefinitions\/(.*)\/status$/];
+  array.forEach((item)=> {
+    if(req.url.match(item)){
+      return next();
+    }
+  });
   const uuid = req.cookies.uuid;
   const url = req.url;
   async.waterfall([
