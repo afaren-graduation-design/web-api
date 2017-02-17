@@ -41,7 +41,7 @@ var params = {
   'canvasHeight': 34
 };
 
-if (env === 'test') {
+if (env !== 'production') {
   params.text = '1234';
 }
 
