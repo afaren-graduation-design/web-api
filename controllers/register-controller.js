@@ -11,6 +11,7 @@ var apiRequest = require('../services/api-request');
 var configuration = require('../models/configuration');
 var UserChannel = require('../models/user-channel');
 var mongoose = require('mongoose');
+var Program = require('../models/program');
 
 function checkRegisterInfo(registerInfo) {
   var pass = true;
@@ -40,6 +41,7 @@ function RegisterController() {
 RegisterController.prototype.register = (req, res, next) => {
   var registerInfo = req.body;
   var error = {};
+  var userId;
 
   if (checkRegisterInfo(registerInfo)) {
     var isMobilePhoneExist = false;
@@ -93,6 +95,7 @@ RegisterController.prototype.register = (req, res, next) => {
         apiRequest.post('register', registerInfo, done);
       },
       (data, done) => {
+        userId = data.body.id;
         if (req.cookies.channel !== '') {
           var userChannel = new UserChannel({
             userId: data.body.id,
@@ -104,6 +107,18 @@ RegisterController.prototype.register = (req, res, next) => {
         } else {
           done();
         }
+      },
+      (done) => {
+        if(req.cookies.program){
+          Program.findById(req.cookies.program, done);
+        }
+        done(null, null);
+      },
+      (doc, done)=> {
+        if(!doc){
+          return done(null, null);
+        }
+        apiRequest.post(`users/${userId}/programs/${doc.programId}`, {}, done);
       },
       (done) => {
         apiRequest.post('login', {email: registerInfo.email, password: registerInfo.password}, done);
