@@ -12,6 +12,7 @@ var apiRequest = require('../api-request');
 var fs = require('fs');
 var os = require('os');
 var taskApi = config.taskApi;
+var callbackTaskUrl = config.callbackTaskUrl;
 var {HomeworkQuizSubmit} = require('../../models/quiz-submit');
 var Paper = require('../../models/paper');
 var {QuizSubmit} = require('../../models/quiz-submit');
@@ -76,7 +77,7 @@ function createScoring(options, callback) {
         script: script,
         user_answer_repo: options.userAnswerRepo,
         branch: options.branch,
-        callback_url: `http://${getIp()}:3000/homework/scoring/` + result._id
+        callback_url: callbackTaskUrl+''+result._id
       };
       request
         .post(taskApi)
