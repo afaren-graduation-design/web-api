@@ -14,7 +14,7 @@ var verifyToken = require('./middleware/verify-token');
 var path = require('path');
 var config = yamlConfig.load(path.join(__dirname, '/config/config.yml'));
 
-var env = ['production', 'test', 'staging', 'integration'].indexOf(process.env.NODE_ENV) < 0 ? 'default' : process.env.NODE_ENV;
+var env = ['production', 'test', 'show-case', 'staging', 'integration'].indexOf(process.env.NODE_ENV) < 0 ? 'default' : process.env.NODE_ENV;
 
 app.use(cookieParser());
 
