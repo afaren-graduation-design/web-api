@@ -15,6 +15,16 @@ default:
   emailPassword: 'ssww123456'
   gitHubToken: 'Basic dHdhcnM6c3cxMjM0NTY3OA=='
   QAInfoAddress: ''
+show-case:
+  staticFileServer: 'http://nginx/fs/'
+  database: 'mongodb://mongo/twars'
+  paperApiServer: 'http://paper-api:8080'
+  appServer: 'http://web-api:3000/'
+  taskApi: 'http://jenkins:8080/job/HOMEWORK_SCORING/buildWithParameters'
+  homeworkCreationTaskApi: 'http://jenkins:8080/job/ADD_HOMEWORK/buildWithParameters'
+  nginxServer: 'http://nginx:80/fs'
+  callbackTaskUrl: 'http://web-api:3000/homework/scoring/'
+
 development:
   database: 'mongodb://localhost/twars'
   paperApiServer: 'http://localhost:12306/'
@@ -26,15 +36,7 @@ development:
 #  database: 'mongodb://localhost/twars'
 #  taskApi: 'http://localhost:12306/job/HOMEWORK-SCORING/buildWithParameters'
 #  nginxServer: 'http://localhost:12306/nginx'
-show-case:
-  staticFileServer: 'http://nginx/fs/'
-  database: 'mongodb://mongo/twars'
-  paperApiServer: 'http://paper-api:8080'
-  appServer: 'http://web-api:3000/'
-  taskApi: 'http://jenkins:8080/job/HOMEWORK_SCORING/buildWithParameters'
-  homeworkCreationTaskApi: 'http://jenkins:8080/job/ADD_HOMEWORK/buildWithParameters'
-  nginxServer: 'http://nginx:80/fs'
-  callbackTaskUrl: 'http://web-api:3000/homework/scoring/'
+
 #production:
 #  staticFileServer: '/fs/'
 #  emailServer: 'academy.thoughtworks.cn'
