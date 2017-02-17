@@ -24,12 +24,6 @@ show-case:
   homeworkCreationTaskApi: 'http://jenkins:8080/job/ADD_HOMEWORK/buildWithParameters'
   nginxServer: 'http://nginx:80/fs'
   callbackTaskUrl: 'http://web-api:3000/homework/scoring/'
-
-development:
-  database: 'mongodb://localhost/twars'
-  paperApiServer: 'http://localhost:12306/'
-  userApiServer: 'http://localhost:12306/'
-  appServer: 'http://localhost:3000/'
 #integration:
 #  paperApiServer: 'http://localhost:12306/'
 #  userApiServer: 'http://localhost:12306/'
