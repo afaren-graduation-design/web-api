@@ -22,7 +22,7 @@ function matchUrl(url, patterns) {
 module.exports = (req, res, next) => {
   const uuid = req.cookies.uuid;
   const url = req.url;
-  let array = ['/register', '/login', '/register/registerable', '/inspector', /^\/homeworkDefinitions\/(.*)\/status$/];
+  let array = ['/register', '/login', '/register/registerable', '/inspector', /^\/homeworkDefinitions\/(.*)\/status$/,/^\/homework\/scoring\/(.*)$/];
   if(matchUrl(url, array)){
     return next();
   }
