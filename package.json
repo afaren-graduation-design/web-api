@@ -14,7 +14,7 @@
     "mock-server": "this command was deprecated, please use npm run moco",
     "eslint": "eslint .",
     "refreshMongo": "node ./mongoRefreshment.js",
-    "start": "export NODE_ENV=test && node ./app.js"
+    "start": "node ./app.js"
   },
   "repository": {
     "type": "git",

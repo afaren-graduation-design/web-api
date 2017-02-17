@@ -2,13 +2,14 @@ var {QuizItem} = require('../../models/quizItem');
 var async = require('async');
 var request = require('superagent');
 var constant = require('../../mixin/constant');
+const apiRequest = require('../api-request');
 const _timeBase = 90;
 
 class PaperLogicHandler {
   bulkFindOrCreate(section, callback) {
     async.waterfall([
       (done) => {
-        request.get('http://localhost:8080/paper-api/quizItems/examples', done);
+        apiRequest.get('quizItems/examples', done);
       },
       (resp, done) => {
         async.map(resp.body.items, (example, cb) => {
@@ -25,7 +26,7 @@ class PaperLogicHandler {
         }, done);
       },
       (examples, done) => {
-        request.get(`http://localhost:8080/paper-api/${section.quizzes[0].items_uri}`, (err, resp) => {
+        apiRequest.get(section.quizzes[0].items_uri, (err, resp) => {
           done(err, examples, resp);
         });
       },

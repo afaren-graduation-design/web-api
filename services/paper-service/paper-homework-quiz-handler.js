@@ -3,6 +3,8 @@ var {QuizSubmit} = require('../../models/quiz-submit');
 var async = require('async');
 var request = require('superagent');
 var constant = require('../../mixin/constant');
+const apiRequest = require('../api-request');
+
 const deadline = 49;
 
 class PaperHomeworkQuizHandler {
@@ -10,7 +12,7 @@ class PaperHomeworkQuizHandler {
     async.waterfall([
       (done) => {
         async.map(section.quizzes, (quiz, cb) => {
-          request.get(`http://localhost:8080/paper-api/${quiz.definition_uri}`, (err, resp) => {
+          apiRequest.get(quiz.definition_uri, (err, resp) => {
             if (err) {
               cb(err, null);
             }
