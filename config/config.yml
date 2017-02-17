@@ -15,12 +15,11 @@ default:
   emailPassword: 'ssww123456'
   gitHubToken: 'Basic dHdhcnM6c3cxMjM0NTY3OA=='
   QAInfoAddress: ''
-#development:
-#  database: 'mongodb://localhost/twars'
-#  paperApiServer: 'http://localhost:12306/'
-#  userApiServer: 'http://localhost:12306/'
-#  appServer: 'http://localhost:3000/'
-#  taskServer: 'http://192.168.99.100:4000/'
+development:
+  database: 'mongodb://localhost/twars'
+  paperApiServer: 'http://localhost:12306/'
+  userApiServer: 'http://localhost:12306/'
+  appServer: 'http://localhost:3000/'
 #integration:
 #  paperApiServer: 'http://localhost:12306/'
 #  userApiServer: 'http://localhost:12306/'
@@ -36,7 +35,6 @@ show-case:
   homeworkCreationTaskApi: 'http://jenkins:8080/job/ADD_HOMEWORK/buildWithParameters'
   nginxServer: 'http://nginx:80/fs'
   callbackTaskUrl: 'http://web-api:3000/homework/scoring/'
-
 #production:
 #  staticFileServer: '/fs/'
 #  emailServer: 'academy.thoughtworks.cn'
