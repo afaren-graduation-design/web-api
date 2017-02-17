@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const programSchema = new Schema({
-  programId: Number,
+  programId: String,
   programUrl: String,
   programCode: String
 });

@@ -102,17 +102,19 @@ RegisterController.prototype.register = (req, res, next) => {
             channelId: new mongoose.Types.ObjectId(req.cookies.channel)
           });
           userChannel.save((err) => {
-            done(err);
+            done(err, null);
           });
         } else {
-          done();
+          done(null, null);
         }
       },
-      (done) => {
-        if(req.cookies.program){
-          Program.findById(req.cookies.program, done);
+      (data, done) => {
+        if(!req.cookies.program){
+          return done(null, null);
         }
-        done(null, null);
+        Program.findById(req.cookies.program, (err, doc)=> {
+          done(err, doc)
+        });
       },
       (doc, done)=> {
         if(!doc){
@@ -120,7 +122,7 @@ RegisterController.prototype.register = (req, res, next) => {
         }
         apiRequest.post(`users/${userId}/programs/${doc.programId}`, {}, done);
       },
-      (done) => {
+      (data, done) => {
         apiRequest.post('login', {email: registerInfo.email, password: registerInfo.password}, done);
       },
       (data, done) => {
@@ -134,6 +136,8 @@ RegisterController.prototype.register = (req, res, next) => {
         done(null, data);
       }
     ], (err, data) => {
+      res.clearCookie('program', {path: '/'});
+
       if (err !== null && error.status === httpStatus.UNAUTHORIZED) {
         res.send({
           status: constant.FORBIDDEN,
