@@ -109,11 +109,11 @@ RegisterController.prototype.register = (req, res, next) => {
         }
       },
       (data, done) => {
-        if(!req.cookies.program){
+        if(!req.cookies.program || req.cookies.program === 'undefined'){
           return done(null, null);
         }
         Program.findById(req.cookies.program, (err, doc)=> {
-          done(err, doc)
+          return done(err, doc)
         });
       },
       (doc, done)=> {
