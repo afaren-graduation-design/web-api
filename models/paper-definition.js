@@ -7,6 +7,7 @@ var paperDefinitionSchema = new Schema({
   paperName: String,
   isDistribution: Boolean,
   description: String,
+  paperType: String,
   programId: Number,
   makerId: Number,
   createTime: Number,
