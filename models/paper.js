@@ -15,6 +15,7 @@ var paperSchema = new Schema({
   paperId: Number,
   userId: Number,
   paperUri: String,
+  paperType: String,
   sections: [{
     startTime: Number,
     endTime: Number,

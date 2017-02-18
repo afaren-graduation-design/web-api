@@ -9,7 +9,7 @@ const classMap = {
   'UserHomeworkQuizzes': HomeworkQuiz
 };
 
-export default class SectionService {
+class SectionService {
   getList(condition, done) {
     let logicPuzzleFind = Rx.Observable.fromPromise(logicPuzzles.find(condition));
     let homeworkQuizzesFind = Rx.Observable.fromPromise(homeworkQuizzes.find(condition));
@@ -32,3 +32,5 @@ export default class SectionService {
       });
   }
 }
+
+module.exports = SectionService;
