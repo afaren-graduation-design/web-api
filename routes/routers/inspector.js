@@ -10,6 +10,7 @@ var mongoConn = require('../../services/mongo-conn');
 // var config = yamlConfig.load('./config/config.yml');
 
 function getInfoFromApi(done) {
+  console.log()
   apiRequest.get('inspector', function (err, resp) {
     var data;
     if (err) {

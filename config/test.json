@@ -1,8 +1,0 @@
-{
-  "task": {
-    "addHomework": "http://jenkins:8088/job/ADD_HOMEWORK/buildWithParameters",
-    "user": "admin",
-    "password": "admin",
-    "hookUrl": "http://web-api/api"
-  }
-}

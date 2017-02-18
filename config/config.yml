@@ -18,7 +18,7 @@ default:
 show-case:
   staticFileServer: 'http://nginx/fs/'
   database: 'mongodb://mongo/twars'
-  paperApiServer: 'http://paper-api:8080'
+  paperApiServer: 'http://paper-api:8080/paper-api/'
   appServer: 'http://web-api:3000/'
   taskApi: 'http://jenkins:8080/job/HOMEWORK_SCORING/buildWithParameters'
   homeworkCreationTaskApi: 'http://jenkins:8080/job/ADD_HOMEWORK/buildWithParameters'

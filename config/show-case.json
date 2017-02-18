@@ -1,8 +1,16 @@
 {
   "task": {
-    "addHomework": "http://jenkins:8088/job/ADD_HOMEWORK/buildWithParameters",
+    "taskApi": "http://jenkins:8080/job/HOMEWORK_SCORING/buildWithParameters",
+    "addHomework": "http://jenkins:8080/job/ADD_HOMEWORK/buildWithParameters",
     "user": "admin",
     "password": "admin",
-    "hookUrl": "http://web-api/api"
-  }
+    "hookUrl": "http://web-api:3000/",
+    "callbackTaskUrl":"http://10.205.124.117/api/homework/scoring/"
+  },
+  "staticFileServer": "http://nginx/fs/",
+  "database": "mongodb://mongo/twars",
+  "paperApiServer": "http://paper-api:8080",
+  "appServer": "http://web-api:3000/",
+  "nginxServer": "http://nginx:80/fs"
+
 }
