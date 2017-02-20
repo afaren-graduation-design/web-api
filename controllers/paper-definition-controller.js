@@ -27,15 +27,16 @@ PaperDefinitionController.prototype.savePaperDefinition = (req, res, next) => {
   var makerId = req.session.user.id;
   var createTime = parseInt(new Date().getTime() /
     constant.time.MILLISECOND_PER_SECONDS);
-  
+
   var updateTime = createTime;
-  var {paperName, description, sections} = req.body.data;
+  var {paperName, description, sections, paperType} = req.body.data;
 
   new PaperDefinition({
     programId,
     isDistribution: false,
     makerId,
     description,
+    paperType,
     paperName,
     createTime,
     updateTime,
@@ -59,9 +60,9 @@ PaperDefinitionController.prototype.updatePaperDefinition = (req, res) => {
   var updateTime = parseInt(new Date().getTime() /
     constant.time.MILLISECOND_PER_SECONDS);
 
-  var {paperName, description, sections} = req.body.data;
+  var {paperName, description, sections, paperType} = req.body.data;
   PaperDefinition.update({programId, _id: paperId},
-    {$set: {programId, updateTime, paperName, description, sections}}, (err) => {
+    {$set: {programId, updateTime, paperName, description, paperType, sections}}, (err) => {
       if (!err) {
         res.sendStatus(204);
       } else {
@@ -168,11 +169,11 @@ PaperDefinitionController.prototype.deleteSomePaperDefinition = (req, res) => {
 };
 
 PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
-  var {paperName, description, sections} = req.body.data;
+  var {paperName, description, sections, paperType} = req.body.data;
   var programId = Number(req.params.programId);
   var makerId = req.session.user.id;
   var createTime = parseInt(req.body.data.createTime ? req.body.data.createTime : parseInt(new Date().getTime() /
-    constant.time.MILLISECOND_PER_SECONDS));
+      constant.time.MILLISECOND_PER_SECONDS));
   var updateTime = createTime;
   var data;
   new PaperDefinition({
@@ -180,6 +181,7 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
     uri: '',
     paperName,
     description,
+    paperType,
     sections,
     makerId,
     isDistribution: false,
@@ -212,21 +214,21 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
 };
 
 PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) => {
-  var {paperName, description, sections} = req.body.data;
+  var {paperName, description, sections, paperType} = req.body.data;
   var programId = Number(req.params.programId);
   var paperId = req.params.paperId;
   var makerId = req.session.user.id;
   var updateTime = parseInt(req.body.data.updateTime ? req.body.data.updateTime : parseInt(new Date().getTime() /
-    constant.time.MILLISECOND_PER_SECONDS));
+      constant.time.MILLISECOND_PER_SECONDS));
   var data;
   PaperDefinition.update({_id: paperId, programId, isDeleted: false},
-    {paperName, description, sections, updateTime}, (err) => {
+    {paperName, description, sections, updateTime, paperType}, (err) => {
       if (err) {
         return res.sendStatus(400);
       }
       var formattedSections = formatSections(sections);
       data = {
-        makerId, createTime: updateTime, programId, paperName, description, sections: formattedSections
+        makerId, createTime: updateTime, programId, paperName, description, paperType, sections: formattedSections
       };
       apiRequest.post('programs/1/papers', data, (error, resp) => {
         if (!error && resp) {
