@@ -33,7 +33,8 @@ PaperDefinitionController.prototype.savePaperDefinition = (req, res, next) => {
 
   new PaperDefinition({
     programId,
-    isDistribution: false,
+    isDistributed: false,
+    distributedTime: null,
     makerId,
     description,
     paperType,
@@ -184,7 +185,7 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
     paperType,
     sections,
     makerId,
-    isDistribution: false,
+    isDistributed: false,
     createTime,
     updateTime,
     isDeleted: false
@@ -194,12 +195,13 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
     }
     var formattedSections = formatSections(sections);
     data = {
-      makerId, createTime, programId, paperName, description, sections: formattedSections
+      makerId, createTime, programId, paperName, description, paperType, sections: formattedSections
     };
 
     apiRequest.post('programs/1/papers', data, (error, resp) => {
       if (!error && resp) {
-        PaperDefinition.update({_id: paper._id}, {uri: resp.body.uri, isDistribution: true}, (err) => {
+        var distributedTime = parseInt(new Date().getTime() / constant.time.MILLISECOND_PER_SECONDS);
+        PaperDefinition.update({_id: paper._id}, {uri: resp.body.uri, distributedTime, isDistributed: true}, (err) => {
           if (!err) {
             var uri = resp.body.uri;
             return res.status(201).send(uri);
@@ -232,7 +234,8 @@ PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) =
       };
       apiRequest.post('programs/1/papers', data, (error, resp) => {
         if (!error && resp) {
-          PaperDefinition.update({_id: paperId}, {uri: resp.body.uri, isDistribution: true}, (err) => {
+          var distributedTime = parseInt(new Date().getTime() / constant.time.MILLISECOND_PER_SECONDS);
+          PaperDefinition.update({_id: paperId}, {uri: resp.body.uri, distributedTime, isDistributed: true}, (err) => {
             if (!err) {
               var uri = resp.body.uri;
               return res.status(204).send(uri);

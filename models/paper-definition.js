@@ -5,13 +5,14 @@ var Schema = mongoose.Schema;
 
 var paperDefinitionSchema = new Schema({
   paperName: String,
-  isDistribution: Boolean,
+  isDistributed: Boolean,
+  distributedTime: Number,
   description: String,
   paperType: String,
   programId: Number,
   makerId: Number,
   createTime: Number,
-  updateTime: String,
+  updateTime: Number,
   isDeleted: Boolean,
   uri: String,
   sections: [

@@ -2,7 +2,8 @@
   {
     "_id": "5829958a7007c23870a1d68a",
     "programId": 1,
-    "isDistribution": false,
+    "isDistributed": false,
+    "distributedTime": null,
     "isDeleted": false,
     "makerId": 1,
     "description": "这是描述",
@@ -41,7 +42,8 @@
   {
     "_id": "5829958a7007c23870a1d681",
     "programId": 1,
-    "isDistribution": false,
+    "isDistributed": false,
+    "distributedTime": null,
     "makerId": 1,
     "description": "这是描述",
     "paperType": "practice",
@@ -78,7 +80,8 @@
   {
     "_id": "5829958a7007c23870a1d682",
     "programId": 1,
-    "isDistribution": false,
+    "isDistributed": false,
+    "distributedTime": null,
     "makerId": 1,
     "description": "这是描述",
     "paperType": "practice",
@@ -115,7 +118,8 @@
   {
     "_id": "5829958a7007c23870a1d685",
     "programId": 1,
-    "isDistribution": false,
+    "isDistributed": false,
+    "distributedTime": null,
     "makerId": 1,
     "description": "这是描述",
     "paperType": "practice",
@@ -152,7 +156,8 @@
   {
     "_id": "5829958a7007c23870a1d683",
     "programId": 1,
-    "isDistribution": false,
+    "isDistributed": false,
+    "distributedTime": null,
     "makerId": 1,
     "description": "这是描述",
     "paperType": "practice",
@@ -189,7 +194,8 @@
   {
     "_id": "5829958a7007c23870a1d684",
     "programId": 1,
-    "isDistribution": false,
+    "isDistributed": false,
+    "distributedTime": null,
     "makerId": 1,
     "description": "这是描述",
     "paperType": "practice",
@@ -226,7 +232,8 @@
   {
     "_id": "5829958a7007c23870a1d686",
     "programId": 1,
-    "isDistribution": false,
+    "isDistributed": false,
+    "distributedTime": null,
     "makerId": 1,
     "description": "这是描述",
     "paperType": "practice",
@@ -263,7 +270,8 @@
   {
     "_id": "5829958a7007c23870a1d687",
     "programId": 1,
-    "isDistribution": false,
+    "isDistributed": false,
+    "distributedTime": null,
     "makerId": 1,
     "description": "这是描述",
     "paperType": "practice",
@@ -300,7 +308,8 @@
   {
     "_id": "5829958a7007c23870a1d688",
     "programId": 1,
-    "isDistribution": false,
+    "isDistributed": false,
+    "distributedTime": null,
     "makerId": 1,
     "description": "这是描述",
     "paperType": "practice",
@@ -337,7 +346,8 @@
   {
     "_id": "5829958a7007c23870a1d689",
     "programId": 1,
-    "isDistribution": false,
+    "isDistributed": false,
+    "distributedTime": null,
     "makerId": 1,
     "description": "这是描述",
     "paperType": "practice",
@@ -374,7 +384,8 @@
   {
     "_id": "5829958a7007c23870a1d690",
     "programId": 1,
-    "isDistribution": false,
+    "isDistributed": false,
+    "distributedTime": null,
     "makerId": 1,
     "description": "这是描述",
     "paperType": "practice",
