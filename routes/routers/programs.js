@@ -14,7 +14,7 @@ router.delete('/:programId/paperDefinitions/:paperId', paperDefinitionController
 router.get('/:programId/paperDefinitions/:paperId', paperDefinitionController.getPaperDefinition);
 router.put('/:programId/paperDefinitions/:paperId', paperDefinitionController.updatePaperDefinition);
 router.post('/:programId/paperDefinitions/distribution', paperDefinitionController.distributePaperDefinition);
-router.put('/:programId/paperDefinitions/:paperId/distribution', paperDefinitionController.distributePaperDefinitionById);
+router.put('/:programId/paperDefinitions/:paperId/:operation', paperDefinitionController.operatePaperDefinitionById);
 
 router.get('/:programId/papers', programPaperController.getPaperList);
 router.post('/:programId/papers/:paperId', programPaperController.retrievePaper);

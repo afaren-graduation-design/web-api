@@ -1,4 +1,5 @@
 'use strict';
+var async = require('async');
 var apiRequest = require('../services/api-request');
 var constant = require('../mixin/constant');
 var PaperDefinition = require('../models/paper-definition');
@@ -215,38 +216,74 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
   });
 };
 
-PaperDefinitionController.prototype.distributePaperDefinitionById = (req, res) => {
+PaperDefinitionController.prototype.operatePaperDefinitionById = (req, res, next) => {
   var {paperName, description, sections, paperType} = req.body.data;
   var programId = Number(req.params.programId);
   var paperId = req.params.paperId;
+  var operation = req.params.operation.toUpperCase();
   var makerId = req.session.user.id;
   var updateTime = parseInt(req.body.data.updateTime ? req.body.data.updateTime : parseInt(new Date().getTime() /
       constant.time.MILLISECOND_PER_SECONDS));
-  var data;
-  PaperDefinition.update({_id: paperId, programId, isDeleted: false},
-    {paperName, description, sections, updateTime, paperType}, (err) => {
-      if (err) {
-        return res.sendStatus(400);
-      }
-      var formattedSections = formatSections(sections);
-      data = {
-        makerId, createTime: updateTime, programId, paperName, description, paperType, sections: formattedSections
-      };
-      apiRequest.post('programs/1/papers', data, (error, resp) => {
-        if (!error && resp) {
+  var formattedSections = formatSections(sections);
+  var data = {
+    makerId,
+    createTime: updateTime,
+    programId,
+    operation,
+    paperName,
+    description,
+    paperType,
+    sections: formattedSections
+  };
+
+  async.waterfall([
+    (done) => {
+      PaperDefinition.findById(paperId, done);
+    },
+    (doc, done) => {
+      if (!doc.uri) {
+        apiRequest.post('programs/1/papers', data, (error, resp) => {
+          if (!error && resp) {
+            var distributedTime = parseInt(new Date().getTime() / constant.time.MILLISECOND_PER_SECONDS);
+            PaperDefinition.update({_id: paperId}, {
+              uri: resp.body.uri,
+              distributedTime,
+              isDistributed: operation === 'DISTRIBUTION'
+            }, (err) => {
+              if (!err) {
+                var uri = resp.body.uri;
+                return res.status(204).send(uri);
+              }
+              return done(err, null);
+            });
+          } else {
+            return done(error, null);
+          }
+        });
+      } else {
+        apiRequest.post(doc.uri, data, (error) => {
+          if (error) {
+            return done(error, null);
+          }
           var distributedTime = parseInt(new Date().getTime() / constant.time.MILLISECOND_PER_SECONDS);
-          PaperDefinition.update({_id: paperId}, {uri: resp.body.uri, distributedTime, isDistributed: true}, (err) => {
-            if (!err) {
-              var uri = resp.body.uri;
-              return res.status(204).send(uri);
+          PaperDefinition.update({_id: paperId}, {
+            distributedTime,
+            isDistributed: operation === 'DISTRIBUTION'
+          }, (err) => {
+            if (err) {
+              return done(err, null);
             }
-            return res.sendStatus(400);
+            return res.sendStatus(204);
           });
-        } else {
-          return res.sendStatus(400);
-        }
-      });
-    });
+        });
+      }
+    }
+  ], (err) => {
+    if (err) {
+      return next(err);
+    }
+    return res.sendStatus(204);
+  });
 };
 
 module.exports = PaperDefinitionController;
