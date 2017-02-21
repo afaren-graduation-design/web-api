@@ -2,8 +2,11 @@ const ProgramService = require('../services/program-service/index');
 
 class ProgramController {
   create(req, res, next) {
-    ProgramService.create(req.body, (err, data)=> {
-      res.sendStatus(200)
+    ProgramService.create(req.body, (err)=> {
+      if(err){
+        return next(err);
+      }
+      return res.sendStatus(201);
     })
   }
 

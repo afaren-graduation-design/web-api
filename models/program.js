@@ -4,10 +4,7 @@ const Schema = mongoose.Schema;
 const programSchema = new Schema({
   programId: String,
   programName: String,
-  programUrl: {
-    uri: String,
-    uriEnable: Boolean
-  }
+  uriEnable: Boolean
 });
 
 const Program = mongoose.model('Program', programSchema);
