@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const programSchema = new Schema({
   programId: String,
-  programName: String,
+  name: String,
   uriEnable: Boolean
 });
 
