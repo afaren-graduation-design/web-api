@@ -222,8 +222,7 @@ PaperDefinitionController.prototype.operatePaperDefinitionById = (req, res, next
   var paperId = req.params.paperId;
   var operation = req.params.operation.toUpperCase();
   var makerId = req.session.user.id;
-  var updateTime = parseInt(req.body.data.updateTime ? req.body.data.updateTime : parseInt(new Date().getTime() /
-      constant.time.MILLISECOND_PER_SECONDS));
+  var updateTime = parseInt(new Date().getTime() / constant.time.MILLISECOND_PER_SECONDS);
   var formattedSections = formatSections(sections);
   var data = {
     makerId,
