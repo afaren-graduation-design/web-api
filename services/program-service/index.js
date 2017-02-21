@@ -9,11 +9,11 @@ class ProgramService {
         apiRequest.post('programs', programInfo, done);
       },
       (resp, done) => {
-        Object.assign(programInfo, {programId: resp.body});
+        Object.assign(programInfo, {programId: resp.body.id});
         Program.create(programInfo, done);
       }
-    ], (err) => {
-      callback(err);
+    ], (err, doc) => {
+      callback(err, doc);
     })
   }
 

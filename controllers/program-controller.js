@@ -4,11 +4,11 @@ const programService = new ProgramService();
 
 class ProgramController {
   create(req, res, next) {
-    programService.create(req.body, (err)=> {
-      if(err){
+    programService.create(req.body, (err, result)=> {
+      if (err) {
         return next(err);
       }
-      return res.sendStatus(201);
+      return res.status(201).send(result);
     })
   }
 
@@ -27,7 +27,7 @@ class ProgramController {
 
   getList(req, res, next) {
     programService.getList(req.session.user.id, (err, data)=> {
-      if(err) {
+      if (err) {
         return next(err);
       }
       return res.status(200).send(data);
