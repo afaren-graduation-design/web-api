@@ -44,12 +44,17 @@ class ProgramService {
       (docs, done) => {
         async.map(docs, (doc, cb) => {
           apiRequest.get(`programs/${doc.programId}/users`, (err, response) => {
+            let item = doc.toJSON();
+            if(response.statusCode === 404){
+              item.peopleNumber = 0;
+              return cb(null, item);
+            }
             if (err) {
               return done(err, null);
             }
-            let item = doc.toJSON();
-            item.peopleNumber = response.body.usersUri.length ? response.body.usersUri.length : 0;
-            cb(null, item);
+
+            item.peopleNumber = response.body.usersUri.length;
+            return cb(null, item);
           })
         }, (err, result) => {
           done(err, result);
