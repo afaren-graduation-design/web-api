@@ -1,6 +1,8 @@
 [{
   "_id": "58a6d3e0e2ce096a438ba2a7",
   "programId": "2",
-  "programUrl": "https://local.thoughtworks.school/?program=58a3b76fe31d541z2e776480",
-  "programCode": "123456789"
+  "programUrl": {
+    "uri": "https://local.thoughtworks.school/?program=58a3b76fe31d541z2e776480",
+    "uriEnable": true
+  }
 }]

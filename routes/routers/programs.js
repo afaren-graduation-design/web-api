@@ -1,11 +1,15 @@
-var express = require('express');
-var router = express.Router();
-var PaperDefinitionController = require('../../controllers/paper-definition-controller');
-var ProgramPaperController = require('../../controllers/program-paper-controller');
-var paperDefinitionController = new PaperDefinitionController();
+const express = require('express');
+const router = express.Router();
+const PaperDefinitionController = require('../../controllers/paper-definition-controller');
+const ProgramPaperController = require('../../controllers/program-paper-controller');
+const ProgramController = require('../../controllers/program-controller');
+const paperDefinitionController = new PaperDefinitionController();
 
-var programPaperController = new ProgramPaperController();
+const programPaperController = new ProgramPaperController();
 
+const programController = new ProgramController();
+
+router.post('/', programController.create);
 router.get('/:programId/paperDefinitions', paperDefinitionController.getPaperDefinitionList);
 router.post('/:programId/paperDefinitions', paperDefinitionController.savePaperDefinition);
 router.get('/:programId/paperDefinitions/selection', paperDefinitionController.selectPaperDefinition);
