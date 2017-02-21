@@ -10,6 +10,7 @@ const programPaperController = new ProgramPaperController();
 const programController = new ProgramController();
 
 router.post('/', programController.create);
+router.put('/:programId',programController.update)
 router.get('/:programId/paperDefinitions', paperDefinitionController.getPaperDefinitionList);
 router.post('/:programId/paperDefinitions', paperDefinitionController.savePaperDefinition);
 router.get('/:programId/paperDefinitions/selection', paperDefinitionController.selectPaperDefinition);
