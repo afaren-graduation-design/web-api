@@ -48,7 +48,7 @@ class ProgramService {
               return done(err, null);
             }
             let item = doc.toJSON();
-            item.peopleNumber = response.body.usersUri.length;
+            item.peopleNumber = response.body.usersUri.length ? response.body.usersUri.length : 0;
             cb(null, item);
           })
         }, (err, result) => {
