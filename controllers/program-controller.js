@@ -4,7 +4,7 @@ const programService = new ProgramService();
 
 class ProgramController {
   create(req, res, next) {
-    programService.create(req.body, (err, result)=> {
+    programService.create(req, (err, result)=> {
       if (err) {
         return next(err);
       }
@@ -14,7 +14,7 @@ class ProgramController {
 
   update(req, res, next) {
     const data = {
-      programId: req.params.programId,
+      _id: req.params.programId,
       programInfo: req.body
     };
     programService.update(data, (err, doc) => {
