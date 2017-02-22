@@ -12,6 +12,8 @@ var configuration = require('../models/configuration');
 var UserChannel = require('../models/user-channel');
 var mongoose = require('mongoose');
 var Program = require('../models/program');
+var Token = require('../models/token');
+var nodeUuid = require('node-uuid');
 
 function checkRegisterInfo(registerInfo) {
   var pass = true;
@@ -117,11 +119,8 @@ RegisterController.prototype.register = (req, res, next) => {
         });
       },
       (doc, done)=> {
-        if(!doc){
+        if(!doc || !doc.uriEnable){
           return done(null, null);
-        }
-        if(!doc.uriEnable) {
-          return done({status: httpStatus.BAD_REQUEST}, null);
         }
 
         apiRequest.post(`users/${userId}/programs/${doc.programId}`, {}, done);
@@ -136,8 +135,16 @@ RegisterController.prototype.register = (req, res, next) => {
             role: data.body.role,
             userInfo: data.body.userInfo
           };
+          const uuid = nodeUuid.v4();
+          Token.update({id: data.body.id}, {$set: {uuid}}, {upsert: true}, (err) => {
+            res.cookie('uuid', uuid, {path: '/'});
+            res.cookie('authState', 200);
+            return done(err, data);
+          });
+        } else {
+          done(null, data);
         }
-        done(null, data);
+
       }
     ], (err, data) => {
       res.clearCookie('program', {path: '/'});
@@ -156,9 +163,7 @@ RegisterController.prototype.register = (req, res, next) => {
             isCaptchaError: isCaptchaError
           }
         });
-      } else if (err !== null && err.status === httpStatus.BAD_REQUEST) {
-        res.sendStatus(httpStatus.BAD_REQUEST);
-      }else if (err) {
+      } else if (err) {
         return next(err);
       } else {
         res.send({
