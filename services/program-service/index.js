@@ -3,13 +3,15 @@ const async = require('async');
 const apiRequest = require('../api-request');
 
 class ProgramService {
-  create(programInfo, callback) {
+  create(req, callback) {
+    let programInfo = req.body;
+    let makerId = req.session.user.id;
     async.waterfall([
       (done) => {
         apiRequest.post('programs', programInfo, done);
       },
       (resp, done) => {
-        Object.assign(programInfo, {programId: resp.body.id});
+        Object.assign(programInfo, {programId: resp.body.id, makerId});
         Program.create(programInfo, done);
       }
     ], (err, doc) => {
@@ -17,10 +19,10 @@ class ProgramService {
     })
   }
 
-  update({programId, programInfo}, callback) {
+  update({_id, programInfo}, callback) {
     async.waterfall([
       (done) => {
-        Program.findByIdAndUpdate(programId, programInfo, done);
+        Program.findByIdAndUpdate(_id, programInfo, done);
       },
       (docs, done) => {
         if (!docs) {
@@ -33,13 +35,10 @@ class ProgramService {
     })
   }
 
-  getList(userId, callback) {
+  getList(makerId, callback) {
     async.waterfall([
       (done) => {
-        apiRequest.get(`users/${userId}/programs`, done);
-      },
-      (resp, done) => {
-        Program.find({programId: {$in: resp.body.programIds}}, done);
+        Program.find({makerId}, done);
       },
       (docs, done) => {
         async.map(docs, (doc, cb) => {

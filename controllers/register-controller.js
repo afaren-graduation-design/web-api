@@ -120,6 +120,10 @@ RegisterController.prototype.register = (req, res, next) => {
         if(!doc){
           return done(null, null);
         }
+        if(!doc.uriEnable) {
+          return done({status: httpStatus.BAD_REQUEST}, null);
+        }
+
         apiRequest.post(`users/${userId}/programs/${doc.programId}`, {}, done);
       },
       (data, done) => {
@@ -137,13 +141,12 @@ RegisterController.prototype.register = (req, res, next) => {
       }
     ], (err, data) => {
       res.clearCookie('program', {path: '/'});
-
-      if (err !== null && error.status === httpStatus.UNAUTHORIZED) {
+      if (err !== null && err.status === httpStatus.UNAUTHORIZED) {
         res.send({
           status: constant.FORBIDDEN,
           registerable: data.registerable
         });
-      } else if (err !== null && error.status === httpStatus.FORBIDDEN) {
+      } else if (err !== null && err.status === httpStatus.FORBIDDEN) {
         res.send({
           status: constant.FAILING_STATUS,
           message: lang.EXIST,
@@ -153,7 +156,9 @@ RegisterController.prototype.register = (req, res, next) => {
             isCaptchaError: isCaptchaError
           }
         });
-      } else if (err) {
+      } else if (err !== null && err.status === httpStatus.BAD_REQUEST) {
+        res.sendStatus(httpStatus.BAD_REQUEST);
+      }else if (err) {
         return next(err);
       } else {
         res.send({
