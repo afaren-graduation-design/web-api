@@ -32,9 +32,10 @@ class ProgramPaperController {
       if (err) {
         return next(err);
       }
-      return res.send({
-        data: resp.body.paperList
+      let data = resp.body.paperList.filter(paper => {
+        return paper.operationType !== 'DELETE'
       });
+      return res.send({data});
     });
   };
 
