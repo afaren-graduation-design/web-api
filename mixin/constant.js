@@ -43,9 +43,14 @@ var constant = {
     COMPLETE: 1,
     TIMEOUT: 2
   },
-  createHomeworkStatus:{
+  createHomeworkStatus: {
     ERROR: 0,
     PEDDING: 1,
+    SUCCESS: 2
+  },
+  addStackStatus: {
+    ERROR: 0,
+    PENDING: 1,
     SUCCESS: 2
   }
 };

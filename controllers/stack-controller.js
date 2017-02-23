@@ -1,7 +1,10 @@
 'use strict';
-var request = require('superagent');
-var apiRequest = require('../services/api-request');
-var constant = require('../mixin/constant');
+const request = require('superagent');
+const config = require('config');
+const async = require('async');
+const apiRequest = require('../services/api-request');
+const constant = require('../mixin/constant');
+const Stack = require('../models/stack');
 
 function StacksController() {
 };
@@ -45,14 +48,60 @@ StacksController.prototype.create = (req, res, next) => {
         return res.sendStatus(constant.httpCode.BAD_REQUEST);
       }
 
-      apiRequest.post('stacks', stack, (err, resp) => {
+      const newStack = Object.assign(stack, {status: constant.addStackStatus.PENDING, message: ''});
+      Stack.create(newStack, (err, doc) => {
         if (err) {
           return next(err);
         }
-        return res.status(constant.httpCode.CREATED).send(resp.body);
-      })
+        const callbackUrl = `${config.get('task.callback_url')}/${doc._id}`;
+        request
+          .post(config.get('task.buildImage'))
+          .send({image: req.body.definition, callbackUrl})
+          .end(() => {
+            console.log('send jenkins success');
+          });
+      });
     });
+};
 
+StacksController.prototype.update = (req, res, next) => {
+  const stackId = req.params.stackId;
+  const {state, message}= req.body;
+  async.waterfall([
+    (done) => {
+      if (state !== 'SUCCESS') {
+        return Stack.findByIdAndUpdate(stackId, {status: constant.addStackStatus.ERROR, message}, done);
+      }
+      Stack.findById(stackId, done);
+    },
+    (doc, done) => {
+      const stack = doc.toJSON();
+      apiRequest.post('stacks', stack, done);
+    },
+    (data, done) => {
+      if (!data) {
+        return Stack.findByIdAndUpdate(stackId, {status: constant.addStackStatus.ERROR, message: '创建失败'}, done);
+      }
+      Stack.findByIdAndUpdate(stackId, {status: constant.addStackStatus.SUCCESS}, done);
+    }
+  ], (err) => {
+    if (err) {
+      return next(err);
+    }
+  });
+};
+
+StacksController.prototype.searchStatus = (req, res, next) => {
+  const stackId = req.params.stackId;
+  Stack.findById(stackId, (err, doc) => {
+    if (err) {
+      return next(err);
+    }
+    if (!doc) {
+      return res.status(constant.httpCode.NOT_FOUND).send({status: 0});
+    }
+    res.status(constant.httpCode.OK).send({doc: doc.toJSON()});
+  })
 };
 
 module.exports = StacksController;

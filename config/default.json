@@ -1,6 +1,8 @@
 {
   "task": {
     "addHomework": "http://localhost:8888/job/ADD-HOMEWORK/buildWithParameters",
+    "buildImage":"http://localhost:8888/job/BUILD_IMAGE/buildWithParameters",
+    "callback_url":"http://10.205.124.117/api/stacks/",
     "user": "admin",
     "password": "admin",
     "taskApi": "http://10.205.125.61:9090/job/HOMEWORK_SCORING/buildWithParameters",
