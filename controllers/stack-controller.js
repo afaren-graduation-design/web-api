@@ -32,7 +32,7 @@ StacksController.prototype.getStack = (req, res, next) => {
 
 StacksController.prototype.create = (req, res, next) => {
   const stack = req.body;
-  const definitions = stack.definition.split(' ');
+  const definitions = stack.definition.split(':');
   request
     .get(`https://registry.hub.docker.com/v1/repositories/${definitions[0]}/tags`)
     .end((err, response) => {
