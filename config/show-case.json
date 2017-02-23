@@ -7,8 +7,8 @@
     "hookUrl": "http://web-api:3000/",
     "callbackTaskUrl":"http://10.205.124.117/api/homework/scoring/"
   },
-  "staticFileServer": "http://nginx/fs/",
-  "database": "mongodb://mongo/twars",
+  "staticFileServer": "http://localhost:8888/fs/",
+  "database": "mongodb://mongo:27017/twars",
   "paperApiServer": "http://paper-api:8080",
   "appServer": "http://web-api:3000/",
   "nginxServer": "http://nginx:80/fs"
