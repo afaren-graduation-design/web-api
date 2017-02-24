@@ -48,7 +48,7 @@ if (env !== 'production') {
 app.use(captcha(params));
 
 app.use(bodyParser.json());
-app.use(verifyToken);
+// app.use(verifyToken);
 route.setRoutes(app);
 
 app.use((err, req, res, next) => {
