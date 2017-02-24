@@ -40,4 +40,5 @@ exports.setRoutes = (app) => {
   app.use('/section', require('./routers/logic-puzzle'));
   app.use('/check-cookie', require('./routers/check-cookie'));
   app.use('/files', require('./routers/files'));
+  app.use('/user-authority',require('./routers/user-authority'))
 };
