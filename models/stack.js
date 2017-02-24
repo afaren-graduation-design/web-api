@@ -5,7 +5,10 @@ const stackSchema = new Schema({
   title: String,
   description: String,
   definition: String,
-  status: Number
+  status: {
+    type: Number,
+    default: 0
+  }
 });
 
 const Stack = mongoose.model('Stack', stackSchema);

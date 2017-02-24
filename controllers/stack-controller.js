@@ -49,14 +49,17 @@ StacksController.prototype.create = (req, res, next) => {
       }
 
       const newStack = Object.assign(stack, {status: constant.addStackStatus.PENDING, message: ''});
+
       Stack.create(newStack, (err, doc) => {
         if (err) {
           return next(err);
         }
-        const callbackUrl = `${config.get('task.callback_url')}/${doc._id}`;
+        const callback_url = `${config.get('task.callback_url')}/${doc._id}`;
+
         request
           .post(config.get('task.buildImage'))
-          .send({image: req.body.definition, callbackUrl})
+          .type('form')
+          .send({image: req.body.definition, callback_url})
           .end(() => {
             console.log('send jenkins success');
           });
@@ -66,28 +69,37 @@ StacksController.prototype.create = (req, res, next) => {
 
 StacksController.prototype.update = (req, res, next) => {
   const stackId = req.params.stackId;
-  const {state, message}= req.body;
+  const {status}= req.body;
   async.waterfall([
     (done) => {
-      if (state !== 'SUCCESS') {
-        return Stack.findByIdAndUpdate(stackId, {status: constant.addStackStatus.ERROR, message}, done);
+      let state;
+      if (status !== 'SUCCESS') {
+        state = constant.addStackStatus.ERROR;
+      } else {
+        state = constant.addStackStatus.SUCCESS;
       }
-      Stack.findById(stackId, done);
+      Stack.findByIdAndUpdate(stackId, {status: state}, done);
     },
     (doc, done) => {
-      const stack = doc.toJSON();
-      apiRequest.post('stacks', stack, done);
-    },
-    (data, done) => {
-      if (!data) {
-        return Stack.findByIdAndUpdate(stackId, {status: constant.addStackStatus.ERROR, message: '创建失败'}, done);
+      if (status !== 'SUCCESS') {
+        return done(true, null);
       }
-      Stack.findByIdAndUpdate(stackId, {status: constant.addStackStatus.SUCCESS}, done);
+      const stack = doc.toJSON();
+      const data = {
+        title: stack.title,
+        definition: stack.definition,
+        description: stack.description
+      };
+      apiRequest.post('stacks', data, done);
     }
-  ], (err) => {
+  ], (err, doc) => {
     if (err) {
       return next(err);
     }
+    if (!doc) {
+      res.sendStatus(constant.httpCode.NOT_FOUND);
+    }
+    return res.sendStatus(constant.httpCode.NO_CONTENT);
   });
 };
 

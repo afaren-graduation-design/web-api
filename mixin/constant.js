@@ -49,9 +49,9 @@ var constant = {
     SUCCESS: 2
   },
   addStackStatus: {
-    ERROR: 0,
-    PENDING: 1,
-    SUCCESS: 2
+    PENDING: 0,
+    SUCCESS: 1,
+    ERROR: 2
   }
 };
 
