@@ -35,6 +35,7 @@ exports.setRoutes = (app) => {
   app.use('/messages', require('./routers/messages'));
   app.use('/mentors', require('./routers/mentors'));
   app.use('/stacks', require('./routers/stacks'));
+  app.use('/stackDefinitons', require('./routers/stack-definition'));
   app.use('/questions', require('./routers/questions'));
   app.use('/section', require('./routers/logic-puzzle'));
   app.use('/check-cookie', require('./routers/check-cookie'));
