@@ -199,7 +199,7 @@ PaperDefinitionController.prototype.distributePaperDefinition = (req, res) => {
       makerId, createTime, programId, paperName, description, paperType, sections: formattedSections
     };
 
-    apiRequest.post('programs/1/papers', data, (error, resp) => {
+    apiRequest.post(`programs/${programId}/papers`, data, (error, resp) => {
       if (!error && resp) {
         var distributedTime = parseInt(new Date().getTime() / constant.time.MILLISECOND_PER_SECONDS);
         PaperDefinition.update({_id: paper._id}, {uri: resp.body.uri, distributedTime, isDistributed: true}, (err) => {
@@ -241,7 +241,7 @@ PaperDefinitionController.prototype.operatePaperDefinitionById = (req, res, next
     },
     (doc, done) => {
       if (!doc.uri) {
-        apiRequest.post('programs/1/papers', data, (error, resp) => {
+        apiRequest.post(`programs/${programId}/papers`, data, (error, resp) => {
           if (!error && resp) {
             var distributedTime = parseInt(new Date().getTime() / constant.time.MILLISECOND_PER_SECONDS);
             PaperDefinition.update({_id: paperId}, {
