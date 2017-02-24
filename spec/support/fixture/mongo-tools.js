@@ -21,7 +21,8 @@ var fixtureModelMap = {
   'paper': require('../../../models/paper'),
   'paper-logic-puzzle':require('../../../models/quizItem').PaperLogicPuzzle,
   'paper-homework-quiz': require('../../../models/quizItem').PaperHomeworkQuiz,
-  'program': require('../../../models/program')
+  'program': require('../../../models/program'),
+  'stack': require('../../../models/stack')
 };
 
 function cacheData(done) {
