@@ -1,7 +1,7 @@
 {
   "task": {
-    "taskApi": "http://jenkins:8080/job/HOMEWORK_SCORING/buildWithParameters",
-    "addHomework": "http://jenkins:8080/job/ADD_HOMEWORK/buildWithParameters",
+    "taskApi": "http://jenkins-dind:8080/job/HOMEWORK_SCORING/buildWithParameters",
+    "addHomework": "http://jenkins-dind:8080/job/ADD_HOMEWORK/buildWithParameters",
     "user": "admin",
     "password": "admin",
     "hookUrl": "http://web-api:3000/",
