@@ -10,11 +10,18 @@ function StacksController() {
 };
 
 StacksController.prototype.getStacks = (req, res, next) => {
-  apiRequest.get('stacks', (err, resp) => {
+  async.series({
+    items: (done) => {
+      Stack.find({}, done);
+    },
+    totalCount: (done) => {
+      Stack.count(done);
+    }
+  }, (err, result) => {
     if (err) {
       return next(err);
     }
-    return res.status(constant.httpCode.OK).send(resp.body);
+    return res.status(constant.httpCode.OK).send(result);
   });
 };
 
