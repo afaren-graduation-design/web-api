@@ -36,7 +36,7 @@ class UserAuthorityController {
         return next(err);
       }
 
-      return res.status(constant.httpCode.CREATED).send({uri: `user-authority/${doc._id}`});
+      return res.sendStatus(constant.httpCode.CREATED);
     })
   }
 }
