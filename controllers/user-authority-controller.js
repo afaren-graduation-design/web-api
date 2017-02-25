@@ -1,6 +1,6 @@
 const async = require('async');
 const apiRequest = require('../services/api-request');
-const constant = require('../../web-api/mixin/constant');
+const constant = require('../mixin/constant');
 
 class UserAuthorityController {
   getUsers(req, res, next) {
