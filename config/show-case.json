@@ -4,7 +4,7 @@
     "addHomework": "http://jenkins-dind:8080/job/ADD_HOMEWORK/buildWithParameters",
     "user": "admin",
     "password": "admin",
-    "hookUrl": "http://web-api:3000/",
+    "hookUrl": "http://web-api:3000",
     "callbackTaskUrl":"http://10.205.124.117/api/homework/scoring/"
   },
   "staticFileServer": "http://localhost:8888/fs/",
