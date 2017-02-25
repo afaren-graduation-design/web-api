@@ -1,10 +1,11 @@
 const async = require('async');
 const apiRequest = require('../services/api-request');
+const constant = require('../../web-api/mixin/constant');
 
 class UserAuthorityController {
   getUsers(req, res, next) {
-    apiRequest.get('/user-authority', (err ,docs) => {
-      if(err) {
+    apiRequest.get('/user-authority', (err, docs) => {
+      if (err) {
         return next(err);
       }
       return res.status(200).send(docs);
@@ -25,15 +26,17 @@ class UserAuthorityController {
     })
   }
 
-  createUser(req,res,next){
-    apiRequest.post('/user-authority',req.body,(err,docs)=>{
-      if(err) {
+  createUser(req, res, next) {
+    const createDate = parseInt(new Date().getTime() /
+      constant.time.MILLISECOND_PER_SECONDS);
+    const userInfo = Object.assign({}, req.body, {createDate});
+
+    apiRequest.post('/user-authority', userInfo, (err, doc)=> {
+      if (err) {
         return next(err);
       }
-      var timestamp = docs._id.toString().substring( 0, 8 );
-      var createTime = Date.parse(new Date( parseInt( timestamp, 16 ) * 1000 ));
-      console.log(createTime);
-      return res.status(201).send(Object.assign({},req.body,createTime));
+
+      return res.status(constant.httpCode.CREATED).send({uri: `user-authority/${doc._id}`});
     })
   }
 }
