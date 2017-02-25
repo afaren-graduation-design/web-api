@@ -1,8 +1,9 @@
-var express = require('express');
-var router = express.Router();
+const {Router} = require('express');
+const router = Router();
 
-var UserAuthorityController = require('../../controllers/user-authority-controller');
-var userAuthorityController = new UserAuthorityController();
+const  UserAuthorityController = require('../../controllers/user-authority-controller');
+const  userAuthorityCtrl = new UserAuthorityController();
 
-router.get('/',userAuthorityController.getUsers);
+router.get('/',userAuthorityCtrl.getUsers);
+router.put('/:email' , userAuthorityCtrl.updateUsers);
 module.exports = router;
