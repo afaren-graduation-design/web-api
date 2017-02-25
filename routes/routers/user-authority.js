@@ -1,8 +1,8 @@
-const {Router} = require('express');
-const router = Router();
+var express = require('express');
+var router = express.Router();
 
-const  UserAuthorityController = require('../../controllers/user-authority-controller');
-const  userAuthorityCtrl = new UserAuthorityController();
+var UserAuthorityController = require('../../controllers/user-authority-controller');
+var userAuthorityController = new UserAuthorityController();
 
 router.get('/',userAuthorityCtrl.getUsers);
 router.put('/:email' , userAuthorityCtrl.updateUsers);
