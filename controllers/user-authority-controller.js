@@ -4,11 +4,11 @@ const constant = require('../mixin/constant');
 
 class UserAuthorityController {
   getUsers(req, res, next) {
-    apiRequest.get('/user-authority', (err, docs) => {
+    apiRequest.get('users/user-authority', (err, docs) => {
       if (err) {
         return next(err);
       }
-      return res.status(200).send(docs);
+      return res.status(200).send(docs.body.users);
     });
   }
 
